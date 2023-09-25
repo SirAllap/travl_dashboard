@@ -1,12 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
 function Contact() {
 	return (
 		<>
-			<button>
-				<Link to='/'>Dashboard</Link>
-			</button>
+			<h1>Contact</h1>
 		</>
 	)
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import logo from '../assets/logo_dashboard.png'
-import { Link } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { LuLayoutDashboard } from 'react-icons/lu'
 import { SlKey } from 'react-icons/sl'
 import { LuCalendarCheck2 } from 'react-icons/lu'
@@ -46,7 +46,7 @@ const VerticalDivider = styled.div`
 	transition: 0.1s;
 `
 
-const MenuItems = styled(Link)`
+const MenuItems = styled(NavLink)`
 	height: 67px;
 	margin: 0 0 15px 63px;
 	display: flex;
@@ -59,15 +59,20 @@ const MenuItems = styled(Link)`
 	&:hover {
 		color: #e23428;
 	}
-	&:hover .left-decoration {
+	&:hover :nth-child(1) {
 		visibility: visible;
 	}
 	&:focus,
 	&:hover,
 	&:visited,
-	&:link,
-	&:active {
+	&:link {
 		text-decoration: none;
+	}
+	&.active {
+		color: #e23428;
+		:nth-child(1) {
+			visibility: visible;
+		}
 	}
 `
 
@@ -123,6 +128,13 @@ const UserCardButton = styled.button`
 	color: #135846;
 	font: normal normal 600 14px/21px Poppins;
 	margin-top: 16px;
+	cursor: pointer;
+	transition: 0.3s;
+	&:hover {
+		color: #ebf1ef;
+
+		background-color: #135846;
+	}
 `
 
 const SideBarFooter = styled.div`
@@ -158,7 +170,35 @@ const SideBarFooterText = styled.p`
 	}}
 `
 
+const LogOutButton = styled.button`
+	width: 80%;
+	height: 47px;
+	margin: 35px;
+	background-color: #e23428;
+	border: none;
+	border-radius: 8px;
+	color: #fff;
+	font: normal normal 600 14px/21px Poppins;
+	cursor: pointer;
+	transition: 0.3s;
+	&:hover {
+		color: #ebf1ef;
+
+		background-color: #e23428b7;
+	}
+`
+
 const SideBar = (props) => {
+	const navigate = useNavigate()
+	const handleHeaderTitle = (titleName) => {
+		props.setHeaderTitle(titleName)
+	}
+
+	const handleLogOut = () => {
+		localStorage.removeItem('authenticated', 'false')
+		return navigate('/login')
+	}
+
 	return (
 		<>
 			<Container toggle={props.toggle}>
@@ -166,27 +206,42 @@ const SideBar = (props) => {
 					<LogoImage src={logo} alt='a logo of the hotel dashboard' />
 				</LogoSection>
 				<IconSection>
-					<MenuItems>
-						<VerticalDivider className='left-decoration' />
+					<MenuItems
+						onClick={() => handleHeaderTitle('Dashboard')}
+						to='/'
+					>
+						<VerticalDivider />
 						<LuLayoutDashboard />
 						<MenuItemText>Dashboard</MenuItemText>
 					</MenuItems>
-					<MenuItems>
+					<MenuItems
+						onClick={() => handleHeaderTitle('Room List')}
+						to='/rooms'
+					>
 						<VerticalDivider className='left-decoration' />
 						<SlKey />
 						<MenuItemText>Room</MenuItemText>
 					</MenuItems>
-					<MenuItems>
+					<MenuItems
+						onClick={() => handleHeaderTitle('Bookings')}
+						to='/bookings'
+					>
 						<VerticalDivider className='left-decoration' />
 						<LuCalendarCheck2 />
 						<MenuItemText>Bookings</MenuItemText>
 					</MenuItems>
-					<MenuItems>
+					<MenuItems
+						onClick={() => handleHeaderTitle('Guest List')}
+						to='/users'
+					>
 						<VerticalDivider className='left-decoration' />
 						<BiUser />
 						<MenuItemText>Guest</MenuItemText>
 					</MenuItems>
-					<MenuItems>
+					<MenuItems
+						onClick={() => handleHeaderTitle('Concierge List')}
+						to='/concierge'
+					>
 						<VerticalDivider className='left-decoration' />
 						<IoExtensionPuzzleOutline />
 						<MenuItemText>Concierge</MenuItemText>
@@ -196,7 +251,13 @@ const SideBar = (props) => {
 					<UserCardProfilePictureVoid />
 					<UserCardText type='name'>David Pallarés</UserCardText>
 					<UserCardText>david.pr.developer@gmail.com</UserCardText>
-					<UserCardButton>Contact Us</UserCardButton>
+					<NavLink to='/contact'>
+						<UserCardButton
+							onClick={() => handleHeaderTitle('Contact')}
+						>
+							Contact Us
+						</UserCardButton>
+					</NavLink>
 				</UserCardInfo>
 				<SideBarFooter>
 					<SideBarFooterText type='title'>
@@ -207,6 +268,9 @@ const SideBar = (props) => {
 					</SideBarFooterText>
 					<SideBarFooterText>Made with ♥ by DPR</SideBarFooterText>
 				</SideBarFooter>
+				<NavLink to='/contact'>
+					<LogOutButton onClick={handleLogOut}>Log Out</LogOutButton>
+				</NavLink>
 			</Container>
 		</>
 	)

@@ -1,12 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-function Login() {
+function Login(props) {
+	const navigate = useNavigate()
+	const authThisGuy = () => {
+		props.setAuthenticated(true)
+		localStorage.setItem('authenticated', true)
+		return navigate('/')
+	}
 	return (
 		<>
-			<button>
-				<Link to='/'>Dashboard</Link>
-			</button>
+			<button onClick={authThisGuy}>Authme!</button>
 		</>
 	)
 }
