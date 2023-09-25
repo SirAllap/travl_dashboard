@@ -28,6 +28,9 @@ const Dashboard = () => {
 				<Button>
 					<Link to='/users'>Users</Link>
 				</Button>
+				<Button>
+					<Link to='/contact'>Contact</Link>
+				</Button>
 			</MainContainer>
 		</>
 	)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { HiMenuAlt2 } from 'react-icons/hi'
 import { BiSearch } from 'react-icons/bi'
@@ -22,6 +22,7 @@ const LeftContainer = styled.div`
 	min-width: fit-content;
 	display: flex;
 	align-items: center;
+	margin-right: 10px;
 `
 
 const RightContainer = styled.div`
@@ -32,22 +33,32 @@ const RightContainer = styled.div`
 
 const IconStyle = styled.div`
 	display: flex;
-	align-items: center;	
+	align-items: center;
 	font-size: 30px;
 	color: black;
 	margin: ${(props) =>
 		props.menu === 'menu'
 			? '0 50px 0 41px'
-			: props.search === 'search'
-			? '0 81px 0 0 '
 			: props.dropdown === 'dropdown'
-			? '0 50px 0 0 '
-			: props.groupofrigthicons === 'groupofrigthicons' &&
-			  '0 51px 0 0 '};};
+			? '0 50px 0 16px '
+			: props.groupofrigthicons === 'groupofrigthicons' && '0 51px 0 0 '};
+	cursor: pointer;
+	position: ${(props) => props.search === 'search' && 'relative'};
+	left: -40px;
+`
+
+const InputSearch = styled.input`
+	background-color: #f7f6f6;
+	padding: 10px;
+	font-size: 16px;
+	width: 351px;
+	height: 57px;
+	border: none;
+	border-radius: 12px;
 `
 
 const DashboardTitle = styled.p`
-	font: 600 28px Poppins;
+	font: normal normal 600 28px/42px Poppins;
 `
 
 const ProfilePictureVoid = styled.div`
@@ -67,24 +78,31 @@ const VerticalDivider = styled.div`
 
 const LanguageSelector = styled.p`
 	color: #e23428;
-	font: 600 18px Poppins;
-	margin-right: 16px;
+	font: 600 18px Poppins;f
 `
 
 const Header = (props) => {
+	const [openSideBar, setOpenSideBar] = useState('close')
+	const handleToggleOfSideBar = () => {
+		setOpenSideBar(openSideBar === 'open' ? 'close' : 'open')
+		props.setToggleSideBar(openSideBar)
+	}
+
 	return (
 		<>
 			<HeaderBar>
 				<LeftContainer>
 					<IconStyle menu='menu'>
-						<HiMenuAlt2 />
+						<HiMenuAlt2 onClick={handleToggleOfSideBar} />
 					</IconStyle>
-					<DashboardTitle>ImTheTitle</DashboardTitle>
+					<DashboardTitle>{props.title}</DashboardTitle>
 				</LeftContainer>
 				<RightContainer>
+					<InputSearch />
 					<IconStyle search='search'>
 						<BiSearch color='#6E6E6E' />
 					</IconStyle>
+
 					<IconStyle groupofrigthicons='groupofrigthicons'>
 						<AiOutlineHeart color='#135846' />
 					</IconStyle>

@@ -4,6 +4,7 @@ import Dashboard from '../pages/Dashboard'
 import Bookings from '../pages/Bookings'
 import Rooms from '../pages/Rooms'
 import Users from '../pages/Users'
+import Contact from '../pages/Contact'
 
 const Router = () => {
 	return (
@@ -13,6 +14,7 @@ const Router = () => {
 				<Route path='/bookings' element={<Bookings />} />
 				<Route path='/rooms' element={<Rooms />} />
 				<Route path='/users' element={<Users />} />
+				<Route path='/contact' element={<Contact />} />
 			</Routes>
 		</>
 	)
