@@ -6,7 +6,8 @@ import { AiOutlineHeart } from 'react-icons/ai'
 import { LuMail } from 'react-icons/lu'
 import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
-import { RiArrowDropDownLine } from 'react-icons/ri'
+import { HiOutlineLogout } from 'react-icons/hi'
+import { useNavigate } from 'react-router-dom'
 
 const HeaderBar = styled.nav`
 	height: 120px;
@@ -15,6 +16,7 @@ const HeaderBar = styled.nav`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	background-color: #fff;
 	box-shadow: 0px 3px 10px #00000009;
 `
 
@@ -39,7 +41,7 @@ const IconStyle = styled.div`
 	margin: ${(props) =>
 		props.menu === 'menu'
 			? '0 50px 0 41px'
-			: props.dropdown === 'dropdown'
+			: props.logout === 'logout'
 			? '0 50px 0 16px '
 			: props.groupofrigthicons === 'groupofrigthicons' && '0 51px 0 0 '};
 	cursor: pointer;
@@ -76,16 +78,16 @@ const VerticalDivider = styled.div`
 	margin-right: 20px;
 `
 
-const LanguageSelector = styled.p`
-	color: #e23428;
-	font: 600 18px Poppins;f
-`
-
 const Header = (props) => {
+	const navigate = useNavigate()
 	const [openSideBar, setOpenSideBar] = useState('close')
 	const handleToggleOfSideBar = () => {
 		setOpenSideBar(openSideBar === 'open' ? 'close' : 'open')
 		props.setToggleSideBar(openSideBar)
+	}
+	const handleLogOut = () => {
+		localStorage.removeItem('authenticated', 'false')
+		return navigate('/login')
 	}
 
 	return (
@@ -117,9 +119,11 @@ const Header = (props) => {
 					</IconStyle>
 					<ProfilePictureVoid />
 					<VerticalDivider />
-					<LanguageSelector>EN</LanguageSelector>
-					<IconStyle dropdown='dropdown'>
-						<RiArrowDropDownLine color='#799283' />
+					<IconStyle logout='logout'>
+						<HiOutlineLogout
+							color='#E23428'
+							onClick={handleLogOut}
+						/>
 					</IconStyle>
 				</RightContainer>
 			</HeaderBar>

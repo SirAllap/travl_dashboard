@@ -9,13 +9,13 @@ import PrivateRoute from '../pages/PrivateRoute'
 import Login from '../pages/Login'
 import Concierge from '../pages/Concierge'
 
-const Router = () => {
-	const [authenticated, setAuthenticated] = useState(null)
+const Router = (props) => {
+	// const [authenticated, setAuthenticated] = useState(null)
 
-	useEffect(() => {
-		localStorage.getItem('authenticated') !== null &&
-			localStorage.setItem('authenticated', authenticated)
-	}, [authenticated])
+	// useEffect(() => {
+	// 	localStorage.getItem('authenticated') !== null &&
+	// 		localStorage.setItem('authenticated', authenticated)
+	// }, [authenticated])
 
 	const localAuth = localStorage.getItem('authenticated')
 
@@ -24,12 +24,13 @@ const Router = () => {
 			<Routes>
 				<Route
 					path='/login'
-					element={<Login setAuthenticated={setAuthenticated} />}
+					element={<Login />}
+					// element={<Login setAuthenticated={setAuthenticated} />}
 				/>
 				<Route
 					element={
 						<PrivateRoute authenticated={localAuth}>
-							<Dashboard />
+							<Dashboard toggle={props.toggle} />
 						</PrivateRoute>
 					}
 					path='/'

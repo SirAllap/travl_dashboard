@@ -12,7 +12,7 @@ const App = () => {
         <>
             {location.pathname !== '/login' && <SideBar toggle={toggleSideBar} setHeaderTitle={setHeaderTitle} />}
             {location.pathname !== '/login' && <Header title={headerTitle} setToggleSideBar={setToggleSideBar} />}
-            <Routes />
+            <Routes toggle={toggleSideBar} />
         </>
     )
 }

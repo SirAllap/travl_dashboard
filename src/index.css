@@ -8,4 +8,5 @@ html,
 }
 body {
 	transition: 0.3 all ease;
+	background-color: #f8f8f8;
 }

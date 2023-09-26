@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import logo from '../assets/logo_dashboard.png'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { LuLayoutDashboard } from 'react-icons/lu'
 import { SlKey } from 'react-icons/sl'
 import { LuCalendarCheck2 } from 'react-icons/lu'
@@ -132,7 +132,6 @@ const UserCardButton = styled.button`
 	transition: 0.3s;
 	&:hover {
 		color: #ebf1ef;
-
 		background-color: #135846;
 	}
 `
@@ -170,33 +169,9 @@ const SideBarFooterText = styled.p`
 	}}
 `
 
-const LogOutButton = styled.button`
-	width: 80%;
-	height: 47px;
-	margin: 35px;
-	background-color: #e23428;
-	border: none;
-	border-radius: 8px;
-	color: #fff;
-	font: normal normal 600 14px/21px Poppins;
-	cursor: pointer;
-	transition: 0.3s;
-	&:hover {
-		color: #ebf1ef;
-
-		background-color: #e23428b7;
-	}
-`
-
 const SideBar = (props) => {
-	const navigate = useNavigate()
 	const handleHeaderTitle = (titleName) => {
 		props.setHeaderTitle(titleName)
-	}
-
-	const handleLogOut = () => {
-		localStorage.removeItem('authenticated', 'false')
-		return navigate('/login')
 	}
 
 	return (
@@ -268,9 +243,7 @@ const SideBar = (props) => {
 					</SideBarFooterText>
 					<SideBarFooterText>Made with ♥ by DPR</SideBarFooterText>
 				</SideBarFooter>
-				<NavLink to='/contact'>
-					<LogOutButton onClick={handleLogOut}>Log Out</LogOutButton>
-				</NavLink>
+				<NavLink to='/contact'></NavLink>
 			</Container>
 		</>
 	)
