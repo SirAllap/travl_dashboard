@@ -1,0 +1,45 @@
+.swiper-button-next {
+	background: #135846;
+	background-image: url('/src/assets/arrow_R.png');
+	background-repeat: no-repeat;
+	background-size: 85% auto;
+	background-position: center;
+	position: absolute;
+	opacity: 0.8 !important;
+	border: 1px solid #ffffff !important;
+	border-radius: 12px;
+	width: 56px !important;
+	height: 56px !important;
+	right: 0px !important;
+	transition: 0.3s;
+}
+.swiper-button-next::after,
+.swiper-button-prev::after {
+	display: none;
+}
+.swiper-button-prev {
+	background: #135846;
+	background-image: url('/src/assets/arrow_L.png');
+	background-repeat: no-repeat;
+	background-size: 85% auto;
+	background-position: center;
+	position: absolute;
+	opacity: 0.8 !important;
+	border: 1px solid #ffffff !important;
+	border-radius: 12px;
+	width: 56px !important;
+	height: 56px !important;
+	left: 0px !important;
+	transition: 0.3s;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+	transform: scale(1.05);
+
+	opacity: 1 !important;
+}
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+	opacity: 0.1 !important;
+}

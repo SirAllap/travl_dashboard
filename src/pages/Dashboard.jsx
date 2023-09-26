@@ -5,6 +5,18 @@ import { LuCalendarCheck2 } from 'react-icons/lu'
 import { IoLogInOutline } from 'react-icons/io5'
 import { MdOutlineMarkChatUnread } from 'react-icons/md'
 import client_review from '../data/client_review.json'
+import styles from './styles.css'
+
+// import Swiper core and required modules
+import { Navigation, A11y } from 'swiper/modules'
+
+import { Swiper, SwiperSlide } from 'swiper/react'
+
+// Import Swiper styles
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
 
 const MainContainer = styled.main`
 	text-align: center;
@@ -278,9 +290,15 @@ const Dashboard = (props) => {
 						Latest Review by Customers
 					</CustomerCardText>
 
-					{client_review.map(
-						(elem, index) =>
-							index < 3 && (
+					<Swiper
+						modules={[Navigation, A11y]}
+						spaceBetween={0}
+						slidesPerView={3}
+						navigation
+					>
+						{client_review.map((elem, index) => (
+							// index < 3 &&
+							<SwiperSlide key={index}>
 								<CustomerReviewCard>
 									<CustomerCardText type='cardSubject'>
 										{elem.subject_of_review}
@@ -310,8 +328,9 @@ const Dashboard = (props) => {
 										</CustomerCardText>
 									</CustomerReviewCardBottomData>
 								</CustomerReviewCard>
-							)
-					)}
+							</SwiperSlide>
+						))}
+					</Swiper>
 				</CustomerReviewContainer>
 			</MainContainer>
 		</>
