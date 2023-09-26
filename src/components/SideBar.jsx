@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import logo from '../assets/logo_dashboard.png'
 import { NavLink } from 'react-router-dom'
@@ -170,14 +170,146 @@ const SideBarFooterText = styled.p`
 	}}
 `
 
+const EditUserModal = styled.div`
+	z-index: 100;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 331px;
+	min-height: 400px;
+	background: #ffffff 0% 0% no-repeat padding-box;
+	border-radius: 20px;
+	transition: all 0.5s;
+	display: ${(props) => (props.open ? 'block' : 'none')};
+`
+const EditUserModalOverlay = styled.div`
+	z-index: 99;
+	position: absolute;
+	min-width: 100%;
+	min-height: 100% !important;
+	background-color: rgba(0, 0, 0, 0.434);
+	transition: all 0.5s;
+	display: ${(props) => (props.open ? 'block' : 'none')};
+`
+const CloseCTA = styled.button`
+	position: absolute;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	bottom: 0px;
+	width: 90%;
+	height: 47px;
+	background-color: #ebf1ef;
+	border: none;
+	border-radius: 8px;
+	color: #135846;
+	font: normal normal 600 14px/21px Poppins;
+	margin-top: 16px;
+	cursor: pointer;
+	transition: 0.3s;
+	&:hover {
+		color: #ebf1ef;
+		background-color: #135846;
+	}
+`
+
+const Input = styled.input`
+	position: absolute;
+	left: 50%;
+	margin-right: -50%;
+	top: ${(props) => (props.type === 'email' ? '45%' : '20%')};
+	transform: translate(-50%, -50%);
+	width: 90%;
+	height: 47px;
+	background-color: #ebf1ef;
+	border: none;
+	border-radius: 8px;
+	color: #135846;
+	padding: 20px;
+	font: normal normal 600 14px/21px Poppins;
+	margin-top: 16px;
+	cursor: pointer;
+	transition: 0.3s;
+`
+
+const EditUserInputLable = styled.label`
+	position: absolute;
+	left: 3%;
+	margin-right: -50%;
+	top: ${(props) => (props.type === 'email' ? '38%' : '13%')};
+	transform: translate(-50%, -50%);
+	font: normal normal 500 17px Poppins;
+	display: block;
+	color: #135846;
+	margin-left: 40px;
+`
+
 const SideBar = (props) => {
+	const [toggleModal, setToggleModal] = useState(false)
+	const [userUpdatedName, setUpdatedUserName] = useState('')
+	const [userUpdatedEmail, setUpdatedUserEmail] = useState('')
+	const [userName, setUserName] = useState('')
+	const [userEmail, setUserEmail] = useState('')
+
+	const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+
+	useEffect(() => {
+		setUserName(currentUser.userName)
+		setUserEmail(currentUser.email)
+	}, [currentUser.userName, currentUser.email])
+
 	const handleHeaderTitle = (titleName) => {
 		props.setHeaderTitle(titleName)
+	}
+	const handleToggleModal = () => {
+		if (!toggleModal) {
+			setToggleModal(true)
+		} else {
+			setToggleModal(false)
+		}
+	}
+	const handleUpdateAndCloseModal = () => {
+		if (userUpdatedName.length > 3 && userUpdatedEmail.length > 3) {
+			setUserName(userUpdatedName)
+			setUserEmail(userUpdatedEmail)
+			setToggleModal(false)
+			const updateUser = {
+				userName: userUpdatedName,
+				email: userUpdatedEmail,
+			}
+			localStorage.setItem('currentUser', JSON.stringify(updateUser))
+		}
+	}
+
+	const handleUpdateUserName = (event) => {
+		setUpdatedUserName(event.target.value)
+	}
+	const handleUpdateUserEmail = (event) => {
+		setUpdatedUserEmail(event.target.value)
 	}
 
 	return (
 		<>
 			<Container toggle={props.toggle}>
+				<EditUserModalOverlay open={toggleModal} />
+				<EditUserModal open={toggleModal}>
+					<EditUserInputLable type='name'>Name</EditUserInputLable>
+					<Input
+						type='name'
+						placeholder='name'
+						onChange={handleUpdateUserName}
+					/>
+					<EditUserInputLable type='email'>Email</EditUserInputLable>
+					<Input
+						type='email'
+						placeholder='email'
+						onChange={handleUpdateUserEmail}
+					/>
+					<CloseCTA onClick={handleUpdateAndCloseModal}>
+						Save
+					</CloseCTA>
+				</EditUserModal>
 				<LogoSection>
 					<LogoImage src={logo} alt='a logo of the hotel dashboard' />
 				</LogoSection>
@@ -225,15 +357,11 @@ const SideBar = (props) => {
 				</IconSection>
 				<UserCardInfo>
 					<UserCardProfilePictureVoid />
-					<UserCardText type='name'>David Pallarés</UserCardText>
-					<UserCardText>david.pr.developer@gmail.com</UserCardText>
-					{/* <NavLink to='/contact'> */}
-					<UserCardButton
-						onClick={() => handleHeaderTitle('Contact')}
-					>
-						Contact Us
+					<UserCardText type='name'>{userName}</UserCardText>
+					<UserCardText>{userEmail}</UserCardText>
+					<UserCardButton onClick={handleToggleModal}>
+						Edit user
 					</UserCardButton>
-					{/* </NavLink> */}
 				</UserCardInfo>
 				<SideBarFooter>
 					<SideBarFooterText type='title'>

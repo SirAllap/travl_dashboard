@@ -5,7 +5,7 @@
 		"phone_number": "555-123-4567",
 		"subject_of_review": "Amazing Stay",
 		"review_body": "I had an amazing stay at the luxury hotel. From the moment I stepped into the lobby, I was greeted with warmth and elegance. The service was impeccable, and the staff anticipated my every need. The room itself was stunning, with breathtaking views of the city. The attention to detail in the room's design and amenities was remarkable. I can't wait to come back and relive this unforgettable experience!",
-		"state": "false"
+		"state": false
 	},
 	{
 		"full_name": "Jane Smith",
@@ -13,7 +13,7 @@
 		"phone_number": "555-987-6543",
 		"subject_of_review": "Excellent Service",
 		"review_body": "The hotel staff provided excellent service throughout my stay. They went above and beyond to make me feel comfortable and pampered. Every interaction with the staff was a delight, and their genuine care for their guests was evident. The dining experience was exquisite, with a diverse menu that satisfied my every craving. I can confidently say that this hotel sets the standard for luxury and hospitality.",
-		"state": "false"
+		"state": false
 	},
 	{
 		"full_name": "Robert Johnson",
@@ -21,7 +21,7 @@
 		"phone_number": "555-555-5555",
 		"subject_of_review": "Luxurious Experience",
 		"review_body": "My experience at the luxury hotel was truly luxurious. The amenities and attention to detail were exceptional. From the plush bathrobes to the high-quality toiletries, every aspect of the room was designed for comfort and relaxation. The spa treatments were rejuvenating, and I left feeling completely refreshed. This hotel is a haven of indulgence, and I can't wait to return for another opulent stay.",
-		"state": "false"
+		"state": false
 	},
 	{
 		"full_name": "Emily Davis",
@@ -29,7 +29,7 @@
 		"phone_number": "555-222-3333",
 		"subject_of_review": "Beautiful Views",
 		"review_body": "The hotel's location offers breathtaking views of the city skyline. I spent hours just enjoying the scenery from my room. The room itself was spacious and elegantly decorated, making it the perfect place to unwind. The hotel's rooftop bar provided a stunning panorama of the city at night. I couldn't have asked for a more picturesque setting for my stay.",
-		"state": "false"
+		"state": false
 	},
 	{
 		"full_name": "Michael Wilson",
@@ -37,7 +37,7 @@
 		"phone_number": "555-888-9999",
 		"subject_of_review": "Fine Dining",
 		"review_body": "The hotel's restaurant serves some of the finest dishes I've ever tasted. It's a culinary delight. Each meal was a gastronomic journey, and the sommelier's wine pairings were exceptional. The attention to detail in the presentation of the dishes was impressive. Dining here was an experience in itself, and I look forward to savoring their exquisite cuisine again.",
-		"state": "false"
+		"state": false
 	},
 	{
 		"full_name": "Sarah Brown",
@@ -45,7 +45,7 @@
 		"phone_number": "555-777-1111",
 		"subject_of_review": "Relaxing Spa",
 		"review_body": "I treated myself to a spa day at the hotel, and it was incredibly relaxing. The spa facilities are top-notch, and the treatments left me feeling rejuvenated and stress-free. The tranquil ambiance and skilled therapists made it a truly blissful experience. I left the spa feeling like a new person, and I can't wait to indulge in their spa services again.",
-		"state": "false"
+		"state": false
 	},
 	{
 		"full_name": "David Lee",
@@ -53,7 +53,7 @@
 		"phone_number": "555-456-7890",
 		"subject_of_review": "Attentive Staff",
 		"review_body": "The staff at the luxury hotel were attentive and always ready to assist. They made my stay memorable. Whether it was the concierge recommending the best local attractions or the housekeeping team ensuring my room was immaculate, their dedication was evident. It's rare to find such a level of service, and I greatly appreciated their hospitality.",
-		"state": "false"
+		"state": false
 	},
 	{
 		"full_name": "Olivia Garcia",
@@ -61,7 +61,7 @@
 		"phone_number": "555-333-4444",
 		"subject_of_review": "Cleanliness",
 		"review_body": "The hotel is spotlessly clean, and I felt safe and comfortable during my entire stay. The attention to cleanliness and hygiene is commendable. Not a speck of dust was to be found, and the common areas were immaculately maintained. It's reassuring to stay in a hotel that prioritizes cleanliness to such a high degree.",
-		"state": "false"
+		"state": false
 	},
 	{
 		"full_name": "William Martinez",
@@ -69,7 +69,7 @@
 		"phone_number": "555-666-7777",
 		"subject_of_review": "Exceptional Service",
 		"review_body": "I've traveled extensively, and the service at this luxury hotel is truly exceptional. From the moment I arrived, I felt like a VIP. The staff's attention to detail and willingness to accommodate my requests made me feel valued as a guest. Whether it was arranging transportation or making restaurant reservations, they handled everything seamlessly. This level of service sets a new standard in hospitality.",
-		"state": "false"
+		"state": false
 	},
 	{
 		"full_name": "Sophia Lopez",
@@ -77,6 +77,6 @@
 		"phone_number": "555-444-2222",
 		"subject_of_review": "Unforgettable Experience",
 		"review_body": "My stay at the luxury hotel was unforgettable. It exceeded all my expectations in every way. From the luxurious accommodations to the world-class dining, every aspect of my stay was superb. The hotel's commitment to creating a memorable experience for guests shines through in every detail. I can't wait to return and create more cherished memories.",
-		"state": "false"
+		"state": false
 	}
 ]

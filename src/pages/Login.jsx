@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import logo from '../assets/logo_dashboard.png'
+import { FiCopy } from 'react-icons/fi'
 
 const LoginContainer = styled.div`
 	position: absolute;
@@ -14,6 +16,18 @@ const LoginContainer = styled.div`
 	background-color: #f8f8f8;
 	width: 500px;
 	height: 460px;
+`
+
+const LogoSection = styled.section`
+	height: fit-content;
+	width: 100%;
+	text-align: center;
+	margin: 50px 0 0 0;
+`
+
+const LogoImage = styled.img`
+	min-width: 320px;
+	object-fit: contain;
 `
 
 const LoginInput = styled.input`
@@ -70,16 +84,41 @@ const Login = () => {
 	const [userName, setUserName] = useState('')
 	const [userPassword, setUserPassword] = useState('')
 
+	const adminUser = {
+		userName: 'Admin',
+		email: 'super@admin.com',
+	}
+	const davidUser = {
+		userName: 'David',
+		email: 'davidpr@travl.com',
+	}
+
 	const authUser = () => {
-		if ((userName === 'dpr') & (userPassword === '123')) {
-			localStorage.setItem('authenticated', true)
-			navigate('/')
+		if (userName === 'Admin') {
+			if (userPassword === 'oxygen') {
+				localStorage.setItem('currentUser', JSON.stringify(adminUser))
+				localStorage.setItem('authenticated', true)
+				navigate('/')
+			}
+		} else if (userName === 'David') {
+			if (userPassword === 'travl') {
+				localStorage.setItem('currentUser', JSON.stringify(davidUser))
+				localStorage.setItem('authenticated', true)
+				navigate('/')
+			}
 		} else {
-			return alert('nain')
+			alert('You introduce wrong credentials')
 		}
 	}
+	const copyAdmin = 'Admin'
+	const copyAdminPass = 'oxygen'
+	const copyUser = 'David'
+	const copyUserPass = 'travl'
 	return (
 		<>
+			<LogoSection>
+				<LogoImage src={logo} alt='a logo of the hotel dashboard' />
+			</LogoSection>
 			<LoginContainer>
 				<LoginInputLable>User</LoginInputLable>
 				<LoginInput onChange={(e) => setUserName(e.target.value)} />
@@ -89,9 +128,44 @@ const Login = () => {
 					onChange={(e) => setUserPassword(e.target.value)}
 				/>
 				<CTA onClick={authUser}>Log in</CTA>
-				<LoginHardCodeAuth>- User : * dpr *</LoginHardCodeAuth>
-				<LoginHardCodeAuth>- Password : * 123 *</LoginHardCodeAuth>
 			</LoginContainer>
+			<LoginHardCodeAuth>
+				User: Admin
+				<FiCopy
+					onClick={() => {
+						navigator.clipboard.writeText(copyAdmin)
+					}}
+					style={{ cursor: 'pointer' }}
+				/>
+			</LoginHardCodeAuth>
+			<LoginHardCodeAuth>
+				Password: oxygen
+				<FiCopy
+					onClick={() => {
+						navigator.clipboard.writeText(copyAdminPass)
+					}}
+					style={{ cursor: 'pointer' }}
+				/>
+			</LoginHardCodeAuth>
+			<br />
+			<LoginHardCodeAuth>
+				User: David
+				<FiCopy
+					onClick={() => {
+						navigator.clipboard.writeText(copyUser)
+					}}
+					style={{ cursor: 'pointer' }}
+				/>
+			</LoginHardCodeAuth>
+			<LoginHardCodeAuth>
+				Password: travl
+				<FiCopy
+					onClick={() => {
+						navigator.clipboard.writeText(copyUserPass)
+					}}
+					style={{ cursor: 'pointer' }}
+				/>
+			</LoginHardCodeAuth>
 		</>
 	)
 }

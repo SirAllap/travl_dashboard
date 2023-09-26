@@ -90,7 +90,7 @@ const Header = (props) => {
 		props.setToggleSideBar(openSideBar)
 	}
 	const handleLogOut = () => {
-		localStorage.removeItem('authenticated', 'false')
+		localStorage.clear()
 		return navigate('/login')
 	}
 

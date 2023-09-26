@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components'
 import { LiaBedSolid } from 'react-icons/lia'
 import { LuCalendarCheck2 } from 'react-icons/lu'
 import { IoLogInOutline } from 'react-icons/io5'
-import { MdOutlineMarkChatUnread } from 'react-icons/md'
 import { FaRegEnvelopeOpen } from 'react-icons/fa'
 import { FaRegEnvelope } from 'react-icons/fa'
 import client_review from '../data/client_review.json'
@@ -180,7 +179,7 @@ const CustomerCardText = styled.p`
 		  bottom: 0px;
 		  right: 10px;
           font: normal normal 600 26px Poppins;
-          color: ${(props) => (props.read === 'true' ? '#5AD07A' : '#E23428')};
+          color: ${(props) => (props.read === true ? '#5AD07A' : '#E23428')};
 		  text-align: left;
           }
         `
@@ -197,7 +196,7 @@ const CustomerCardText = styled.p`
 
 const CustomerReviewCardTopData = styled.div`
 	width: 371px;
-	height: ${(props) => (props.modal ? 'fitConten' : '110px')};
+	height: ${(props) => (props.modal === 'true' ? 'fitConten' : '110px')};
 	overflow-y: clip;
 	margin: 10px auto 0 auto;
 	scrollbar-width: auto;
@@ -279,12 +278,11 @@ const Dashboard = (props) => {
 			setToggleModal(false)
 		}
 	}
+
 	return (
 		<>
 			<MainContainer toggle={props.toggle}>
-				<CustomerReviewModalOverlay
-					open={toggleModal}
-				></CustomerReviewModalOverlay>
+				<CustomerReviewModalOverlay open={toggleModal} />
 				<CustomerReviewModal open={toggleModal}>
 					<CloseCTA onClick={handleToggleModal}>
 						<FaRegEnvelopeOpen />
@@ -299,7 +297,7 @@ const Dashboard = (props) => {
 								{toggleModalUser.subject_of_review}
 							</CustomerCardText>
 							<HorizontalDivider />
-							<CustomerReviewCardTopData modal={true}>
+							<CustomerReviewCardTopData modal={'true'}>
 								<CustomerCardText
 									type={{
 										text: 'cardBody',
@@ -337,7 +335,9 @@ const Dashboard = (props) => {
 									type={{
 										text: 'cardReadChecker',
 									}}
-									read={toggleModalUser.state}
+									read={
+										toggleModalUser.state ? 'true' : 'false'
+									}
 								></CustomerCardText>
 							</CustomerReviewCardBottomData>
 						</>
@@ -422,7 +422,7 @@ const Dashboard = (props) => {
 										{elem.subject_of_review}
 									</CustomerCardText>
 									<HorizontalDivider />
-									<CustomerReviewCardTopData modal={false}>
+									<CustomerReviewCardTopData modal={'false'}>
 										<CustomerCardText
 											type={{
 												text: 'cardBody',
@@ -461,7 +461,7 @@ const Dashboard = (props) => {
 												text: 'cardReadChecker',
 											}}
 										>
-											{elem.state === 'true' ? (
+											{elem.state ? (
 												<FaRegEnvelopeOpen
 													style={{ color: 'green' }}
 												/>
