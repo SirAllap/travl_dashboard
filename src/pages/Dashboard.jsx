@@ -3,6 +3,8 @@ import styled, { css } from 'styled-components'
 import { LiaBedSolid } from 'react-icons/lia'
 import { LuCalendarCheck2 } from 'react-icons/lu'
 import { IoLogInOutline } from 'react-icons/io5'
+import { MdOutlineMarkChatUnread } from 'react-icons/md'
+import client_review from '../data/client_review.json'
 
 const MainContainer = styled.main`
 	text-align: center;
@@ -95,20 +97,23 @@ const CustomerReviewContainer = styled.div`
 	box-shadow: 0px 4px 4px #00000005;
 	margin-top: 40px;
 	text-align: center;
-	height: 433px;
+	min-height: 433px;
 	max-width: 1474px;
 `
 
 const CustomerReviewCard = styled.div`
+	position: relative;
 	display: inline-block;
 	width: 431px;
-	height: 275px;
+	min-height: 275px;
 	background-color: #fff;
 	border: 1px solid #ebebeb;
 	border-radius: 20px;
 	margin-top: 88px;
+	margin-bottom: 20px;
 	margin-right: 40px;
 	transition: 0.3s;
+	vertical-align: top;
 	&:last-child {
 		margin-right: 0px;
 	}
@@ -127,12 +132,13 @@ const CustomerCardText = styled.p`
 		  text-align: left;
 		  position: absolute;
 		  left: 50px;
-		  top: 30px
+		  top: 30px;
           }
         `
 			case 'cardBody':
 				return css`
-          font: normal normal 400 16px Poppins;
+          font: normal normal 300 16px Poppins;
+		  line-height: 28px;
           color: #4E4E4E;
 		  text-align: justify;
           }
@@ -141,6 +147,25 @@ const CustomerCardText = styled.p`
 				return css`
           font: normal normal 600 16px Poppins;
           color: #262626;
+		  text-align: left;
+		  margin: 10px 0 5px 0;
+          }
+        `
+			case 'cardSubject':
+				return css`
+          font: normal normal 500 16px Poppins;
+          color: #135846;
+		  text-align: center;
+		  margin: 5px 0 0px 0;
+          }
+        `
+			case 'cardReadChecker':
+				return css`
+		  position: absolute;
+		  bottom: 0px;
+		  right: 10px;
+          font: normal normal 600 26px Poppins;
+          color: ${(props) => (props.read === 'true' ? '#5AD07A' : '#E23428')};
 		  text-align: left;
           }
         `
@@ -154,15 +179,43 @@ const CustomerCardText = styled.p`
 		}
 	}}
 `
-const CustomerReviewCardTopData = styled.div``
-const CustomerReviewCardBody = styled.p``
+const CustomerReviewCardTopData = styled.div`
+	width: 371px;
+	height: 110px;
+	overflow-x: auto;
+	margin: 10px auto 0 auto;
+	scrollbar-width: auto;
+	scrollbar-color: #8f54a0 #ffffff;
+	&::-webkit-scrollbar {
+		width: 15px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: #ebf1ef;
+		border-radius: 10px;
+		border: 3px solid #ffffff;
+	}
+`
 
-const CustomerReviewCardBottomData = styled.div``
-const CustomerReviewCardUserPhoto = styled.div``
-const CustomerReviewCardUserName = styled.p``
-const CustomerReviewCardUserEmail = styled.p``
-const CustomerReviewCardUserPhoneNumber = styled.p``
-const CustomerReviewCardSubject = styled.p``
+const CustomerReviewCardBottomData = styled.div`
+	border: 1px solid transparent;
+	width: 371px;
+	height: 90px;
+	margin: 15px auto 25px auto;
+`
+const CustomerReviewCardUserPhoto = styled.div`
+	float: left;
+	margin: 18px;
+	height: 56px;
+	width: 56px;
+	background: #c5c5c5 0% 0% no-repeat padding-box;
+	border-radius: 8px;
+`
+
+const HorizontalDivider = styled.div`
+	width: 230px;
+	border-bottom: dashed 1px #ebebeb;
+	margin: 5px auto 0 auto;
+`
 
 const Dashboard = (props) => {
 	return (
@@ -223,9 +276,135 @@ const Dashboard = (props) => {
 					<CustomerCardText type='cardTitle'>
 						Latest Review by Customers
 					</CustomerCardText>
-					<CustomerReviewCard></CustomerReviewCard>
-					<CustomerReviewCard></CustomerReviewCard>
-					<CustomerReviewCard></CustomerReviewCard>
+					<CustomerReviewCard>
+						<CustomerCardText type='cardSubject'>
+							Exceptional Experience and Amenities
+						</CustomerCardText>
+						<HorizontalDivider />
+						<CustomerReviewCardTopData>
+							<CustomerCardText type='cardBody'>
+								During my stays, I've had the opportunity to
+								embark on various excursions, and what's truly
+								convenient is that all these incredible
+								destinations are easily accessible from the
+								hotel. One memorable trip took me to the
+								breathtaking Long Waterfall, and I must say that
+								the guidance provided was invaluable. The
+								excursion was not only enjoyable but also
+								enriched with fascinating insights and local
+								knowledge that made the experience truly
+								exceptional. This place is a gem, and I can't
+								wait to return for more unforgettable
+								adventures.
+							</CustomerCardText>
+						</CustomerReviewCardTopData>
+						<CustomerReviewCardBottomData>
+							<CustomerReviewCardUserPhoto />
+							<CustomerCardText type='cardUserName'>
+								David Pallarés Robaina
+							</CustomerCardText>
+							<CustomerCardText type='cardUserEmail'>
+								david.pr@gmail.com
+							</CustomerCardText>
+							<CustomerCardText type='cardUserPhoneNumber'>
+								666333222
+							</CustomerCardText>
+							<CustomerCardText
+								type='cardReadChecker'
+								read='false'
+							>
+								<MdOutlineMarkChatUnread />
+							</CustomerCardText>
+						</CustomerReviewCardBottomData>
+					</CustomerReviewCard>
+					<CustomerCardText type='cardTitle'>
+						Latest Review by Customers
+					</CustomerCardText>
+					<CustomerReviewCard>
+						<CustomerCardText type='cardSubject'>
+							Exceptional Experience and Amenities
+						</CustomerCardText>
+						<HorizontalDivider />
+						<CustomerReviewCardTopData>
+							<CustomerCardText type='cardBody'>
+								During my stays, I've had the opportunity to
+								embark on various excursions, and what's truly
+								convenient is that all these incredible
+								destinations are easily accessible from the
+								hotel. One memorable trip took me to the
+								breathtaking Long Waterfall, and I must say that
+								the guidance provided was invaluable. The
+								excursion was not only enjoyable but also
+								enriched with fascinating insights and local
+								knowledge that made the experience truly
+								exceptional. This place is a gem, and I can't
+								wait to return for more unforgettable
+								adventures.
+							</CustomerCardText>
+						</CustomerReviewCardTopData>
+						<CustomerReviewCardBottomData>
+							<CustomerReviewCardUserPhoto />
+							<CustomerCardText type='cardUserName'>
+								David Pallarés Robaina
+							</CustomerCardText>
+							<CustomerCardText type='cardUserEmail'>
+								david.pr@gmail.com
+							</CustomerCardText>
+							<CustomerCardText type='cardUserPhoneNumber'>
+								666333222
+							</CustomerCardText>
+							<CustomerCardText
+								type='cardReadChecker'
+								read='false'
+							>
+								<MdOutlineMarkChatUnread />
+							</CustomerCardText>
+						</CustomerReviewCardBottomData>
+					</CustomerReviewCard>
+					<CustomerCardText type='cardTitle'>
+						Latest Review by Customers
+					</CustomerCardText>
+					<CustomerReviewCard>
+						<CustomerCardText type='cardSubject'>
+							Exceptional Experience and Amenities
+						</CustomerCardText>
+						<HorizontalDivider />
+						<CustomerReviewCardTopData>
+							<CustomerCardText type='cardBody'>
+								During my stays, I've had the opportunity to
+								embark on various excursions, and what's truly
+								convenient is that all these incredible
+								destinations are easily accessible from the
+								hotel. One memorable trip took me to the
+								breathtaking Long Waterfall, and I must say that
+								the guidance provided was invaluable. The
+								excursion was not only enjoyable but also
+								enriched with fascinating insights and local
+								knowledge that made the experience truly
+								exceptional. This place is a gem, and I can't
+								wait to return for more unforgettable
+								adventures.
+							</CustomerCardText>
+						</CustomerReviewCardTopData>
+						<CustomerReviewCardBottomData>
+							<CustomerReviewCardUserPhoto />
+							<CustomerCardText type='cardUserName'>
+								David Pallarés Robaina
+							</CustomerCardText>
+							<CustomerCardText type='cardUserEmail'>
+								david.pr@gmail.com
+							</CustomerCardText>
+							<CustomerCardText type='cardUserPhoneNumber'>
+								666333222
+							</CustomerCardText>
+							<CustomerCardText
+								type='cardReadChecker'
+								read='false'
+							>
+								<MdOutlineMarkChatUnread />
+							</CustomerCardText>
+						</CustomerReviewCardBottomData>
+					</CustomerReviewCard>
 				</CustomerReviewContainer>
 			</MainContainer>
 		</>
