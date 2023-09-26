@@ -5,8 +5,9 @@ import { NavLink } from 'react-router-dom'
 import { LuLayoutDashboard } from 'react-icons/lu'
 import { SlKey } from 'react-icons/sl'
 import { LuCalendarCheck2 } from 'react-icons/lu'
-import { BiUser } from 'react-icons/bi'
-import { IoExtensionPuzzleOutline } from 'react-icons/io5'
+import { SlPeople } from 'react-icons/sl'
+import { MdOutlineRateReview } from 'react-icons/md'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 const Container = styled.aside`
 	min-width: 345px;
@@ -92,8 +93,8 @@ const UserCardInfo = styled.div`
 	margin-top: 41px;
 `
 
-const UserCardProfilePictureVoid = styled.div`
-	background-color: #c5c5c5;
+const UserCardProfilePictureVoid = styled.img`
+	background: #79928382 padding-box;
 	width: 70px;
 	height: 70px;
 	border-radius: 8px;
@@ -177,7 +178,7 @@ const EditUserModal = styled.div`
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width: 331px;
-	min-height: 400px;
+	min-height: 500px;
 	background: #ffffff 0% 0% no-repeat padding-box;
 	border-radius: 20px;
 	transition: all 0.5s;
@@ -192,7 +193,7 @@ const EditUserModalOverlay = styled.div`
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
-const CloseCTA = styled.button`
+const SaveCTA = styled.button`
 	position: absolute;
 	left: 50%;
 	margin-right: -50%;
@@ -214,30 +215,89 @@ const CloseCTA = styled.button`
 	}
 `
 
-const Input = styled.input`
+const UserCardProfilePictureModal = styled(UserCardProfilePictureVoid)`
+	width: 130px;
+	height: 130px;
 	position: absolute;
 	left: 50%;
 	margin-right: -50%;
-	top: ${(props) => (props.type === 'email' ? '45%' : '20%')};
 	transform: translate(-50%, -50%);
-	width: 90%;
+	bottom: 65px;
+	&:hover {
+		opacity: 0.8;
+	}
+`
+
+const CloseCTA = styled.button`
+	position: absolute;
+	right: 13px;
+	top: 13px;
+	font-size: 25px;
+	border: none;
+	background-color: transparent;
+	&:hover {
+		color: red;
+	}
+`
+
+const InputFile = styled.input`
+	position: absolute;
+	left: 50%;
+	margin-right: -50%;
+	top: 80%;
+	transform: translate(-50%, -50%);
+	max-width: 54.4%;
+	color: #135846;
+	transition: 0.3s;
+	color: #444;
+	background: #fff;
+	&::file-selector-button {
+		font: normal normal 500 14px Poppins;
+		border: none;
+		background: #135846;
+		padding: 10px 20px;
+		border-radius: 8px;
+		color: #fff;
+		cursor: pointer;
+		transition: background 0.2s ease-in-out;
+	}
+	&::file-selector-button:hover {
+		background: #ebf1ef;
+		color: #135846;
+	}
+`
+
+const Input = styled(InputFile)`
+	top: ${(props) => (props.type === 'email' ? '35%' : '15%')};
 	height: 47px;
+	width: 350px;
+	max-width: 90%;
 	background-color: #ebf1ef;
 	border: none;
 	border-radius: 8px;
-	color: #135846;
 	padding: 20px;
-	font: normal normal 600 14px/21px Poppins;
 	margin-top: 16px;
-	cursor: pointer;
-	transition: 0.3s;
 `
+
+// const PhotoModal = styled(EditUserModal)`
+// 	z-index: 100;
+// 	position: absolute;
+// 	top: 50%;
+// 	left: 50%;
+// 	transform: translate(-50%, -50%);
+// 	width: 50px;
+// 	min-height: 350px;
+// 	background: #ffffff 0% 0% no-repeat padding-box;
+// 	border-radius: 20px;
+// 	transition: all 0.5s;
+// 	display: ${(props) => (props.open ? 'block' : 'none')};
+// `
 
 const EditUserInputLable = styled.label`
 	position: absolute;
 	left: 3%;
 	margin-right: -50%;
-	top: ${(props) => (props.type === 'email' ? '38%' : '13%')};
+	top: ${(props) => (props.type === 'email' ? '30%' : '10%')};
 	transform: translate(-50%, -50%);
 	font: normal normal 500 17px Poppins;
 	display: block;
@@ -247,17 +307,57 @@ const EditUserInputLable = styled.label`
 
 const SideBar = (props) => {
 	const [toggleModal, setToggleModal] = useState(false)
+	// const [togglePhotoModal, setTogglePhotoModal] = useState(false)
 	const [userUpdatedName, setUpdatedUserName] = useState('')
 	const [userUpdatedEmail, setUpdatedUserEmail] = useState('')
+
+	const [userName1, setUserName1] = useState('')
+	const [userEmail1, setUserEmail1] = useState('')
+
 	const [userName, setUserName] = useState('')
 	const [userEmail, setUserEmail] = useState('')
 
+	const [profPic, setProfPic] = useState('')
+	const [file2Upload, setFile2Upload] = useState()
+
+	const handleProfilePictureChange = (newPictureUrl) => {
+		localStorage.setItem('profilePicture', newPictureUrl)
+	}
+
+	const handleChange = (e) => {
+		const newPictureUrl = URL.createObjectURL(e.target.files[0])
+		setFile2Upload(newPictureUrl)
+		handleProfilePictureChange(newPictureUrl)
+	}
+	const updateUser = {
+		userName: '',
+		email: '',
+	}
+	localStorage.setItem('currentUser', JSON.stringify(updateUser))
+
 	const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+	useEffect(() => {
+		currentUser.userName !== null && setUserName1(currentUser.userName)
+		currentUser.email !== null && setUserEmail1(currentUser.email)
+	}, [])
+
+	const handleUpdateUserName = (event) => {
+		setUpdatedUserName(event.target.value)
+	}
+	const handleUpdateUserEmail = (event) => {
+		setUpdatedUserEmail(event.target.value)
+	}
 
 	useEffect(() => {
-		setUserName(currentUser.userName)
-		setUserEmail(currentUser.email)
-	}, [currentUser.userName, currentUser.email])
+		setProfPic('https://robohash.org/Admin.png?set=any')
+		const savedProfilePicture = localStorage.getItem('profilePicture')
+		setProfPic(
+			savedProfilePicture || 'https://robohash.org/oxygen.png?set=any'
+		)
+		props.setProfilePicture(
+			savedProfilePicture || 'https://robohash.org/oxygen.png?set=any'
+		)
+	}, [profPic, props, handleProfilePictureChange])
 
 	const handleHeaderTitle = (titleName) => {
 		props.setHeaderTitle(titleName)
@@ -269,24 +369,22 @@ const SideBar = (props) => {
 			setToggleModal(false)
 		}
 	}
-	const handleUpdateAndCloseModal = () => {
-		if (userUpdatedName.length > 3 && userUpdatedEmail.length > 3) {
-			setUserName(userUpdatedName)
-			setUserEmail(userUpdatedEmail)
-			setToggleModal(false)
-			const updateUser = {
-				userName: userUpdatedName,
-				email: userUpdatedEmail,
-			}
-			localStorage.setItem('currentUser', JSON.stringify(updateUser))
-		}
-	}
 
-	const handleUpdateUserName = (event) => {
-		setUpdatedUserName(event.target.value)
-	}
-	const handleUpdateUserEmail = (event) => {
-		setUpdatedUserEmail(event.target.value)
+	const handleUpdateAndCloseModal = () => {
+		if (userUpdatedName === '') {
+			setUserName(currentUser.userName)
+		} else setUserName(userUpdatedName)
+		if (userUpdatedEmail === '') {
+			setUserEmail(currentUser.email)
+		} else setUserEmail(userUpdatedEmail)
+		setToggleModal(false)
+		const updateUser = {
+			userName:
+				userUpdatedName === '' ? currentUser.userName : userUpdatedName,
+			email:
+				userUpdatedEmail === '' ? currentUser.email : userUpdatedEmail,
+		}
+		localStorage.setItem('currentUser', JSON.stringify(updateUser))
 	}
 
 	return (
@@ -301,13 +399,24 @@ const SideBar = (props) => {
 						onChange={handleUpdateUserName}
 					/>
 					<EditUserInputLable type='email'>Email</EditUserInputLable>
+
 					<Input
 						type='email'
 						placeholder='email'
 						onChange={handleUpdateUserEmail}
 					/>
-					<CloseCTA onClick={handleUpdateAndCloseModal}>
-						Save
+
+					<UserCardProfilePictureModal
+						src={!file2Upload ? profPic : file2Upload}
+					/>
+					<InputFile
+						type='file'
+						onChange={handleChange}
+						alt='a photo of the user profile'
+					/>
+					<SaveCTA onClick={handleUpdateAndCloseModal}>Save</SaveCTA>
+					<CloseCTA onClick={handleToggleModal}>
+						<AiOutlineCloseCircle />
 					</CloseCTA>
 				</EditUserModal>
 				<LogoSection>
@@ -328,7 +437,7 @@ const SideBar = (props) => {
 					>
 						<VerticalDivider className='left-decoration' />
 						<SlKey />
-						<MenuItemText>Room</MenuItemText>
+						<MenuItemText>Rooms</MenuItemText>
 					</MenuItems>
 					<MenuItems
 						onClick={() => handleHeaderTitle('Bookings')}
@@ -339,26 +448,30 @@ const SideBar = (props) => {
 						<MenuItemText>Bookings</MenuItemText>
 					</MenuItems>
 					<MenuItems
-						onClick={() => handleHeaderTitle('Guest List')}
+						onClick={() => handleHeaderTitle('Contact List')}
+						to='/contact'
+					>
+						<VerticalDivider className='left-decoration' />
+						<MdOutlineRateReview />
+						<MenuItemText>Contact</MenuItemText>
+					</MenuItems>
+					<MenuItems
+						onClick={() => handleHeaderTitle('Users')}
 						to='/users'
 					>
 						<VerticalDivider className='left-decoration' />
-						<BiUser />
-						<MenuItemText>Guest</MenuItemText>
-					</MenuItems>
-					<MenuItems
-						onClick={() => handleHeaderTitle('Concierge List')}
-						to='/concierge'
-					>
-						<VerticalDivider className='left-decoration' />
-						<IoExtensionPuzzleOutline />
-						<MenuItemText>Concierge</MenuItemText>
+						<SlPeople />
+						<MenuItemText>Users</MenuItemText>
 					</MenuItems>
 				</IconSection>
 				<UserCardInfo>
-					<UserCardProfilePictureVoid />
-					<UserCardText type='name'>{userName}</UserCardText>
-					<UserCardText>{userEmail}</UserCardText>
+					<UserCardProfilePictureVoid src={profPic} />
+					<UserCardText type='name'>
+						{!userName ? userName1 : userName}
+					</UserCardText>
+					<UserCardText>
+						{!userEmail ? userEmail1 : userEmail}
+					</UserCardText>
 					<UserCardButton onClick={handleToggleModal}>
 						Edit user
 					</UserCardButton>

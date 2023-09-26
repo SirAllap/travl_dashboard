@@ -67,7 +67,7 @@ const DashboardTitle = styled.p`
 	font: normal normal 600 28px/42px Poppins;
 `
 
-const ProfilePictureVoid = styled.div`
+const ProfilePictureVoid = styled.img`
 	background-color: #c5c5c5;
 	width: 60px;
 	height: 60px;
@@ -121,7 +121,7 @@ const Header = (props) => {
 					<IconStyle groupofrigthicons='groupofrigthicons'>
 						<BiMessageAltDetail color='#135846' />
 					</IconStyle>
-					<ProfilePictureVoid />
+					<ProfilePictureVoid src={props.profilepicture} />
 					<VerticalDivider />
 					<IconStyle logout='logout'>
 						<HiOutlineLogout

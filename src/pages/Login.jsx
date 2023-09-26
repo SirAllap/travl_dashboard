@@ -15,14 +15,14 @@ const LoginContainer = styled.div`
 	border-radius: 8px;
 	background-color: #f8f8f8;
 	width: 500px;
-	height: 460px;
+	height: 440px;
 `
 
 const LogoSection = styled.section`
 	height: fit-content;
-	width: 100%;
+	width: fit-content;
 	text-align: center;
-	margin: 50px 0 0 0;
+	margin: 50px auto;
 `
 
 const LogoImage = styled.img`
@@ -55,7 +55,7 @@ const LoginInputLable = styled.label`
 const CTA = styled.button`
 	width: 86%;
 	height: 47px;
-	margin: 10px 35px 35px 35px;
+	margin: 75px 35px 35px 35px;
 	background-color: #f8a756;
 	border: none;
 	outline: 2px solid #ff9c3a;
@@ -71,11 +71,21 @@ const CTA = styled.button`
 	}
 `
 
+const Credentials = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	width: fit-content;
+	max-height: fit-content;
+`
 const LoginHardCodeAuth = styled.p`
-	font: normal normal 500 17px Poppins;
+	font: normal normal 500 22px Poppins;
 	color: #135846;
 	margin-left: 40px;
-	padding-bottom: 10px;
+	padding-bottom: 20px;
+	&:nth-child(2) {
+		margin-bottom: 60px;
+	}
 `
 
 // const Login = (props) => {
@@ -110,6 +120,7 @@ const Login = () => {
 			alert('You introduce wrong credentials')
 		}
 	}
+
 	const copyAdmin = 'Admin'
 	const copyAdminPass = 'oxygen'
 	const copyUser = 'David'
@@ -129,43 +140,47 @@ const Login = () => {
 				/>
 				<CTA onClick={authUser}>Log in</CTA>
 			</LoginContainer>
-			<LoginHardCodeAuth>
-				User: Admin
-				<FiCopy
-					onClick={() => {
-						navigator.clipboard.writeText(copyAdmin)
-					}}
-					style={{ cursor: 'pointer' }}
-				/>
-			</LoginHardCodeAuth>
-			<LoginHardCodeAuth>
-				Password: oxygen
-				<FiCopy
-					onClick={() => {
-						navigator.clipboard.writeText(copyAdminPass)
-					}}
-					style={{ cursor: 'pointer' }}
-				/>
-			</LoginHardCodeAuth>
-			<br />
-			<LoginHardCodeAuth>
-				User: David
-				<FiCopy
-					onClick={() => {
-						navigator.clipboard.writeText(copyUser)
-					}}
-					style={{ cursor: 'pointer' }}
-				/>
-			</LoginHardCodeAuth>
-			<LoginHardCodeAuth>
-				Password: travl
-				<FiCopy
-					onClick={() => {
-						navigator.clipboard.writeText(copyUserPass)
-					}}
-					style={{ cursor: 'pointer' }}
-				/>
-			</LoginHardCodeAuth>
+			<Credentials>
+				<LoginHardCodeAuth>
+					User: Admin{' '}
+					<FiCopy
+						onClick={() => {
+							navigator.clipboard.writeText(copyAdmin)
+						}}
+						style={{ cursor: 'pointer', fontSize: '35px' }}
+					/>
+				</LoginHardCodeAuth>
+				<LoginHardCodeAuth>
+					Password: oxygen{' '}
+					<FiCopy
+						onClick={() => {
+							navigator.clipboard.writeText(copyAdminPass)
+						}}
+						style={{ cursor: 'pointer', fontSize: '35px' }}
+					/>
+				</LoginHardCodeAuth>
+				<LoginHardCodeAuth>
+					User: David{' '}
+					<FiCopy
+						onClick={() => {
+							navigator.clipboard.writeText(copyUser)
+						}}
+						style={{
+							cursor: 'pointer',
+							fontSize: '35px',
+						}}
+					/>
+				</LoginHardCodeAuth>
+				<LoginHardCodeAuth>
+					Password: travl{' '}
+					<FiCopy
+						onClick={() => {
+							navigator.clipboard.writeText(copyUserPass)
+						}}
+						style={{ cursor: 'pointer', fontSize: '35px' }}
+					/>
+				</LoginHardCodeAuth>
+			</Credentials>
 		</>
 	)
 }

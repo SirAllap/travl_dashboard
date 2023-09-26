@@ -4,21 +4,12 @@ import Dashboard from '../pages/Dashboard'
 import Bookings from '../pages/Bookings'
 import Rooms from '../pages/Rooms'
 import Users from '../pages/Users'
-import Contact from '../pages/Contact'
 import PrivateRoute from '../pages/PrivateRoute'
 import Login from '../pages/Login'
-import Concierge from '../pages/Concierge'
+import Contact from '../pages/Contact'
 
 const Router = (props) => {
-	// const [authenticated, setAuthenticated] = useState(null)
-
-	// useEffect(() => {
-	// 	localStorage.getItem('authenticated') !== null &&
-	// 		localStorage.setItem('authenticated', authenticated)
-	// }, [authenticated])
-
 	const localAuth = localStorage.getItem('authenticated')
-
 	return (
 		<>
 			<Routes>
@@ -39,7 +30,7 @@ const Router = (props) => {
 					path='/bookings'
 					element={
 						<PrivateRoute authenticated={localAuth}>
-							<Bookings />
+							<Bookings toggle={props.toggle} />
 						</PrivateRoute>
 					}
 				/>
@@ -47,23 +38,7 @@ const Router = (props) => {
 					path='/rooms'
 					element={
 						<PrivateRoute authenticated={localAuth}>
-							<Rooms />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/users'
-					element={
-						<PrivateRoute authenticated={localAuth}>
-							<Users />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path='/concierge'
-					element={
-						<PrivateRoute authenticated={localAuth}>
-							<Concierge />
+							<Rooms toggle={props.toggle} />
 						</PrivateRoute>
 					}
 				/>
@@ -71,7 +46,15 @@ const Router = (props) => {
 					path='/contact'
 					element={
 						<PrivateRoute authenticated={localAuth}>
-							<Contact />
+							<Contact toggle={props.toggle} />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path='/users'
+					element={
+						<PrivateRoute authenticated={localAuth}>
+							<Users toggle={props.toggle} />
 						</PrivateRoute>
 					}
 				/>
