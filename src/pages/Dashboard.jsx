@@ -97,11 +97,12 @@ const CustomerReviewContainer = styled.div`
 	box-shadow: 0px 4px 4px #00000005;
 	margin-top: 40px;
 	text-align: center;
-	min-height: 433px;
+	max-height: 433px;
 	max-width: 1474px;
 `
 
 const CustomerReviewCard = styled.div`
+	border: 1px solid red;
 	position: relative;
 	display: inline-block;
 	width: 431px;
@@ -276,135 +277,41 @@ const Dashboard = (props) => {
 					<CustomerCardText type='cardTitle'>
 						Latest Review by Customers
 					</CustomerCardText>
-					<CustomerReviewCard>
-						<CustomerCardText type='cardSubject'>
-							Exceptional Experience and Amenities
-						</CustomerCardText>
-						<HorizontalDivider />
-						<CustomerReviewCardTopData>
-							<CustomerCardText type='cardBody'>
-								During my stays, I've had the opportunity to
-								embark on various excursions, and what's truly
-								convenient is that all these incredible
-								destinations are easily accessible from the
-								hotel. One memorable trip took me to the
-								breathtaking Long Waterfall, and I must say that
-								the guidance provided was invaluable. The
-								excursion was not only enjoyable but also
-								enriched with fascinating insights and local
-								knowledge that made the experience truly
-								exceptional. This place is a gem, and I can't
-								wait to return for more unforgettable
-								adventures.
-							</CustomerCardText>
-						</CustomerReviewCardTopData>
-						<CustomerReviewCardBottomData>
-							<CustomerReviewCardUserPhoto />
-							<CustomerCardText type='cardUserName'>
-								David Pallarés Robaina
-							</CustomerCardText>
-							<CustomerCardText type='cardUserEmail'>
-								david.pr@gmail.com
-							</CustomerCardText>
-							<CustomerCardText type='cardUserPhoneNumber'>
-								666333222
-							</CustomerCardText>
-							<CustomerCardText
-								type='cardReadChecker'
-								read='false'
-							>
-								<MdOutlineMarkChatUnread />
-							</CustomerCardText>
-						</CustomerReviewCardBottomData>
-					</CustomerReviewCard>
-					<CustomerCardText type='cardTitle'>
-						Latest Review by Customers
-					</CustomerCardText>
-					<CustomerReviewCard>
-						<CustomerCardText type='cardSubject'>
-							Exceptional Experience and Amenities
-						</CustomerCardText>
-						<HorizontalDivider />
-						<CustomerReviewCardTopData>
-							<CustomerCardText type='cardBody'>
-								During my stays, I've had the opportunity to
-								embark on various excursions, and what's truly
-								convenient is that all these incredible
-								destinations are easily accessible from the
-								hotel. One memorable trip took me to the
-								breathtaking Long Waterfall, and I must say that
-								the guidance provided was invaluable. The
-								excursion was not only enjoyable but also
-								enriched with fascinating insights and local
-								knowledge that made the experience truly
-								exceptional. This place is a gem, and I can't
-								wait to return for more unforgettable
-								adventures.
-							</CustomerCardText>
-						</CustomerReviewCardTopData>
-						<CustomerReviewCardBottomData>
-							<CustomerReviewCardUserPhoto />
-							<CustomerCardText type='cardUserName'>
-								David Pallarés Robaina
-							</CustomerCardText>
-							<CustomerCardText type='cardUserEmail'>
-								david.pr@gmail.com
-							</CustomerCardText>
-							<CustomerCardText type='cardUserPhoneNumber'>
-								666333222
-							</CustomerCardText>
-							<CustomerCardText
-								type='cardReadChecker'
-								read='false'
-							>
-								<MdOutlineMarkChatUnread />
-							</CustomerCardText>
-						</CustomerReviewCardBottomData>
-					</CustomerReviewCard>
-					<CustomerCardText type='cardTitle'>
-						Latest Review by Customers
-					</CustomerCardText>
-					<CustomerReviewCard>
-						<CustomerCardText type='cardSubject'>
-							Exceptional Experience and Amenities
-						</CustomerCardText>
-						<HorizontalDivider />
-						<CustomerReviewCardTopData>
-							<CustomerCardText type='cardBody'>
-								During my stays, I've had the opportunity to
-								embark on various excursions, and what's truly
-								convenient is that all these incredible
-								destinations are easily accessible from the
-								hotel. One memorable trip took me to the
-								breathtaking Long Waterfall, and I must say that
-								the guidance provided was invaluable. The
-								excursion was not only enjoyable but also
-								enriched with fascinating insights and local
-								knowledge that made the experience truly
-								exceptional. This place is a gem, and I can't
-								wait to return for more unforgettable
-								adventures.
-							</CustomerCardText>
-						</CustomerReviewCardTopData>
-						<CustomerReviewCardBottomData>
-							<CustomerReviewCardUserPhoto />
-							<CustomerCardText type='cardUserName'>
-								David Pallarés Robaina
-							</CustomerCardText>
-							<CustomerCardText type='cardUserEmail'>
-								david.pr@gmail.com
-							</CustomerCardText>
-							<CustomerCardText type='cardUserPhoneNumber'>
-								666333222
-							</CustomerCardText>
-							<CustomerCardText
-								type='cardReadChecker'
-								read='false'
-							>
-								<MdOutlineMarkChatUnread />
-							</CustomerCardText>
-						</CustomerReviewCardBottomData>
-					</CustomerReviewCard>
+
+					{client_review.map(
+						(elem, index) =>
+							index < 3 && (
+								<CustomerReviewCard>
+									<CustomerCardText type='cardSubject'>
+										{elem.subject_of_review}
+									</CustomerCardText>
+									<HorizontalDivider />
+									<CustomerReviewCardTopData>
+										<CustomerCardText type='cardBody'>
+											{elem.review_body}
+										</CustomerCardText>
+									</CustomerReviewCardTopData>
+									<CustomerReviewCardBottomData>
+										<CustomerReviewCardUserPhoto />
+										<CustomerCardText type='cardUserName'>
+											{elem.full_name}
+										</CustomerCardText>
+										<CustomerCardText type='cardUserEmail'>
+											{elem.email}
+										</CustomerCardText>
+										<CustomerCardText type='cardUserPhoneNumber'>
+											{elem.phone_number}
+										</CustomerCardText>
+										<CustomerCardText
+											type='cardReadChecker'
+											read={elem.state}
+										>
+											<MdOutlineMarkChatUnread />
+										</CustomerCardText>
+									</CustomerReviewCardBottomData>
+								</CustomerReviewCard>
+							)
+					)}
 				</CustomerReviewContainer>
 			</MainContainer>
 		</>
