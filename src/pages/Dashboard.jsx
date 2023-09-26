@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 import { LiaBedSolid } from 'react-icons/lia'
 import { LuCalendarCheck2 } from 'react-icons/lu'
 import { IoLogInOutline } from 'react-icons/io5'
 import { MdOutlineMarkChatUnread } from 'react-icons/md'
+import { FaRegEnvelopeOpen } from 'react-icons/fa'
+import { FaRegEnvelope } from 'react-icons/fa'
 import client_review from '../data/client_review.json'
-import styles from './styles.css'
+import './styles.css'
 
 // import Swiper core and required modules
 import { Navigation, A11y } from 'swiper/modules'
@@ -137,7 +139,7 @@ const CustomerReviewCard = styled.div`
 `
 const CustomerCardText = styled.p`
 	${(props) => {
-		switch (props.type) {
+		switch (props.type.text) {
 			case 'cardTitle':
 				return css`
           font: normal normal 500 20px Poppins;
@@ -192,10 +194,11 @@ const CustomerCardText = styled.p`
 		}
 	}}
 `
+
 const CustomerReviewCardTopData = styled.div`
 	width: 371px;
-	height: 110px;
-	overflow-x: auto;
+	height: ${(props) => (props.modal ? 'fitConten' : '110px')};
+	overflow-y: clip;
 	margin: 10px auto 0 auto;
 	scrollbar-width: auto;
 	scrollbar-color: #8f54a0 #ffffff;
@@ -215,12 +218,12 @@ const CustomerReviewCardBottomData = styled.div`
 	height: 90px;
 	margin: 15px auto 25px auto;
 `
-const CustomerReviewCardUserPhoto = styled.div`
+const CustomerReviewCardUserPhoto = styled.img`
 	float: left;
 	margin: 18px;
 	height: 56px;
 	width: 56px;
-	background: #c5c5c5 0% 0% no-repeat padding-box;
+	background: #79928382 padding-box;
 	border-radius: 8px;
 `
 
@@ -230,10 +233,116 @@ const HorizontalDivider = styled.div`
 	margin: 5px auto 0 auto;
 `
 
+const CustomerReviewModal = styled.div`
+	z-index: 100;
+	position: absolute;
+	top: 50%;
+	left: ${(props) => (props.toggle === 'close' ? '50%' : '59.9%')};
+	transform: translate(-50%, -50%);
+	width: 431px;
+	min-height: 275px;
+	background: #ffffff 0% 0% no-repeat padding-box;
+	border-radius: 20px;
+	transition: all 0.5s;
+	display: ${(props) => (props.open ? 'block' : 'none')};
+`
+const CustomerReviewModalOverlay = styled.div`
+	z-index: 99;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.434);
+	transition: all 0.5s;
+	display: ${(props) => (props.open ? 'block' : 'none')};
+`
+const CloseCTA = styled.button`
+	position: absolute;
+	right: 13px;
+	bottom: 13px;
+	font-size: 25px;
+	border: none;
+	background-color: transparent;
+	&:hover {
+		color: green;
+	}
+`
+
 const Dashboard = (props) => {
+	const [toggleModal, setToggleModal] = useState(false)
+	const [toggleModalUser, setToggleModalUser] = useState({})
+
+	const handleToggleModal = (userReview) => {
+		if (!toggleModal) {
+			setToggleModal(true)
+			setToggleModalUser(userReview)
+		} else {
+			setToggleModal(false)
+		}
+	}
 	return (
 		<>
 			<MainContainer toggle={props.toggle}>
+				<CustomerReviewModalOverlay
+					open={toggleModal}
+				></CustomerReviewModalOverlay>
+				<CustomerReviewModal open={toggleModal}>
+					<CloseCTA onClick={handleToggleModal}>
+						<FaRegEnvelopeOpen />
+					</CloseCTA>
+					{toggleModalUser && (
+						<>
+							<CustomerCardText
+								type={{
+									text: 'cardSubject',
+								}}
+							>
+								{toggleModalUser.subject_of_review}
+							</CustomerCardText>
+							<HorizontalDivider />
+							<CustomerReviewCardTopData modal={true}>
+								<CustomerCardText
+									type={{
+										text: 'cardBody',
+									}}
+								>
+									{toggleModalUser.review_body}
+								</CustomerCardText>
+							</CustomerReviewCardTopData>
+							<CustomerReviewCardBottomData>
+								<CustomerReviewCardUserPhoto
+									src={`https://robohash.org/${toggleModalUser.full_name}.png?set=any`}
+								/>
+								<CustomerCardText
+									type={{
+										text: 'cardUserName',
+									}}
+								>
+									{toggleModalUser.full_name}
+								</CustomerCardText>
+								<CustomerCardText
+									type={{
+										text: 'cardUserEmail',
+									}}
+								>
+									{toggleModalUser.email}
+								</CustomerCardText>
+								<CustomerCardText
+									type={{
+										text: 'cardUserPhoneNumber',
+									}}
+								>
+									{toggleModalUser.phone_number}
+								</CustomerCardText>
+								<CustomerCardText
+									type={{
+										text: 'cardReadChecker',
+									}}
+									read={toggleModalUser.state}
+								></CustomerCardText>
+							</CustomerReviewCardBottomData>
+						</>
+					)}
+				</CustomerReviewModal>
 				<ContainerCardKPI>
 					<KPICardInfo>
 						<KPICardContainer>
@@ -286,7 +395,11 @@ const Dashboard = (props) => {
 					</KPICardInfo>
 				</ContainerCardKPI>
 				<CustomerReviewContainer>
-					<CustomerCardText type='cardTitle'>
+					<CustomerCardText
+						type={{
+							text: 'cardTitle',
+						}}
+					>
 						Latest Review by Customers
 					</CustomerCardText>
 
@@ -297,34 +410,64 @@ const Dashboard = (props) => {
 						navigation
 					>
 						{client_review.map((elem, index) => (
-							// index < 3 &&
 							<SwiperSlide key={index}>
-								<CustomerReviewCard>
-									<CustomerCardText type='cardSubject'>
+								<CustomerReviewCard
+									onClick={() => handleToggleModal(elem)}
+								>
+									<CustomerCardText
+										type={{
+											text: 'cardSubject',
+										}}
+									>
 										{elem.subject_of_review}
 									</CustomerCardText>
 									<HorizontalDivider />
-									<CustomerReviewCardTopData>
-										<CustomerCardText type='cardBody'>
+									<CustomerReviewCardTopData modal={false}>
+										<CustomerCardText
+											type={{
+												text: 'cardBody',
+											}}
+										>
 											{elem.review_body}
 										</CustomerCardText>
 									</CustomerReviewCardTopData>
 									<CustomerReviewCardBottomData>
-										<CustomerReviewCardUserPhoto />
-										<CustomerCardText type='cardUserName'>
+										<CustomerReviewCardUserPhoto
+											src={`https://robohash.org/${elem.full_name}.png?set=any`}
+										/>
+										<CustomerCardText
+											type={{
+												text: 'cardUserName',
+											}}
+										>
 											{elem.full_name}
 										</CustomerCardText>
-										<CustomerCardText type='cardUserEmail'>
+										<CustomerCardText
+											type={{
+												text: 'cardUserEmail',
+											}}
+										>
 											{elem.email}
 										</CustomerCardText>
-										<CustomerCardText type='cardUserPhoneNumber'>
+										<CustomerCardText
+											type={{
+												text: 'cardUserPhoneNumber',
+											}}
+										>
 											{elem.phone_number}
 										</CustomerCardText>
 										<CustomerCardText
-											type='cardReadChecker'
-											read={elem.state}
+											type={{
+												text: 'cardReadChecker',
+											}}
 										>
-											<MdOutlineMarkChatUnread />
+											{elem.state === 'true' ? (
+												<FaRegEnvelopeOpen
+													style={{ color: 'green' }}
+												/>
+											) : (
+												<FaRegEnvelope />
+											)}
 										</CustomerCardText>
 									</CustomerReviewCardBottomData>
 								</CustomerReviewCard>

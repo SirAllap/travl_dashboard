@@ -227,13 +227,13 @@ const SideBar = (props) => {
 					<UserCardProfilePictureVoid />
 					<UserCardText type='name'>David Pallarés</UserCardText>
 					<UserCardText>david.pr.developer@gmail.com</UserCardText>
-					<NavLink to='/contact'>
-						<UserCardButton
-							onClick={() => handleHeaderTitle('Contact')}
-						>
-							Contact Us
-						</UserCardButton>
-					</NavLink>
+					{/* <NavLink to='/contact'> */}
+					<UserCardButton
+						onClick={() => handleHeaderTitle('Contact')}
+					>
+						Contact Us
+					</UserCardButton>
+					{/* </NavLink> */}
 				</UserCardInfo>
 				<SideBarFooter>
 					<SideBarFooterText type='title'>
