@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { HiMenuAlt2 } from 'react-icons/hi'
+import { HiArrowsRightLeft } from 'react-icons/hi2'
 import { BiSearch } from 'react-icons/bi'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { LuMail } from 'react-icons/lu'
@@ -47,6 +47,10 @@ const IconStyle = styled.div`
 	cursor: pointer;
 	position: ${(props) => props.search === 'search' && 'relative'};
 	left: -40px;
+	transition: 0.3s;
+	&:hover {
+		transform: scale(1.1);
+	}
 `
 
 const InputSearch = styled.input`
@@ -95,7 +99,7 @@ const Header = (props) => {
 			<HeaderBar>
 				<LeftContainer>
 					<IconStyle menu='menu'>
-						<HiMenuAlt2 onClick={handleToggleOfSideBar} />
+						<HiArrowsRightLeft onClick={handleToggleOfSideBar} />
 					</IconStyle>
 					<DashboardTitle>{props.title}</DashboardTitle>
 				</LeftContainer>

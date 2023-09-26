@@ -99,6 +99,7 @@ const UserCardProfilePictureVoid = styled.div`
 	border-radius: 8px;
 	margin: 0 auto;
 `
+
 const UserCardText = styled.p`
 	${(props) => {
 		switch (props.type) {
