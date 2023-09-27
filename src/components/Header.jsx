@@ -21,14 +21,14 @@ const HeaderBar = styled.nav`
 `
 
 const LeftContainer = styled.div`
-	min-width: 650px;
+	min-width: fit-content;
 	display: flex;
 	align-items: center;
 	margin-right: 10px;
 `
 
 const RightContainer = styled.div`
-	min-width: 920px;
+	min-width: fit-content;
 	display: flex;
 	align-items: center;
 `

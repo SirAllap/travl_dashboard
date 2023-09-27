@@ -21,7 +21,7 @@ import 'swiper/css/scrollbar'
 
 const MainContainer = styled.main`
 	text-align: center;
-	min-height: 100%;
+	max-height: 100vw;
 	min-width: 1474px;
 	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
 	margin-top: 50px;

@@ -1,0 +1,157 @@
+{
+	"bookings": [
+		{
+			"id": "1232CEFE",
+			"guest": "John Smith",
+			"phone_number": "+1 123-456-7890",
+			"order_date": "2023-09-27",
+			"check_in": "2023-10-05",
+			"check_out": "2023-10-10",
+			"special_request": "Please provide an extra set of bath towels and a fruit basket.",
+			"room_type": "Double Bed",
+			"room_number": "205",
+			"status": "confirmed",
+			"photos": [
+				"https://example.com/room_photos/double_bed_1_medium.jpg",
+				"https://example.com/room_photos/double_bed_2_medium.jpg",
+				"https://example.com/room_photos/double_bed_3_medium.jpg"
+			]
+		},
+		{
+			"id": "2232ADWDW",
+			"guest": "Alice Johnson",
+			"phone_number": "+1 234-567-8901",
+			"order_date": "2023-09-28",
+			"check_in": "2023-10-06",
+			"check_out": "2023-10-11",
+			"special_request": "I'd love a room with a balcony overlooking the garden.",
+			"room_type": "Single Bed",
+			"room_number": "102",
+			"status": "confirmed",
+			"photos": [
+				"https://example.com/room_photos/single_bed_1_medium.jpg",
+				"https://example.com/room_photos/single_bed_2_medium.jpg",
+				"https://example.com/room_photos/single_bed_3_medium.jpg"
+			]
+		},
+		{
+			"id": "232CVFGR3",
+			"guest": "David Lee",
+			"phone_number": "+1 345-678-9012",
+			"order_date": "2023-09-29",
+			"check_in": "2023-10-07",
+			"check_out": "2023-10-12",
+			"special_request": "Please provide a baby crib and baby essentials.",
+			"room_type": "Suite",
+			"room_number": "301",
+			"status": "confirmed",
+			"photos": [
+				"https://example.com/room_photos/suite_1_medium.jpg",
+				"https://example.com/room_photos/suite_2_medium.jpg",
+				"https://example.com/room_photos/suite_3_medium.jpg"
+			]
+		},
+		{
+			"id": "FEEF2344",
+			"guest": "Emily Wilson",
+			"phone_number": "+1 456-789-0123",
+			"order_date": "2023-09-30",
+			"check_in": "2023-10-08",
+			"check_out": "2023-10-13",
+			"special_request": "I'd like to have vegan breakfast options available.",
+			"room_type": "Double Superior",
+			"room_number": "121",
+			"status": "confirmed",
+			"photos": [
+				"https://example.com/room_photos/double_superior_1_medium.jpg",
+				"https://example.com/room_photos/double_superior_2_medium.jpg",
+				"https://example.com/room_photos/double_superior_3_medium.jpg"
+			]
+		},
+		{
+			"id": "5DWDW1232",
+			"guest": "Michael Davis",
+			"phone_number": "+1 567-890-1234",
+			"order_date": "2023-10-01",
+			"check_in": "2023-10-09",
+			"check_out": "2023-10-14",
+			"special_request": "Please arrange a shuttle service from the airport upon arrival.",
+			"room_type": "Single Bed",
+			"room_number": "208",
+			"status": "confirmed",
+			"photos": [
+				"https://example.com/room_photos/single_bed_1_medium.jpg",
+				"https://example.com/room_photos/single_bed_2_medium.jpg",
+				"https://example.com/room_photos/single_bed_3_medium.jpg"
+			]
+		},
+		{
+			"id": "623FEFE",
+			"guest": "Sophia Martinez",
+			"phone_number": "+1 678-901-2345",
+			"order_date": "2023-10-02",
+			"check_in": "2023-10-10",
+			"check_out": "2023-10-15",
+			"special_request": "I'd appreciate a bottle of champagne and fresh flowers in the room upon arrival.",
+			"room_type": "Suite",
+			"room_number": "405",
+			"status": "confirmed",
+			"photos": [
+				"https://example.com/room_photos/suite_1_medium.jpg",
+				"https://example.com/room_photos/suite_2_medium.jpg",
+				"https://example.com/room_photos/suite_3_medium.jpg"
+			]
+		},
+		{
+			"id": "FEFE72",
+			"guest": "William Brown",
+			"phone_number": "+1 789-012-3456",
+			"order_date": "2023-10-03",
+			"check_in": "2023-10-11",
+			"check_out": "2023-10-16",
+			"special_request": "I prefer a non-smoking room with a view of the city skyline.",
+			"room_type": "Double Bed",
+			"room_number": "1503",
+			"status": "confirmed",
+			"photos": [
+				"https://example.com/room_photos/double_bed_1_medium.jpg",
+				"https://example.com/room_photos/double_bed_2_medium.jpg",
+				"https://example.com/room_photos/double_bed_3_medium.jpg"
+			]
+		},
+		{
+			"id": "8FEFEFE3GVC",
+			"guest": "Olivia Taylor",
+			"phone_number": "+1 890-123-4567",
+			"order_date": "2023-10-04",
+			"check_in": "2023-10-12",
+			"check_out": "2023-10-17",
+			"special_request": "I'd like a late check-out at 2 PM on my departure date.",
+			"room_type": "Double Superior",
+			"room_number": "507",
+			"status": "confirmed",
+			"photos": [
+				"https://example.com/room_photos/double_superior_1_medium.jpg",
+				"https://example.com/room_photos/double_superior_2_medium.jpg",
+				"https://example.com/room_photos/double_superior_3_medium.jpg"
+			]
+		},
+		{
+			"id": "232ZCECE9",
+			"guest": "James Anderson",
+			"phone_number": "+1 901-234-5678",
+			"order_date": "2023-10-05",
+			"check_in": "2023-10-13",
+			"check_out": "2023-10-18",
+			"special_request": "Please provide a wake-up call at 7 AM and a daily newspaper.",
+			"room_type": "Suite",
+			"room_number": "809",
+			"status": "confirmed",
+			"photos": [
+				"https://example.com/room_photos/suite_1_medium.jpg",
+				"https://example.com/room_photos/suite_2_medium.jpg",
+				"https://example.com/room_photos/suite_3_medium.jpg"
+			]
+		}
+	]
+}

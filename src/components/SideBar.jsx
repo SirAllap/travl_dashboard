@@ -11,7 +11,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 const Container = styled.aside`
 	min-width: 345px;
-	height: 100%;
+	height: 100vh;
 	background-color: #ffffff;
 	float: left;
 	margin-left: ${(props) => (props.toggle === 'close' ? '-345px' : 0)};
@@ -33,7 +33,7 @@ const LogoImage = styled.img`
 
 const IconSection = styled.section`
 	width: 100%;
-	min-height: 395px;
+	max-height: 375px;
 `
 
 const VerticalDivider = styled.div`
@@ -49,7 +49,7 @@ const VerticalDivider = styled.div`
 
 const MenuItems = styled(NavLink)`
 	height: 67px;
-	margin: 0 0 15px 63px;
+	margin: 0 0 0 63px;
 	display: flex;
 	align-items: center;
 	text-align: center;
@@ -90,7 +90,7 @@ const UserCardInfo = styled.div`
 	box-shadow: 0px 20px 30px #00000014;
 	margin: 0 auto;
 	text-align: center;
-	margin-top: 41px;
+	margin-top: 31px;
 `
 
 const UserCardProfilePictureVoid = styled.img`
@@ -109,13 +109,13 @@ const UserCardText = styled.p`
           font: normal normal 500 16px Poppins;
           color: #393939;
           margin: 15px 0 9px 0;
-          }
+		}
         `
 			default:
 				return css`
           font: normal normal 300 12px Poppins;
           color: #B2B2B2;
-          }
+		}
         `
 		}
 	}}
@@ -141,7 +141,7 @@ const UserCardButton = styled.button`
 const SideBarFooter = styled.div`
 	width: 242px;
 	height: 135px;
-	margin: 62px auto 62px auto;
+	margin: 42px auto 0px auto;
 `
 
 const SideBarFooterText = styled.p`
@@ -158,7 +158,7 @@ const SideBarFooterText = styled.p`
 				return css`
           font: normal normal 300 14px Poppins;
           color: #799283;
-          margin: 0 0 67px 0;
+          margin: 0 0 27px 0;
           }
         `
 			default:
@@ -278,20 +278,6 @@ const Input = styled(InputFile)`
 	padding: 20px;
 	margin-top: 16px;
 `
-
-// const PhotoModal = styled(EditUserModal)`
-// 	z-index: 100;
-// 	position: absolute;
-// 	top: 50%;
-// 	left: 50%;
-// 	transform: translate(-50%, -50%);
-// 	width: 50px;
-// 	min-height: 350px;
-// 	background: #ffffff 0% 0% no-repeat padding-box;
-// 	border-radius: 20px;
-// 	transition: all 0.5s;
-// 	display: ${(props) => (props.open ? 'block' : 'none')};
-// `
 
 const EditUserInputLable = styled.label`
 	position: absolute;
