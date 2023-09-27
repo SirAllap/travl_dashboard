@@ -68,7 +68,7 @@ const DashboardTitle = styled.p`
 `
 
 const ProfilePictureVoid = styled.img`
-	background-color: #c5c5c5;
+	background: ${(props) => (props.src ? 'transparent' : '#79928382')};
 	width: 60px;
 	height: 60px;
 	border-radius: 8px;

@@ -222,7 +222,7 @@ const CustomerReviewCardUserPhoto = styled.img`
 	margin: 18px;
 	height: 56px;
 	width: 56px;
-	background: #79928382 padding-box;
+	background: ${(props) => (props.src ? 'transparent' : '#7992832e')};
 	border-radius: 8px;
 `
 

@@ -94,7 +94,7 @@ const UserCardInfo = styled.div`
 `
 
 const UserCardProfilePictureVoid = styled.img`
-	background: #79928382 padding-box;
+	background: ${(props) => (props.src ? 'transparent' : '#79928382')};
 	width: 70px;
 	height: 70px;
 	border-radius: 8px;
