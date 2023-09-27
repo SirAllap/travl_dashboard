@@ -11,7 +11,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 const Container = styled.aside`
 	min-width: 345px;
-	height: 100vh;
+	height: 938px;
 	background-color: #ffffff;
 	float: left;
 	margin-left: ${(props) => (props.toggle === 'close' ? '-345px' : 0)};

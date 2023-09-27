@@ -21,14 +21,14 @@ import 'swiper/css/scrollbar'
 
 const MainContainer = styled.main`
 	text-align: center;
-	max-height: 100vw;
-	min-width: 1474px;
+	max-height: 730px;
+	min-width: 1494px;
 	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
 	margin-top: 50px;
 	margin-right: 30px;
 `
 const ContainerCardKPI = styled.div`
-	min-width: 1474px;
+	min-width: 100%;
 	max-height: 135px;
 	flex-shrink: 0;
 	white-space: nowrap;
@@ -38,10 +38,10 @@ const KPICardInfo = styled.div`
 	display: inline-block;
 	min-width: 340px;
 	min-height: 125px;
+	margin-right: 38px;
 	background-color: #fff;
 	border-radius: 12px;
 	box-shadow: 0px 4px 4px #00000005;
-	margin-right: 38px;
 	transition: 0.3s;
 	&:hover .icon-square {
 		background-color: #e23428;
@@ -111,21 +111,21 @@ const CustomerReviewContainer = styled.div`
 	margin-top: 40px;
 	text-align: center;
 	max-height: 433px;
-	max-width: 1474px;
+	min-width: 1494px;
 `
 
 const CustomerReviewCard = styled.div`
 	border: 1px solid red;
 	position: relative;
-	display: inline-block;
 	width: 431px;
 	min-height: 275px;
 	background-color: #fff;
 	border: 1px solid #ebebeb;
 	border-radius: 20px;
-	margin-top: 88px;
+	margin: 88px 40px 20px 20px;
+	/* margin-top: 88px;
 	margin-bottom: 20px;
-	margin-right: 40px;
+	margin-right: 40px; */
 	transition: 0.3s;
 	vertical-align: top;
 	&:last-child {
