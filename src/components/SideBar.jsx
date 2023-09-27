@@ -329,17 +329,12 @@ const SideBar = (props) => {
 		setFile2Upload(newPictureUrl)
 		handleProfilePictureChange(newPictureUrl)
 	}
-	const updateUser = {
-		userName: '',
-		email: '',
-	}
-	localStorage.setItem('currentUser', JSON.stringify(updateUser))
 
 	const currentUser = JSON.parse(localStorage.getItem('currentUser'))
 	useEffect(() => {
 		currentUser.userName !== null && setUserName1(currentUser.userName)
 		currentUser.email !== null && setUserEmail1(currentUser.email)
-	}, [])
+	}, [currentUser.userName, currentUser.email])
 
 	const handleUpdateUserName = (event) => {
 		setUpdatedUserName(event.target.value)
