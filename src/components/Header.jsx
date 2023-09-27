@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 import { HiArrowsRightLeft } from 'react-icons/hi2'
 import { BiSearch } from 'react-icons/bi'
 import { AiOutlineHeart } from 'react-icons/ai'
@@ -7,7 +8,6 @@ import { LuMail } from 'react-icons/lu'
 import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
-import { useNavigate } from 'react-router-dom'
 
 const HeaderBar = styled.nav`
 	height: 120px;
@@ -61,6 +61,10 @@ const InputSearch = styled.input`
 	height: 57px;
 	border: none;
 	border-radius: 12px;
+	outline: none;
+	&:focus {
+		outline: 2px solid green;
+	}
 `
 
 const DashboardTitle = styled.p`
