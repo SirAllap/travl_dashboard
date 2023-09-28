@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { HiArrowsRightLeft } from 'react-icons/hi2'
 import { BiSearch } from 'react-icons/bi'
 import { AiOutlineHeart } from 'react-icons/ai'
@@ -70,6 +70,7 @@ const InputSearch = styled.input`
 const DashboardTitle = styled.p`
 	font: normal normal 600 28px/42px Poppins;
 `
+
 const DashboardSubtitle = styled.p`
 	font: normal normal 400 14px Poppins;
 	color: #6e6e6e;
@@ -96,29 +97,53 @@ const Header = (props) => {
 	const navigate = useNavigate()
 	const [openSideBar, setOpenSideBar] = useState('close')
 	const [currentBreadCrumb, setCurrentBreadCrumb] = useState('')
+	const [curentTitle, setCurrentTitle] = useState('Dashboard')
+
 	const handleToggleOfSideBar = () => {
 		setOpenSideBar(openSideBar === 'open' ? 'close' : 'open')
 		props.setToggleSideBar(openSideBar)
 	}
+
 	const handleLogOut = () => {
 		localStorage.clear()
-		return navigate('/login')
+		navigate('/login')
 	}
+
 	useEffect(() => {
-		let idNumb = props.newBreadCrumb.split('/')
-		if (location.pathname === `/bookings/${idNumb[1]}`) {
+		const idNumb = props.newBreadCrumb.split('/')
+		if (location.pathname.startsWith('/bookings/')) {
 			setCurrentBreadCrumb(props.newBreadCrumb)
-		}
-		if (location.pathname !== `/bookings/${idNumb[1]}`) {
-			setCurrentBreadCrumb(' ')
-		}
-		if (location.pathname === `/rooms/${idNumb[1]}`) {
+		} else if (location.pathname.startsWith('/rooms/')) {
 			setCurrentBreadCrumb(props.newBreadCrumb)
+		} else {
+			setCurrentBreadCrumb('')
 		}
-		if (location.pathname !== `/rooms/${idNumb[1]}`) {
-			setCurrentBreadCrumb(' ')
+		switch (location.pathname) {
+			case '/':
+				setCurrentTitle('Dashboard')
+				break
+			case '/rooms':
+				setCurrentTitle('Rooms')
+				break
+			case '/bookings':
+				setCurrentTitle('Bookings')
+				break
+			case '/contact':
+				setCurrentTitle('Contact')
+				break
+			case '/users':
+				setCurrentTitle('Users')
+				break
+			case `/bookings/${idNumb[1]}`:
+				setCurrentTitle('Booking Details')
+				break
+			case `/rooms/${idNumb[1]}`:
+				setCurrentTitle('Room Details')
+				break
+			default:
+				break
 		}
-	}, [props.newBreadCrumb, location.pathname, props])
+	}, [props.newBreadCrumb, location.pathname])
 
 	return (
 		<>
@@ -128,7 +153,7 @@ const Header = (props) => {
 						<HiArrowsRightLeft onClick={handleToggleOfSideBar} />
 					</IconStyle>
 					<div>
-						<DashboardTitle>{props.title}</DashboardTitle>
+						<DashboardTitle>{curentTitle}</DashboardTitle>
 						<DashboardSubtitle>
 							{currentBreadCrumb}
 						</DashboardSubtitle>

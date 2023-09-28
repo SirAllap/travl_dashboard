@@ -9,6 +9,200 @@ import { SlPeople } from 'react-icons/sl'
 import { MdOutlineRateReview } from 'react-icons/md'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 
+const SideBar = (props) => {
+	const [toggleModal, setToggleModal] = useState(false)
+	// const [togglePhotoModal, setTogglePhotoModal] = useState(false)
+	const [userUpdatedName, setUpdatedUserName] = useState('')
+	const [userUpdatedEmail, setUpdatedUserEmail] = useState('')
+
+	const [userName1, setUserName1] = useState('')
+	const [userEmail1, setUserEmail1] = useState('')
+
+	const [userName, setUserName] = useState('')
+	const [userEmail, setUserEmail] = useState('')
+
+	const [profPic, setProfPic] = useState('')
+	const [file2Upload, setFile2Upload] = useState()
+
+	const handleProfilePictureChange = (newPictureUrl) => {
+		localStorage.setItem('profilePicture', newPictureUrl)
+	}
+
+	const handleChange = (e) => {
+		const newPictureUrl = URL.createObjectURL(e.target.files[0])
+		setFile2Upload(newPictureUrl)
+		handleProfilePictureChange(newPictureUrl)
+	}
+
+	const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+	let fetchCurrentUser = {}
+	if (currentUser) {
+		fetchCurrentUser = currentUser
+	}
+
+	useEffect(() => {
+		fetchCurrentUser.userName !== null &&
+			setUserName1(fetchCurrentUser.userName)
+		fetchCurrentUser.email !== null && setUserEmail1(fetchCurrentUser.email)
+	}, [currentUser])
+
+	const handleUpdateUserName = (event) => {
+		setUpdatedUserName(event.target.value)
+	}
+	const handleUpdateUserEmail = (event) => {
+		setUpdatedUserEmail(event.target.value)
+	}
+
+	useEffect(() => {
+		setProfPic('https://robohash.org/Admin.png?set=any')
+		const savedProfilePicture = localStorage.getItem('profilePicture')
+		setProfPic(
+			savedProfilePicture || 'https://robohash.org/oxygen.png?set=any'
+		)
+		props.setProfilePicture(
+			savedProfilePicture || 'https://robohash.org/oxygen.png?set=any'
+		)
+	}, [profPic, props, handleProfilePictureChange])
+
+	const handleHeaderTitle = (titleName) => {
+		props.setHeaderTitle(titleName)
+	}
+	const handleToggleModal = () => {
+		if (!toggleModal) {
+			setToggleModal(true)
+		} else {
+			setToggleModal(false)
+		}
+	}
+
+	const handleUpdateAndCloseModal = () => {
+		if (userUpdatedName === '') {
+			setUserName(currentUser.userName)
+		} else setUserName(userUpdatedName)
+		if (userUpdatedEmail === '') {
+			setUserEmail(currentUser.email)
+		} else setUserEmail(userUpdatedEmail)
+		setToggleModal(false)
+		const updateUser = {
+			userName:
+				userUpdatedName === '' ? currentUser.userName : userUpdatedName,
+			email:
+				userUpdatedEmail === '' ? currentUser.email : userUpdatedEmail,
+		}
+		localStorage.setItem('currentUser', JSON.stringify(updateUser))
+	}
+
+	return (
+		<>
+			<Container toggle={props.toggle}>
+				<EditUserModalOverlay open={toggleModal} />
+				<EditUserModal open={toggleModal}>
+					<EditUserInputLable type='name'>Name</EditUserInputLable>
+					<Input
+						type='name'
+						placeholder='name'
+						onChange={handleUpdateUserName}
+					/>
+					<EditUserInputLable type='email'>Email</EditUserInputLable>
+
+					<Input
+						type='email'
+						placeholder='email'
+						onChange={handleUpdateUserEmail}
+					/>
+
+					<UserCardProfilePictureModal
+						src={!file2Upload ? profPic : file2Upload}
+					/>
+					<InputFile
+						type='file'
+						onChange={handleChange}
+						alt='a photo of the user profile'
+					/>
+					<SaveCTA onClick={handleUpdateAndCloseModal}>Save</SaveCTA>
+					<CloseCTA onClick={handleToggleModal}>
+						<AiOutlineCloseCircle />
+					</CloseCTA>
+				</EditUserModal>
+				<LogoSection>
+					<NavLink to={'/dashboard'}>
+						<LogoImage
+							src={logo}
+							alt='a logo of the hotel dashboard'
+						/>
+					</NavLink>
+				</LogoSection>
+				<IconSection>
+					<MenuItems
+						onClick={() => handleHeaderTitle('Dashboard')}
+						to='/'
+					>
+						<VerticalDivider />
+						<LuLayoutDashboard />
+						<MenuItemText>Dashboard</MenuItemText>
+					</MenuItems>
+					<MenuItems
+						onClick={() => handleHeaderTitle('Room List')}
+						to='/rooms'
+					>
+						<VerticalDivider className='left-decoration' />
+						<SlKey />
+						<MenuItemText>Rooms</MenuItemText>
+					</MenuItems>
+					<MenuItems
+						onClick={() => handleHeaderTitle('Bookings')}
+						to='/bookings'
+					>
+						<VerticalDivider className='left-decoration' />
+						<LuCalendarCheck2 />
+						<MenuItemText>Bookings</MenuItemText>
+					</MenuItems>
+					<MenuItems
+						onClick={() => handleHeaderTitle('Contact List')}
+						to='/contact'
+					>
+						<VerticalDivider className='left-decoration' />
+						<MdOutlineRateReview />
+						<MenuItemText>Contact</MenuItemText>
+					</MenuItems>
+					<MenuItems
+						onClick={() => handleHeaderTitle('Users')}
+						to='/users'
+					>
+						<VerticalDivider className='left-decoration' />
+						<SlPeople />
+						<MenuItemText>Users</MenuItemText>
+					</MenuItems>
+				</IconSection>
+				<UserCardInfo>
+					<UserCardProfilePictureVoid src={profPic} />
+					<UserCardText type='name'>
+						{!userName ? userName1 : userName}
+					</UserCardText>
+					<UserCardText>
+						{!userEmail ? userEmail1 : userEmail}
+					</UserCardText>
+					<UserCardButton onClick={handleToggleModal}>
+						Edit user
+					</UserCardButton>
+				</UserCardInfo>
+				<SideBarFooter>
+					<SideBarFooterText type='title'>
+						Travl Hotel Admin Dashboard
+					</SideBarFooterText>
+					<SideBarFooterText type='copyright'>
+						© 2020 All Rights Reserved
+					</SideBarFooterText>
+					<SideBarFooterText>Made with ♥ by DPR</SideBarFooterText>
+				</SideBarFooter>
+				<NavLink to='/contact'></NavLink>
+			</Container>
+		</>
+	)
+}
+
+export default SideBar
+
 const Container = styled.aside`
 	min-width: 345px;
 	//todo /* min-height: 938px; */
@@ -299,197 +493,3 @@ const EditUserInputLable = styled.label`
 	color: #135846;
 	margin-left: 40px;
 `
-
-const SideBar = (props) => {
-	const [toggleModal, setToggleModal] = useState(false)
-	// const [togglePhotoModal, setTogglePhotoModal] = useState(false)
-	const [userUpdatedName, setUpdatedUserName] = useState('')
-	const [userUpdatedEmail, setUpdatedUserEmail] = useState('')
-
-	const [userName1, setUserName1] = useState('')
-	const [userEmail1, setUserEmail1] = useState('')
-
-	const [userName, setUserName] = useState('')
-	const [userEmail, setUserEmail] = useState('')
-
-	const [profPic, setProfPic] = useState('')
-	const [file2Upload, setFile2Upload] = useState()
-
-	const handleProfilePictureChange = (newPictureUrl) => {
-		localStorage.setItem('profilePicture', newPictureUrl)
-	}
-
-	const handleChange = (e) => {
-		const newPictureUrl = URL.createObjectURL(e.target.files[0])
-		setFile2Upload(newPictureUrl)
-		handleProfilePictureChange(newPictureUrl)
-	}
-
-	const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-	let fetchCurrentUser = {}
-	if (currentUser) {
-		fetchCurrentUser = currentUser
-	}
-
-	useEffect(() => {
-		fetchCurrentUser.userName !== null &&
-			setUserName1(fetchCurrentUser.userName)
-		fetchCurrentUser.email !== null && setUserEmail1(fetchCurrentUser.email)
-	}, [currentUser])
-
-	const handleUpdateUserName = (event) => {
-		setUpdatedUserName(event.target.value)
-	}
-	const handleUpdateUserEmail = (event) => {
-		setUpdatedUserEmail(event.target.value)
-	}
-
-	useEffect(() => {
-		setProfPic('https://robohash.org/Admin.png?set=any')
-		const savedProfilePicture = localStorage.getItem('profilePicture')
-		setProfPic(
-			savedProfilePicture || 'https://robohash.org/oxygen.png?set=any'
-		)
-		props.setProfilePicture(
-			savedProfilePicture || 'https://robohash.org/oxygen.png?set=any'
-		)
-	}, [profPic, props, handleProfilePictureChange])
-
-	const handleHeaderTitle = (titleName) => {
-		props.setHeaderTitle(titleName)
-	}
-	const handleToggleModal = () => {
-		if (!toggleModal) {
-			setToggleModal(true)
-		} else {
-			setToggleModal(false)
-		}
-	}
-
-	const handleUpdateAndCloseModal = () => {
-		if (userUpdatedName === '') {
-			setUserName(currentUser.userName)
-		} else setUserName(userUpdatedName)
-		if (userUpdatedEmail === '') {
-			setUserEmail(currentUser.email)
-		} else setUserEmail(userUpdatedEmail)
-		setToggleModal(false)
-		const updateUser = {
-			userName:
-				userUpdatedName === '' ? currentUser.userName : userUpdatedName,
-			email:
-				userUpdatedEmail === '' ? currentUser.email : userUpdatedEmail,
-		}
-		localStorage.setItem('currentUser', JSON.stringify(updateUser))
-	}
-
-	return (
-		<>
-			<Container toggle={props.toggle}>
-				<EditUserModalOverlay open={toggleModal} />
-				<EditUserModal open={toggleModal}>
-					<EditUserInputLable type='name'>Name</EditUserInputLable>
-					<Input
-						type='name'
-						placeholder='name'
-						onChange={handleUpdateUserName}
-					/>
-					<EditUserInputLable type='email'>Email</EditUserInputLable>
-
-					<Input
-						type='email'
-						placeholder='email'
-						onChange={handleUpdateUserEmail}
-					/>
-
-					<UserCardProfilePictureModal
-						src={!file2Upload ? profPic : file2Upload}
-					/>
-					<InputFile
-						type='file'
-						onChange={handleChange}
-						alt='a photo of the user profile'
-					/>
-					<SaveCTA onClick={handleUpdateAndCloseModal}>Save</SaveCTA>
-					<CloseCTA onClick={handleToggleModal}>
-						<AiOutlineCloseCircle />
-					</CloseCTA>
-				</EditUserModal>
-				<LogoSection>
-					<NavLink to={'/dashboard'}>
-						<LogoImage
-							src={logo}
-							alt='a logo of the hotel dashboard'
-						/>
-					</NavLink>
-				</LogoSection>
-				<IconSection>
-					<MenuItems
-						onClick={() => handleHeaderTitle('Dashboard')}
-						to='/'
-					>
-						<VerticalDivider />
-						<LuLayoutDashboard />
-						<MenuItemText>Dashboard</MenuItemText>
-					</MenuItems>
-					<MenuItems
-						onClick={() => handleHeaderTitle('Room List')}
-						to='/rooms'
-					>
-						<VerticalDivider className='left-decoration' />
-						<SlKey />
-						<MenuItemText>Rooms</MenuItemText>
-					</MenuItems>
-					<MenuItems
-						onClick={() => handleHeaderTitle('Bookings')}
-						to='/bookings'
-					>
-						<VerticalDivider className='left-decoration' />
-						<LuCalendarCheck2 />
-						<MenuItemText>Bookings</MenuItemText>
-					</MenuItems>
-					<MenuItems
-						onClick={() => handleHeaderTitle('Contact List')}
-						to='/contact'
-					>
-						<VerticalDivider className='left-decoration' />
-						<MdOutlineRateReview />
-						<MenuItemText>Contact</MenuItemText>
-					</MenuItems>
-					<MenuItems
-						onClick={() => handleHeaderTitle('Users')}
-						to='/users'
-					>
-						<VerticalDivider className='left-decoration' />
-						<SlPeople />
-						<MenuItemText>Users</MenuItemText>
-					</MenuItems>
-				</IconSection>
-				<UserCardInfo>
-					<UserCardProfilePictureVoid src={profPic} />
-					<UserCardText type='name'>
-						{!userName ? userName1 : userName}
-					</UserCardText>
-					<UserCardText>
-						{!userEmail ? userEmail1 : userEmail}
-					</UserCardText>
-					<UserCardButton onClick={handleToggleModal}>
-						Edit user
-					</UserCardButton>
-				</UserCardInfo>
-				<SideBarFooter>
-					<SideBarFooterText type='title'>
-						Travl Hotel Admin Dashboard
-					</SideBarFooterText>
-					<SideBarFooterText type='copyright'>
-						© 2020 All Rights Reserved
-					</SideBarFooterText>
-					<SideBarFooterText>Made with ♥ by DPR</SideBarFooterText>
-				</SideBarFooter>
-				<NavLink to='/contact'></NavLink>
-			</Container>
-		</>
-	)
-}
-
-export default SideBar

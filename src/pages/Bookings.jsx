@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
 import bookings from '../data/bookings.json'
-import { NavLink, useParams } from 'react-router-dom'
 
 const MainContainer = styled.main`
 	text-align: center;
@@ -16,7 +15,7 @@ const MainContainer = styled.main`
 
 const TopTableContainer = styled.div`
 	min-width: 100%;
-	max-height: 730px;
+	max-height: 50px;
 `
 
 const TableTabsContainer = styled.div`
@@ -38,13 +37,16 @@ const Tabs = styled.div`
 	border-bottom: 1px solid #d4d4d4;
 	width: 100%;
 	height: 50px;
-	p {
+	button {
 		font: 500 16px Poppins;
+		background-color: transparent;
 		color: #6e6e6e;
 		display: inline-block;
 		padding: 0 30px 24px 30px;
 		border-radius: 0 0 3px 3px;
+		border: 0;
 		border-bottom: 3px solid transparent;
+		cursor: pointer;
 		&:hover {
 			border-bottom: 3px solid green;
 			color: #135846;
@@ -148,7 +150,7 @@ const SpecialRequest = styled.button`
 `
 const CustomerPhoto = styled.img`
 	float: left;
-	margin: 18px 18px 18px 0;
+	margin: 18px 10px 18px 18px;
 	height: 40px;
 	width: 40px;
 	background: ${(props) => (props.src ? 'transparent' : '#7992832e')};
@@ -156,7 +158,10 @@ const CustomerPhoto = styled.img`
 `
 
 const Bookings = (props) => {
-	const whoAmI = 'bookings'
+	const whoAmI = {
+		name: 'bookings',
+		redirect: true,
+	}
 	const cols = [
 		{
 			property: 'guest',
@@ -214,11 +219,41 @@ const Bookings = (props) => {
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
-							<p>All Bookings</p>
-							<p>Check In</p>
-							<p>Check Out</p>
-							<p>In Progress</p>
-							<p>Empty</p>
+							<button
+								onClick={() => {
+									console.log('all bookings')
+								}}
+							>
+								All Bookings
+							</button>
+							<button
+								onClick={() => {
+									console.log('check in')
+								}}
+							>
+								Check In
+							</button>
+							<button
+								onClick={() => {
+									console.log('check out')
+								}}
+							>
+								Check Out
+							</button>
+							<button
+								onClick={() => {
+									console.log('in progress')
+								}}
+							>
+								In Progress
+							</button>
+							<button
+								onClick={() => {
+									console.log('empty')
+								}}
+							>
+								Empty
+							</button>
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>

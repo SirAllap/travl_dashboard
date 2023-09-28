@@ -1,8 +1,102 @@
 import React from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
-import { BiSearch } from 'react-icons/bi'
 import rooms from '../data/rooms.json'
+import { BiSearch } from 'react-icons/bi'
+
+const Rooms = (props) => {
+	const whoAmI = {
+		name: 'rooms',
+		redirect: true,
+	}
+	const cols = [
+		{
+			property: 'id',
+			label: 'Room Name',
+			display: ({ id, room_photo }) => (
+				<>
+					<RoomPhoto src={room_photo} />
+					<TextFormatter small='small'>#{id}</TextFormatter>
+				</>
+			),
+		},
+		{
+			property: 'room_type',
+			label: 'Room Type',
+			display: ({ room_type }) => (
+				<>
+					<TextFormatter small='bold'>{room_type}</TextFormatter>
+				</>
+			),
+		},
+		{
+			property: 'amenities',
+			label: 'Amenities',
+			display: ({ amenities }) =>
+				amenities.map((e, i) => (
+					<AmenitiesTag key={i}>{e.name}</AmenitiesTag>
+				)),
+		},
+		{
+			property: 'price',
+			label: 'Price',
+			display: ({ price }) => (
+				<>
+					<TextFormatter small='price'>${price}</TextFormatter>
+					<span>/night</span>
+				</>
+			),
+		},
+		{
+			property: 'offer_price',
+			label: 'Offer Price',
+			display: ({ offer_price }) => (
+				<>
+					<TextFormatter small='offer'>
+						{offer_price
+							? 'There is a discount available to apply to the existing price.'
+							: 'There is NO discount to be applied to the current price.'}
+					</TextFormatter>
+				</>
+			),
+		},
+
+		{
+			property: 'status',
+			label: 'Status',
+			display: ({ status }) => <Status status={status}>{status}</Status>,
+		},
+	]
+	return (
+		<>
+			<MainContainer toggle={props.toggle}>
+				<TopTableContainer>
+					<TableTabsContainer>
+						<Tabs>
+							<p>All Bookings</p>
+							<p>Check In</p>
+							<p>Check Out</p>
+						</Tabs>
+					</TableTabsContainer>
+					<TableSearchAndFilterContainer>
+						<InputSearch />
+						<Icons search='search'>
+							<BiSearch />
+						</Icons>
+						<FilterSelector name='bookingFilter' id='bookingFilter'>
+							<option value='volvo'>State</option>
+							<option value='volvo'>By Price Down</option>
+							<option value='volvo'>By Price Up</option>
+						</FilterSelector>
+					</TableSearchAndFilterContainer>
+				</TopTableContainer>
+				<Table cols={cols} datas={rooms} whoAmI={whoAmI} />
+			</MainContainer>
+		</>
+	)
+}
+
+export default Rooms
 
 const MainContainer = styled.main`
 	text-align: center;
@@ -102,12 +196,13 @@ const FilterSelector = styled.select`
 `
 
 const TextFormatter = styled.span`
-	display: block;
+	display: ${(props) => (props.small === 'price' ? 'inline' : 'block')};
 	text-align: left;
 	color: ${(props) => (props.small === 'small' ? '#799283' : '#393939')};
 	font: ${(props) =>
-		props.small === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
+		props.small === 'small' ? '300 13px Poppins' : '500 19px Poppins'};
 	text-align: center;
+	padding: ${(props) => props.small === 'offer' && '20px'};
 `
 
 const Status = styled.button`
@@ -127,89 +222,25 @@ const Status = styled.button`
 	}
 `
 
-const SpecialRequest = styled.button`
-	font: 400 16px Poppins;
-	width: 160px;
-	height: 48px;
+const AmenitiesTag = styled.button`
+	font: 400 12px Poppins;
+	padding: 10px;
 	border: none;
-	border-radius: 8px;
-	color: ${(props) => (props.specialrequest >= 1 ? '#799283' : '#212121')};
-	background-color: ${(props) =>
-		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
-	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
+	border-radius: 6px;
+	color: #135846;
+	background-color: #eef9f2;
+	margin: 5px;
+	svg {
+		font-size: 20px;
+		display: block;
+		margin: 0 auto;
+	}
 `
 
 const RoomPhoto = styled.img`
 	width: 220px;
-	height: 87px;
+	height: 127px;
 	background: ${(props) => (props.src ? 'transparent' : '#7992832e')};
 	border-radius: 8px;
 	object-fit: cover;
 `
-
-const Rooms = (props) => {
-	const whoAmI = 'rooms'
-	const cols = [
-		{
-			property: 'id',
-			label: 'Room Name',
-			display: ({ id, room_photo }) => (
-				<>
-					<RoomPhoto src={room_photo} />
-					<TextFormatter small='small'>#{id}</TextFormatter>
-				</>
-			),
-		},
-		{
-			property: 'room_type',
-			label: 'Room Type',
-		},
-		{
-			property: 'amenities',
-			label: 'Amenities',
-		},
-		{
-			property: 'price',
-			label: 'Price',
-		},
-		{
-			property: 'offer_price',
-			label: 'Offer Price',
-		},
-
-		{
-			property: 'status',
-			label: 'Status',
-			display: ({ status }) => <Status status={status}>{status}</Status>,
-		},
-	]
-	return (
-		<>
-			<MainContainer toggle={props.toggle}>
-				<TopTableContainer>
-					<TableTabsContainer>
-						<Tabs>
-							<p>All Bookings</p>
-							<p>Check In</p>
-							<p>Check Out</p>
-						</Tabs>
-					</TableTabsContainer>
-					<TableSearchAndFilterContainer>
-						<InputSearch />
-						<Icons search='search'>
-							<BiSearch />
-						</Icons>
-						<FilterSelector name='bookingFilter' id='bookingFilter'>
-							<option value='volvo'>State</option>
-							<option value='volvo'>By Price Down</option>
-							<option value='volvo'>By Price Up</option>
-						</FilterSelector>
-					</TableSearchAndFilterContainer>
-				</TopTableContainer>
-				<Table cols={cols} datas={rooms} whoAmI={whoAmI} />
-			</MainContainer>
-		</>
-	)
-}
-
-export default Rooms

@@ -2,6 +2,63 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
+const Table = (props) => {
+	const displayRow = (row) => (
+		<React.Fragment key={row.id}>
+			{props.whoAmI.redirect ? (
+				<NavLink
+					style={{ textDecoration: 'none' }}
+					to={`/${props.whoAmI.name}/${row.id}`}
+				>
+					<TableSingleRowContainer whoami={props.whoAmI.name}>
+						{props.cols.map((col, i) => (
+							<React.Fragment key={i}>
+								<p>
+									{typeof col.display === 'function'
+										? col.display(row)
+										: row[col.property]}
+								</p>
+								<VerticalDivider />
+							</React.Fragment>
+						))}
+					</TableSingleRowContainer>
+				</NavLink>
+			) : (
+				<TableSingleRowContainer whoami={props.whoAmI.name}>
+					{props.cols.map((col, i) => (
+						<React.Fragment key={i}>
+							<p>
+								{typeof col.display === 'function'
+									? col.display(row)
+									: row[col.property]}
+							</p>
+							<VerticalDivider />
+						</React.Fragment>
+					))}
+				</TableSingleRowContainer>
+			)}
+		</React.Fragment>
+	)
+	return (
+		<>
+			<TableData>
+				<TableHeadContainer>
+					<TableHeadLable>
+						{props.cols.map((colLable) => (
+							<p key={colLable.property}>{colLable.label}</p>
+						))}
+					</TableHeadLable>
+				</TableHeadContainer>
+				<TableAllRowsContainer>
+					{props.datas.map(displayRow)}
+				</TableAllRowsContainer>
+			</TableData>
+		</>
+	)
+}
+
+export default Table
+
 const TableData = styled.div`
 	background-color: #fff;
 	min-width: 1494px;
@@ -13,7 +70,6 @@ const TableHeadContainer = styled.div`
 	min-width: 100%;
 	height: 65px;
 	border-radius: 20px 20px 0 0;
-	/* background-color: papayawhip; */
 `
 
 const TableHeadLable = styled.div`
@@ -24,11 +80,11 @@ const TableHeadLable = styled.div`
 	height: 65px;
 	border-bottom: 2px solid #f5f5f5;
 	p {
-		width: calc(1494px / 6);
+		width: calc(1494px / 5);
 		font: 600 18px Poppins;
 		color: #393939;
-		&:first-child {
-			margin-left: 20px;
+		&:last-child {
+			margin-right: 10px;
 		}
 	}
 `
@@ -53,13 +109,9 @@ const TableAllRowsContainer = styled.div`
 		background-color: rgba(235, 241, 239, 0.612);
 	}
 	p {
-		/* border: 1px solid red; */
-		width: calc(1494px / 6);
+		width: calc(1494px / 5);
 		color: #393939;
 		font: 300 16px Poppins;
-		&:first-child {
-			margin-left: 20px;
-		}
 	}
 `
 
@@ -70,10 +122,19 @@ const TableSingleRowContainer = styled.div`
 	align-items: center;
 	width: 100%;
 	margin: 0;
-	height: 121px;
+	height: ${(props) =>
+		props.whoami === 'rooms'
+			? '250px'
+			: props.whoami === 'contact'
+			? 'fit-content'
+			: '121px'};
 	transition: 0.3s all;
-	&:hover  {
+	&:hover {
 		box-shadow: 0px 4px 30px #0000001a;
+	}
+	:nth-child(7) {
+		padding: 20px 0 20px 0;
+		text-align: justify;
 	}
 `
 
@@ -84,44 +145,3 @@ const VerticalDivider = styled.div`
 		display: none;
 	}
 `
-
-const Table = (props) => {
-	const displayRow = (row) => (
-		<NavLink
-			key={row.id}
-			style={{ textDecoration: 'none' }}
-			to={`/${props.whoAmI}/${row.id}`}
-		>
-			<TableSingleRowContainer>
-				{props.cols.map((col, i) => (
-					<React.Fragment key={i}>
-						<p>
-							{typeof col.display === 'function'
-								? col.display(row)
-								: row[col.property]}
-						</p>
-						<VerticalDivider />
-					</React.Fragment>
-				))}
-			</TableSingleRowContainer>
-		</NavLink>
-	)
-	return (
-		<>
-			<TableData>
-				<TableHeadContainer>
-					<TableHeadLable>
-						{props.cols.map((colLable) => (
-							<p key={colLable.property}>{colLable.label}</p>
-						))}
-					</TableHeadLable>
-				</TableHeadContainer>
-				<TableAllRowsContainer>
-					{props.datas.map(displayRow)}
-				</TableAllRowsContainer>
-			</TableData>
-		</>
-	)
-}
-
-export default Table
