@@ -30,29 +30,29 @@ const CTA = styled.button`
 		background-color: #e23428;
 	}
 `
-const BookingsDetails = (props) => {
+const RoomDetails = (props) => {
 	const location = useLocation()
-	const { bookingId } = useParams()
+	const { roomId } = useParams()
 	const [savedLastId, setSavedLastId] = useState('')
 	useEffect(() => {
 		if (
-			savedLastId !== bookingId &&
-			location.pathname === `/bookings/${bookingId}`
+			savedLastId !== roomId &&
+			location.pathname === `/rooms/${roomId}`
 		) {
-			props.setbreadcrumb(`Bookings/${bookingId}`)
-			setSavedLastId(bookingId)
+			props.setbreadcrumb(`Rooms/${roomId}`)
+			setSavedLastId(roomId)
 		}
-	}, [savedLastId, bookingId, location.pathname, props])
+	}, [savedLastId, roomId, location.pathname, props])
 
 	const navigate = useNavigate()
 	return (
 		<>
 			<MainContainer toggle={props.toggle}>
-				<CTA onClick={() => navigate('/bookings')}>Back</CTA>
-				<h1>BookingDetails</h1>
+				<CTA onClick={() => navigate('/rooms')}>Back</CTA>
+				<h1>RoomDetails</h1>
 			</MainContainer>
 		</>
 	)
 }
 
-export default BookingsDetails
+export default RoomDetails

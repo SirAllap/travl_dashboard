@@ -4,6 +4,7 @@ import Dashboard from '../pages/Dashboard'
 import Bookings from '../pages/Bookings'
 import BookingDetails from '../pages/BookingDetails'
 import Rooms from '../pages/Rooms'
+import RoomDetails from '../pages/RoomDetails'
 import Users from '../pages/Users'
 import PrivateRoute from '../pages/PrivateRoute'
 import Login from '../pages/Login'
@@ -67,6 +68,17 @@ const Router = (props) => {
 					element={
 						<PrivateRoute authenticated={localAuth}>
 							<Rooms toggle={props.toggle} />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path='/rooms/:roomId'
+					element={
+						<PrivateRoute authenticated={localAuth}>
+							<RoomDetails
+								setbreadcrumb={setBreadCrumb}
+								toggle={props.toggle}
+							/>
 						</PrivateRoute>
 					}
 				/>

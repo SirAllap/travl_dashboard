@@ -40,7 +40,7 @@ const IconSection = styled.section`
 const VerticalDivider = styled.div`
 	visibility: hidden;
 	width: 8px;
-	height: 67px;
+	height: 64px;
 	background-color: #e23428;
 	border-radius: 0 6px 6px 0;
 	position: relative;
@@ -53,13 +53,18 @@ const MenuItems = styled(NavLink)`
 	margin: 0 0 0 63px;
 	display: flex;
 	align-items: center;
-	text-align: center;
+	text-align: right;
 	font-size: 25px;
 	color: #799283;
 	transition: 0.3s;
 	cursor: pointer;
 	&:hover {
-		color: #e23428;
+		color: #e2342891;
+		${VerticalDivider} {
+			transition: 0.2s;
+			background-color: #e2342891;
+			width: 19px;
+		}
 	}
 	&:hover :nth-child(1) {
 		visibility: visible;
@@ -74,6 +79,9 @@ const MenuItems = styled(NavLink)`
 		color: #e23428;
 		:nth-child(1) {
 			visibility: visible;
+		}
+		&:hover {
+			color: #e2342891;
 		}
 	}
 `
@@ -408,7 +416,12 @@ const SideBar = (props) => {
 					</CloseCTA>
 				</EditUserModal>
 				<LogoSection>
-					<LogoImage src={logo} alt='a logo of the hotel dashboard' />
+					<NavLink to={'/dashboard'}>
+						<LogoImage
+							src={logo}
+							alt='a logo of the hotel dashboard'
+						/>
+					</NavLink>
 				</LogoSection>
 				<IconSection>
 					<MenuItems

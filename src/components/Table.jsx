@@ -90,7 +90,7 @@ const Table = (props) => {
 		<NavLink
 			key={row.id}
 			style={{ textDecoration: 'none' }}
-			to={`/bookings/${row.id}`}
+			to={`/${props.whoAmI}/${row.id}`}
 		>
 			<TableSingleRowContainer>
 				{props.cols.map((col, i) => (

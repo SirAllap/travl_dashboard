@@ -112,6 +112,12 @@ const Header = (props) => {
 		if (location.pathname !== `/bookings/${idNumb[1]}`) {
 			setCurrentBreadCrumb(' ')
 		}
+		if (location.pathname === `/rooms/${idNumb[1]}`) {
+			setCurrentBreadCrumb(props.newBreadCrumb)
+		}
+		if (location.pathname !== `/rooms/${idNumb[1]}`) {
+			setCurrentBreadCrumb(' ')
+		}
 	}, [props.newBreadCrumb, location.pathname, props])
 
 	return (

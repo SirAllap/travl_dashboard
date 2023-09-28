@@ -107,6 +107,7 @@ const TextFormatter = styled.span`
 	color: ${(props) => (props.small === 'small' ? '#799283' : '#393939')};
 	font: ${(props) =>
 		props.small === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
+	text-align: center;
 `
 
 const Status = styled.button`
@@ -115,22 +116,13 @@ const Status = styled.button`
 	height: 48px;
 	border: none;
 	border-radius: 8px;
-	color: ${(props) =>
-		props.status === 'CheckIn'
-			? '#5AD07A'
-			: props.status === 'CheckOut'
-			? '#E23428'
-			: props.status === 'In Progress'
-			? '#fff'
-			: 'transparent'};
+	color: #fff;
 	background-color: ${(props) =>
-		props.status === 'CheckIn'
-			? '#E8FFEE'
-			: props.status === 'CheckOut'
-			? '#FFEDEC'
-			: props.status === 'In Progress'
-			? '#FF9C3A'
-			: 'transparent'};
+		props.status === 'Available'
+			? '#5AD07A'
+			: props.status === 'Booked'
+			? '#E23428'
+			: '#FFEDEC'};
 	&:hover {
 	}
 `
@@ -147,20 +139,48 @@ const SpecialRequest = styled.button`
 	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
 `
 
-const CustomerPhoto = styled.img`
-	float: left;
-	margin: 18px 18px 18px 0;
-	height: 40px;
-	width: 40px;
+const RoomPhoto = styled.img`
+	width: 220px;
+	height: 87px;
 	background: ${(props) => (props.src ? 'transparent' : '#7992832e')};
 	border-radius: 8px;
+	object-fit: cover;
 `
 
 const Rooms = (props) => {
+	const whoAmI = 'rooms'
 	const cols = [
+		{
+			property: 'id',
+			label: 'Room Name',
+			display: ({ id, room_photo }) => (
+				<>
+					<RoomPhoto src={room_photo} />
+					<TextFormatter small='small'>#{id}</TextFormatter>
+				</>
+			),
+		},
 		{
 			property: 'room_type',
 			label: 'Room Type',
+		},
+		{
+			property: 'amenities',
+			label: 'Amenities',
+		},
+		{
+			property: 'price',
+			label: 'Price',
+		},
+		{
+			property: 'offer_price',
+			label: 'Offer Price',
+		},
+
+		{
+			property: 'status',
+			label: 'Status',
+			display: ({ status }) => <Status status={status}>{status}</Status>,
 		},
 	]
 	return (
@@ -186,7 +206,7 @@ const Rooms = (props) => {
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				{/* <Table cols={cols} datas={rooms} /> */}
+				<Table cols={cols} datas={rooms} whoAmI={whoAmI} />
 			</MainContainer>
 		</>
 	)

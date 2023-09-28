@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
 import bookings from '../data/bookings.json'
+import { NavLink, useParams } from 'react-router-dom'
 
 const MainContainer = styled.main`
 	text-align: center;
@@ -155,6 +156,7 @@ const CustomerPhoto = styled.img`
 `
 
 const Bookings = (props) => {
+	const whoAmI = 'bookings'
 	const cols = [
 		{
 			property: 'guest',
@@ -205,10 +207,6 @@ const Bookings = (props) => {
 			label: 'Status',
 			display: ({ status }) => <Status status={status}>{status}</Status>,
 		},
-		// {
-		// 	tableId: 'whoAmI',
-		// 	name: 'rooms',
-		// },
 	]
 	return (
 		<>
@@ -236,7 +234,7 @@ const Bookings = (props) => {
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				<Table cols={cols} datas={bookings} />
+				<Table cols={cols} datas={bookings} whoAmI={whoAmI} />
 			</MainContainer>
 		</>
 	)
