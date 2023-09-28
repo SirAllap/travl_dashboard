@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
-
 import bookings from '../data/bookings.json'
 
 const MainContainer = styled.main`
@@ -206,6 +205,10 @@ const Bookings = (props) => {
 			label: 'Status',
 			display: ({ status }) => <Status status={status}>{status}</Status>,
 		},
+		// {
+		// 	tableId: 'whoAmI',
+		// 	name: 'rooms',
+		// },
 	]
 	return (
 		<>

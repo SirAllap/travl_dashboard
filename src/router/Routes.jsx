@@ -14,7 +14,7 @@ const Router = (props) => {
 	const [breadCrumb, setBreadCrumb] = useState('')
 	useEffect(() => {
 		props.setNewBreadCrumb(breadCrumb)
-	}, [breadCrumb])
+	}, [breadCrumb, props])
 	return (
 		<>
 			<Routes>
