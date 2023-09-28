@@ -11,7 +11,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 const Container = styled.aside`
 	min-width: 345px;
-	//todo min-height: 938px;
+	//todo /* min-height: 938px; */
 	height: 100vh;
 	background-color: #ffffff;
 	float: left;
@@ -318,10 +318,16 @@ const SideBar = (props) => {
 	}
 
 	const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+	let fetchCurrentUser = {}
+	if (currentUser) {
+		fetchCurrentUser = currentUser
+	}
+
 	useEffect(() => {
-		currentUser.userName !== null && setUserName1(currentUser.userName)
-		currentUser.email !== null && setUserEmail1(currentUser.email)
-	}, [currentUser.userName, currentUser.email])
+		fetchCurrentUser.userName !== null &&
+			setUserName1(fetchCurrentUser.userName)
+		fetchCurrentUser.email !== null && setUserEmail1(fetchCurrentUser.email)
+	}, [currentUser])
 
 	const handleUpdateUserName = (event) => {
 		setUpdatedUserName(event.target.value)

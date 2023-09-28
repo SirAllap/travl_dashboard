@@ -10,13 +10,26 @@ import Contact from '../pages/Contact'
 
 const Router = (props) => {
 	const localAuth = localStorage.getItem('authenticated')
+	console.log(localAuth === null)
 	return (
 		<>
 			<Routes>
+				<Route path='/login' element={<Login />} />
 				<Route
-					path='/login'
-					element={<Login />}
-					// element={<Login setAuthenticated={setAuthenticated} />}
+					element={
+						<PrivateRoute authenticated={localAuth}>
+							<Dashboard toggle={props.toggle} />
+						</PrivateRoute>
+					}
+					path='/'
+				/>
+				<Route
+					element={
+						<PrivateRoute authenticated={localAuth}>
+							<Dashboard toggle={props.toggle} />
+						</PrivateRoute>
+					}
+					path='*'
 				/>
 				<Route
 					element={
