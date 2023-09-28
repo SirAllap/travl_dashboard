@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# Hotel Management Platform
+
+Are you seeking a comprehensive hotel management platform designed to assist your hotel in handling booking, reviews, and requests effortlessly? Look no further! Our platform is crafted to meet the needs of your hotel. With user-friendly tools and intuitive interfaces, it simplifies reservation management. Whether your hotel caters to seasoned travelers or first-time guests, our platform offers everything necessary to enhance their stay. Don't hesitate – begin exploring today and witness how our platform can streamline your hotel's operations!
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
