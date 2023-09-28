@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
 const TableData = styled.div`
@@ -23,20 +24,11 @@ const TableHeadLable = styled.div`
 	height: 65px;
 	border-bottom: 2px solid #f5f5f5;
 	p {
-		width: 200px;
+		width: calc(1494px / 6);
 		font: 600 18px Poppins;
-		text-align: left;
 		color: #393939;
-		margin-left: 10px;
 		&:first-child {
 			margin-left: 20px;
-			width: 300px;
-		}
-		&:nth-child(5) {
-			width: 600px;
-		}
-		&:last-child {
-			margin-right: 10px;
 		}
 	}
 `
@@ -44,7 +36,6 @@ const TableHeadLable = styled.div`
 const TableAllRowsContainer = styled.div`
 	min-width: 100%;
 	height: 605px;
-	/* background-color: #66339927; */
 	border-radius: 0 0 0 20px;
 	overflow-y: auto;
 	&::-webkit-scrollbar {
@@ -62,18 +53,12 @@ const TableAllRowsContainer = styled.div`
 		background-color: rgba(235, 241, 239, 0.612);
 	}
 	p {
-		border: 1px solid red;
-		width: 200px;
-		text-align: left;
+		/* border: 1px solid red; */
+		width: calc(1494px / 6);
 		color: #393939;
 		font: 300 16px Poppins;
-		margin-left: 10px;
 		&:first-child {
 			margin-left: 20px;
-			width: 300px;
-		}
-		&:nth-child(5) {
-			width: 600px;
 		}
 	}
 `
@@ -92,29 +77,47 @@ const TableSingleRowContainer = styled.div`
 	}
 `
 
-const Table = ({ datas, dataFunc, cols }) => {
-	const displayRow = (row) => (
-		<TableSingleRowContainer key={row.id}>
-			{cols.map((col) => (
-				<p key={col.property}>
-					{col.datas ? dataFunc(row) : row[col.property]}
-				</p>
-			))}
-		</TableSingleRowContainer>
-	)
+const VerticalDivider = styled.div`
+	height: 100%;
+	border-left: solid 1px #ebebeb;
+	&:last-child {
+		display: none;
+	}
+`
 
+const Table = (props) => {
+	const displayRow = (row) => (
+		<NavLink
+			key={row.id}
+			style={{ textDecoration: 'none' }}
+			to={`/bookings/${row.id}`}
+		>
+			<TableSingleRowContainer>
+				{props.cols.map((col, i) => (
+					<React.Fragment key={i}>
+						<p>
+							{typeof col.display === 'function'
+								? col.display(row)
+								: row[col.property]}
+						</p>
+						<VerticalDivider />
+					</React.Fragment>
+				))}
+			</TableSingleRowContainer>
+		</NavLink>
+	)
 	return (
 		<>
 			<TableData>
 				<TableHeadContainer>
 					<TableHeadLable>
-						{cols.map((colLable) => (
+						{props.cols.map((colLable) => (
 							<p key={colLable.property}>{colLable.label}</p>
 						))}
 					</TableHeadLable>
 				</TableHeadContainer>
 				<TableAllRowsContainer>
-					{datas.map(displayRow)}
+					{props.datas.map(displayRow)}
 				</TableAllRowsContainer>
 			</TableData>
 		</>

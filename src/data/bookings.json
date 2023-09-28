@@ -6,10 +6,10 @@
 		"order_date": "2023-10-01",
 		"check_in": "2023-10-10",
 		"check_out": "2023-10-15",
-		"special_request": "I'd like a room with a view.",
+		"special_request": "",
 		"room_type": "Double Bed",
 		"room_number": "201",
-		"status": "confirmed",
+		"status": "CheckOut",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",
@@ -26,7 +26,7 @@
 		"special_request": "I'd like an extra blanket.",
 		"room_type": "Single Bed",
 		"room_number": "101",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/single_bed_1_medium.jpg",
 			"https://example.com/room_photos/single_bed_2_medium.jpg",
@@ -43,7 +43,7 @@
 		"special_request": "Please provide a baby crib.",
 		"room_type": "Suite",
 		"room_number": "301",
-		"status": "confirmed",
+		"status": "In Progress",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -60,7 +60,7 @@
 		"special_request": "I'd like a bottle of champagne in the room.",
 		"room_type": "Double Superior",
 		"room_number": "121",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/double_superior_1_medium.jpg",
 			"https://example.com/room_photos/double_superior_2_medium.jpg",
@@ -74,10 +74,10 @@
 		"order_date": "2023-10-05",
 		"check_in": "2023-10-14",
 		"check_out": "2023-10-19",
-		"special_request": "Please provide a shuttle service from the airport.",
+		"special_request": "",
 		"room_type": "Single Bed",
 		"room_number": "208",
-		"status": "confirmed",
+		"status": "In Progress",
 		"photos": [
 			"https://example.com/room_photos/single_bed_1_medium.jpg",
 			"https://example.com/room_photos/single_bed_2_medium.jpg",
@@ -91,10 +91,10 @@
 		"order_date": "2023-10-06",
 		"check_in": "2023-10-15",
 		"check_out": "2023-10-20",
-		"special_request": "I'd like a late check-out at 2 PM.",
+		"special_request": "",
 		"room_type": "Suite",
 		"room_number": "405",
-		"status": "confirmed",
+		"status": "CheckOut",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -108,10 +108,10 @@
 		"order_date": "2023-10-07",
 		"check_in": "2023-10-16",
 		"check_out": "2023-10-21",
-		"special_request": "I prefer a non-smoking room with a view of the city skyline.",
+		"special_request": "",
 		"room_type": "Double Bed",
 		"room_number": "1503",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",
@@ -125,10 +125,10 @@
 		"order_date": "2023-10-08",
 		"check_in": "2023-10-17",
 		"check_out": "2023-10-22",
-		"special_request": "I'd like a room with a balcony and a complimentary breakfast.",
+		"special_request": "",
 		"room_type": "Double Superior",
 		"room_number": "507",
-		"status": "confirmed",
+		"status": "CheckOut",
 		"photos": [
 			"https://example.com/room_photos/double_superior_1_medium.jpg",
 			"https://example.com/room_photos/double_superior_2_medium.jpg",
@@ -145,7 +145,7 @@
 		"special_request": "I'd like a wake-up call at 7 AM and a daily newspaper.",
 		"room_type": "Suite",
 		"room_number": "809",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -162,7 +162,7 @@
 		"special_request": "Please provide extra blankets.",
 		"room_type": "Double Bed",
 		"room_number": "209",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",
@@ -179,7 +179,7 @@
 		"special_request": "I'd like a room with a king-sized bed.",
 		"room_type": "Double Bed",
 		"room_number": "202",
-		"status": "confirmed",
+		"status": "In Progress",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",
@@ -196,7 +196,7 @@
 		"special_request": "I'd like a room with a sea view.",
 		"room_type": "Single Bed",
 		"room_number": "103",
-		"status": "confirmed",
+		"status": "CheckOut",
 		"photos": [
 			"https://example.com/room_photos/single_bed_1_medium.jpg",
 			"https://example.com/room_photos/single_bed_2_medium.jpg",
@@ -213,7 +213,7 @@
 		"special_request": "I need an accessible room with handrails.",
 		"room_type": "Suite",
 		"room_number": "302",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -230,7 +230,7 @@
 		"special_request": "I'd like a bottle of red wine in the room.",
 		"room_type": "Double Superior",
 		"room_number": "122",
-		"status": "confirmed",
+		"status": "In Progress",
 		"photos": [
 			"https://example.com/room_photos/double_superior_1_medium.jpg",
 			"https://example.com/room_photos/double_superior_2_medium.jpg",
@@ -247,7 +247,7 @@
 		"special_request": "Please arrange a spa session for me during my stay.",
 		"room_type": "Single Bed",
 		"room_number": "209",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/single_bed_1_medium.jpg",
 			"https://example.com/room_photos/single_bed_2_medium.jpg",
@@ -264,7 +264,7 @@
 		"special_request": "I'd like a room with a jacuzzi.",
 		"room_type": "Suite",
 		"room_number": "406",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -281,7 +281,7 @@
 		"special_request": "I'd like a room with a fireplace and room service.",
 		"room_type": "Double Bed",
 		"room_number": "1504",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",
@@ -298,7 +298,7 @@
 		"special_request": "I'd like a room with a balcony and a view of the ocean.",
 		"room_type": "Double Superior",
 		"room_number": "508",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/double_superior_1_medium.jpg",
 			"https://example.com/room_photos/double_superior_2_medium.jpg",
@@ -315,7 +315,7 @@
 		"special_request": "I'd like a room with a king-sized bed and a bottle of champagne.",
 		"room_type": "Suite",
 		"room_number": "810",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -332,7 +332,7 @@
 		"special_request": "Please provide extra towels.",
 		"room_type": "Double Bed",
 		"room_number": "210",
-		"status": "confirmed",
+		"status": "In Progress",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",
@@ -349,7 +349,7 @@
 		"special_request": "I'd like a room with a mountain view.",
 		"room_type": "Double Bed",
 		"room_number": "203",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",
@@ -366,7 +366,7 @@
 		"special_request": "I'd like a room with a river view.",
 		"room_type": "Single Bed",
 		"room_number": "104",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/single_bed_1_medium.jpg",
 			"https://example.com/room_photos/single_bed_2_medium.jpg",
@@ -383,7 +383,7 @@
 		"special_request": "I'd like a room with a garden view.",
 		"room_type": "Suite",
 		"room_number": "303",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -400,7 +400,7 @@
 		"special_request": "I'd like a room with a pool view.",
 		"room_type": "Double Superior",
 		"room_number": "123",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/double_superior_1_medium.jpg",
 			"https://example.com/room_photos/double_superior_2_medium.jpg",
@@ -417,7 +417,7 @@
 		"special_request": "Please provide a crib and baby essentials.",
 		"room_type": "Single Bed",
 		"room_number": "210",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/single_bed_1_medium.jpg",
 			"https://example.com/room_photos/single_bed_2_medium.jpg",
@@ -434,7 +434,7 @@
 		"special_request": "I'd like a room with a view of the sunset.",
 		"room_type": "Suite",
 		"room_number": "407",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -451,7 +451,7 @@
 		"special_request": "I'd like a room with a balcony and a city view.",
 		"room_type": "Double Bed",
 		"room_number": "1505",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",
@@ -468,7 +468,7 @@
 		"special_request": "I'd like a room with a fireplace and room service.",
 		"room_type": "Double Superior",
 		"room_number": "509",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/double_superior_1_medium.jpg",
 			"https://example.com/room_photos/double_superior_2_medium.jpg",
@@ -485,7 +485,7 @@
 		"special_request": "I'd like a room with a king-sized bed and a bottle of champagne.",
 		"room_type": "Suite",
 		"room_number": "811",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -502,7 +502,7 @@
 		"special_request": "Please provide extra towels.",
 		"room_type": "Double Bed",
 		"room_number": "211",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",
@@ -519,7 +519,7 @@
 		"special_request": "I'd like a room with a mountain view.",
 		"room_type": "Double Bed",
 		"room_number": "204",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",
@@ -536,7 +536,7 @@
 		"special_request": "I'd like a room with a river view.",
 		"room_type": "Single Bed",
 		"room_number": "105",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/single_bed_1_medium.jpg",
 			"https://example.com/room_photos/single_bed_2_medium.jpg",
@@ -553,7 +553,7 @@
 		"special_request": "I'd like a room with a garden view.",
 		"room_type": "Suite",
 		"room_number": "304",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -570,7 +570,7 @@
 		"special_request": "I'd like a room with a pool view.",
 		"room_type": "Double Superior",
 		"room_number": "124",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/double_superior_1_medium.jpg",
 			"https://example.com/room_photos/double_superior_2_medium.jpg",
@@ -587,7 +587,7 @@
 		"special_request": "Please provide a crib and baby essentials.",
 		"room_type": "Single Bed",
 		"room_number": "211",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/single_bed_1_medium.jpg",
 			"https://example.com/room_photos/single_bed_2_medium.jpg",
@@ -604,7 +604,7 @@
 		"special_request": "I'd like a room with a view of the sunset.",
 		"room_type": "Suite",
 		"room_number": "408",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -621,7 +621,7 @@
 		"special_request": "I'd like a room with a balcony and a city view.",
 		"room_type": "Double Bed",
 		"room_number": "1506",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",
@@ -638,7 +638,7 @@
 		"special_request": "I'd like a room with a fireplace and room service.",
 		"room_type": "Double Superior",
 		"room_number": "510",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/double_superior_1_medium.jpg",
 			"https://example.com/room_photos/double_superior_2_medium.jpg",
@@ -655,7 +655,7 @@
 		"special_request": "I'd like a room with a king-sized bed and a bottle of champagne.",
 		"room_type": "Suite",
 		"room_number": "812",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://example.com/room_photos/suite_1_medium.jpg",
 			"https://example.com/room_photos/suite_2_medium.jpg",
@@ -672,7 +672,7 @@
 		"special_request": "Please provide extra towels.",
 		"room_type": "Double Bed",
 		"room_number": "212",
-		"status": "confirmed",
+		"status": "CheckIn",
 		"photos": [
 			"https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 			"https://media.istockphoto.com/id/1384894485/photo/interior-of-a-small-double-bed-hotel-bedroom.jpg?s=612x612&w=0&k=20&c=hMvvnAlfTvDYz5ltQHhBKzWcZt6yGUoHqCZeD6gRWRE=",

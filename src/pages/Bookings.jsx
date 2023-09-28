@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
-import { Link } from 'react-router-dom'
 
 import bookings from '../data/bookings.json'
 
@@ -17,7 +16,6 @@ const MainContainer = styled.main`
 `
 
 const TopTableContainer = styled.div`
-	border: 1px solid rebeccapurple;
 	min-width: 100%;
 	max-height: 730px;
 `
@@ -104,18 +102,75 @@ const FilterSelector = styled.select`
 	}
 `
 
-const Bookings = ({ toggle }) => {
-	const dataFunc = ({ guest, phone_number, id }) => (
-		<Link to={`/bookings/${id}`} className='guest-col'>
-			<p>Guest: {guest}</p>
-			<p>Phone: {phone_number}</p>
-			<p>Identifier: {id}</p>
-		</Link>
-	)
+const TextFormatter = styled.span`
+	display: block;
+	text-align: left;
+	color: ${(props) => (props.small === 'small' ? '#799283' : '#393939')};
+	font: ${(props) =>
+		props.small === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
+`
+
+const Status = styled.button`
+	font: 600 16px Poppins;
+	width: 109px;
+	height: 48px;
+	border: none;
+	border-radius: 8px;
+	color: ${(props) =>
+		props.status === 'CheckIn'
+			? '#5AD07A'
+			: props.status === 'CheckOut'
+			? '#E23428'
+			: props.status === 'In Progress'
+			? '#fff'
+			: 'transparent'};
+	background-color: ${(props) =>
+		props.status === 'CheckIn'
+			? '#E8FFEE'
+			: props.status === 'CheckOut'
+			? '#FFEDEC'
+			: props.status === 'In Progress'
+			? '#FF9C3A'
+			: 'transparent'};
+	&:hover {
+	}
+`
+
+const SpecialRequest = styled.button`
+	font: 400 16px Poppins;
+	width: 160px;
+	height: 48px;
+	border: none;
+	border-radius: 8px;
+	color: ${(props) => (props.specialrequest >= 1 ? '#799283' : '#212121')};
+	background-color: ${(props) =>
+		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
+	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
+`
+const CustomerPhoto = styled.img`
+	float: left;
+	margin: 18px 18px 18px 0;
+	height: 40px;
+	width: 40px;
+	background: ${(props) => (props.src ? 'transparent' : '#7992832e')};
+	border-radius: 8px;
+`
+
+const Bookings = (props) => {
 	const cols = [
 		{
 			property: 'guest',
 			label: 'Guest Details',
+			display: ({ guest, phone_number, id }) => (
+				<>
+					<CustomerPhoto
+						src={`https://robohash.org/${guest}.png?set=any`}
+					/>
+					<TextFormatter name='name'>{guest}</TextFormatter>
+					<TextFormatter small='small'>{phone_number}</TextFormatter>
+					<TextFormatter small='small'>#{id}</TextFormatter>
+				</>
+			),
 		},
 		{
 			property: 'order_date',
@@ -132,6 +187,11 @@ const Bookings = ({ toggle }) => {
 		{
 			property: 'special_request',
 			label: 'Special Request',
+			display: ({ special_request }) => (
+				<SpecialRequest specialrequest={special_request.length}>
+					View Notes
+				</SpecialRequest>
+			),
 		},
 		{
 			property: 'room_type',
@@ -140,11 +200,12 @@ const Bookings = ({ toggle }) => {
 		{
 			property: 'status',
 			label: 'Status',
+			display: ({ status }) => <Status status={status}>{status}</Status>,
 		},
 	]
 	return (
 		<>
-			<MainContainer toggle={toggle}>
+			<MainContainer toggle={props.toggle}>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
@@ -169,7 +230,7 @@ const Bookings = ({ toggle }) => {
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
 
-				<Table cols={cols} datas={bookings} dataFunc={dataFunc} />
+				<Table cols={cols} datas={bookings} />
 			</MainContainer>
 		</>
 	)
