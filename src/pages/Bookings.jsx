@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
@@ -6,7 +6,6 @@ import { BiSearch } from 'react-icons/bi'
 import bookings from '../data/bookings.json'
 
 const MainContainer = styled.main`
-	/* outline: 1px solid rebeccapurple; */
 	text-align: center;
 	max-height: 730px;
 	min-width: 1494px;
@@ -188,7 +187,12 @@ const Bookings = (props) => {
 			property: 'special_request',
 			label: 'Special Request',
 			display: ({ special_request }) => (
-				<SpecialRequest specialrequest={special_request.length}>
+				<SpecialRequest
+					onClick={() => {
+						console.log('im herer')
+					}}
+					specialrequest={special_request.length}
+				>
 					View Notes
 				</SpecialRequest>
 			),
@@ -229,7 +233,6 @@ const Bookings = (props) => {
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-
 				<Table cols={cols} datas={bookings} />
 			</MainContainer>
 		</>

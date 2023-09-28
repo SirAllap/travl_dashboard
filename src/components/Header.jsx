@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { HiArrowsRightLeft } from 'react-icons/hi2'
 import { BiSearch } from 'react-icons/bi'
 import { AiOutlineHeart } from 'react-icons/ai'
@@ -70,6 +70,11 @@ const InputSearch = styled.input`
 const DashboardTitle = styled.p`
 	font: normal normal 600 28px/42px Poppins;
 `
+const DashboardSubtitle = styled.p`
+	font: normal normal 400 14px Poppins;
+	color: #6e6e6e;
+	max-height: 1px;
+`
 
 const ProfilePictureVoid = styled.img`
 	background: ${(props) => (props.src ? 'transparent' : '#79928382')};
@@ -87,8 +92,10 @@ const VerticalDivider = styled.div`
 `
 
 const Header = (props) => {
+	const location = useLocation()
 	const navigate = useNavigate()
 	const [openSideBar, setOpenSideBar] = useState('close')
+	const [currentBreadCrumb, setCurrentBreadCrumb] = useState('')
 	const handleToggleOfSideBar = () => {
 		setOpenSideBar(openSideBar === 'open' ? 'close' : 'open')
 		props.setToggleSideBar(openSideBar)
@@ -97,6 +104,15 @@ const Header = (props) => {
 		localStorage.clear()
 		return navigate('/login')
 	}
+	useEffect(() => {
+		let idNumb = props.newBreadCrumb.split('/')
+		if (location.pathname === `/bookings/${idNumb[1]}`) {
+			setCurrentBreadCrumb(props.newBreadCrumb)
+		}
+		if (location.pathname !== `/bookings/${idNumb[1]}`) {
+			setCurrentBreadCrumb(' ')
+		}
+	}, [props.newBreadCrumb, location.pathname, props])
 
 	return (
 		<>
@@ -105,7 +121,12 @@ const Header = (props) => {
 					<IconStyle menu='menu'>
 						<HiArrowsRightLeft onClick={handleToggleOfSideBar} />
 					</IconStyle>
-					<DashboardTitle>{props.title}</DashboardTitle>
+					<div>
+						<DashboardTitle>{props.title}</DashboardTitle>
+						<DashboardSubtitle>
+							{currentBreadCrumb}
+						</DashboardSubtitle>
+					</div>
 				</LeftContainer>
 				<RightContainer>
 					<InputSearch />

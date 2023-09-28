@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Dashboard from '../pages/Dashboard'
 import Bookings from '../pages/Bookings'
+import BookingDetails from '../pages/BookingDetails'
 import Rooms from '../pages/Rooms'
 import Users from '../pages/Users'
 import PrivateRoute from '../pages/PrivateRoute'
@@ -10,6 +11,10 @@ import Contact from '../pages/Contact'
 
 const Router = (props) => {
 	const localAuth = localStorage.getItem('authenticated')
+	const [breadCrumb, setBreadCrumb] = useState('')
+	useEffect(() => {
+		props.setNewBreadCrumb(breadCrumb)
+	}, [breadCrumb])
 	return (
 		<>
 			<Routes>
@@ -43,6 +48,17 @@ const Router = (props) => {
 					element={
 						<PrivateRoute authenticated={localAuth}>
 							<Bookings toggle={props.toggle} />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path='/bookings/:bookingId'
+					element={
+						<PrivateRoute authenticated={localAuth}>
+							<BookingDetails
+								setbreadcrumb={setBreadCrumb}
+								toggle={props.toggle}
+							/>
 						</PrivateRoute>
 					}
 				/>
