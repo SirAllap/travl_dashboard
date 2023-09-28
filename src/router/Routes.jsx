@@ -10,7 +10,6 @@ import Contact from '../pages/Contact'
 
 const Router = (props) => {
 	const localAuth = localStorage.getItem('authenticated')
-	console.log(localAuth === null)
 	return (
 		<>
 			<Routes>
