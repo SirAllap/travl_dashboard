@@ -190,34 +190,6 @@ const Tabs = styled.div`
 		}
 	}
 `
-const InputSearch = styled.input`
-	position: absolute;
-	left: 90px;
-	background-color: #fff;
-	font: 500 16px Poppins;
-	color: #135846;
-	padding: 10px 10px 10px 50px;
-	width: 351px;
-	height: 50px;
-	border: none;
-	border-radius: 12px;
-	outline: none;
-	&:focus {
-		outline: 2px solid #135846;
-	}
-	&:hover {
-		outline: 2px solid #799283;
-	}
-`
-
-const Icons = styled.div`
-	font-size: 30px;
-	cursor: pointer;
-	color: ${(props) => (props.search === 'search' ? '#6E6E6E' : 'red')};
-	position: ${(props) => props.search === 'search' && 'absolute'};
-	top: 12px;
-	left: 105px;
-`
 
 const FilterSelector = styled.select`
 	width: 134px;
