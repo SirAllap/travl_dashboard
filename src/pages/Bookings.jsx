@@ -152,6 +152,7 @@ const Bookings = (props) => {
 }
 
 export default Bookings
+
 const MainContainer = styled.main`
 	text-align: center;
 	max-height: 730px;

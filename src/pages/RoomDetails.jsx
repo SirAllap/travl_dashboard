@@ -17,8 +17,9 @@ const CTA = styled.button`
 	font: normal normal 600 18px Poppins;
 	position: absolute;
 	left: 0px;
-	width: 158px;
-	height: 47px;
+	top: -63px;
+	width: 138px;
+	height: 33px;
 	background-color: #ffedec;
 	border: none;
 	border-radius: 8px;
