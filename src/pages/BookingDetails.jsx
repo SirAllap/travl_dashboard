@@ -2,6 +2,40 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
+const BookingsDetails = (props) => {
+	const location = useLocation()
+	const { bookingId } = useParams()
+	const [savedLastId, setSavedLastId] = useState('')
+	useEffect(() => {
+		if (
+			savedLastId !== bookingId &&
+			location.pathname === `/bookings/${bookingId}`
+		) {
+			props.setbreadcrumb(`Bookings/${bookingId}`)
+			setSavedLastId(bookingId)
+		}
+	}, [savedLastId, bookingId, location.pathname, props])
+
+	const navigate = useNavigate()
+	return (
+		<>
+			<MainContainer toggle={props.toggle}>
+				<CTA onClick={() => navigate('/bookings')}>Back</CTA>
+
+				<LeftDetailsCard>
+					<TopSideInnerDetailsCard>
+						<PhotoContainer></PhotoContainer>
+						<InfoBookingContainer></InfoBookingContainer>
+					</TopSideInnerDetailsCard>
+				</LeftDetailsCard>
+				<RightDetailsCard></RightDetailsCard>
+			</MainContainer>
+		</>
+	)
+}
+
+export default BookingsDetails
+
 const CTA = styled.button`
 	font: normal normal 600 18px Poppins;
 	position: absolute;
@@ -64,10 +98,6 @@ const InfoBookingContainer = styled.div`
 	display: inline-block;
 `
 
-const TextFormatter = styled.p`
-	color: #000;
-`
-
 const RightDetailsCard = styled.div`
 	width: 50%;
 	height: 792px;
@@ -75,37 +105,3 @@ const RightDetailsCard = styled.div`
 	border-radius: 0 10px 10px 0;
 	display: inline-block;
 `
-
-const BookingsDetails = (props) => {
-	const location = useLocation()
-	const { bookingId } = useParams()
-	const [savedLastId, setSavedLastId] = useState('')
-	useEffect(() => {
-		if (
-			savedLastId !== bookingId &&
-			location.pathname === `/bookings/${bookingId}`
-		) {
-			props.setbreadcrumb(`Bookings/${bookingId}`)
-			setSavedLastId(bookingId)
-		}
-	}, [savedLastId, bookingId, location.pathname, props])
-
-	const navigate = useNavigate()
-	return (
-		<>
-			<MainContainer toggle={props.toggle}>
-				<CTA onClick={() => navigate('/bookings')}>Back</CTA>
-
-				<LeftDetailsCard>
-					<TopSideInnerDetailsCard>
-						<PhotoContainer></PhotoContainer>
-						<InfoBookingContainer></InfoBookingContainer>
-					</TopSideInnerDetailsCard>
-				</LeftDetailsCard>
-				<RightDetailsCard></RightDetailsCard>
-			</MainContainer>
-		</>
-	)
-}
-
-export default BookingsDetails

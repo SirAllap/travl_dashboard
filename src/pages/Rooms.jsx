@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import rooms from '../data/rooms.json'
-import { BiSearch } from 'react-icons/bi'
 
 const Rooms = (props) => {
 	const whoAmI = {
@@ -22,7 +21,7 @@ const Rooms = (props) => {
 		},
 		{
 			property: 'room_type',
-			label: 'Room Type',
+			label: 'Room',
 			display: ({ room_type }) => (
 				<>
 					<TextFormatter small='bold'>{room_type}</TextFormatter>
@@ -122,14 +121,10 @@ const Rooms = (props) => {
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>
-						<InputSearch />
-						<Icons search='search'>
-							<BiSearch />
-						</Icons>
 						<FilterSelector name='bookingFilter' id='bookingFilter'>
-							<option value='volvo'>State</option>
-							<option value='volvo'>By Price Down</option>
-							<option value='volvo'>By Price Up</option>
+							<option value='status'>Status</option>
+							<option value='pricedown'>By Price Down</option>
+							<option value='priceup'>By Price Up</option>
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>

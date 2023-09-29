@@ -2,6 +2,33 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
+const RoomDetails = (props) => {
+	const location = useLocation()
+	const { roomId } = useParams()
+	const [savedLastId, setSavedLastId] = useState('')
+	useEffect(() => {
+		if (
+			savedLastId !== roomId &&
+			location.pathname === `/rooms/${roomId}`
+		) {
+			props.setbreadcrumb(`Rooms/${roomId}`)
+			setSavedLastId(roomId)
+		}
+	}, [savedLastId, roomId, location.pathname, props])
+
+	const navigate = useNavigate()
+	return (
+		<>
+			<MainContainer toggle={props.toggle}>
+				<CTA onClick={() => navigate('/rooms')}>Back</CTA>
+				<h1>RoomDetails</h1>
+			</MainContainer>
+		</>
+	)
+}
+
+export default RoomDetails
+
 const MainContainer = styled.main`
 	outline: 1px solid rebeccapurple;
 	position: relative;
@@ -31,29 +58,3 @@ const CTA = styled.button`
 		background-color: #e23428;
 	}
 `
-const RoomDetails = (props) => {
-	const location = useLocation()
-	const { roomId } = useParams()
-	const [savedLastId, setSavedLastId] = useState('')
-	useEffect(() => {
-		if (
-			savedLastId !== roomId &&
-			location.pathname === `/rooms/${roomId}`
-		) {
-			props.setbreadcrumb(`Rooms/${roomId}`)
-			setSavedLastId(roomId)
-		}
-	}, [savedLastId, roomId, location.pathname, props])
-
-	const navigate = useNavigate()
-	return (
-		<>
-			<MainContainer toggle={props.toggle}>
-				<CTA onClick={() => navigate('/rooms')}>Back</CTA>
-				<h1>RoomDetails</h1>
-			</MainContainer>
-		</>
-	)
-}
-
-export default RoomDetails

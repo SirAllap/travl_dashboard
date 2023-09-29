@@ -15,6 +15,222 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 
+const Dashboard = (props) => {
+	const [toggleModal, setToggleModal] = useState(false)
+	const [toggleModalUser, setToggleModalUser] = useState({})
+
+	const handleToggleModal = (userReview) => {
+		if (!toggleModal) {
+			setToggleModal(true)
+			setToggleModalUser(userReview)
+		} else {
+			setToggleModal(false)
+		}
+	}
+
+	return (
+		<>
+			<MainContainer toggle={props.toggle}>
+				<CustomerReviewModalOverlay open={toggleModal} />
+				<CustomerReviewModal open={toggleModal}>
+					<CloseCTA onClick={handleToggleModal}>
+						<FaRegEnvelopeOpen />
+					</CloseCTA>
+					{toggleModalUser && (
+						<>
+							<CustomerCardText
+								type={{
+									text: 'cardSubject',
+								}}
+							>
+								{toggleModalUser.subject_of_review}
+							</CustomerCardText>
+							<HorizontalDivider />
+							<CustomerReviewCardTopData modal={'true'}>
+								<CustomerCardText
+									type={{
+										text: 'cardBody',
+									}}
+								>
+									{toggleModalUser.review_body}
+								</CustomerCardText>
+							</CustomerReviewCardTopData>
+							<CustomerReviewCardBottomData>
+								<CustomerReviewCardUserPhoto
+									src={`https://robohash.org/${toggleModalUser.full_name}.png?set=any`}
+								/>
+								<CustomerCardText
+									type={{
+										text: 'cardUserName',
+									}}
+								>
+									{toggleModalUser.full_name}
+								</CustomerCardText>
+								<CustomerCardText
+									type={{
+										text: 'cardUserEmail',
+									}}
+								>
+									{toggleModalUser.email}
+								</CustomerCardText>
+								<CustomerCardText
+									type={{
+										text: 'cardUserPhoneNumber',
+									}}
+								>
+									{toggleModalUser.phone_number}
+								</CustomerCardText>
+								<CustomerCardText
+									type={{
+										text: 'cardReadChecker',
+									}}
+									read={
+										toggleModalUser.state ? 'true' : 'false'
+									}
+								></CustomerCardText>
+							</CustomerReviewCardBottomData>
+						</>
+					)}
+				</CustomerReviewModal>
+				<ContainerCardKPI>
+					<KPICardInfo>
+						<KPICardContainer>
+							<KPICardIcon className='icon-square'>
+								<LiaBedSolid />
+							</KPICardIcon>
+							<KPITextContaind>
+								<CardText type='title'>8,461</CardText>
+								<CardText>New Booking</CardText>
+							</KPITextContaind>
+						</KPICardContainer>
+					</KPICardInfo>
+
+					<KPICardInfo>
+						<KPICardContainer>
+							<KPICardIcon className='icon-square'>
+								<LuCalendarCheck2 />
+							</KPICardIcon>
+							<KPITextContaind>
+								<CardText type='title'>963</CardText>
+								<CardText>Scheduled Room</CardText>
+							</KPITextContaind>
+						</KPICardContainer>
+					</KPICardInfo>
+
+					<KPICardInfo>
+						<KPICardContainer>
+							<KPICardIcon className='icon-square'>
+								<IoLogInOutline />
+							</KPICardIcon>
+							<KPITextContaind>
+								<CardText type='title'>753</CardText>
+								<CardText>Check In</CardText>
+							</KPITextContaind>
+						</KPICardContainer>
+					</KPICardInfo>
+
+					<KPICardInfo>
+						<KPICardContainer>
+							<KPICardIcon className='icon-square'>
+								<IoLogInOutline
+									style={{ transform: 'rotate(180deg)' }}
+								/>
+							</KPICardIcon>
+							<KPITextContaind>
+								<CardText type='title'>516</CardText>
+								<CardText>Check Out</CardText>
+							</KPITextContaind>
+						</KPICardContainer>
+					</KPICardInfo>
+				</ContainerCardKPI>
+				<CustomerReviewContainer>
+					<CustomerCardText
+						type={{
+							text: 'cardTitle',
+						}}
+					>
+						Latest Review by Customers
+					</CustomerCardText>
+
+					<Swiper
+						modules={[Navigation, A11y]}
+						spaceBetween={0}
+						slidesPerView={3}
+						navigation
+					>
+						{client_review.map((elem, index) => (
+							<SwiperSlide key={index}>
+								<CustomerReviewCard
+									onClick={() => handleToggleModal(elem)}
+								>
+									<CustomerCardText
+										type={{
+											text: 'cardSubject',
+										}}
+									>
+										{elem.subject_of_review}
+									</CustomerCardText>
+									<HorizontalDivider />
+									<CustomerReviewCardTopData modal={'false'}>
+										<CustomerCardText
+											type={{
+												text: 'cardBody',
+											}}
+										>
+											{elem.review_body}
+										</CustomerCardText>
+									</CustomerReviewCardTopData>
+									<CustomerReviewCardBottomData>
+										<CustomerReviewCardUserPhoto
+											src={`https://robohash.org/${elem.full_name}.png?set=any`}
+										/>
+										<CustomerCardText
+											type={{
+												text: 'cardUserName',
+											}}
+										>
+											{elem.full_name}
+										</CustomerCardText>
+										<CustomerCardText
+											type={{
+												text: 'cardUserEmail',
+											}}
+										>
+											{elem.email}
+										</CustomerCardText>
+										<CustomerCardText
+											type={{
+												text: 'cardUserPhoneNumber',
+											}}
+										>
+											{elem.phone_number}
+										</CustomerCardText>
+										<CustomerCardText
+											type={{
+												text: 'cardReadChecker',
+											}}
+										>
+											{elem.state ? (
+												<FaRegEnvelopeOpen
+													style={{ color: 'green' }}
+												/>
+											) : (
+												<FaRegEnvelope />
+											)}
+										</CustomerCardText>
+									</CustomerReviewCardBottomData>
+								</CustomerReviewCard>
+							</SwiperSlide>
+						))}
+					</Swiper>
+				</CustomerReviewContainer>
+			</MainContainer>
+		</>
+	)
+}
+
+export default Dashboard
+
 const MainContainer = styled.main`
 	text-align: center;
 	max-height: 730px;
@@ -258,219 +474,3 @@ const CloseCTA = styled.button`
 		color: green;
 	}
 `
-
-const Dashboard = (props) => {
-	const [toggleModal, setToggleModal] = useState(false)
-	const [toggleModalUser, setToggleModalUser] = useState({})
-
-	const handleToggleModal = (userReview) => {
-		if (!toggleModal) {
-			setToggleModal(true)
-			setToggleModalUser(userReview)
-		} else {
-			setToggleModal(false)
-		}
-	}
-
-	return (
-		<>
-			<MainContainer toggle={props.toggle}>
-				<CustomerReviewModalOverlay open={toggleModal} />
-				<CustomerReviewModal open={toggleModal}>
-					<CloseCTA onClick={handleToggleModal}>
-						<FaRegEnvelopeOpen />
-					</CloseCTA>
-					{toggleModalUser && (
-						<>
-							<CustomerCardText
-								type={{
-									text: 'cardSubject',
-								}}
-							>
-								{toggleModalUser.subject_of_review}
-							</CustomerCardText>
-							<HorizontalDivider />
-							<CustomerReviewCardTopData modal={'true'}>
-								<CustomerCardText
-									type={{
-										text: 'cardBody',
-									}}
-								>
-									{toggleModalUser.review_body}
-								</CustomerCardText>
-							</CustomerReviewCardTopData>
-							<CustomerReviewCardBottomData>
-								<CustomerReviewCardUserPhoto
-									src={`https://robohash.org/${toggleModalUser.full_name}.png?set=any`}
-								/>
-								<CustomerCardText
-									type={{
-										text: 'cardUserName',
-									}}
-								>
-									{toggleModalUser.full_name}
-								</CustomerCardText>
-								<CustomerCardText
-									type={{
-										text: 'cardUserEmail',
-									}}
-								>
-									{toggleModalUser.email}
-								</CustomerCardText>
-								<CustomerCardText
-									type={{
-										text: 'cardUserPhoneNumber',
-									}}
-								>
-									{toggleModalUser.phone_number}
-								</CustomerCardText>
-								<CustomerCardText
-									type={{
-										text: 'cardReadChecker',
-									}}
-									read={
-										toggleModalUser.state ? 'true' : 'false'
-									}
-								></CustomerCardText>
-							</CustomerReviewCardBottomData>
-						</>
-					)}
-				</CustomerReviewModal>
-				<ContainerCardKPI>
-					<KPICardInfo>
-						<KPICardContainer>
-							<KPICardIcon className='icon-square'>
-								<LiaBedSolid />
-							</KPICardIcon>
-							<KPITextContaind>
-								<CardText type='title'>8,461</CardText>
-								<CardText>New Booking</CardText>
-							</KPITextContaind>
-						</KPICardContainer>
-					</KPICardInfo>
-
-					<KPICardInfo>
-						<KPICardContainer>
-							<KPICardIcon className='icon-square'>
-								<LuCalendarCheck2 />
-							</KPICardIcon>
-							<KPITextContaind>
-								<CardText type='title'>963</CardText>
-								<CardText>Scheduled Room</CardText>
-							</KPITextContaind>
-						</KPICardContainer>
-					</KPICardInfo>
-
-					<KPICardInfo>
-						<KPICardContainer>
-							<KPICardIcon className='icon-square'>
-								<IoLogInOutline />
-							</KPICardIcon>
-							<KPITextContaind>
-								<CardText type='title'>753</CardText>
-								<CardText>Check In</CardText>
-							</KPITextContaind>
-						</KPICardContainer>
-					</KPICardInfo>
-
-					<KPICardInfo>
-						<KPICardContainer>
-							<KPICardIcon className='icon-square'>
-								<IoLogInOutline
-									style={{ transform: 'rotate(180deg)' }}
-								/>
-							</KPICardIcon>
-							<KPITextContaind>
-								<CardText type='title'>516</CardText>
-								<CardText>Check Out</CardText>
-							</KPITextContaind>
-						</KPICardContainer>
-					</KPICardInfo>
-				</ContainerCardKPI>
-				<CustomerReviewContainer>
-					<CustomerCardText
-						type={{
-							text: 'cardTitle',
-						}}
-					>
-						Latest Review by Customers
-					</CustomerCardText>
-
-					<Swiper
-						modules={[Navigation, A11y]}
-						spaceBetween={0}
-						slidesPerView={3}
-						navigation
-					>
-						{client_review.map((elem, index) => (
-							<SwiperSlide key={index}>
-								<CustomerReviewCard
-									onClick={() => handleToggleModal(elem)}
-								>
-									<CustomerCardText
-										type={{
-											text: 'cardSubject',
-										}}
-									>
-										{elem.subject_of_review}
-									</CustomerCardText>
-									<HorizontalDivider />
-									<CustomerReviewCardTopData modal={'false'}>
-										<CustomerCardText
-											type={{
-												text: 'cardBody',
-											}}
-										>
-											{elem.review_body}
-										</CustomerCardText>
-									</CustomerReviewCardTopData>
-									<CustomerReviewCardBottomData>
-										<CustomerReviewCardUserPhoto
-											src={`https://robohash.org/${elem.full_name}.png?set=any`}
-										/>
-										<CustomerCardText
-											type={{
-												text: 'cardUserName',
-											}}
-										>
-											{elem.full_name}
-										</CustomerCardText>
-										<CustomerCardText
-											type={{
-												text: 'cardUserEmail',
-											}}
-										>
-											{elem.email}
-										</CustomerCardText>
-										<CustomerCardText
-											type={{
-												text: 'cardUserPhoneNumber',
-											}}
-										>
-											{elem.phone_number}
-										</CustomerCardText>
-										<CustomerCardText
-											type={{
-												text: 'cardReadChecker',
-											}}
-										>
-											{elem.state ? (
-												<FaRegEnvelopeOpen
-													style={{ color: 'green' }}
-												/>
-											) : (
-												<FaRegEnvelope />
-											)}
-										</CustomerCardText>
-									</CustomerReviewCardBottomData>
-								</CustomerReviewCard>
-							</SwiperSlide>
-						))}
-					</Swiper>
-				</CustomerReviewContainer>
-			</MainContainer>
-		</>
-	)
-}
-
-export default Dashboard
