@@ -205,7 +205,6 @@ export default SideBar
 
 const Container = styled.aside`
 	min-width: 345px;
-	//todo /* min-height: 938px; */
 	height: 100vh;
 	background-color: #ffffff;
 	float: left;
@@ -225,6 +224,8 @@ const LogoImage = styled.img`
 	max-width: 220px;
 	object-fit: contain;
 `
+
+const MenuItemsSection = styled.section``
 
 const IconSection = styled.section`
 	width: 100%;

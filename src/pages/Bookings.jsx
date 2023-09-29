@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
@@ -60,6 +60,37 @@ const Bookings = (props) => {
 			display: ({ status }) => <Status status={status}>{status}</Status>,
 		},
 	]
+
+	const [filter, setFilter] = useState('')
+	const manageFilterTab = (param) => {
+		switch (param) {
+			case 'checkin':
+				setFilter({
+					property: 'status',
+					value: 'CheckIn',
+				})
+				break
+			case 'checkout':
+				setFilter({
+					property: 'status',
+					value: 'CheckOut',
+				})
+				break
+			case 'inprogress':
+				setFilter({
+					property: 'status',
+					value: 'In Progress',
+				})
+				break
+			case 'all':
+				setFilter({
+					property: 'all',
+				})
+				break
+			default:
+				break
+		}
+	}
 	return (
 		<>
 			<MainContainer toggle={props.toggle}>
@@ -68,38 +99,31 @@ const Bookings = (props) => {
 						<Tabs>
 							<button
 								onClick={() => {
-									console.log('all bookings')
+									manageFilterTab('all')
 								}}
 							>
 								All Bookings
 							</button>
 							<button
 								onClick={() => {
-									console.log('check in')
+									manageFilterTab('checkin')
 								}}
 							>
 								Check In
 							</button>
 							<button
 								onClick={() => {
-									console.log('check out')
+									manageFilterTab('checkout')
 								}}
 							>
 								Check Out
 							</button>
 							<button
 								onClick={() => {
-									console.log('in progress')
+									manageFilterTab('inprogress')
 								}}
 							>
 								In Progress
-							</button>
-							<button
-								onClick={() => {
-									console.log('empty')
-								}}
-							>
-								Empty
 							</button>
 						</Tabs>
 					</TableTabsContainer>
@@ -116,7 +140,12 @@ const Bookings = (props) => {
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				<Table cols={cols} datas={bookings} whoAmI={whoAmI} />
+				<Table
+					cols={cols}
+					datas={bookings}
+					whoAmI={whoAmI}
+					filter={filter}
+				/>
 			</MainContainer>
 		</>
 	)

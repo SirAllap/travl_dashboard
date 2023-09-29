@@ -17,7 +17,7 @@
 		"start_date": "2019-08-20",
 		"description": "Housekeeping Supervisor",
 		"phone_number": "+1 (234) 567-8901",
-		"status": "active"
+		"status": "inactive"
 	},
 	{
 		"employee_id": "3IJKL789",
@@ -57,7 +57,7 @@
 		"start_date": "2022-01-15",
 		"description": "Concierge",
 		"phone_number": "+1 (678) 901-2345",
-		"status": "active"
+		"status": "inactive"
 	},
 	{
 		"employee_id": "7YZAB901",
@@ -67,7 +67,7 @@
 		"start_date": "2019-10-30",
 		"description": "Maintenance Technician",
 		"phone_number": "+1 (789) 012-3456",
-		"status": "active"
+		"status": "inactive"
 	},
 	{
 		"employee_id": "8CDEF234",
@@ -77,7 +77,7 @@
 		"start_date": "2021-06-12",
 		"description": "Housekeeping Staff",
 		"phone_number": "+1 (890) 123-4567",
-		"status": "active"
+		"status": "inactive"
 	},
 	{
 		"employee_id": "9GHIJ567",
@@ -137,7 +137,7 @@
 		"start_date": "2018-08-27",
 		"description": "Spa Therapist",
 		"phone_number": "+1 (456) 789-0123",
-		"status": "active"
+		"status": "inactive"
 	},
 	{
 		"employee_id": "15EFGH345",
@@ -147,7 +147,7 @@
 		"start_date": "2020-02-15",
 		"description": "Housekeeping Staff",
 		"phone_number": "+1 (567) 890-1234",
-		"status": "active"
+		"status": "inactive"
 	},
 	{
 		"employee_id": "16IJKL678",
@@ -197,6 +197,6 @@
 		"start_date": "2022-03-08",
 		"description": "Housekeeping Supervisor",
 		"phone_number": "+1 (012) 345-6789",
-		"status": "active"
+		"status": "inactive"
 	}
 ]

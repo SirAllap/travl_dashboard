@@ -8,12 +8,8 @@ import { FaRegEnvelope } from 'react-icons/fa'
 import client_review from '../data/client_review.json'
 import './styles.css'
 
-// import Swiper core and required modules
 import { Navigation, A11y } from 'swiper/modules'
-
 import { Swiper, SwiperSlide } from 'swiper/react'
-
-// Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -123,9 +119,6 @@ const CustomerReviewCard = styled.div`
 	border: 1px solid #ebebeb;
 	border-radius: 20px;
 	margin: 88px 40px 20px 20px;
-	/* margin-top: 88px;
-	margin-bottom: 20px;
-	margin-right: 40px; */
 	transition: 0.3s;
 	vertical-align: top;
 	&:last-child {

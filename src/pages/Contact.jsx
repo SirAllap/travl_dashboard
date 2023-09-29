@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
@@ -43,6 +43,31 @@ const Contact = (props) => {
 			),
 		},
 	]
+
+	const [filter, setFilter] = useState('')
+	const manageFilterTab = (param) => {
+		switch (param) {
+			case 'nonarchived':
+				setFilter({
+					property: 'isArchived',
+					value: 'false',
+				})
+				break
+			case 'archived':
+				setFilter({
+					property: 'isArchived',
+					value: 'true',
+				})
+				break
+			case 'all':
+				setFilter({
+					property: 'all',
+				})
+				break
+			default:
+				break
+		}
+	}
 	return (
 		<>
 			<MainContainer toggle={props.toggle}>
@@ -51,17 +76,24 @@ const Contact = (props) => {
 						<Tabs>
 							<button
 								onClick={() => {
-									console.log('all contact')
+									manageFilterTab('all')
 								}}
 							>
 								All Contact
 							</button>
 							<button
 								onClick={() => {
-									console.log('archived')
+									manageFilterTab('archived')
 								}}
 							>
 								Archived
+							</button>
+							<button
+								onClick={() => {
+									manageFilterTab('nonarchived')
+								}}
+							>
+								Non Archived
 							</button>
 						</Tabs>
 					</TableTabsContainer>
@@ -72,7 +104,12 @@ const Contact = (props) => {
 						</Icons>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				<Table cols={cols} datas={client_review} whoAmI={whoAmI} />
+				<Table
+					cols={cols}
+					datas={client_review}
+					whoAmI={whoAmI}
+					filter={filter}
+				/>
 			</MainContainer>
 		</>
 	)
@@ -129,6 +166,7 @@ const Tabs = styled.div`
 		}
 	}
 `
+
 const InputSearch = styled.input`
 	position: absolute;
 	left: 90px;

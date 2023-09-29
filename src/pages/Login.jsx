@@ -88,7 +88,6 @@ const LoginHardCodeAuth = styled.p`
 	}
 `
 
-// const Login = (props) => {
 const Login = () => {
 	const navigate = useNavigate()
 	const [userName, setUserName] = useState('')

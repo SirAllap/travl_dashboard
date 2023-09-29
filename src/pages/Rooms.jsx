@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import rooms from '../data/rooms.json'
@@ -67,15 +67,58 @@ const Rooms = (props) => {
 			display: ({ status }) => <Status status={status}>{status}</Status>,
 		},
 	]
+
+	const [filter, setFilter] = useState('')
+	const manageFilterTab = (param) => {
+		switch (param) {
+			case 'available':
+				setFilter({
+					property: 'status',
+					value: 'Available',
+				})
+				break
+			case 'booked':
+				setFilter({
+					property: 'status',
+					value: 'Booked',
+				})
+				break
+			case 'all':
+				setFilter({
+					property: 'all',
+				})
+				break
+			default:
+				break
+		}
+	}
 	return (
 		<>
 			<MainContainer toggle={props.toggle}>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
-							<p>All Bookings</p>
-							<p>Check In</p>
-							<p>Check Out</p>
+							<button
+								onClick={() => {
+									manageFilterTab('all')
+								}}
+							>
+								All Rooms
+							</button>
+							<button
+								onClick={() => {
+									manageFilterTab('available')
+								}}
+							>
+								Available
+							</button>
+							<button
+								onClick={() => {
+									manageFilterTab('booked')
+								}}
+							>
+								Booked
+							</button>
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>
@@ -90,7 +133,12 @@ const Rooms = (props) => {
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				<Table cols={cols} datas={rooms} whoAmI={whoAmI} />
+				<Table
+					cols={cols}
+					datas={rooms}
+					whoAmI={whoAmI}
+					filter={filter}
+				/>
 			</MainContainer>
 		</>
 	)
@@ -131,14 +179,16 @@ const Tabs = styled.div`
 	border-bottom: 1px solid #d4d4d4;
 	width: 100%;
 	height: 50px;
-	p {
+	button {
 		font: 500 16px Poppins;
+		background-color: transparent;
 		color: #6e6e6e;
 		display: inline-block;
-		margin: 0 50px 0 50px;
 		padding: 0 30px 24px 30px;
 		border-radius: 0 0 3px 3px;
+		border: 0;
 		border-bottom: 3px solid transparent;
+		cursor: pointer;
 		&:hover {
 			border-bottom: 3px solid green;
 			color: #135846;

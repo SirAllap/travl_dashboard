@@ -1,69 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
-// const Table = (props) => {
-// 	const displayRow = (row) => {
-// 		const rowContent = (
-// 			<>
-// 				{props.cols.map((col, i) => (
-// 					<React.Fragment key={i}>
-// 						<p>
-// 							{typeof col.display === 'function'
-// 								? col.display(row)
-// 								: row[col.property]}
-// 						</p>
-// 						<VerticalDivider />
-// 					</React.Fragment>
-// 				))}
-// 			</>
-// 		)
-
-// 		if (props.whoAmI.redirect) {
-// 			return (
-// 				<NavLink
-// 					style={{ textDecoration: 'none' }}
-// 					to={`/${props.whoAmI.name}/${row.id}`}
-// 					key={row.id} // Key on the top-level element
-// 				>
-// 					<TableSingleRowContainer whoami={props.whoAmI.name}>
-// 						{rowContent}
-// 					</TableSingleRowContainer>
-// 				</NavLink>
-// 			)
-// 		} else {
-// 			return (
-// 				<TableSingleRowContainer
-// 					whoami={props.whoAmI.name}
-// 					key={row.id}
-// 				>
-// 					{rowContent}
-// 				</TableSingleRowContainer>
-// 			)
-// 		}
-// 	}
-
-// 	return (
-// 		<>
-// 			<TableData>
-// 				<TableHeadContainer>
-// 					<TableHeadLabel>
-// 						{props.cols.map((colLabel) => (
-// 							<p key={colLabel.property}>{colLabel.label}</p>
-// 						))}
-// 					</TableHeadLabel>
-// 				</TableHeadContainer>
-// 				<TableAllRowsContainer>
-// 					{props.datas.map(displayRow)}
-// 				</TableAllRowsContainer>
-// 			</TableData>
-// 		</>
-// 	)
-// }
-
 const Table = (props) => {
+	const [filterToApply, setFilterToApply] = useState({})
+	let property = 'all'
+	let value = ''
+
+	if (filterToApply) {
+		property = filterToApply.property
+		value = filterToApply.value
+	}
+	useEffect(() => {
+		setFilterToApply(props.filter)
+	}, [props.filter])
+
 	const displayRow = (row, index) => {
-		// Use the index parameter for the key
 		const rowContent = (
 			<>
 				{props.cols.map((col, i) => (
@@ -78,9 +30,7 @@ const Table = (props) => {
 				))}
 			</>
 		)
-
-		const key = `${props.whoAmI.name}-${row.id}-${index}` // Generate a unique key
-
+		const key = `${props.whoAmI.name}-${row.id}-${index}`
 		if (props.whoAmI.redirect) {
 			return (
 				<NavLink
@@ -113,7 +63,15 @@ const Table = (props) => {
 					</TableHeadLabel>
 				</TableHeadContainer>
 				<TableAllRowsContainer>
-					{props.datas.map((row, index) => displayRow(row, index))}
+					{property === 'all'
+						? props.datas.map((filteredRow, index) =>
+								displayRow(filteredRow, index)
+						  )
+						: props.datas
+								.filter((row) => row[property] === value)
+								.map((filteredRow, index) =>
+									displayRow(filteredRow, index)
+								)}
 				</TableAllRowsContainer>
 			</TableData>
 		</>

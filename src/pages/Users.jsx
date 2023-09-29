@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
@@ -57,6 +57,31 @@ const Users = (props) => {
 			),
 		},
 	]
+
+	const [filter, setFilter] = useState('')
+	const manageFilterTab = (param) => {
+		switch (param) {
+			case 'nonarchived':
+				setFilter({
+					property: 'status',
+					value: 'active',
+				})
+				break
+			case 'archived':
+				setFilter({
+					property: 'status',
+					value: 'inactive',
+				})
+				break
+			case 'all':
+				setFilter({
+					property: 'all',
+				})
+				break
+			default:
+				break
+		}
+	}
 	return (
 		<>
 			<MainContainer toggle={props.toggle}>
@@ -65,17 +90,24 @@ const Users = (props) => {
 						<Tabs>
 							<button
 								onClick={() => {
-									console.log('all contact')
+									manageFilterTab('all')
 								}}
 							>
-								All Contact
+								All Employees
 							</button>
 							<button
 								onClick={() => {
-									console.log('archived')
+									manageFilterTab('archived')
 								}}
 							>
 								Archived
+							</button>
+							<button
+								onClick={() => {
+									manageFilterTab('nonarchived')
+								}}
+							>
+								Non Archived
 							</button>
 						</Tabs>
 					</TableTabsContainer>
@@ -86,7 +118,12 @@ const Users = (props) => {
 						</Icons>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				<Table cols={cols} datas={employee} whoAmI={whoAmI} />
+				<Table
+					cols={cols}
+					datas={employee}
+					whoAmI={whoAmI}
+					filter={filter}
+				/>
 			</MainContainer>
 		</>
 	)
@@ -143,6 +180,7 @@ const Tabs = styled.div`
 		}
 	}
 `
+
 const InputSearch = styled.input`
 	position: absolute;
 	left: 90px;
@@ -207,7 +245,8 @@ const Status = styled.button`
 	height: 48px;
 	border: none;
 	border-radius: 8px;
-	color: ${(props) => (props.status === 'true' ? '#E23428' : '#5AD07A')};
+	color: ${(props) => (props.status === 'inactive' ? '#E23428' : '#5AD07A')};
+	background-color: transparent;
 `
 
 const SpecialRequest = styled.button`
