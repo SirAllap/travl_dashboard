@@ -4,6 +4,125 @@ import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
 import bookings from '../data/bookings.json'
 
+const Bookings = (props) => {
+	const whoAmI = {
+		name: 'bookings',
+		redirect: true,
+	}
+	const cols = [
+		{
+			property: 'guest',
+			label: 'Guest Details',
+			display: ({ guest, phone_number, id }) => (
+				<>
+					<CustomerPhoto
+						src={`https://robohash.org/${guest}.png?set=any`}
+					/>
+					<TextFormatter name='name'>{guest}</TextFormatter>
+					<TextFormatter small='small'>{phone_number}</TextFormatter>
+					<TextFormatter small='small'>#{id}</TextFormatter>
+				</>
+			),
+		},
+		{
+			property: 'order_date',
+			label: 'Order Date',
+		},
+		{
+			property: 'check_in',
+			label: 'Check In',
+		},
+		{
+			property: 'check_out',
+			label: 'Check Out',
+		},
+		{
+			property: 'special_request',
+			label: 'Special Request',
+			display: ({ special_request }) => (
+				<SpecialRequest
+					onClick={() => {
+						console.log('im herer')
+					}}
+					specialrequest={special_request.length}
+				>
+					View Notes
+				</SpecialRequest>
+			),
+		},
+		{
+			property: 'room_type',
+			label: 'Room Type',
+		},
+		{
+			property: 'status',
+			label: 'Status',
+			display: ({ status }) => <Status status={status}>{status}</Status>,
+		},
+	]
+	return (
+		<>
+			<MainContainer toggle={props.toggle}>
+				<TopTableContainer>
+					<TableTabsContainer>
+						<Tabs>
+							<button
+								onClick={() => {
+									console.log('all bookings')
+								}}
+							>
+								All Bookings
+							</button>
+							<button
+								onClick={() => {
+									console.log('check in')
+								}}
+							>
+								Check In
+							</button>
+							<button
+								onClick={() => {
+									console.log('check out')
+								}}
+							>
+								Check Out
+							</button>
+							<button
+								onClick={() => {
+									console.log('in progress')
+								}}
+							>
+								In Progress
+							</button>
+							<button
+								onClick={() => {
+									console.log('empty')
+								}}
+							>
+								Empty
+							</button>
+						</Tabs>
+					</TableTabsContainer>
+					<TableSearchAndFilterContainer>
+						<InputSearch />
+						<Icons search='search'>
+							<BiSearch />
+						</Icons>
+						<FilterSelector name='bookingFilter' id='bookingFilter'>
+							<option value='volvo'>Guest</option>
+							<option value='volvo'>Order Date</option>
+							<option value='volvo'>Check In</option>
+							<option value='volvo'>Check Out</option>
+						</FilterSelector>
+					</TableSearchAndFilterContainer>
+				</TopTableContainer>
+				<Table cols={cols} datas={bookings} whoAmI={whoAmI} />
+			</MainContainer>
+		</>
+	)
+}
+
+export default Bookings
 const MainContainer = styled.main`
 	text-align: center;
 	max-height: 730px;
@@ -156,123 +275,3 @@ const CustomerPhoto = styled.img`
 	background: ${(props) => (props.src ? 'transparent' : '#7992832e')};
 	border-radius: 8px;
 `
-
-const Bookings = (props) => {
-	const whoAmI = {
-		name: 'bookings',
-		redirect: true,
-	}
-	const cols = [
-		{
-			property: 'guest',
-			label: 'Guest Details',
-			display: ({ guest, phone_number, id }) => (
-				<>
-					<CustomerPhoto
-						src={`https://robohash.org/${guest}.png?set=any`}
-					/>
-					<TextFormatter name='name'>{guest}</TextFormatter>
-					<TextFormatter small='small'>{phone_number}</TextFormatter>
-					<TextFormatter small='small'>#{id}</TextFormatter>
-				</>
-			),
-		},
-		{
-			property: 'order_date',
-			label: 'Order Date',
-		},
-		{
-			property: 'check_in',
-			label: 'Check In',
-		},
-		{
-			property: 'check_out',
-			label: 'Check Out',
-		},
-		{
-			property: 'special_request',
-			label: 'Special Request',
-			display: ({ special_request }) => (
-				<SpecialRequest
-					onClick={() => {
-						console.log('im herer')
-					}}
-					specialrequest={special_request.length}
-				>
-					View Notes
-				</SpecialRequest>
-			),
-		},
-		{
-			property: 'room_type',
-			label: 'Room Type',
-		},
-		{
-			property: 'status',
-			label: 'Status',
-			display: ({ status }) => <Status status={status}>{status}</Status>,
-		},
-	]
-	return (
-		<>
-			<MainContainer toggle={props.toggle}>
-				<TopTableContainer>
-					<TableTabsContainer>
-						<Tabs>
-							<button
-								onClick={() => {
-									console.log('all bookings')
-								}}
-							>
-								All Bookings
-							</button>
-							<button
-								onClick={() => {
-									console.log('check in')
-								}}
-							>
-								Check In
-							</button>
-							<button
-								onClick={() => {
-									console.log('check out')
-								}}
-							>
-								Check Out
-							</button>
-							<button
-								onClick={() => {
-									console.log('in progress')
-								}}
-							>
-								In Progress
-							</button>
-							<button
-								onClick={() => {
-									console.log('empty')
-								}}
-							>
-								Empty
-							</button>
-						</Tabs>
-					</TableTabsContainer>
-					<TableSearchAndFilterContainer>
-						<InputSearch />
-						<Icons search='search'>
-							<BiSearch />
-						</Icons>
-						<FilterSelector name='bookingFilter' id='bookingFilter'>
-							<option value='volvo'>Guest</option>
-							<option value='volvo'>Order Date</option>
-							<option value='volvo'>Check In</option>
-							<option value='volvo'>Check Out</option>
-						</FilterSelector>
-					</TableSearchAndFilterContainer>
-				</TopTableContainer>
-				<Table cols={cols} datas={bookings} whoAmI={whoAmI} />
-			</MainContainer>
-		</>
-	)
-}
-
-export default Bookings
