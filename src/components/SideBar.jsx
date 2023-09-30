@@ -24,6 +24,7 @@ const SideBar = (props) => {
 	const [profPic, setProfPic] = useState('')
 	const [file2Upload, setFile2Upload] = useState()
 
+	// eslint-disable-next-line
 	const handleProfilePictureChange = (newPictureUrl) => {
 		localStorage.setItem('profilePicture', newPictureUrl)
 	}
@@ -44,7 +45,7 @@ const SideBar = (props) => {
 		fetchCurrentUser.userName !== null &&
 			setUserName1(fetchCurrentUser.userName)
 		fetchCurrentUser.email !== null && setUserEmail1(fetchCurrentUser.email)
-	}, [currentUser])
+	}, [currentUser, fetchCurrentUser.email, fetchCurrentUser.userName])
 
 	const handleUpdateUserName = (event) => {
 		setUpdatedUserName(event.target.value)
@@ -224,8 +225,6 @@ const LogoImage = styled.img`
 	max-width: 220px;
 	object-fit: contain;
 `
-
-const MenuItemsSection = styled.section``
 
 const IconSection = styled.section`
 	width: 100%;
