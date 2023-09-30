@@ -210,27 +210,6 @@ const Icons = styled.div`
 	left: 105px;
 `
 
-const FilterSelector = styled.select`
-	width: 134px;
-	height: 50px;
-	border: 1px solid green;
-	font: 500 16px Poppins;
-	color: #135846;
-	border: 2px solid #135846;
-	border-radius: 12px;
-	margin-right: 20px;
-	cursor: pointer;
-	outline: none;
-	padding-left: 15px;
-	option {
-		font: 500 16px Poppins;
-		color: #135846;
-	}
-	&:hover {
-		border: 2px solid #799283;
-	}
-`
-
 const TextFormatter = styled.span`
 	display: block;
 	text-align: center;
@@ -249,17 +228,6 @@ const Status = styled.button`
 	background-color: transparent;
 `
 
-const SpecialRequest = styled.button`
-	font: 400 16px Poppins;
-	width: 160px;
-	height: 48px;
-	border: none;
-	border-radius: 8px;
-	color: ${(props) => (props.specialrequest >= 1 ? '#799283' : '#212121')};
-	background-color: ${(props) =>
-		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
-	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
-`
 const CustomerPhoto = styled.img`
 	margin: 18px 10px 18px 18px;
 	height: 100px;
