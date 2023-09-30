@@ -41,12 +41,6 @@ const SideBar = (props) => {
 		fetchCurrentUser = currentUser
 	}
 
-	useEffect(() => {
-		fetchCurrentUser.userName !== null &&
-			setUserName1(fetchCurrentUser.userName)
-		fetchCurrentUser.email !== null && setUserEmail1(fetchCurrentUser.email)
-	}, [currentUser, fetchCurrentUser.email, fetchCurrentUser.userName])
-
 	const handleUpdateUserName = (event) => {
 		setUpdatedUserName(event.target.value)
 	}
@@ -63,7 +57,17 @@ const SideBar = (props) => {
 		props.setProfilePicture(
 			savedProfilePicture || 'https://robohash.org/oxygen.png?set=any'
 		)
-	}, [profPic, props, handleProfilePictureChange])
+		fetchCurrentUser.userName !== null &&
+			setUserName1(fetchCurrentUser.userName)
+		fetchCurrentUser.email !== null && setUserEmail1(fetchCurrentUser.email)
+	}, [
+		profPic,
+		props,
+		handleProfilePictureChange,
+		currentUser,
+		fetchCurrentUser.email,
+		fetchCurrentUser.userName,
+	])
 
 	const handleHeaderTitle = (titleName) => {
 		props.setHeaderTitle(titleName)
