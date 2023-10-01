@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { HiArrowsRightLeft } from 'react-icons/hi2'
@@ -8,8 +8,10 @@ import { LuMail } from 'react-icons/lu'
 import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
+import { supertoggleContext } from '../context/supertoggleContext'
 
 const Header = (props) => {
+	const { toggle, handleOpen, handleClose } = useContext(supertoggleContext)
 	const location = useLocation()
 	const navigate = useNavigate()
 	const [openSideBar, setOpenSideBar] = useState('close')
@@ -17,8 +19,10 @@ const Header = (props) => {
 	const [curentTitle, setCurrentTitle] = useState('Dashboard')
 
 	const handleToggleOfSideBar = () => {
-		setOpenSideBar(openSideBar === 'open' ? 'close' : 'open')
-		props.setToggleSideBar(openSideBar)
+		// setOpenSideBar(openSideBar === 'open' ? 'close' : 'open')
+		// props.setToggleSideBar(openSideBar)
+
+		return toggle === 'open' ? handleClose() : handleOpen()
 	}
 
 	const handleLogOut = () => {

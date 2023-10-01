@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import styled, { css } from 'styled-components'
 import logo from '../assets/logo_dashboard.png'
 import { NavLink } from 'react-router-dom'
@@ -8,8 +8,11 @@ import { LuCalendarCheck2 } from 'react-icons/lu'
 import { SlPeople } from 'react-icons/sl'
 import { MdOutlineRateReview } from 'react-icons/md'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
+import { supertoggleContext } from '../context/supertoggleContext'
 
 const SideBar = (props) => {
+	const { toggle } = useContext(supertoggleContext)
+
 	const [toggleModal, setToggleModal] = useState(false)
 	// const [togglePhotoModal, setTogglePhotoModal] = useState(false)
 	const [userUpdatedName, setUpdatedUserName] = useState('')
@@ -99,7 +102,7 @@ const SideBar = (props) => {
 
 	return (
 		<>
-			<Container toggle={props.toggle}>
+			<Container toggle={toggle}>
 				<EditUserModalOverlay open={toggleModal} />
 				<EditUserModal open={toggleModal}>
 					<EditUserInputLable type='name'>Name</EditUserInputLable>
