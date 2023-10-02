@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { supertoggleContext } from '../context/supertoggleContext'
+import styled from 'styled-components'
 import { HiArrowsRightLeft } from 'react-icons/hi2'
 import { BiSearch } from 'react-icons/bi'
 import { AiOutlineHeart } from 'react-icons/ai'
@@ -8,10 +10,13 @@ import { LuMail } from 'react-icons/lu'
 import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
-import { supertoggleContext } from '../context/supertoggleContext'
+import { fetchInitialBookings } from '../features/bookings/bookingThunks'
+import { fetchBookingsState } from '../features/bookings/bookingSlice'
 
 const Header = (props) => {
+	const dispatch = useDispatch()
 	const { toggle, handleOpen, handleClose } = useContext(supertoggleContext)
+	const bookingState = useSelector(fetchBookingsState)
 
 	const location = useLocation()
 	const navigate = useNavigate()
@@ -70,6 +75,14 @@ const Header = (props) => {
 	return (
 		<>
 			<HeaderBar>
+				<button
+					onClick={() => {
+						dispatch(fetchInitialBookings())
+					}}
+				>
+					Log
+				</button>
+				{bookingState}
 				<LeftContainer>
 					<IconStyle menu='menu'>
 						<HiArrowsRightLeft onClick={handleToggleOfSideBar} />
