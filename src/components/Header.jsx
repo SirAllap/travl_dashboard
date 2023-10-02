@@ -10,13 +10,13 @@ import { LuMail } from 'react-icons/lu'
 import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
-import { deleteBooking } from '../features/bookings/bookingThunks'
-import { fetchState } from '../features/bookings/bookingSlice'
+import { fetchInitialBookings } from '../features/bookings/bookingThunks'
+import { fetchBookingsState } from '../features/bookings/bookingSlice'
 
 const Header = (props) => {
 	const dispatch = useDispatch()
 	const { toggle, handleOpen, handleClose } = useContext(supertoggleContext)
-	const currentState = useSelector(fetchState)
+	const bookingState = useSelector(fetchBookingsState)
 
 	const location = useLocation()
 	const navigate = useNavigate()
@@ -77,12 +77,12 @@ const Header = (props) => {
 			<HeaderBar>
 				<button
 					onClick={() => {
-						dispatch(deleteBooking('2EFGH234'))
+						dispatch(fetchInitialBookings())
 					}}
 				>
 					Log
 				</button>
-				{currentState}
+				{bookingState}
 				<LeftContainer>
 					<IconStyle menu='menu'>
 						<HiArrowsRightLeft onClick={handleToggleOfSideBar} />

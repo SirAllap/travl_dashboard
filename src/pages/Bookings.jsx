@@ -1,63 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
-import { BsThreeDotsVertical } from 'react-icons/bs'
-import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { useDispatch, useSelector } from 'react-redux'
-import { initialBookings } from '../features/bookings/bookingSlice'
-import { NavLink } from 'react-router-dom'
-import { deleteBooking } from '../features/bookings/bookingThunks'
+import bookings from '../data/bookings.json'
 
 const Bookings = (props) => {
-	const dispatch = useDispatch()
-	const [displayData, setDisplayData] = useState([])
-	const [toggleModal, setToggleModal] = useState(false)
-	const [currentId, setCurrentId] = useState('')
-	const initialBookingData = useSelector(initialBookings)
-
-	const handleModalMore = (id) => {
-		if (!toggleModal) {
-			setToggleModal(true)
-		} else {
-			setToggleModal(false)
-		}
-		setCurrentId(id)
-	}
-
-	const handleDelete = () => {
-		dispatch(deleteBooking(currentId))
-		setToggleModal(false)
-	}
-
-	useEffect(() => {
-		setDisplayData(initialBookingData)
-	}, [initialBookingData])
-
 	const whoAmI = {
 		name: 'bookings',
 		redirect: true,
 	}
-
 	const cols = [
 		{
 			property: 'guest',
 			label: 'Guest Details',
 			display: ({ guest, phone_number, id }) => (
 				<>
-					<NavLink
-						style={{ textDecoration: 'none' }}
-						to={`/bookings/${id}`}
-					>
-						<CustomerPhoto
-							src={`https://robohash.org/${guest}.png?set=any`}
-						/>
-						<TextFormatter name='name'>{guest}</TextFormatter>
-						<TextFormatter small='small'>
-							{phone_number}
-						</TextFormatter>
-						<TextFormatter small='small'>#{id}</TextFormatter>
-					</NavLink>
+					<CustomerPhoto
+						src={`https://robohash.org/${guest}.png?set=any`}
+					/>
+					<TextFormatter name='name'>{guest}</TextFormatter>
+					<TextFormatter small='small'>{phone_number}</TextFormatter>
+					<TextFormatter small='small'>#{id}</TextFormatter>
 				</>
 			),
 		},
@@ -76,21 +39,16 @@ const Bookings = (props) => {
 		{
 			property: 'special_request',
 			label: 'Special Request',
-			display: ({ special_request, id }) =>
-				special_request.length !== 0 ? (
-					<NavLink
-						style={{ textDecoration: 'none' }}
-						to={`/bookings/${id}`}
-					>
-						<SpecialRequest specialrequest={special_request.length}>
-							View Notes
-						</SpecialRequest>
-					</NavLink>
-				) : (
-					<SpecialRequest specialrequest={special_request.length}>
-						View Notes
-					</SpecialRequest>
-				),
+			display: ({ special_request }) => (
+				<SpecialRequest
+					onClick={() => {
+						console.log('im herer')
+					}}
+					specialrequest={special_request.length}
+				>
+					View Notes
+				</SpecialRequest>
+			),
 		},
 		{
 			property: 'room_type',
@@ -100,24 +58,6 @@ const Bookings = (props) => {
 			property: 'status',
 			label: 'Status',
 			display: ({ status }) => <Status status={status}>{status}</Status>,
-		},
-		{
-			label: 'More',
-			display: ({ id }) => {
-				return (
-					<>
-						<BsThreeDotsVertical
-							onClick={() => {
-								handleModalMore(id)
-							}}
-							style={{ fontSize: '30px', cursor: 'pointer' }}
-						/>
-						{/* <MoreOptionsButtons open={toggleModal}>
-							<button>Delete</button>
-						</MoreOptionsButtons> */}
-					</>
-				)
-			},
 		},
 	]
 
@@ -154,18 +94,6 @@ const Bookings = (props) => {
 	return (
 		<>
 			<MainContainer toggle={props.toggle}>
-				<MoreOptionsModal open={toggleModal}>
-					<OptionsButton
-						onClick={() => {
-							handleDelete()
-						}}
-					>
-						DELETE
-					</OptionsButton>
-					<CloseCTA onClick={handleModalMore}>
-						<AiOutlineCloseCircle />
-					</CloseCTA>
-				</MoreOptionsModal>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
@@ -214,7 +142,7 @@ const Bookings = (props) => {
 				</TopTableContainer>
 				<Table
 					cols={cols}
-					datas={displayData}
+					datas={bookings}
 					whoAmI={whoAmI}
 					filter={filter}
 				/>
@@ -224,37 +152,6 @@ const Bookings = (props) => {
 }
 
 export default Bookings
-
-const MoreOptionsModal = styled.span`
-	z-index: 100;
-	position: absolute;
-	top: 50%;
-	left: 90%;
-	transform: translate(-50%, -50%);
-	width: 150px;
-	min-height: 200px;
-	background: #ffffff 0% 0% no-repeat padding-box;
-	border-radius: 20px;
-	transition: all 0.5s;
-	padding: 35px 20px 20px 20px;
-	display: ${(props) => (props.open ? 'block' : 'none')};
-	box-shadow: 0px 4px 30px #0000004e;
-`
-const MoreOptionsButtons = styled.span`
-	display: ${(props) => (props.open ? 'block' : 'none')};
-`
-
-const CloseCTA = styled.button`
-	position: absolute;
-	right: 5px;
-	top: 5px;
-	font-size: 25px;
-	border: none;
-	background-color: transparent;
-	&:hover {
-		color: red;
-	}
-`
 
 const MainContainer = styled.main`
 	text-align: center;
@@ -390,7 +287,6 @@ const Status = styled.button`
 `
 
 const SpecialRequest = styled.button`
-	cursor: pointer;
 	font: 400 16px Poppins;
 	width: 160px;
 	height: 48px;
@@ -401,22 +297,6 @@ const SpecialRequest = styled.button`
 		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
 	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
 `
-
-const OptionsButton = styled(SpecialRequest)`
-	font: 400 16px Poppins;
-	width: 110px;
-	height: 48px;
-	border: none;
-	border-radius: 8px;
-	color: #e23428;
-	background-color: #ffedec;
-	transition: 0.3s all;
-	&:hover {
-		color: #ffedec;
-		background-color: #e23428;
-	}
-`
-
 const CustomerPhoto = styled.img`
 	float: left;
 	margin: 18px 10px 18px 18px;
