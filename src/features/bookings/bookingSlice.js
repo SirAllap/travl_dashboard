@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchInitialBookings } from './bookingThunks'
+import { deleteBooking, fetchInitialBookings } from './bookingThunks'
 
 const initialState = {
-    inintialFetch: [],
+    initialFetch: [],
     status: 'idle',
     error: 'null',
 }
@@ -13,6 +13,7 @@ const bookingSlice = createSlice({
     reducers: {
 
     },
+
     extraReducers(builder) {
         builder
             .addCase(fetchInitialBookings.pending, (state, action) => {
@@ -21,14 +22,29 @@ const bookingSlice = createSlice({
             .addCase(fetchInitialBookings.rejected, (state, action) => {
                 state.status = 'rejected'
             })
+
             .addCase(fetchInitialBookings.fulfilled, (state, action) => {
+                state.initialFetch = action.payload
                 state.status = 'fulfilled'
-                state.inintialFetch = [...state.inintialFetch, ...action.payload]
+            })
+
+            .addCase(deleteBooking.pending, (state, action) => {
+                state.status = 'pending'
+            })
+            .addCase(deleteBooking.rejected, (state, action) => {
+                state.status = 'rejected'
+            })
+            .addCase(deleteBooking.fulfilled, (state, action) => {
+                const result = state.initialFetch.filter((booking) =>
+                    booking.id !== action.payload
+                )
+                state.initialFetch = result
+                state.status = 'fulfilled'
             })
     }
 })
 
 export default bookingSlice.reducer
 
-export const initialBookings = (state) => state.bookings.initialState
-export const fetchBookingsState = (state) => state.bookings.status
+export const initialBookings = (state) => state.bookings.initialFetch
+export const fetchState = (state) => state.bookings.status

@@ -33,15 +33,9 @@ const Table = (props) => {
 		const key = `${props.whoAmI.name}-${row.id}-${index}`
 		if (props.whoAmI.redirect) {
 			return (
-				<NavLink
-					style={{ textDecoration: 'none' }}
-					to={`/${props.whoAmI.name}/${row.id}`}
-					key={key}
-				>
-					<TableSingleRowContainer whoami={props.whoAmI.name}>
-						{rowContent}
-					</TableSingleRowContainer>
-				</NavLink>
+				<TableSingleRowContainer whoami={props.whoAmI.name} key={key}>
+					{rowContent}
+				</TableSingleRowContainer>
 			)
 		} else {
 			return (
@@ -57,8 +51,8 @@ const Table = (props) => {
 			<TableData>
 				<TableHeadContainer>
 					<TableHeadLabel>
-						{props.cols.map((colLabel) => (
-							<p key={colLabel.property}>{colLabel.label}</p>
+						{props.cols.map((colLabel, index) => (
+							<p key={index}>{colLabel.label}</p>
 						))}
 					</TableHeadLabel>
 				</TableHeadContainer>
@@ -101,12 +95,15 @@ const TableHeadLabel = styled.div`
 	height: 65px;
 	border-bottom: 2px solid #f5f5f5;
 	p {
-		width: calc(1494px / 4);
+		width: calc(1494px / 5);
 		font: 600 18px Poppins;
 		color: #393939;
 		&:last-child {
 			margin-right: 10px;
 		}
+	}
+	:last-child {
+		width: 12%;
 	}
 `
 
@@ -179,6 +176,9 @@ const TableSingleRowContainer = styled.div`
 					transition: 0.3s all;
 					&:hover {
 						box-shadow: 0px 4px 30px #0000001a;
+					}
+					:nth-child(15) {
+						width: 15%;
 					}
 				`
 		}
