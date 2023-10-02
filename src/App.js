@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Routes from './router/Routes'
 import Header from './components/Header'
 import SideBar from './components/SideBar'
 import ToggleContext from './context/ToggleContext.jsx'
+import { useDispatch } from 'react-redux'
+import { fetchInitialBookings } from './features/bookings/bookingThunks'
 
 const App = () => {
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchInitialBookings())
+    }, [dispatch])
     const location = useLocation()
     const [toggleSideBar, setToggleSideBar] = useState('false')
     const [headerTitle, setHeaderTitle] = useState('Dashboard')
