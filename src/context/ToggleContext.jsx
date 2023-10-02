@@ -1,4 +1,4 @@
-import React, { Children, useState } from 'react'
+import React, { useState } from 'react'
 import { supertoggleContext } from './supertoggleContext'
 
 const ToggleContext = ({ children }) => {

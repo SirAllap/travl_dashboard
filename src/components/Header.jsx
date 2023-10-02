@@ -12,6 +12,7 @@ import { supertoggleContext } from '../context/supertoggleContext'
 
 const Header = (props) => {
 	const { toggle, handleOpen, handleClose } = useContext(supertoggleContext)
+
 	const location = useLocation()
 	const navigate = useNavigate()
 	const [openSideBar, setOpenSideBar] = useState('close')
