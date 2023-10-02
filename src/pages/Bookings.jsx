@@ -84,12 +84,18 @@ const Bookings = (props) => {
 						style={{ textDecoration: 'none' }}
 						to={`/bookings/${id}`}
 					>
-						<SpecialRequest specialrequest={special_request.length}>
+						<SpecialRequest
+							selectionable={true}
+							specialrequest={special_request.length}
+						>
 							View Notes
 						</SpecialRequest>
 					</NavLink>
 				) : (
-					<SpecialRequest specialrequest={special_request.length}>
+					<SpecialRequest
+						selectionable={false}
+						specialrequest={special_request.length}
+					>
 						View Notes
 					</SpecialRequest>
 				),
@@ -392,7 +398,7 @@ const Status = styled.button`
 `
 
 const SpecialRequest = styled.button`
-	cursor: pointer;
+	cursor: ${(props) => (props.selectionable ? 'pointer' : 'not-allowed')};
 	font: 400 16px Poppins;
 	width: 160px;
 	height: 48px;
