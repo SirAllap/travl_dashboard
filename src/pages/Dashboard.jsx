@@ -5,7 +5,6 @@ import { LuCalendarCheck2 } from 'react-icons/lu'
 import { IoLogInOutline } from 'react-icons/io5'
 import { FaRegEnvelopeOpen } from 'react-icons/fa'
 import { FaRegEnvelope } from 'react-icons/fa'
-import client_review from '../data/client_review.json'
 import './styles.css'
 import { supertoggleContext } from '../context/supertoggleContext'
 
@@ -15,13 +14,20 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
+import { useDispatch, useSelector } from 'react-redux'
+import { initialContacts } from '../features/contact/contactSlice'
+import { archiveContacts } from '../features/contact/contactThunks'
 
 const Dashboard = (props) => {
+	const dispatch = useDispatch()
 	const { toggle } = useContext(supertoggleContext)
 	const [toggleModal, setToggleModal] = useState(false)
 	const [toggleModalUser, setToggleModalUser] = useState({})
+	const [currentId, setCurrentId] = useState('')
+	const initialContactData = useSelector(initialContacts)
 
 	const handleToggleModal = (userReview) => {
+		setCurrentId(userReview.id)
 		if (!toggleModal) {
 			setToggleModal(true)
 			setToggleModalUser(userReview)
@@ -30,13 +36,21 @@ const Dashboard = (props) => {
 		}
 	}
 
+	const handleMarkAsRead = (id) => {
+		dispatch(archiveContacts(id))
+	}
+
 	return (
 		<>
 			<MainContainer toggle={toggle}>
 				<CustomerReviewModalOverlay open={toggleModal} />
 				<CustomerReviewModal open={toggleModal}>
 					<CloseCTA onClick={handleToggleModal}>
-						<FaRegEnvelopeOpen />
+						<FaRegEnvelopeOpen
+							onClick={() => {
+								handleMarkAsRead(currentId)
+							}}
+						/>
 					</CloseCTA>
 					{toggleModalUser && (
 						<>
@@ -160,7 +174,7 @@ const Dashboard = (props) => {
 						slidesPerView={3}
 						navigation
 					>
-						{client_review.map((elem, index) => (
+						{initialContactData.map((elem, index) => (
 							<SwiperSlide key={index}>
 								<CustomerReviewCard
 									onClick={() => handleToggleModal(elem)}
@@ -212,7 +226,7 @@ const Dashboard = (props) => {
 												text: 'cardReadChecker',
 											}}
 										>
-											{elem.state ? (
+											{elem.isArchived === 'true' ? (
 												<FaRegEnvelopeOpen
 													style={{ color: 'green' }}
 												/>

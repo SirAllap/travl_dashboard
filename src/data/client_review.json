@@ -8,7 +8,7 @@
 		"review_body": "I had a wonderful stay at this hotel. The staff was friendly and accommodating, and the room was clean and comfortable. The hotel's amenities, including the pool and fitness center, were top-notch. I would definitely recommend it.",
 		"date": "2023-09-25",
 		"dateTime": "09:15 AM",
-		"isArchived": "true"
+		"isArchived": "false"
 	},
 	{
 		"id": "2",
@@ -30,7 +30,7 @@
 		"review_body": "My stay at this hotel was a relaxing getaway. The spa treatments were exceptional, and I felt rejuvenated after my visit. The room had a beautiful view, and the staff made me feel right at home.",
 		"date": "2023-09-27",
 		"dateTime": "02:45 PM",
-		"isArchived": "true"
+		"isArchived": "false"
 	},
 	{
 		"id": "4",
@@ -41,7 +41,7 @@
 		"review_body": "I can't say enough about the outstanding experience I had at this hotel. From the moment I arrived, I was treated like royalty. The room was luxurious, and the staff made sure every detail was perfect.",
 		"date": "2023-09-28",
 		"dateTime": "08:00 AM",
-		"isArchived": "true"
+		"isArchived": "false"
 	},
 	{
 		"id": "5",
@@ -52,7 +52,7 @@
 		"review_body": "The hotel's hospitality was exceptional. I felt welcomed throughout my stay, and the staff's attention to detail made it truly special. The location was convenient, and I enjoyed exploring the nearby attractions.",
 		"date": "2023-09-29",
 		"dateTime": "11:15 AM",
-		"isArchived": "true"
+		"isArchived": "false"
 	},
 	{
 		"id": "6",
@@ -63,7 +63,7 @@
 		"review_body": "My trip to this hotel was truly memorable. The room was spacious and well-appointed, and the hotel's restaurant served delicious meals. The concierge helped me plan some great outings in the city.",
 		"date": "2023-09-30",
 		"dateTime": "03:30 PM",
-		"isArchived": "true"
+		"isArchived": "false"
 	},
 	{
 		"id": "7",
@@ -74,7 +74,7 @@
 		"review_body": "I had a fantastic stay at this hotel. The room was clean and comfortable, and the staff provided excellent service. The hotel's location was ideal for exploring the city, and I had a great time.",
 		"date": "2023-10-01",
 		"dateTime": "06:45 AM",
-		"isArchived": "true"
+		"isArchived": "false"
 	},
 	{
 		"id": "8",
@@ -118,7 +118,7 @@
 		"review_body": "The hotel's location offers breathtaking views of the city skyline. I spent hours just enjoying the scenery from my room. The room itself was spacious and elegantly decorated, making it the perfect place to unwind. The hotel's rooftop bar provided a stunning panorama of the city at night. I couldn't have asked for a more picturesque setting for my stay.",
 		"date": "2023-10-05",
 		"dateTime": "09:30 AM",
-		"isArchived": "true"
+		"isArchived": "false"
 	},
 	{
 		"id": "12",
@@ -129,7 +129,7 @@
 		"review_body": "I treated myself to a spa day at the hotel, and it was incredibly relaxing. The spa facilities are top-notch, and the treatments left me feeling rejuvenated and stress-free. The tranquil ambiance and skilled therapists made it a truly blissful experience. I left the spa feeling like a new person, and I can't wait to indulge in their spa services again.",
 		"date": "2023-10-06",
 		"dateTime": "02:15 PM",
-		"isArchived": "true"
+		"isArchived": "false"
 	},
 	{
 		"id": "13",
@@ -140,7 +140,7 @@
 		"review_body": "The hotel is spotlessly clean, and I felt safe and comfortable during my entire stay. The attention to cleanliness and hygiene is commendable. Not a speck of dust was to be found, and the common areas were immaculately maintained. It's reassuring to stay in a hotel that prioritizes cleanliness to such a high degree.",
 		"date": "2023-10-07",
 		"dateTime": "10:00 AM",
-		"isArchived": "true"
+		"isArchived": "false"
 	},
 	{
 		"id": "14",
@@ -195,7 +195,7 @@
 		"review_body": "The hotel's elegant decor and ambiance added a touch of luxury to my stay. The attention to detail in the interior design was evident. Every corner of the hotel exuded sophistication and style. It made my stay feel truly special.",
 		"date": "2023-10-12",
 		"dateTime": "02:30 PM",
-		"isArchived": "true"
+		"isArchived": "false"
 	},
 	{
 		"id": "19",
@@ -206,7 +206,7 @@
 		"review_body": "The hotel's location is fantastic, with easy access to the city's main attractions. I was able to explore museums, shops, and restaurants within walking distance. The convenience of the location added to the overall enjoyment of my stay.",
 		"date": "2023-10-13",
 		"dateTime": "05:15 PM",
-		"isArchived": "true"
+		"isArchived": "false"
 	},
 	{
 		"id": "20",
@@ -217,6 +217,6 @@
 		"review_body": "I stayed at this hotel with my family, and it created wonderful memories for all of us. The family-friendly amenities, such as the kids' play area and swimming pool, kept the children entertained. The spacious rooms provided the comfort we needed, and the staff made us feel like valued guests. We will cherish the memories of this trip forever.",
 		"date": "2023-10-14",
 		"dateTime": "07:00 AM",
-		"isArchived": "true"
+		"isArchived": "false"
 	}
 ]

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { supertoggleContext } from '../context/supertoggleContext'
 import styled from 'styled-components'
@@ -10,13 +9,9 @@ import { LuMail } from 'react-icons/lu'
 import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
-import { deleteBooking } from '../features/bookings/bookingThunks'
-import { fetchState } from '../features/bookings/bookingSlice'
 
 const Header = (props) => {
-	const dispatch = useDispatch()
 	const { toggle, handleOpen, handleClose } = useContext(supertoggleContext)
-	const currentState = useSelector(fetchState)
 
 	const location = useLocation()
 	const navigate = useNavigate()
@@ -71,14 +66,6 @@ const Header = (props) => {
 	return (
 		<>
 			<HeaderBar>
-				<button
-					onClick={() => {
-						dispatch(deleteBooking('2EFGH234'))
-					}}
-				>
-					Log
-				</button>
-				{currentState}
 				<LeftContainer>
 					<IconStyle menu='menu'>
 						<HiArrowsRightLeft onClick={handleToggleOfSideBar} />

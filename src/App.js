@@ -6,11 +6,14 @@ import SideBar from './components/SideBar'
 import ToggleContext from './context/ToggleContext.jsx'
 import { useDispatch } from 'react-redux'
 import { fetchInitialBookings } from './features/bookings/bookingThunks'
+import { fetchInitialContacts } from './features/contact/contactThunks'
+
 
 const App = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(fetchInitialBookings())
+        dispatch(fetchInitialContacts())
     }, [dispatch])
     const location = useLocation()
     const [headerTitle, setHeaderTitle] = useState('Dashboard')

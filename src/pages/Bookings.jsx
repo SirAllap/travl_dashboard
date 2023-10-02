@@ -85,7 +85,7 @@ const Bookings = (props) => {
 						to={`/bookings/${id}`}
 					>
 						<SpecialRequest
-							selectionable={true}
+							selectionable='true'
 							specialrequest={special_request.length}
 						>
 							View Notes
@@ -93,7 +93,7 @@ const Bookings = (props) => {
 					</NavLink>
 				) : (
 					<SpecialRequest
-						selectionable={false}
+						selectionable='false'
 						specialrequest={special_request.length}
 					>
 						View Notes
@@ -398,7 +398,8 @@ const Status = styled.button`
 `
 
 const SpecialRequest = styled.button`
-	cursor: ${(props) => (props.selectionable ? 'pointer' : 'not-allowed')};
+	cursor: ${(props) =>
+		props.selectionable === 'true' ? 'pointer' : 'not-allowed'};
 	font: 400 16px Poppins;
 	width: 160px;
 	height: 48px;
