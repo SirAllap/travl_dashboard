@@ -2,11 +2,15 @@ import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
-import client_review from '../data/client_review.json'
 import { supertoggleContext } from '../context/supertoggleContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { initialContacts } from '../features/contact/contactSlice'
 
 const Contact = (props) => {
+	const dispatch = useDispatch()
 	const { toggle } = useContext(supertoggleContext)
+	const initialContactData = useSelector(initialContacts)
+
 	const whoAmI = {
 		name: 'contact',
 		redirect: false,
@@ -108,7 +112,7 @@ const Contact = (props) => {
 				</TopTableContainer>
 				<Table
 					cols={cols}
-					datas={client_review}
+					datas={initialContactData}
 					whoAmI={whoAmI}
 					filter={filter}
 				/>

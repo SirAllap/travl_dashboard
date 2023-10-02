@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
-import rooms from '../data/rooms.json'
+import { useSelector } from 'react-redux'
+import { initialRooms } from '../features/rooms/roomSlice'
 
 const Rooms = (props) => {
+	const initialRoomData = useSelector(initialRooms)
 	const whoAmI = {
 		name: 'rooms',
 		redirect: true,
@@ -130,7 +132,7 @@ const Rooms = (props) => {
 				</TopTableContainer>
 				<Table
 					cols={cols}
-					datas={rooms}
+					datas={initialRoomData}
 					whoAmI={whoAmI}
 					filter={filter}
 				/>

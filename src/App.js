@@ -7,6 +7,7 @@ import ToggleContext from './context/ToggleContext.jsx'
 import { useDispatch } from 'react-redux'
 import { fetchInitialBookings } from './features/bookings/bookingThunks'
 import { fetchInitialContacts } from './features/contact/contactThunks'
+import { fetchInitialRooms } from './features/rooms/roomThunks'
 
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
     useEffect(() => {
         dispatch(fetchInitialBookings())
         dispatch(fetchInitialContacts())
+        dispatch(fetchInitialRooms())
     }, [dispatch])
     const location = useLocation()
     const [headerTitle, setHeaderTitle] = useState('Dashboard')

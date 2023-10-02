@@ -11,7 +11,6 @@ const delay = (data, time = 500) => {
 
 export const fetchInitialContacts = createAsyncThunk(
     'contacts/fetchInitialContacts', async () => {
-        console.log('im fetching data')
         return await delay(contactsJSONfile)
     }
 )
