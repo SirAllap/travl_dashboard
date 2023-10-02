@@ -20,14 +20,10 @@ const Header = (props) => {
 
 	const location = useLocation()
 	const navigate = useNavigate()
-	const [openSideBar, setOpenSideBar] = useState('close')
 	const [currentBreadCrumb, setCurrentBreadCrumb] = useState('')
 	const [curentTitle, setCurrentTitle] = useState('Dashboard')
 
 	const handleToggleOfSideBar = () => {
-		// setOpenSideBar(openSideBar === 'open' ? 'close' : 'open')
-		// props.setToggleSideBar(openSideBar)
-
 		return toggle === 'open' ? handleClose() : handleOpen()
 	}
 

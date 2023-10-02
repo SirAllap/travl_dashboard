@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
+import { supertoggleContext } from '../context/supertoggleContext'
 const RoomDetails = (props) => {
+	const { toggle } = useContext(supertoggleContext)
 	const location = useLocation()
 	const { roomId } = useParams()
 	const [savedLastId, setSavedLastId] = useState('')
@@ -19,7 +21,7 @@ const RoomDetails = (props) => {
 	const navigate = useNavigate()
 	return (
 		<>
-			<MainContainer toggle={props.toggle}>
+			<MainContainer toggle={toggle}>
 				<CTA onClick={() => navigate('/rooms')}>Back</CTA>
 				<h1>RoomDetails</h1>
 			</MainContainer>

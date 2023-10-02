@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { LiaBedSolid } from 'react-icons/lia'
 import { LuCalendarCheck2 } from 'react-icons/lu'
@@ -7,6 +7,7 @@ import { FaRegEnvelopeOpen } from 'react-icons/fa'
 import { FaRegEnvelope } from 'react-icons/fa'
 import client_review from '../data/client_review.json'
 import './styles.css'
+import { supertoggleContext } from '../context/supertoggleContext'
 
 import { Navigation, A11y } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -16,6 +17,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 
 const Dashboard = (props) => {
+	const { toggle } = useContext(supertoggleContext)
 	const [toggleModal, setToggleModal] = useState(false)
 	const [toggleModalUser, setToggleModalUser] = useState({})
 
@@ -30,7 +32,7 @@ const Dashboard = (props) => {
 
 	return (
 		<>
-			<MainContainer toggle={props.toggle}>
+			<MainContainer toggle={toggle}>
 				<CustomerReviewModalOverlay open={toggleModal} />
 				<CustomerReviewModal open={toggleModal}>
 					<CloseCTA onClick={handleToggleModal}>

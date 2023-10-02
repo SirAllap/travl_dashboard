@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
@@ -9,7 +9,9 @@ import { initialBookings } from '../features/bookings/bookingSlice'
 import { NavLink } from 'react-router-dom'
 import { deleteBooking } from '../features/bookings/bookingThunks'
 
+import { supertoggleContext } from '../context/supertoggleContext'
 const Bookings = (props) => {
+	const { toggle } = useContext(supertoggleContext)
 	const dispatch = useDispatch()
 	const [displayData, setDisplayData] = useState([])
 	const [toggleModal, setToggleModal] = useState(false)
@@ -153,7 +155,7 @@ const Bookings = (props) => {
 	}
 	return (
 		<>
-			<MainContainer toggle={props.toggle}>
+			<MainContainer toggle={toggle}>
 				<MoreOptionsModal open={toggleModal}>
 					<OptionsButton
 						onClick={() => {

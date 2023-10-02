@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
 import employee from '../data/employee_data.json'
+import { supertoggleContext } from '../context/supertoggleContext'
 
 const Users = (props) => {
+	const { toggle } = useContext(supertoggleContext)
 	const whoAmI = {
 		name: 'users',
 		redirect: false,
@@ -84,7 +86,7 @@ const Users = (props) => {
 	}
 	return (
 		<>
-			<MainContainer toggle={props.toggle}>
+			<MainContainer toggle={toggle}>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
