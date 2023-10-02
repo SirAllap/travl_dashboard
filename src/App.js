@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import { fetchInitialBookings } from './features/bookings/bookingThunks'
 import { fetchInitialContacts } from './features/contact/contactThunks'
 import { fetchInitialRooms } from './features/rooms/roomThunks'
+import { fetchInitialUsers } from './features/users/userThunks'
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         dispatch(fetchInitialBookings())
         dispatch(fetchInitialContacts())
         dispatch(fetchInitialRooms())
+        dispatch(fetchInitialUsers())
     }, [dispatch])
     const location = useLocation()
     const [headerTitle, setHeaderTitle] = useState('Dashboard')
