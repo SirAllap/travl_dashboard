@@ -14,3 +14,9 @@ export const fetchInitialBookings = createAsyncThunk(
         return await delay(bookingsJSONfile)
     }
 )
+
+export const deleteBooking = createAsyncThunk(
+    'bookings/deleteBooking', async id => {
+        return await delay(id)
+    }
+)
