@@ -33,7 +33,6 @@ const bookingSlice = createSlice({
             })
             .addCase(fetchOneBooking.fulfilled, (state, action) => {
                 state.singleBookingFetch = action.payload
-                console.log(state.singleBookingFetch)
                 state.status = 'fulfilled'
             })
 

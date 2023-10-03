@@ -3,6 +3,7 @@
 		"id": "1ABCD123",
 		"room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 		"room_type": "Double Superior",
+		"description": "Experience the epitome of luxury and comfort in our Double Superior room. This spacious and elegantly appointed room is designed to provide you with the utmost relaxation and convenience during your stay. With a modern and stylish decor, it offers a serene oasis in the heart of the city.",
 		"amenities": [
 			{ "name": "1/3 Bed Space", "description": "Spacious bed area" },
 			{
