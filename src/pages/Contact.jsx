@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { initialContacts } from '../features/contact/contactSlice'
 
 const Contact = (props) => {
-	const { toggle } = useContext(supertoggleContext)
+	const { state } = useContext(supertoggleContext)
 	const initialContactData = useSelector(initialContacts)
 
 	const whoAmI = {
@@ -75,7 +75,7 @@ const Contact = (props) => {
 	}
 	return (
 		<>
-			<MainContainer toggle={toggle}>
+			<MainContainer toggle={state.position}>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>

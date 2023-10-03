@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { supertoggleContext } from '../context/supertoggleContext'
 const RoomDetails = (props) => {
-	const { toggle } = useContext(supertoggleContext)
+	const { state } = useContext(supertoggleContext)
 	const location = useLocation()
 	const { roomId } = useParams()
 	const [savedLastId, setSavedLastId] = useState('')
@@ -21,7 +21,7 @@ const RoomDetails = (props) => {
 	const navigate = useNavigate()
 	return (
 		<>
-			<MainContainer toggle={toggle}>
+			<MainContainer toggle={state.position}>
 				<CTA onClick={() => navigate('/rooms')}>Back</CTA>
 				<h1>RoomDetails</h1>
 			</MainContainer>

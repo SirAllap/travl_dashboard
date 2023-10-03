@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { useSelector } from 'react-redux'
 import { initialRooms } from '../features/rooms/roomSlice'
+import { supertoggleContext } from '../context/supertoggleContext'
 
 const Rooms = (props) => {
+	const { state } = useContext(supertoggleContext)
 	const initialRoomData = useSelector(initialRooms)
 	const whoAmI = {
 		name: 'rooms',
@@ -99,7 +101,7 @@ const Rooms = (props) => {
 	}
 	return (
 		<>
-			<MainContainer toggle={props.toggle}>
+			<MainContainer toggle={state.position}>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>

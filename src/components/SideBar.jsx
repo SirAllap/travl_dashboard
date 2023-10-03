@@ -14,16 +14,12 @@ const SideBar = (props) => {
 	const { state } = useContext(supertoggleContext)
 
 	const [toggleModal, setToggleModal] = useState(false)
-	// const [togglePhotoModal, setTogglePhotoModal] = useState(false)
 	const [userUpdatedName, setUpdatedUserName] = useState('')
 	const [userUpdatedEmail, setUpdatedUserEmail] = useState('')
-
 	const [userName1, setUserName1] = useState('')
 	const [userEmail1, setUserEmail1] = useState('')
-
 	const [userName, setUserName] = useState('')
 	const [userEmail, setUserEmail] = useState('')
-
 	const [profPic, setProfPic] = useState('')
 	const [file2Upload, setFile2Upload] = useState()
 

@@ -8,7 +8,7 @@ import { initialUsers } from '../features/users/userSlice'
 
 const Users = (props) => {
 	const initialUserData = useSelector(initialUsers)
-	const { toggle } = useContext(supertoggleContext)
+	const { state } = useContext(supertoggleContext)
 	const whoAmI = {
 		name: 'users',
 		redirect: false,
@@ -88,7 +88,7 @@ const Users = (props) => {
 	}
 	return (
 		<>
-			<MainContainer toggle={toggle}>
+			<MainContainer toggle={state.position}>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>

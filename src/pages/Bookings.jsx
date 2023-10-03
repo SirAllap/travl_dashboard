@@ -11,7 +11,7 @@ import { deleteBooking } from '../features/bookings/bookingThunks'
 
 import { supertoggleContext } from '../context/supertoggleContext'
 const Bookings = (props) => {
-	const { toggle } = useContext(supertoggleContext)
+	const { state } = useContext(supertoggleContext)
 	const dispatch = useDispatch()
 	const [displayData, setDisplayData] = useState([])
 	const [toggleModal, setToggleModal] = useState(false)
@@ -161,7 +161,7 @@ const Bookings = (props) => {
 	}
 	return (
 		<>
-			<MainContainer toggle={toggle}>
+			<MainContainer toggle={state.position}>
 				<MoreOptionsModal open={toggleModal}>
 					<OptionsButton
 						onClick={() => {

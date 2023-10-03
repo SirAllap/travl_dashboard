@@ -20,7 +20,7 @@ import { archiveContacts } from '../features/contact/contactThunks'
 
 const Dashboard = (props) => {
 	const dispatch = useDispatch()
-	const { toggle } = useContext(supertoggleContext)
+	const { state } = useContext(supertoggleContext)
 	const [toggleModal, setToggleModal] = useState(false)
 	const [toggleModalUser, setToggleModalUser] = useState({})
 	const [currentId, setCurrentId] = useState('')
@@ -42,7 +42,7 @@ const Dashboard = (props) => {
 
 	return (
 		<>
-			<MainContainer toggle={toggle}>
+			<MainContainer toggle={state.position}>
 				<CustomerReviewModalOverlay open={toggleModal} />
 				<CustomerReviewModal open={toggleModal}>
 					<CloseCTA onClick={handleToggleModal}>
