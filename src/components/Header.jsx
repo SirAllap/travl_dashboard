@@ -11,7 +11,7 @@ import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
 
 const Header = (props) => {
-	const { toggle, handleOpen, handleClose } = useContext(supertoggleContext)
+	const { dispatch, state } = useContext(supertoggleContext)
 
 	const location = useLocation()
 	const navigate = useNavigate()
@@ -19,7 +19,9 @@ const Header = (props) => {
 	const [curentTitle, setCurrentTitle] = useState('Dashboard')
 
 	const handleToggleOfSideBar = () => {
-		return toggle === 'open' ? handleClose() : handleOpen()
+		return state.position === 'open'
+			? dispatch({ type: 'close' })
+			: dispatch({ type: 'open' })
 	}
 
 	const handleLogOut = () => {

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
 import styled, { css } from 'styled-components'
 
 const Table = (props) => {
@@ -31,19 +30,24 @@ const Table = (props) => {
 			</>
 		)
 		const key = `${props.whoAmI.name}-${row.id}-${index}`
-		if (props.whoAmI.redirect) {
-			return (
-				<TableSingleRowContainer whoami={props.whoAmI.name} key={key}>
-					{rowContent}
-				</TableSingleRowContainer>
-			)
-		} else {
-			return (
-				<TableSingleRowContainer whoami={props.whoAmI.name} key={key}>
-					{rowContent}
-				</TableSingleRowContainer>
-			)
-		}
+		// if (props.whoAmI.redirect) {
+		// 	return (
+		// 		<TableSingleRowContainer whoami={props.whoAmI.name} key={key}>
+		// 			{rowContent}
+		// 		</TableSingleRowContainer>
+		// 	)
+		// } else {
+		// 	return (
+		// 		<TableSingleRowContainer whoami={props.whoAmI.name} key={key}>
+		// 			{rowContent}
+		// 		</TableSingleRowContainer>
+		// 	)
+		// }
+		return (
+			<TableSingleRowContainer whoami={props.whoAmI.name} key={key}>
+				{rowContent}
+			</TableSingleRowContainer>
+		)
 	}
 
 	return (

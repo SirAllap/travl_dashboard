@@ -11,7 +11,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { supertoggleContext } from '../context/supertoggleContext'
 
 const SideBar = (props) => {
-	const { toggle } = useContext(supertoggleContext)
+	const { state } = useContext(supertoggleContext)
 
 	const [toggleModal, setToggleModal] = useState(false)
 	// const [togglePhotoModal, setTogglePhotoModal] = useState(false)
@@ -102,7 +102,7 @@ const SideBar = (props) => {
 
 	return (
 		<>
-			<Container toggle={toggle}>
+			<Container toggle={state.position}>
 				<EditUserModalOverlay open={toggleModal} />
 				<EditUserModal open={toggleModal}>
 					<EditUserInputLable type='name'>Name</EditUserInputLable>
