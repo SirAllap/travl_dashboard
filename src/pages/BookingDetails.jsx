@@ -7,6 +7,7 @@ import {
 	fetchBookingState,
 	singleBooking,
 } from '../features/bookings/bookingSlice'
+import { Triangle } from 'react-loader-spinner'
 
 const BookingsDetails = (props) => {
 	const { state } = useContext(supertoggleContext)
@@ -14,7 +15,7 @@ const BookingsDetails = (props) => {
 	const { bookingId } = useParams()
 	const [savedLastId, setSavedLastId] = useState('')
 	const [currentBooking, setCurrentBooking] = useState([])
-	const [spinner, setSpinner] = useState(false)
+	const [spinner, setSpinner] = useState(true)
 	const singleBookingData = useSelector(singleBooking)
 	const bookingState = useSelector(fetchBookingState)
 
@@ -29,7 +30,9 @@ const BookingsDetails = (props) => {
 		if (bookingState === 'pending') {
 			setSpinner(true)
 		} else {
-			setSpinner(false)
+			setTimeout(() => {
+				setSpinner(false)
+			}, 500)
 			setCurrentBooking(singleBookingData[0])
 		}
 	}, [
@@ -47,21 +50,42 @@ const BookingsDetails = (props) => {
 		<>
 			<MainContainer toggle={state.position}>
 				<CTA onClick={() => navigate('/bookings')}>Back</CTA>
-
-				<LeftDetailsCard>
-					{currentBooking ? currentBooking.id : ' '}
-					<TopSideInnerDetailsCard>
-						<PhotoContainer></PhotoContainer>
-						<InfoBookingContainer></InfoBookingContainer>
-					</TopSideInnerDetailsCard>
-				</LeftDetailsCard>
-				<RightDetailsCard></RightDetailsCard>
+				{spinner ? (
+					<SpinnerContainer>
+						<Triangle
+							height='150'
+							width='150'
+							color='#135846'
+							ariaLabel='triangle-loading'
+							wrapperClassName=''
+							visible={spinner}
+						/>
+					</SpinnerContainer>
+				) : (
+					<>
+						<LeftDetailsCard>
+							{currentBooking ? currentBooking.id : ' '}
+							<TopSideInnerDetailsCard>
+								<PhotoContainer></PhotoContainer>
+								<InfoBookingContainer></InfoBookingContainer>
+							</TopSideInnerDetailsCard>
+						</LeftDetailsCard>
+						<RightDetailsCard></RightDetailsCard>
+					</>
+				)}
 			</MainContainer>
 		</>
 	)
 }
 
 export default BookingsDetails
+
+const SpinnerContainer = styled.div`
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+`
 
 const CTA = styled.button`
 	font: normal normal 600 18px Poppins;
