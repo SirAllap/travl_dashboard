@@ -15,6 +15,12 @@ export const fetchInitialBookings = createAsyncThunk(
     }
 )
 
+export const fetchOneBooking = createAsyncThunk(
+    'bookings/fetchOneBooking', async id => {
+        return await delay(bookingsJSONfile.filter((booking) => booking.id === id))
+    }
+)
+
 export const deleteBooking = createAsyncThunk(
     'bookings/deleteBooking', async id => {
         return await delay(id)

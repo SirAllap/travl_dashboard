@@ -2,12 +2,22 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { supertoggleContext } from '../context/supertoggleContext'
+import { useSelector } from 'react-redux'
+import {
+	fetchBookingState,
+	singleBooking,
+} from '../features/bookings/bookingSlice'
 
 const BookingsDetails = (props) => {
 	const { state } = useContext(supertoggleContext)
 	const location = useLocation()
 	const { bookingId } = useParams()
 	const [savedLastId, setSavedLastId] = useState('')
+	const [currentBooking, setCurrentBooking] = useState([])
+	const [spinner, setSpinner] = useState(false)
+	const singleBookingData = useSelector(singleBooking)
+	const bookingState = useSelector(fetchBookingState)
+
 	useEffect(() => {
 		if (
 			savedLastId !== bookingId &&
@@ -16,8 +26,22 @@ const BookingsDetails = (props) => {
 			props.setbreadcrumb(`Bookings/${bookingId}`)
 			setSavedLastId(bookingId)
 		}
-	}, [savedLastId, bookingId, location.pathname, props])
+		if (bookingState === 'pending') {
+			setSpinner(true)
+		} else {
+			setSpinner(false)
+			setCurrentBooking(singleBookingData[0])
+		}
+	}, [
+		savedLastId,
+		bookingId,
+		location.pathname,
+		props,
+		singleBookingData,
+		bookingState,
+	])
 
+	console.log(currentBooking)
 	const navigate = useNavigate()
 	return (
 		<>
@@ -25,6 +49,7 @@ const BookingsDetails = (props) => {
 				<CTA onClick={() => navigate('/bookings')}>Back</CTA>
 
 				<LeftDetailsCard>
+					{currentBooking ? currentBooking.id : ' '}
 					<TopSideInnerDetailsCard>
 						<PhotoContainer></PhotoContainer>
 						<InfoBookingContainer></InfoBookingContainer>

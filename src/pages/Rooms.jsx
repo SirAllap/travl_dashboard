@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { useSelector } from 'react-redux'
@@ -171,6 +171,13 @@ const Rooms = (props) => {
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>
+						<AddRoomCTA
+							onClick={() => {
+								console.log('im a button to add rooms')
+							}}
+						>
+							+ Add Room{' '}
+						</AddRoomCTA>
 						<FilterSelector
 							name='bookingFilter'
 							id='bookingFilter'
@@ -196,6 +203,26 @@ const Rooms = (props) => {
 
 export default Rooms
 
+const AddRoomCTA = styled.button`
+	font: 500 16px Poppins;
+	width: 464px;
+	height: 50px;
+	border: 1px solid #135846;
+	color: #135846;
+	border: 2px solid #135846;
+	border-radius: 12px;
+	margin-right: 20px;
+	cursor: pointer;
+	outline: none;
+	padding: 0 15px 0 15px;
+	background-color: #eef9f2;
+	&:hover {
+		background-color: #135846;
+		color: #fff;
+		border: 2px solid #799283;
+	}
+`
+
 const MainContainer = styled.main`
 	text-align: center;
 	max-height: 730px;
@@ -206,6 +233,8 @@ const MainContainer = styled.main`
 `
 
 const TopTableContainer = styled.div`
+	display: flex;
+	flex-direction: row;
 	min-width: 100%;
 	max-height: 730px;
 `
@@ -220,7 +249,9 @@ const TableTabsContainer = styled.div`
 const TableSearchAndFilterContainer = styled.div`
 	text-align: right;
 	position: relative;
-	display: inline-block;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
 	width: 49%;
 	min-height: 50px;
 `
@@ -255,15 +286,13 @@ const FilterSelector = styled.select`
 	border: 2px solid #135846;
 	border-radius: 12px;
 	margin-right: 20px;
+	background-color: #fff;
 	cursor: pointer;
 	outline: none;
 	padding-left: 15px;
 	option {
 		font: 500 16px Poppins;
 		color: #135846;
-	}
-	&:hover {
-		border: 2px solid #799283;
 	}
 `
 

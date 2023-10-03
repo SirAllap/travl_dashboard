@@ -7,7 +7,10 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import { initialBookings } from '../features/bookings/bookingSlice'
 import { NavLink } from 'react-router-dom'
-import { deleteBooking } from '../features/bookings/bookingThunks'
+import {
+	deleteBooking,
+	fetchOneBooking,
+} from '../features/bookings/bookingThunks'
 
 import { supertoggleContext } from '../context/supertoggleContext'
 const Bookings = (props) => {
@@ -51,14 +54,20 @@ const Bookings = (props) => {
 						style={{ textDecoration: 'none' }}
 						to={`/bookings/${id}`}
 					>
-						<CustomerPhoto
-							src={`https://robohash.org/${guest}.png?set=any`}
-						/>
-						<TextFormatter name='name'>{guest}</TextFormatter>
-						<TextFormatter small='small'>
-							{phone_number}
-						</TextFormatter>
-						<TextFormatter small='small'>#{id}</TextFormatter>
+						<span
+							onClick={() => {
+								dispatch(fetchOneBooking(id))
+							}}
+						>
+							<CustomerPhoto
+								src={`https://robohash.org/${guest}.png?set=any`}
+							/>
+							<TextFormatter name='name'>{guest}</TextFormatter>
+							<TextFormatter small='small'>
+								{phone_number}
+							</TextFormatter>
+							<TextFormatter small='small'>#{id}</TextFormatter>
+						</span>
 					</NavLink>
 				</>
 			),
@@ -81,6 +90,9 @@ const Bookings = (props) => {
 			display: ({ special_request, id }) =>
 				special_request.length !== 0 ? (
 					<NavLink
+						onClick={() => {
+							dispatch(fetchOneBooking(id))
+						}}
 						style={{ textDecoration: 'none' }}
 						to={`/bookings/${id}`}
 					>
