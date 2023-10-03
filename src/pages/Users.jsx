@@ -150,7 +150,7 @@ const TopTableContainer = styled.div`
 `
 
 const TableTabsContainer = styled.div`
-	vertical-align: middle;
+	vertical-align: top;
 	display: inline-block;
 	width: 49%;
 	min-height: 50px;

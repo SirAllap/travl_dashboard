@@ -3,11 +3,10 @@ import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
 import { supertoggleContext } from '../context/supertoggleContext'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { initialContacts } from '../features/contact/contactSlice'
 
 const Contact = (props) => {
-	const dispatch = useDispatch()
 	const { toggle } = useContext(supertoggleContext)
 	const initialContactData = useSelector(initialContacts)
 
@@ -138,7 +137,7 @@ const TopTableContainer = styled.div`
 `
 
 const TableTabsContainer = styled.div`
-	vertical-align: middle;
+	vertical-align: top;
 	display: inline-block;
 	width: 49%;
 	min-height: 50px;

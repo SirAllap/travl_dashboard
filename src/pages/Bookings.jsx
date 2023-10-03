@@ -248,9 +248,9 @@ const MoreOptionsModal = styled.span`
 	display: ${(props) => (props.open ? 'block' : 'none')};
 	box-shadow: 0px 4px 30px #0000004e;
 `
-const MoreOptionsButtons = styled.span`
-	display: ${(props) => (props.open ? 'block' : 'none')};
-`
+// const MoreOptionsButtons = styled.span`
+// 	display: ${(props) => (props.open ? 'block' : 'none')};
+// `
 
 const CloseCTA = styled.button`
 	position: absolute;
@@ -279,7 +279,7 @@ const TopTableContainer = styled.div`
 `
 
 const TableTabsContainer = styled.div`
-	vertical-align: middle;
+	vertical-align: top;
 	display: inline-block;
 	width: 49%;
 	min-height: 50px;
