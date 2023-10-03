@@ -1,20 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { supertoggleContext } from '../context/supertoggleContext'
 import styled from 'styled-components'
 import { HiArrowsRightLeft } from 'react-icons/hi2'
-import { BiSearch } from 'react-icons/bi'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { LuMail } from 'react-icons/lu'
 import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
+import { authenticationContext } from '../context/authenticationContext'
 
 const Header = (props) => {
 	const { dispatch, state } = useContext(supertoggleContext)
-
+	const { logout } = useContext(authenticationContext)
 	const location = useLocation()
-	const navigate = useNavigate()
 	const [currentBreadCrumb, setCurrentBreadCrumb] = useState('')
 	const [curentTitle, setCurrentTitle] = useState('Dashboard')
 
@@ -25,8 +24,7 @@ const Header = (props) => {
 	}
 
 	const handleLogOut = () => {
-		localStorage.clear()
-		navigate('/login')
+		logout()
 	}
 
 	useEffect(() => {
@@ -80,11 +78,6 @@ const Header = (props) => {
 					</div>
 				</LeftContainer>
 				<RightContainer>
-					<InputSearch />
-					<IconStyle search='search'>
-						<BiSearch color='#6E6E6E' />
-					</IconStyle>
-
 					<IconStyle groupofrigthicons='groupofrigthicons'>
 						<AiOutlineHeart color='#135846' />
 					</IconStyle>
@@ -154,20 +147,6 @@ const IconStyle = styled.div`
 	transition: 0.3s;
 	&:hover {
 		transform: scale(1.1);
-	}
-`
-
-const InputSearch = styled.input`
-	background-color: #f7f6f6;
-	padding: 10px;
-	font-size: 16px;
-	width: 351px;
-	height: 57px;
-	border: none;
-	border-radius: 12px;
-	outline: none;
-	&:focus {
-		outline: 2px solid green;
 	}
 `
 

@@ -1,36 +1,33 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import logo from '../assets/logo_dashboard.png'
 import { FiCopy } from 'react-icons/fi'
+import { authenticationContext } from '../context/authenticationContext'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
 	const navigate = useNavigate()
 	const [userName, setUserName] = useState('')
 	const [userPassword, setUserPassword] = useState('')
+	const { login, state } = useContext(authenticationContext)
 
-	const adminUser = {
-		userName: 'Admin',
-		email: 'super@admin.com',
-	}
-	const davidUser = {
-		userName: 'David',
-		email: 'davidpr@travl.com',
+	useEffect(() => {
+		if (state.auth) {
+			navigate('/')
+		} else {
+			navigate('/login')
+		}
+	}, [state.auth, navigate])
+
+	const getUserEmail = (name) => {
+		return name === 'Admin' ? 'super@admin.com' : 'davidpr@travl.com'
 	}
 
 	const authUser = () => {
-		if (userName === 'Admin') {
-			if (userPassword === 'oxygen') {
-				localStorage.setItem('currentUser', JSON.stringify(adminUser))
-				localStorage.setItem('authenticated', true)
-				navigate('/')
-			}
-		} else if (userName === 'David') {
-			if (userPassword === 'travl') {
-				localStorage.setItem('currentUser', JSON.stringify(davidUser))
-				localStorage.setItem('authenticated', true)
-				navigate('/')
-			}
+		if (userName === 'Admin' && userPassword === 'oxygen') {
+			login({ userName, email: getUserEmail(userName) })
+		} else if (userName === 'David' && userPassword === 'travl') {
+			login({ userName, email: getUserEmail(userName) })
 		} else {
 			alert('You introduce wrong credentials')
 		}
@@ -41,6 +38,13 @@ const Login = () => {
 	const copyUser = 'David'
 	const copyUserPass = 'travl'
 
+	const [quick, setQuick] = useState(false)
+	const quickLogin = () => {
+		setQuick(true)
+		setUserName('Admin')
+		setUserPassword('oxygen')
+	}
+
 	return (
 		<>
 			<LogoSection>
@@ -48,12 +52,17 @@ const Login = () => {
 			</LogoSection>
 			<LoginContainer>
 				<LoginInputLable>User</LoginInputLable>
-				<LoginInput onChange={(e) => setUserName(e.target.value)} />
+				<LoginInput
+					defaultValue={quick ? 'Admin' : ''}
+					onChange={(e) => setUserName(e.target.value)}
+				/>
 				<LoginInputLable>Password</LoginInputLable>
 				<LoginInput
+					defaultValue={quick ? 'oxygen' : ''}
 					type='password'
 					onChange={(e) => setUserPassword(e.target.value)}
 				/>
+				<CTAXtra onClick={quickLogin}>XtraQuick - LOGIN</CTAXtra>
 				<CTA onClick={authUser}>Log in</CTA>
 			</LoginContainer>
 			<Credentials>
@@ -154,7 +163,7 @@ const LoginInputLable = styled.label`
 const CTA = styled.button`
 	width: 86%;
 	height: 47px;
-	margin: 75px 35px 35px 35px;
+	margin: 0px 35px 35px 35px;
 	background-color: #f8a756;
 	border: none;
 	outline: 2px solid #ff9c3a;
@@ -167,6 +176,23 @@ const CTA = styled.button`
 		color: #799283;
 		background-color: #fb9f4498;
 		outline: 2px solid #fb9f4498;
+	}
+`
+const CTAXtra = styled(CTA)`
+	width: 86%;
+	height: 47px;
+	background-color: #8400ff;
+	border: none;
+	outline: none;
+	border-radius: 8px;
+	color: #fff;
+	font: normal normal 600 14px/21px Poppins;
+	cursor: pointer;
+	transition: 0.3s;
+	&:hover {
+		color: #ffffff;
+		background-color: #8400ff7a;
+		outline: none;
 	}
 `
 

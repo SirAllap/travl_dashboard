@@ -218,10 +218,6 @@ const TableSingleRowContainer = styled.div`
 					&:hover {
 						box-shadow: 0px 4px 30px #0000001a;
 					}
-					:nth-child(7) {
-						padding: 20px 0 20px 0;
-						text-align: justify;
-					}
 					:nth-child(15) {
 						width: 12%;
 					}
