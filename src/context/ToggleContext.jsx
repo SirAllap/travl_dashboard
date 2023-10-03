@@ -1,23 +1,33 @@
-import React, { useState } from 'react'
+import React, { useReducer } from 'react'
 import { supertoggleContext } from './supertoggleContext'
 
 const ToggleContext = ({ children }) => {
-	const [toggle, setToggle] = useState('open')
+	const reducer = (state, action) => {
+		switch (action.type) {
+			case 'open': {
+				return {
+					position: (state.position = 'open'),
+				}
+			}
+			case 'close': {
+				return {
+					position: (state.position = 'close'),
+				}
+			}
+			default:
+				break
+		}
+	}
 
-	const handleOpen = () => {
-		setToggle('open')
-	}
-	const handleClose = () => {
-		setToggle('close')
-	}
+	const [state, dispatch] = useReducer(reducer, { position: 'open' })
 
 	return (
 		<>
 			<supertoggleContext.Provider
 				value={{
-					toggle,
-					handleClose,
-					handleOpen,
+					reducer,
+					dispatch,
+					state,
 				}}
 			>
 				{children}
