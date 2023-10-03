@@ -8,6 +8,8 @@ import { supertoggleContext } from '../context/supertoggleContext'
 const Rooms = (props) => {
 	const { state } = useContext(supertoggleContext)
 	const initialRoomData = useSelector(initialRooms)
+	const sortedResult = [...initialRoomData]
+
 	const whoAmI = {
 		name: 'rooms',
 		redirect: true,
@@ -99,6 +101,23 @@ const Rooms = (props) => {
 				break
 		}
 	}
+
+	const [sortRooms, setSortRooms] = useState(
+		sortedResult.sort((a, b) => a.price - b.price)
+	)
+	const handleSelectedFilter = (option) => {
+		switch (option) {
+			case 'pricedown':
+				setSortRooms(sortedResult.sort((a, b) => b.price - a.price))
+				break
+			case 'priceup':
+				setSortRooms(sortedResult.sort((a, b) => a.price - b.price))
+				break
+			default:
+				break
+		}
+	}
+
 	return (
 		<>
 			<MainContainer toggle={state.position}>
@@ -152,8 +171,13 @@ const Rooms = (props) => {
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>
-						<FilterSelector name='bookingFilter' id='bookingFilter'>
-							<option value='status'>Status</option>
+						<FilterSelector
+							name='bookingFilter'
+							id='bookingFilter'
+							onChange={(event) => {
+								handleSelectedFilter(event.target.value)
+							}}
+						>
 							<option value='pricedown'>By Price Down</option>
 							<option value='priceup'>By Price Up</option>
 						</FilterSelector>
@@ -161,7 +185,7 @@ const Rooms = (props) => {
 				</TopTableContainer>
 				<Table
 					cols={cols}
-					datas={initialRoomData}
+					datas={sortRooms}
 					whoAmI={whoAmI}
 					filter={filter}
 				/>
@@ -223,7 +247,7 @@ const Tabs = styled.div`
 `
 
 const FilterSelector = styled.select`
-	width: 134px;
+	width: 164px;
 	height: 50px;
 	border: 1px solid #135846;
 	font: 500 16px Poppins;
