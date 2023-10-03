@@ -36,7 +36,6 @@ const contactSlice = createSlice({
                     // contact.id === action.payload ? contact.isArchived = 'true' : null
                     contact
                 )
-                console.log(result)
                 // state.initialContactFetch = result
                 state.status = 'fulfilled'
             })

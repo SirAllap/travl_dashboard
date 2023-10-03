@@ -22,7 +22,6 @@ const userSlice = createSlice({
             })
             .addCase(fetchInitialUsers.fulfilled, (state, action) => {
                 state.initialUserFetch = action.payload
-                console.log(state.initialUserFetch)
                 state.status = 'fulfilled'
             })
     }
