@@ -172,6 +172,7 @@ const Dashboard = (props) => {
 						modules={[Navigation, A11y]}
 						spaceBetween={0}
 						slidesPerView={3}
+						// breakpoints={{ 1700: { slidesPerView: 3.5 } }}
 						navigation
 					>
 						{initialContactData.map((elem, index) => (

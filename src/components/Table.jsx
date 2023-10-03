@@ -10,6 +10,7 @@ const Table = (props) => {
 		property = filterToApply.property
 		value = filterToApply.value
 	}
+
 	useEffect(() => {
 		setFilterToApply(props.filter)
 	}, [props.filter])
@@ -54,13 +55,13 @@ const Table = (props) => {
 		<>
 			<TableData>
 				<TableHeadContainer>
-					<TableHeadLabel>
+					<TableHeadLabel whoami={props.whoAmI.name}>
 						{props.cols.map((colLabel, index) => (
 							<p key={index}>{colLabel.label}</p>
 						))}
 					</TableHeadLabel>
 				</TableHeadContainer>
-				<TableAllRowsContainer>
+				<TableAllRowsContainer whoami={props.whoAmI.name}>
 					{property === 'all'
 						? props.datas.map((filteredRow, index) =>
 								displayRow(filteredRow, index)
@@ -92,23 +93,53 @@ const TableHeadContainer = styled.div`
 `
 
 const TableHeadLabel = styled.div`
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	width: 100%;
-	height: 65px;
-	border-bottom: 2px solid #f5f5f5;
-	p {
-		width: calc(1494px / 5);
-		font: 600 18px Poppins;
-		color: #393939;
-		&:last-child {
-			margin-right: 10px;
+	${(props) => {
+		switch (props.whoami) {
+			case 'bookings':
+				return css`
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					width: 100%;
+					height: 65px;
+					border-bottom: 2px solid #f5f5f5;
+					p {
+						width: calc(1494px / 5);
+						font: 600 18px Poppins;
+						color: #393939;
+						&:last-child {
+							margin-right: 10px;
+						}
+					}
+					:last-child {
+						width: 12%;
+					}
+				`
+			default:
+				return css`
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					width: 100%;
+					height: 65px;
+					border-bottom: 2px solid #f5f5f5;
+					//! HEAD width
+					//! HEAD width
+					//! HEAD width
+					p {
+						width: ${(props) =>
+							props.whoami === 'contact'
+								? 'calc(1494px / 4)'
+								: 'calc(1494px / 5)'};
+						font: 600 18px Poppins;
+						color: #393939;
+						&:last-child {
+							margin-right: 10px;
+						}
+					}
+				`
 		}
-	}
-	:last-child {
-		width: 12%;
-	}
+	}}
 `
 
 const TableAllRowsContainer = styled.div`
@@ -130,8 +161,14 @@ const TableAllRowsContainer = styled.div`
 		border-radius: 2px;
 		background-color: rgba(235, 241, 239, 0.612);
 	}
+	//! ROWS width
+	//! ROWS width
+	//! ROWS width
 	p {
-		width: calc(1494px / 4);
+		width: ${(props) =>
+			props.whoami === 'contact'
+				? 'calc(1494px / 4)'
+				: 'calc(1494px / 5)'};
 		color: #393939;
 		font: 300 16px Poppins;
 	}
@@ -163,7 +200,7 @@ const TableSingleRowContainer = styled.div`
 						text-align: justify;
 					}
 				`
-			default:
+			case 'bookings':
 				return css`
 					border-bottom: 1px solid #f5f5f5;
 					display: flex;
@@ -181,8 +218,31 @@ const TableSingleRowContainer = styled.div`
 					&:hover {
 						box-shadow: 0px 4px 30px #0000001a;
 					}
+					:nth-child(7) {
+						padding: 20px 0 20px 0;
+						text-align: justify;
+					}
 					:nth-child(15) {
-						width: 15%;
+						width: 12%;
+					}
+				`
+			default:
+				return css`
+					border-bottom: 1px solid #f5f5f5;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					width: 100%;
+					margin: 0;
+					height: ${(props) =>
+						props.whoami === 'rooms'
+							? '250px'
+							: props.whoami === 'contact'
+							? 'fit-content'
+							: '121px'};
+					transition: 0.3s all;
+					&:hover {
+						box-shadow: 0px 4px 30px #0000001a;
 					}
 				`
 		}
