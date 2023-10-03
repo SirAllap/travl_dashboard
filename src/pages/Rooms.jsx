@@ -69,7 +69,10 @@ const Rooms = (props) => {
 		},
 	]
 
-	const [filter, setFilter] = useState('')
+	const [filter, setFilter] = useState({
+		property: 'all',
+		value: 'All Rooms',
+	})
 	const manageFilterTab = (param) => {
 		switch (param) {
 			case 'available':
@@ -87,6 +90,7 @@ const Rooms = (props) => {
 			case 'all':
 				setFilter({
 					property: 'all',
+					value: 'All Rooms',
 				})
 				break
 			default:
@@ -103,6 +107,14 @@ const Rooms = (props) => {
 								onClick={() => {
 									manageFilterTab('all')
 								}}
+								style={{
+									borderBottom:
+										filter.value === 'All Rooms' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'All Rooms' &&
+										'#135846',
+								}}
 							>
 								All Rooms
 							</button>
@@ -110,12 +122,27 @@ const Rooms = (props) => {
 								onClick={() => {
 									manageFilterTab('available')
 								}}
+								style={{
+									borderBottom:
+										filter.value === 'Available' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'Available' &&
+										'#135846',
+								}}
 							>
 								Available
 							</button>
 							<button
 								onClick={() => {
 									manageFilterTab('booked')
+								}}
+								style={{
+									borderBottom:
+										filter.value === 'Booked' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'Booked' && '#135846',
 								}}
 							>
 								Booked
@@ -158,7 +185,7 @@ const TopTableContainer = styled.div`
 `
 
 const TableTabsContainer = styled.div`
-	vertical-align: middle;
+	vertical-align: top;
 	display: inline-block;
 	width: 49%;
 	min-height: 50px;
@@ -187,7 +214,7 @@ const Tabs = styled.div`
 		border-bottom: 3px solid transparent;
 		cursor: pointer;
 		&:hover {
-			border-bottom: 3px solid green;
+			border-bottom: 3px solid #135846;
 			color: #135846;
 		}
 	}
@@ -196,7 +223,7 @@ const Tabs = styled.div`
 const FilterSelector = styled.select`
 	width: 134px;
 	height: 50px;
-	border: 1px solid green;
+	border: 1px solid #135846;
 	font: 500 16px Poppins;
 	color: #135846;
 	border: 2px solid #135846;
