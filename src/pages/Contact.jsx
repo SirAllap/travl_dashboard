@@ -6,6 +6,7 @@ import { supertoggleContext } from '../context/supertoggleContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { initialContacts } from '../features/contact/contactSlice'
 import { fetchInitialContacts } from '../features/contact/contactThunks'
+import { Triangle } from 'react-loader-spinner'
 
 const Contact = (props) => {
 	const dispatch = useDispatch()
@@ -78,6 +79,14 @@ const Contact = (props) => {
 				break
 		}
 	}
+
+	const [spinner, setSpinner] = useState(true)
+	useEffect(() => {
+		setTimeout(() => {
+			setSpinner(false)
+		}, 500)
+	}, [])
+
 	return (
 		<>
 			<MainContainer toggle={state.position}>
@@ -114,18 +123,38 @@ const Contact = (props) => {
 						</Icons>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				<Table
-					cols={cols}
-					datas={initialContactData}
-					whoAmI={whoAmI}
-					filter={filter}
-				/>
+				{spinner ? (
+					<SpinnerContainer>
+						<Triangle
+							height='150'
+							width='150'
+							color='#135846'
+							ariaLabel='triangle-loading'
+							wrapperClassName=''
+							visible={spinner}
+						/>
+					</SpinnerContainer>
+				) : (
+					<Table
+						cols={cols}
+						datas={initialContactData}
+						whoAmI={whoAmI}
+						filter={filter}
+					/>
+				)}
 			</MainContainer>
 		</>
 	)
 }
 
 export default Contact
+
+const SpinnerContainer = styled.div`
+	position: absolute;
+	left: 60%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+`
 
 const MainContainer = styled.main`
 	text-align: center;

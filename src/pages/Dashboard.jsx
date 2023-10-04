@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { LiaBedSolid } from 'react-icons/lia'
 import { LuCalendarCheck2 } from 'react-icons/lu'
@@ -15,10 +15,17 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import { useDispatch, useSelector } from 'react-redux'
 import { initialContacts } from '../features/contact/contactSlice'
-import { archiveContacts } from '../features/contact/contactThunks'
+import {
+	archiveContacts,
+	fetchInitialContacts,
+} from '../features/contact/contactThunks'
+import { Triangle } from 'react-loader-spinner'
 
 const Dashboard = (props) => {
 	const dispatch = useDispatch()
+	useEffect(() => {
+		dispatch(fetchInitialContacts())
+	}, [dispatch])
 	const { state } = useContext(supertoggleContext)
 	const [toggleModal, setToggleModal] = useState(false)
 	const [toggleModalUser, setToggleModalUser] = useState({})
@@ -38,6 +45,13 @@ const Dashboard = (props) => {
 	const handleMarkAsRead = (id) => {
 		dispatch(archiveContacts(id))
 	}
+
+	const [spinner, setSpinner] = useState(true)
+	useEffect(() => {
+		setTimeout(() => {
+			setSpinner(false)
+		}, 500)
+	}, [])
 
 	return (
 		<>
@@ -166,81 +180,99 @@ const Dashboard = (props) => {
 					>
 						Latest Review by Customers
 					</CustomerCardText>
-
-					<Swiper
-						modules={[Navigation, A11y]}
-						spaceBetween={0}
-						slidesPerView={3}
-						// breakpoints={{ 1700: { slidesPerView: 3.5 } }}
-						navigation
-					>
-						{initialContactData.map((elem, index) => (
-							<SwiperSlide key={index}>
-								<CustomerReviewCard
-									onClick={() => handleToggleModal(elem)}
-								>
-									<CustomerCardText
-										type={{
-											text: 'cardSubject',
-										}}
-									>
-										{elem.subject_of_review}
-									</CustomerCardText>
-									<HorizontalDivider />
-									<CustomerReviewCardTopData modal={'false'}>
-										<CustomerCardText
-											type={{
-												text: 'cardBody',
-											}}
+					{spinner ? (
+						<SpinnerContainer>
+							<Triangle
+								height='150'
+								width='150'
+								color='#135846'
+								ariaLabel='triangle-loading'
+								wrapperClassName=''
+								visible={spinner}
+							/>
+						</SpinnerContainer>
+					) : (
+						<>
+							<Swiper
+								modules={[Navigation, A11y]}
+								spaceBetween={0}
+								slidesPerView={3}
+								navigation
+							>
+								{initialContactData.map((elem, index) => (
+									<SwiperSlide key={index}>
+										<CustomerReviewCard
+											onClick={() =>
+												handleToggleModal(elem)
+											}
 										>
-											{elem.review_body}
-										</CustomerCardText>
-									</CustomerReviewCardTopData>
-									<CustomerReviewCardBottomData>
-										<CustomerReviewCardUserPhoto
-											src={`https://robohash.org/${elem.full_name}.png?set=any`}
-										/>
-										<CustomerCardText
-											type={{
-												text: 'cardUserName',
-											}}
-										>
-											{elem.full_name}
-										</CustomerCardText>
-										<CustomerCardText
-											type={{
-												text: 'cardUserEmail',
-											}}
-										>
-											{elem.email}
-										</CustomerCardText>
-										<CustomerCardText
-											type={{
-												text: 'cardUserPhoneNumber',
-											}}
-										>
-											{elem.phone_number}
-										</CustomerCardText>
-										<CustomerCardText
-											type={{
-												text: 'cardReadChecker',
-											}}
-										>
-											{elem.isArchived === 'true' ? (
-												<FaRegEnvelopeOpen
-													style={{
-														color: 'green',
+											<CustomerCardText
+												type={{
+													text: 'cardSubject',
+												}}
+											>
+												{elem.subject_of_review}
+											</CustomerCardText>
+											<HorizontalDivider />
+											<CustomerReviewCardTopData
+												modal={'false'}
+											>
+												<CustomerCardText
+													type={{
+														text: 'cardBody',
 													}}
+												>
+													{elem.review_body}
+												</CustomerCardText>
+											</CustomerReviewCardTopData>
+											<CustomerReviewCardBottomData>
+												<CustomerReviewCardUserPhoto
+													src={`https://robohash.org/${elem.full_name}.png?set=any`}
 												/>
-											) : (
-												<FaRegEnvelope />
-											)}
-										</CustomerCardText>
-									</CustomerReviewCardBottomData>
-								</CustomerReviewCard>
-							</SwiperSlide>
-						))}
-					</Swiper>
+												<CustomerCardText
+													type={{
+														text: 'cardUserName',
+													}}
+												>
+													{elem.full_name}
+												</CustomerCardText>
+												<CustomerCardText
+													type={{
+														text: 'cardUserEmail',
+													}}
+												>
+													{elem.email}
+												</CustomerCardText>
+												<CustomerCardText
+													type={{
+														text: 'cardUserPhoneNumber',
+													}}
+												>
+													{elem.phone_number}
+												</CustomerCardText>
+												<CustomerCardText
+													type={{
+														text: 'cardReadChecker',
+													}}
+												>
+													{elem.isArchived ===
+													'true' ? (
+														<FaRegEnvelopeOpen
+															style={{
+																color: 'green',
+															}}
+														/>
+													) : (
+														<FaRegEnvelope />
+													)}
+												</CustomerCardText>
+											</CustomerReviewCardBottomData>
+										</CustomerReviewCard>
+									</SwiperSlide>
+								))}
+							</Swiper>
+						</>
+					)}
 				</CustomerReviewContainer>
 			</MainContainer>
 		</>
@@ -248,6 +280,13 @@ const Dashboard = (props) => {
 }
 
 export default Dashboard
+
+const SpinnerContainer = styled.div`
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, 60%);
+`
 
 const MainContainer = styled.main`
 	text-align: center;

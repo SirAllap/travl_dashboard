@@ -273,7 +273,7 @@ export default Bookings
 
 const SpinnerContainer = styled.div`
 	position: absolute;
-	left: 50%;
+	left: 60%;
 	top: 50%;
 	transform: translate(-50%, -50%);
 `
@@ -293,9 +293,6 @@ const MoreOptionsModal = styled.span`
 	display: ${(props) => (props.open ? 'block' : 'none')};
 	box-shadow: 0px 4px 30px #0000004e;
 `
-// const MoreOptionsButtons = styled.span`
-// 	display: ${(props) => (props.open ? 'block' : 'none')};
-// `
 
 const CloseCTA = styled.button`
 	position: absolute;

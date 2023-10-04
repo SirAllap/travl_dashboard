@@ -6,6 +6,7 @@ import { initialRooms } from '../features/rooms/roomSlice'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { fetchInitialRooms } from '../features/rooms/roomThunks'
+import { Triangle } from 'react-loader-spinner'
 
 const Rooms = (props) => {
 	const dispatch = useDispatch()
@@ -108,9 +109,7 @@ const Rooms = (props) => {
 		}
 	}
 
-	const [sortRooms, setSortRooms] = useState(
-		sortedResult.sort((a, b) => a.price - b.price)
-	)
+	const [sortRooms, setSortRooms] = useState([])
 	const handleSelectedFilter = (event) => {
 		switch (event.target.value) {
 			case 'pricedown':
@@ -131,6 +130,13 @@ const Rooms = (props) => {
 			setToggleModal(false)
 		}
 	}
+
+	const [spinner, setSpinner] = useState(true)
+	useEffect(() => {
+		setTimeout(() => {
+			setSpinner(false)
+		}, 500)
+	}, [])
 
 	return (
 		<>
@@ -213,24 +219,50 @@ const Rooms = (props) => {
 							name='bookingFilter'
 							id='bookingFilter'
 							onChange={handleSelectedFilter}
+							defaultValue='byprice'
 						>
-							<option value='pricedown'>By Price Down</option>
-							<option value='priceup'>By Price Up</option>
+							<option value='byprice' disabled hidden>
+								By price
+							</option>
+							<option value='pricedown'>Down</option>
+							<option value='priceup'>Up</option>
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				<Table
-					cols={cols}
-					datas={sortRooms}
-					whoAmI={whoAmI}
-					filter={filter}
-				/>
+				{spinner ? (
+					<SpinnerContainer>
+						<Triangle
+							height='150'
+							width='150'
+							color='#135846'
+							ariaLabel='triangle-loading'
+							wrapperClassName=''
+							visible={spinner}
+						/>
+					</SpinnerContainer>
+				) : (
+					<Table
+						cols={cols}
+						datas={
+							sortRooms.length !== 0 ? sortRooms : initialRoomData
+						}
+						whoAmI={whoAmI}
+						filter={filter}
+					/>
+				)}
 			</MainContainer>
 		</>
 	)
 }
 
 export default Rooms
+
+const SpinnerContainer = styled.div`
+	position: absolute;
+	left: 60%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+`
 
 const EditUserModalOverlay = styled.div`
 	z-index: 99;
