@@ -92,10 +92,27 @@ const TableHeadLabel = styled.div`
 					height: 65px;
 					border-bottom: 2px solid #f5f5f5;
 					p {
-						width: ${(props) =>
-							props.whoami === 'contact'
-								? 'calc(1494px / 4)'
-								: 'calc(1494px / 5)'};
+						width: calc(1494px / 5);
+						font: 600 18px Poppins;
+						color: #393939;
+						&:last-child {
+							margin-right: 10px;
+						}
+					}
+					:last-child {
+						width: 12%;
+					}
+				`
+			case 'rooms':
+				return css`
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					width: 100%;
+					height: 65px;
+					border-bottom: 2px solid #f5f5f5;
+					p {
+						width: calc(1494px / 5);
 						font: 600 18px Poppins;
 						color: #393939;
 						&:last-child {
@@ -194,6 +211,23 @@ const TableSingleRowContainer = styled.div`
 						box-shadow: 0px 4px 30px #0000001a;
 					}
 					:nth-child(15) {
+						width: 12%;
+					}
+				`
+			case 'rooms':
+				return css`
+					border-bottom: 1px solid #f5f5f5;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					width: 100%;
+					margin: 0;
+					height: 250px;
+					transition: 0.3s all;
+					&:hover {
+						box-shadow: 0px 4px 30px #0000001a;
+					}
+					:nth-child(13) {
 						width: 12%;
 					}
 				`

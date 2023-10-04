@@ -3,9 +3,10 @@ import styled from 'styled-components'
 import Table from '../components/Table'
 import { useDispatch, useSelector } from 'react-redux'
 import { initialRooms } from '../features/rooms/roomSlice'
+import { BsThreeDotsVertical } from 'react-icons/bs'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { fetchInitialRooms } from '../features/rooms/roomThunks'
+import { deleteRoom, fetchInitialRooms } from '../features/rooms/roomThunks'
 import { Triangle } from 'react-loader-spinner'
 
 const Rooms = (props) => {
@@ -14,13 +15,30 @@ const Rooms = (props) => {
 		dispatch(fetchInitialRooms())
 	}, [dispatch])
 	const { state } = useContext(supertoggleContext)
-	const initialRoomData = useSelector(initialRooms)
-	const sortedResult = [...initialRoomData]
+	const [displayData, setDisplayData] = useState([])
 	const [toggleModal, setToggleModal] = useState(false)
+	const [toggleModalNewRoom, setToggleModalNewRoom] = useState(false)
+	const initialRoomData = useSelector(initialRooms)
+	const [currentId, setCurrentId] = useState('')
+
+	const handleModalMore = (id) => {
+		if (!toggleModal) {
+			setToggleModal(true)
+		} else {
+			setToggleModal(false)
+		}
+		setCurrentId(id)
+	}
+
+	useEffect(() => {
+		setDisplayData(initialRoomData)
+	}, [initialRoomData])
+
 	const whoAmI = {
 		name: 'rooms',
 		redirect: true,
 	}
+
 	const cols = [
 		{
 			property: 'id',
@@ -34,7 +52,7 @@ const Rooms = (props) => {
 		},
 		{
 			property: 'room_type',
-			label: 'Room',
+			label: 'Room Type',
 			display: ({ room_type }) => (
 				<>
 					<TextFormatter small='bold'>{room_type}</TextFormatter>
@@ -44,9 +62,11 @@ const Rooms = (props) => {
 		{
 			property: 'amenities',
 			label: 'Amenities',
-			display: ({ amenities }) =>
+			display: ({ amenities, room_type }) =>
 				amenities.map((e, i) => (
-					<AmenitiesTag key={i}>{e.name}</AmenitiesTag>
+					<AmenitiesTag type={room_type} key={i}>
+						{e.name}
+					</AmenitiesTag>
 				)),
 		},
 		{
@@ -72,11 +92,25 @@ const Rooms = (props) => {
 				</>
 			),
 		},
-
 		{
 			property: 'status',
 			label: 'Status',
 			display: ({ status }) => <Status status={status}>{status}</Status>,
+		},
+		{
+			label: 'More',
+			display: ({ id }) => {
+				return (
+					<>
+						<BsThreeDotsVertical
+							onClick={() => {
+								handleModalMore(id)
+							}}
+							style={{ fontSize: '30px', cursor: 'pointer' }}
+						/>
+					</>
+				)
+			},
 		},
 	]
 
@@ -109,6 +143,7 @@ const Rooms = (props) => {
 		}
 	}
 
+	const sortedResult = [...displayData]
 	const [sortRooms, setSortRooms] = useState([])
 	const handleSelectedFilter = (event) => {
 		switch (event.target.value) {
@@ -123,12 +158,17 @@ const Rooms = (props) => {
 		}
 	}
 
-	const handleToggleModal = () => {
-		if (!toggleModal) {
-			setToggleModal(true)
+	const handleToggleModalNewRoom = () => {
+		if (!toggleModalNewRoom) {
+			setToggleModalNewRoom(true)
 		} else {
-			setToggleModal(false)
+			setToggleModalNewRoom(false)
 		}
+	}
+
+	const handleDelete = () => {
+		dispatch(deleteRoom(currentId))
+		setToggleModal(false)
 	}
 
 	const [spinner, setSpinner] = useState(true)
@@ -141,8 +181,20 @@ const Rooms = (props) => {
 	return (
 		<>
 			<MainContainer toggle={state.position}>
-				<EditUserModalOverlay open={toggleModal} />
-				<EditUserModal open={toggleModal}>
+				<MoreOptionsModal open={toggleModal}>
+					<OptionsButton
+						onClick={() => {
+							handleDelete()
+						}}
+					>
+						DELETE
+					</OptionsButton>
+					<CloseCTA onClick={handleModalMore}>
+						<AiOutlineCloseCircle />
+					</CloseCTA>
+				</MoreOptionsModal>
+				<EditUserModalOverlay open={toggleModalNewRoom} />
+				<EditUserModal open={toggleModalNewRoom}>
 					<TitleText>Create Room:</TitleText>
 					<EditUserInputLable type='name'>Name</EditUserInputLable>
 					<Input type='name' placeholder='name' />
@@ -158,7 +210,7 @@ const Rooms = (props) => {
 					>
 						Save
 					</SaveCTA>
-					<CloseCTA onClick={handleToggleModal}>
+					<CloseCTA onClick={handleToggleModalNewRoom}>
 						<AiOutlineCloseCircle />
 					</CloseCTA>
 				</EditUserModal>
@@ -212,7 +264,7 @@ const Rooms = (props) => {
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>
-						<AddRoomCTA onClick={handleToggleModal}>
+						<AddRoomCTA onClick={handleToggleModalNewRoom}>
 							+ Add Room{' '}
 						</AddRoomCTA>
 						<FilterSelector
@@ -243,9 +295,7 @@ const Rooms = (props) => {
 				) : (
 					<Table
 						cols={cols}
-						datas={
-							sortRooms.length !== 0 ? sortRooms : initialRoomData
-						}
+						datas={sortRooms.length !== 0 ? sortRooms : displayData}
 						whoAmI={whoAmI}
 						filter={filter}
 					/>
@@ -262,6 +312,51 @@ const SpinnerContainer = styled.div`
 	left: 60%;
 	top: 50%;
 	transform: translate(-50%, -50%);
+`
+
+const MoreOptionsModal = styled.span`
+	z-index: 100;
+	position: absolute;
+	top: 50%;
+	left: 90%;
+	transform: translate(-50%, -50%);
+	width: 150px;
+	min-height: 200px;
+	background: #ffffff 0% 0% no-repeat padding-box;
+	border-radius: 20px;
+	transition: all 0.5s;
+	padding: 35px 20px 20px 20px;
+	display: ${(props) => (props.open ? 'block' : 'none')};
+	box-shadow: 0px 4px 30px #0000004e;
+`
+
+const SpecialRequest = styled.button`
+	cursor: ${(props) =>
+		props.selectionable === 'true' ? 'pointer' : 'not-allowed'};
+	font: 400 16px Poppins;
+	width: 160px;
+	height: 48px;
+	border: none;
+	border-radius: 8px;
+	color: ${(props) => (props.specialrequest >= 1 ? '#799283' : '#212121')};
+	background-color: ${(props) =>
+		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
+	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
+`
+
+const OptionsButton = styled(SpecialRequest)`
+	font: 400 16px Poppins;
+	width: 110px;
+	height: 48px;
+	border: none;
+	border-radius: 8px;
+	color: #e23428;
+	background-color: #ffedec;
+	transition: 0.3s all;
+	&:hover {
+		color: #ffedec;
+		background-color: #e23428;
+	}
 `
 
 const EditUserModalOverlay = styled.div`
@@ -496,12 +591,13 @@ const Status = styled.button`
 
 const AmenitiesTag = styled.button`
 	font: 400 12px Poppins;
-	padding: 10px;
+	padding: 8px;
 	border: none;
 	border-radius: 6px;
-	color: #135846;
-	background-color: #eef9f2;
-	margin: 5px;
+	color: ${(props) => (props.type === 'Suite' ? '#7801ff' : '#135846')};
+	background-color: ${(props) =>
+		props.type === 'Suite' ? '#7801ff16' : '#eef9f2'};
+	margin: 3px;
 	svg {
 		font-size: 20px;
 		display: block;
