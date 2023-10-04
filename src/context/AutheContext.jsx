@@ -89,7 +89,6 @@ const AuthenticationContext = ({ children }) => {
 		)
 		localStorage.setItem('profilePicture', profilePicture)
 		localStorage.setItem('authenticated', true)
-		navigate('/')
 	}
 
 	const logout = () => {

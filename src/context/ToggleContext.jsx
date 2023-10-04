@@ -3,6 +3,8 @@ import { supertoggleContext } from './supertoggleContext'
 
 const initialState = {
 	position: 'open',
+	bookingBreadCrumb: '',
+	rooomBreadCrumb: '',
 }
 
 const reducer = (state, action) => {
@@ -17,6 +19,16 @@ const reducer = (state, action) => {
 				position: (state.position = 'close'),
 			}
 		}
+		case 'getBookingBreadCrumb': {
+			return {
+				bookingBreadCrumb: `Bookings/${action.payload.id}`,
+			}
+		}
+		case 'getRoomBreadCrumb': {
+			return {
+				rooomBreadCrumb: action.payload,
+			}
+		}
 		default:
 			break
 	}
@@ -25,6 +37,17 @@ const reducer = (state, action) => {
 const ToggleContext = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState)
 
+	const bookingBreadCrumb = (id) => {
+		dispatch({
+			type: 'getBookingBreadCrumb',
+			payload: { id },
+		})
+	}
+
+	const roomBreadCrumb = (id) => {
+		console.log('dispatch this one!')
+	}
+
 	return (
 		<>
 			<supertoggleContext.Provider
@@ -32,6 +55,8 @@ const ToggleContext = ({ children }) => {
 					reducer,
 					dispatch,
 					state,
+					bookingBreadCrumb,
+					roomBreadCrumb,
 				}}
 			>
 				{children}

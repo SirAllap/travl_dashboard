@@ -13,7 +13,7 @@ import { BiMessageRoundedDetail } from 'react-icons/bi'
 
 const BookingsDetails = (props) => {
 	const navigate = useNavigate()
-	const { state } = useContext(supertoggleContext)
+	const { state, bookingBreadCrumb } = useContext(supertoggleContext)
 	const location = useLocation()
 	const { bookingId } = useParams()
 	const [savedLastId, setSavedLastId] = useState('')
@@ -27,7 +27,8 @@ const BookingsDetails = (props) => {
 			savedLastId !== bookingId &&
 			location.pathname === `/bookings/${bookingId}`
 		) {
-			props.setbreadcrumb(`Bookings/${bookingId}`)
+			// props.setbreadcrumb(`Bookings/${bookingId}`)
+			bookingBreadCrumb(bookingId)
 			setSavedLastId(bookingId)
 		}
 		if (bookingState === 'pending') {
@@ -45,6 +46,7 @@ const BookingsDetails = (props) => {
 		props,
 		singleBookingData,
 		bookingState,
+		bookingBreadCrumb,
 	])
 
 	function formatDateString(inputDateString) {

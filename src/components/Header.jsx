@@ -30,7 +30,8 @@ const Header = (props) => {
 	useEffect(() => {
 		const idNumb = props.newBreadCrumb.split('/')
 		if (location.pathname.startsWith('/bookings/')) {
-			setCurrentBreadCrumb(props.newBreadCrumb)
+			// setCurrentBreadCrumb(props.newBreadCrumb)
+			setCurrentBreadCrumb(state.bookingBreadCrumb)
 		} else if (location.pathname.startsWith('/rooms/')) {
 			setCurrentBreadCrumb(props.newBreadCrumb)
 		} else {

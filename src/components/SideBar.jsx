@@ -54,10 +54,6 @@ const SideBar = (props) => {
 		authState.profilePicture,
 	])
 
-	const handleHeaderTitle = (titleName) => {
-		props.setHeaderTitle(titleName)
-	}
-
 	const handleToggleModal = () => {
 		if (!toggleModal) {
 			setToggleModal(true)
