@@ -4,17 +4,41 @@ import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { useDispatch, useSelector } from 'react-redux'
+import { BsThreeDotsVertical } from 'react-icons/bs'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { initialUsers } from '../features/users/userSlice'
-import { fetchInitialUsers } from '../features/users/userThunks'
+import { deleteUser, fetchInitialUsers } from '../features/users/userThunks'
 import { Triangle } from 'react-loader-spinner'
 
 const Users = (props) => {
+	const [displayData, setDisplayData] = useState([])
+	const [toggleModal, setToggleModal] = useState(false)
+	const [currentId, setCurrentId] = useState('')
 	const dispatch = useDispatch()
 	useEffect(() => {
 		dispatch(fetchInitialUsers())
 	}, [dispatch])
 	const initialUserData = useSelector(initialUsers)
 	const { state } = useContext(supertoggleContext)
+
+	const handleModalMore = (id) => {
+		if (!toggleModal) {
+			setToggleModal(true)
+		} else {
+			setToggleModal(false)
+		}
+		setCurrentId(id)
+	}
+
+	const handleDelete = () => {
+		dispatch(deleteUser(currentId))
+		setToggleModal(false)
+	}
+
+	useEffect(() => {
+		setDisplayData(initialUserData)
+	}, [initialUserData])
+
 	const whoAmI = {
 		name: 'users',
 		redirect: false,
@@ -66,6 +90,21 @@ const Users = (props) => {
 				</>
 			),
 		},
+		{
+			label: 'More',
+			display: ({ employee_id }) => {
+				return (
+					<>
+						<BsThreeDotsVertical
+							onClick={() => {
+								handleModalMore(employee_id)
+							}}
+							style={{ fontSize: '30px', cursor: 'pointer' }}
+						/>
+					</>
+				)
+			},
+		},
 	]
 
 	const [filter, setFilter] = useState('')
@@ -103,6 +142,18 @@ const Users = (props) => {
 	return (
 		<>
 			<MainContainer toggle={state.position}>
+				<MoreOptionsModal open={toggleModal}>
+					<OptionsButton
+						onClick={() => {
+							handleDelete()
+						}}
+					>
+						DELETE
+					</OptionsButton>
+					<CloseCTA onClick={handleModalMore}>
+						<AiOutlineCloseCircle />
+					</CloseCTA>
+				</MoreOptionsModal>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
@@ -150,7 +201,7 @@ const Users = (props) => {
 				) : (
 					<Table
 						cols={cols}
-						datas={initialUserData}
+						datas={displayData}
 						whoAmI={whoAmI}
 						filter={filter}
 					/>
@@ -167,6 +218,63 @@ const SpinnerContainer = styled.div`
 	left: 60%;
 	top: 50%;
 	transform: translate(-50%, -50%);
+`
+
+const MoreOptionsModal = styled.span`
+	z-index: 100;
+	position: absolute;
+	top: 50%;
+	left: 90%;
+	transform: translate(-50%, -50%);
+	width: 150px;
+	min-height: 200px;
+	background: #ffffff 0% 0% no-repeat padding-box;
+	border-radius: 20px;
+	transition: all 0.5s;
+	padding: 35px 20px 20px 20px;
+	display: ${(props) => (props.open ? 'block' : 'none')};
+	box-shadow: 0px 4px 30px #0000004e;
+`
+
+const SpecialRequest = styled.button`
+	cursor: ${(props) =>
+		props.selectionable === 'true' ? 'pointer' : 'not-allowed'};
+	font: 400 16px Poppins;
+	width: 160px;
+	height: 48px;
+	border: none;
+	border-radius: 8px;
+	color: ${(props) => (props.specialrequest >= 1 ? '#799283' : '#212121')};
+	background-color: ${(props) =>
+		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
+	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
+`
+
+const OptionsButton = styled(SpecialRequest)`
+	font: 400 16px Poppins;
+	width: 110px;
+	height: 48px;
+	border: none;
+	border-radius: 8px;
+	color: #e23428;
+	background-color: #ffedec;
+	transition: 0.3s all;
+	&:hover {
+		color: #ffedec;
+		background-color: #e23428;
+	}
+`
+
+const CloseCTA = styled.button`
+	position: absolute;
+	right: 13px;
+	top: 13px;
+	font-size: 25px;
+	border: none;
+	background-color: transparent;
+	&:hover {
+		color: red;
+	}
 `
 
 const MainContainer = styled.main`

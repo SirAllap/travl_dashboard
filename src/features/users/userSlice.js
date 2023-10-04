@@ -46,9 +46,12 @@ const userSlice = createSlice({
             })
             .addCase(deleteUser.fulfilled, (state, action) => {
                 const id = action.payload
-                const result = state.initialUserFetch.filter(user => user.id !== id)
+                const result = state.initialUserFetch.filter((user) =>
+                    user.employee_id !== id
+                )
                 state.initialUserFetch = [...result]
                 state.status = 'fulfilled'
+
             })
     }
 })

@@ -22,12 +22,13 @@ const Rooms = (props) => {
 	const { state } = useContext(supertoggleContext)
 	const [displayData, setDisplayData] = useState([])
 	const [toggleModal, setToggleModal] = useState(false)
+	const [currentId, setCurrentId] = useState('')
 	const [toggleModalNewRoom, setToggleModalNewRoom] = useState(false)
 	const initialRoomData = useSelector(initialRooms)
 	const singleRoomData = useSelector(singleRoom)
-	const [currentId, setCurrentId] = useState('')
 
 	console.log(singleRoomData)
+
 	const handleModalMore = (id) => {
 		if (!toggleModal) {
 			setToggleModal(true)
