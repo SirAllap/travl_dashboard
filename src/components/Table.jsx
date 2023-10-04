@@ -31,19 +31,6 @@ const Table = (props) => {
 			</>
 		)
 		const key = `${props.whoAmI.name}-${row.id}-${index}`
-		// if (props.whoAmI.redirect) {
-		// 	return (
-		// 		<TableSingleRowContainer whoami={props.whoAmI.name} key={key}>
-		// 			{rowContent}
-		// 		</TableSingleRowContainer>
-		// 	)
-		// } else {
-		// 	return (
-		// 		<TableSingleRowContainer whoami={props.whoAmI.name} key={key}>
-		// 			{rowContent}
-		// 		</TableSingleRowContainer>
-		// 	)
-		// }
 		return (
 			<TableSingleRowContainer whoami={props.whoAmI.name} key={key}>
 				{rowContent}
@@ -127,9 +114,6 @@ const TableHeadLabel = styled.div`
 					width: 100%;
 					height: 65px;
 					border-bottom: 2px solid #f5f5f5;
-					//! HEAD width
-					//! HEAD width
-					//! HEAD width
 					p {
 						width: ${(props) =>
 							props.whoami === 'contact'
@@ -165,9 +149,6 @@ const TableAllRowsContainer = styled.div`
 		border-radius: 2px;
 		background-color: rgba(235, 241, 239, 0.612);
 	}
-	//! ROWS width
-	//! ROWS width
-	//! ROWS width
 	p {
 		width: ${(props) =>
 			props.whoami === 'contact'
@@ -183,24 +164,19 @@ const TableSingleRowContainer = styled.div`
 		switch (props.whoami) {
 			case 'contact':
 				return css`
-					border-bottom: 1px solid #f5f5f5;
+					border-bottom: 3px solid #f5f5f5;
 					display: flex;
 					flex-direction: row;
 					align-items: center;
 					width: 100%;
 					margin: 0;
-					height: ${(props) =>
-						props.whoami === 'rooms'
-							? '250px'
-							: props.whoami === 'contact'
-							? 'fit-content'
-							: '121px'};
+					height: auto;
 					transition: 0.3s all;
 					&:hover {
 						box-shadow: 0px 4px 30px #0000001a;
 					}
 					:nth-child(7) {
-						padding: 20px 0 20px 0;
+						padding: 20px 5px 20px 5px;
 						text-align: justify;
 					}
 				`
@@ -212,12 +188,7 @@ const TableSingleRowContainer = styled.div`
 					align-items: center;
 					width: 100%;
 					margin: 0;
-					height: ${(props) =>
-						props.whoami === 'rooms'
-							? '250px'
-							: props.whoami === 'contact'
-							? 'fit-content'
-							: '121px'};
+					height: 121px;
 					transition: 0.3s all;
 					&:hover {
 						box-shadow: 0px 4px 30px #0000001a;
@@ -235,11 +206,7 @@ const TableSingleRowContainer = styled.div`
 					width: 100%;
 					margin: 0;
 					height: ${(props) =>
-						props.whoami === 'rooms'
-							? '250px'
-							: props.whoami === 'contact'
-							? 'fit-content'
-							: '121px'};
+						props.whoami === 'rooms' ? '250px' : '121px'};
 					transition: 0.3s all;
 					&:hover {
 						box-shadow: 0px 4px 30px #0000001a;

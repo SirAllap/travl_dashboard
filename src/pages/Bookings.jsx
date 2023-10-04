@@ -137,9 +137,6 @@ const Bookings = (props) => {
 							}}
 							style={{ fontSize: '30px', cursor: 'pointer' }}
 						/>
-						{/* <MoreOptionsButtons open={toggleModal}>
-							<button>Delete</button>
-						</MoreOptionsButtons> */}
 					</>
 				)
 			},
