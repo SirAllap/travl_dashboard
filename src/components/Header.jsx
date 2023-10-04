@@ -62,7 +62,7 @@ const Header = (props) => {
 			default:
 				break
 		}
-	}, [props.newBreadCrumb, location.pathname])
+	}, [props.newBreadCrumb, location.pathname, state.bookingBreadCrumb])
 
 	if (authState.auth)
 		return (
