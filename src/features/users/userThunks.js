@@ -14,3 +14,15 @@ export const fetchInitialUsers = createAsyncThunk(
         return await delay(usersJSONfile)
     }
 )
+
+export const fetchOneUser = createAsyncThunk(
+    'users/fetchOneUser', async id => {
+        return await delay(id)
+    }
+)
+
+export const deleteUser = createAsyncThunk(
+    'users/deleteUser', async id => {
+        return await delay(id)
+    }
+)
