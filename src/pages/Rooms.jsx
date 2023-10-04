@@ -25,9 +25,7 @@ const Rooms = (props) => {
 	const [currentId, setCurrentId] = useState('')
 	const [toggleModalNewRoom, setToggleModalNewRoom] = useState(false)
 	const initialRoomData = useSelector(initialRooms)
-	const singleRoomData = useSelector(singleRoom)
-
-	console.log(singleRoomData)
+	// const singleRoomData = useSelector(singleRoom)
 
 	const handleModalMore = (id) => {
 		if (!toggleModal) {
@@ -47,11 +45,16 @@ const Rooms = (props) => {
 		redirect: true,
 	}
 
+	const applyDiscount = (currentPrice, discount) => {
+		const result = currentPrice - currentPrice * (discount / 100)
+		return `$${result}`
+	}
+
 	const cols = [
 		{
 			property: 'id',
 			label: 'Room Info',
-			display: ({ id, room_photo }) => (
+			display: ({ id, room_photo, room_number }) => (
 				<>
 					<NavLink
 						style={{ textDecoration: 'none' }}
@@ -64,6 +67,9 @@ const Rooms = (props) => {
 							}}
 						>
 							<RoomPhoto src={room_photo} />
+							<TextFormatter small='small_room_number'>
+								Nº. {room_number}
+							</TextFormatter>
 							<TextFormatter small='small'>#{id}</TextFormatter>
 						</span>
 					</NavLink>
@@ -92,9 +98,14 @@ const Rooms = (props) => {
 		{
 			property: 'price',
 			label: 'Price',
-			display: ({ price }) => (
+			display: ({ price, offer_price }) => (
 				<>
-					<TextFormatter small='price'>${price}</TextFormatter>
+					<TextFormatter
+						offer={offer_price ? 'true' : 'false'}
+						small='price'
+					>
+						${price}
+					</TextFormatter>
 					<span>/night</span>
 				</>
 			),
@@ -102,13 +113,14 @@ const Rooms = (props) => {
 		{
 			property: 'offer_price',
 			label: 'Offer Price',
-			display: ({ offer_price }) => (
+			display: ({ offer_price, price, discount }) => (
 				<>
-					<TextFormatter small='offer'>
+					<TextFormatter small='price'>
 						{offer_price
-							? 'There is a discount available to apply to the existing price.'
+							? applyDiscount(price, discount)
 							: 'There is NO discount to be applied to the current price.'}
 					</TextFormatter>
+					<span>{offer_price && '/night'}</span>
 				</>
 			),
 		},
@@ -578,11 +590,15 @@ const FilterSelector = styled.select`
 const TextFormatter = styled.span`
 	display: ${(props) => (props.small === 'price' ? 'inline' : 'block')};
 	text-align: left;
-	color: ${(props) => (props.small === 'small' ? '#799283' : '#393939')};
+	color: ${(props) =>
+		props.small === 'small'
+			? '#799283'
+			: props.offer === 'true'
+			? '#3939393a'
+			: '#393939'};
 	font: ${(props) =>
-		props.small === 'small' ? '300 13px Poppins' : '500 19px Poppins'};
+		props.small === 'small' ? '400 13px Poppins' : '500 19px Poppins'};
 	text-align: center;
-	padding: ${(props) => props.small === 'offer' && '20px'};
 `
 
 const TitleText = styled.h1`
