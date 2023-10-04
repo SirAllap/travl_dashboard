@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Dashboard from '../pages/Dashboard'
 import Bookings from '../pages/Bookings'
@@ -8,21 +8,21 @@ import RoomDetails from '../pages/RoomDetails'
 import Users from '../pages/Users'
 import Login from '../pages/Login'
 import Contact from '../pages/Contact'
-import { authenticationContext } from '../context/authenticationContext'
+import PrivateRoute from '../pages/PrivateRoute'
 
 const Router = (props) => {
 	const [breadCrumb, setBreadCrumb] = useState('')
-	const { state } = useContext(authenticationContext)
 	useEffect(() => {
 		props.setNewBreadCrumb(breadCrumb)
 	}, [breadCrumb, props])
-	if (!state.auth) {
-		return <Login />
-	} else
-		return (
-			<>
+
+	return (
+		<>
+			<Routes>
+				<Route path='/login' element={<Login />} />
+			</Routes>
+			<PrivateRoute>
 				<Routes>
-					<Route path='/login' element={<Login />} />
 					<Route element={<Dashboard />} path='/' />
 					<Route element={<Dashboard />} path='*' />
 					<Route element={<Dashboard />} path='/' />
@@ -41,8 +41,9 @@ const Router = (props) => {
 					<Route path='/contact' element={<Contact />} />
 					<Route path='/users' element={<Users />} />
 				</Routes>
-			</>
-		)
+			</PrivateRoute>
+		</>
+	)
 }
 
 export default Router
