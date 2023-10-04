@@ -143,7 +143,10 @@ const Bookings = (props) => {
 		},
 	]
 
-	const [filter, setFilter] = useState('')
+	const [filter, setFilter] = useState({
+		property: 'all',
+		value: 'All Bookings',
+	})
 	const manageFilterTab = (param) => {
 		switch (param) {
 			case 'checkin':
@@ -167,6 +170,7 @@ const Bookings = (props) => {
 			case 'all':
 				setFilter({
 					property: 'all',
+					value: 'All Bookings',
 				})
 				break
 			default:
@@ -203,12 +207,27 @@ const Bookings = (props) => {
 								onClick={() => {
 									manageFilterTab('all')
 								}}
+								style={{
+									borderBottom:
+										filter.value === 'All Bookings' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'All Bookings' &&
+										'#135846',
+								}}
 							>
 								All Bookings
 							</button>
 							<button
 								onClick={() => {
 									manageFilterTab('checkin')
+								}}
+								style={{
+									borderBottom:
+										filter.value === 'CheckIn' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'CheckIn' && '#135846',
 								}}
 							>
 								Check In
@@ -217,12 +236,28 @@ const Bookings = (props) => {
 								onClick={() => {
 									manageFilterTab('checkout')
 								}}
+								style={{
+									borderBottom:
+										filter.value === 'CheckOut' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'CheckOut' &&
+										'#135846',
+								}}
 							>
 								Check Out
 							</button>
 							<button
 								onClick={() => {
 									manageFilterTab('inprogress')
+								}}
+								style={{
+									borderBottom:
+										filter.value === 'In Progress' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'In Progress' &&
+										'#135846',
 								}}
 							>
 								In Progress

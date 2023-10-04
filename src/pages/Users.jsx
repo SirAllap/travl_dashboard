@@ -107,7 +107,10 @@ const Users = (props) => {
 		},
 	]
 
-	const [filter, setFilter] = useState('')
+	const [filter, setFilter] = useState({
+		property: 'all',
+		value: 'All Employees',
+	})
 	const manageFilterTab = (param) => {
 		switch (param) {
 			case 'nonarchived':
@@ -125,6 +128,7 @@ const Users = (props) => {
 			case 'all':
 				setFilter({
 					property: 'all',
+					value: 'All Employees',
 				})
 				break
 			default:
@@ -161,6 +165,14 @@ const Users = (props) => {
 								onClick={() => {
 									manageFilterTab('all')
 								}}
+								style={{
+									borderBottom:
+										filter.value === 'All Employees' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'All Employees' &&
+										'#135846',
+								}}
 							>
 								All Employees
 							</button>
@@ -168,12 +180,27 @@ const Users = (props) => {
 								onClick={() => {
 									manageFilterTab('archived')
 								}}
+								style={{
+									borderBottom:
+										filter.value === 'inactive' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'inactive' &&
+										'#135846',
+								}}
 							>
 								Archived
 							</button>
 							<button
 								onClick={() => {
 									manageFilterTab('nonarchived')
+								}}
+								style={{
+									borderBottom:
+										filter.value === 'active' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'active' && '#135846',
 								}}
 							>
 								Non Archived

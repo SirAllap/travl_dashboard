@@ -55,7 +55,10 @@ const Contact = (props) => {
 		},
 	]
 
-	const [filter, setFilter] = useState('')
+	const [filter, setFilter] = useState({
+		property: 'all',
+		value: 'All Contact',
+	})
 	const manageFilterTab = (param) => {
 		switch (param) {
 			case 'nonarchived':
@@ -73,6 +76,7 @@ const Contact = (props) => {
 			case 'all':
 				setFilter({
 					property: 'all',
+					value: 'All Contact',
 				})
 				break
 			default:
@@ -97,6 +101,14 @@ const Contact = (props) => {
 								onClick={() => {
 									manageFilterTab('all')
 								}}
+								style={{
+									borderBottom:
+										filter.value === 'All Contact' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'All Contact' &&
+										'#135846',
+								}}
 							>
 								All Contact
 							</button>
@@ -104,12 +116,25 @@ const Contact = (props) => {
 								onClick={() => {
 									manageFilterTab('archived')
 								}}
+								style={{
+									borderBottom:
+										filter.value === 'true' &&
+										'3px solid #135846',
+									color: filter.value === 'true' && '#135846',
+								}}
 							>
 								Archived
 							</button>
 							<button
 								onClick={() => {
 									manageFilterTab('nonarchived')
+								}}
+								style={{
+									borderBottom:
+										filter.value === 'false' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'false' && '#135846',
 								}}
 							>
 								Non Archived
