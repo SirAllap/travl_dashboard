@@ -2,12 +2,17 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { useDispatch, useSelector } from 'react-redux'
-import { initialRooms } from '../features/rooms/roomSlice'
+import { initialRooms, singleRoom } from '../features/rooms/roomSlice'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { deleteRoom, fetchInitialRooms } from '../features/rooms/roomThunks'
+import {
+	deleteRoom,
+	fetchInitialRooms,
+	fetchOneRoom,
+} from '../features/rooms/roomThunks'
 import { Triangle } from 'react-loader-spinner'
+import { NavLink } from 'react-router-dom'
 
 const Rooms = (props) => {
 	const dispatch = useDispatch()
@@ -19,8 +24,10 @@ const Rooms = (props) => {
 	const [toggleModal, setToggleModal] = useState(false)
 	const [toggleModalNewRoom, setToggleModalNewRoom] = useState(false)
 	const initialRoomData = useSelector(initialRooms)
+	const singleRoomData = useSelector(singleRoom)
 	const [currentId, setCurrentId] = useState('')
 
+	console.log(singleRoomData)
 	const handleModalMore = (id) => {
 		if (!toggleModal) {
 			setToggleModal(true)
@@ -45,8 +52,20 @@ const Rooms = (props) => {
 			label: 'Room Info',
 			display: ({ id, room_photo }) => (
 				<>
-					<RoomPhoto src={room_photo} />
-					<TextFormatter small='small'>#{id}</TextFormatter>
+					<NavLink
+						style={{ textDecoration: 'none' }}
+						// to={`/rooms/${id}`}
+						to={`/rooms`}
+					>
+						<span
+							onClick={() => {
+								dispatch(fetchOneRoom(id))
+							}}
+						>
+							<RoomPhoto src={room_photo} />
+							<TextFormatter small='small'>#{id}</TextFormatter>
+						</span>
+					</NavLink>
 				</>
 			),
 		},
