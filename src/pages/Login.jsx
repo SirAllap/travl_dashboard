@@ -9,25 +9,36 @@ const Login = () => {
 	const navigate = useNavigate()
 	const [userName, setUserName] = useState('')
 	const [userPassword, setUserPassword] = useState('')
-	const { login, state } = useContext(authenticationContext)
+	const { login, authState } = useContext(authenticationContext)
 
 	useEffect(() => {
-		if (state.auth) {
+		if (authState.auth) {
 			navigate('/')
 		} else {
 			navigate('/login')
 		}
-	}, [state.auth, navigate])
+	}, [authState.auth, navigate])
 
 	const getUserEmail = (name) => {
 		return name === 'Admin' ? 'super@admin.com' : 'davidpr@travl.com'
 	}
+	const getProfilePicture = (name) => {
+		return `https://robohash.org/${name}.png?set=any`
+	}
 
 	const authUser = () => {
 		if (userName === 'Admin' && userPassword === 'oxygen') {
-			login({ userName, email: getUserEmail(userName) })
+			login({
+				userName,
+				email: getUserEmail(userName),
+				profilePicture: getProfilePicture(userName),
+			})
 		} else if (userName === 'David' && userPassword === 'travl') {
-			login({ userName, email: getUserEmail(userName) })
+			login({
+				userName,
+				email: getUserEmail(userName),
+				profilePicture: getProfilePicture(userName),
+			})
 		} else {
 			alert('You introduce wrong credentials')
 		}
