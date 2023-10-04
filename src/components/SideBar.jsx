@@ -95,123 +95,118 @@ const SideBar = (props) => {
 		}, 400)
 	}
 
-	if (!authState.auth) return null
-
-	return (
-		<>
-			<Container toggle={state.position}>
-				<EditUserModalOverlay open={toggleModal} />
-				<EditUserModal open={toggleModal}>
-					<EditUserInputLable type='name'>Name</EditUserInputLable>
-					<Input
-						defaultValue={
-							userUpdatedName ? userUpdatedName : currentUser.name
-						}
-						type='name'
-						placeholder='name'
-						onChange={handleUpdateUserName}
-					/>
-					<EditUserInputLable type='email'>Email</EditUserInputLable>
-
-					<Input
-						defaultValue={
-							userUpdatedEmail
-								? userUpdatedEmail
-								: currentUser.email
-						}
-						type='email'
-						placeholder='email'
-						onChange={handleUpdateUserEmail}
-					/>
-
-					<UserCardProfilePictureModal
-						src={!file2Upload ? profPic : file2Upload}
-					/>
-					<InputFile
-						type='file'
-						onChange={handlePictureChange}
-						alt='a photo of the user profile'
-					/>
-					<SaveCTA onClick={handleUpdateAndCloseModal}>Save</SaveCTA>
-					<CloseCTA onClick={handleToggleModal}>
-						<AiOutlineCloseCircle />
-					</CloseCTA>
-				</EditUserModal>
-				<LogoSection>
-					<NavLink to={'/dashboard'}>
-						<LogoImage
-							src={logo}
-							alt='a logo of the hotel dashboard'
+	if (authState.auth)
+		return (
+			<>
+				<Container toggle={state.position}>
+					<EditUserModalOverlay open={toggleModal} />
+					<EditUserModal open={toggleModal}>
+						<EditUserInputLable type='name'>
+							Name
+						</EditUserInputLable>
+						<Input
+							defaultValue={
+								userUpdatedName
+									? userUpdatedName
+									: currentUser.name
+							}
+							type='name'
+							placeholder='name'
+							onChange={handleUpdateUserName}
 						/>
-					</NavLink>
-				</LogoSection>
-				<IconSection>
-					<MenuItems
-						onClick={() => handleHeaderTitle('Dashboard')}
-						to='/'
-					>
-						<VerticalDivider />
-						<LuLayoutDashboard />
-						<MenuItemText>Dashboard</MenuItemText>
-					</MenuItems>
-					<MenuItems
-						onClick={() => handleHeaderTitle('Room List')}
-						to='/rooms'
-					>
-						<VerticalDivider className='left-decoration' />
-						<SlKey />
-						<MenuItemText>Rooms</MenuItemText>
-					</MenuItems>
-					<MenuItems
-						onClick={() => handleHeaderTitle('Bookings')}
-						to='/bookings'
-					>
-						<VerticalDivider className='left-decoration' />
-						<LuCalendarCheck2 />
-						<MenuItemText>Bookings</MenuItemText>
-					</MenuItems>
-					<MenuItems
-						onClick={() => handleHeaderTitle('Contact List')}
-						to='/contact'
-					>
-						<VerticalDivider className='left-decoration' />
-						<MdOutlineRateReview />
-						<MenuItemText>Contact</MenuItemText>
-					</MenuItems>
-					<MenuItems
-						onClick={() => handleHeaderTitle('Users')}
-						to='/users'
-					>
-						<VerticalDivider className='left-decoration' />
-						<SlPeople />
-						<MenuItemText>Users</MenuItemText>
-					</MenuItems>
-				</IconSection>
-				<UserCardInfo>
-					<UserCardProfilePictureVoid src={profPic} />
-					<UserCardText type='name'>
-						{!userName ? userName1 : userName}
-					</UserCardText>
-					<UserCardText>
-						{!userEmail ? userEmail1 : userEmail}
-					</UserCardText>
-					<UserCardButton onClick={handleToggleModal}>
-						Edit user
-					</UserCardButton>
-				</UserCardInfo>
-				<SideBarFooter>
-					<SideBarFooterText type='title'>
-						Travl Hotel Admin Dashboard
-					</SideBarFooterText>
-					<SideBarFooterText type='copyright'>
-						© 2020 All Rights Reserved
-					</SideBarFooterText>
-					<SideBarFooterText>Made with ♥ by DPR</SideBarFooterText>
-				</SideBarFooter>
-				<NavLink to='/contact'></NavLink>
-			</Container>
-		</>
-	)
+						<EditUserInputLable type='email'>
+							Email
+						</EditUserInputLable>
+
+						<Input
+							defaultValue={
+								userUpdatedEmail
+									? userUpdatedEmail
+									: currentUser.email
+							}
+							type='email'
+							placeholder='email'
+							onChange={handleUpdateUserEmail}
+						/>
+
+						<UserCardProfilePictureModal
+							src={!file2Upload ? profPic : file2Upload}
+						/>
+						<InputFile
+							type='file'
+							onChange={handlePictureChange}
+							alt='a photo of the user profile'
+						/>
+						<SaveCTA onClick={handleUpdateAndCloseModal}>
+							Save
+						</SaveCTA>
+						<CloseCTA onClick={handleToggleModal}>
+							<AiOutlineCloseCircle />
+						</CloseCTA>
+					</EditUserModal>
+					<LogoSection>
+						<NavLink to={'/dashboard'}>
+							<LogoImage
+								src={logo}
+								alt='a logo of the hotel dashboard'
+							/>
+						</NavLink>
+					</LogoSection>
+					<IconSection>
+						<MenuItems to='/'>
+							<VerticalDivider />
+							<LuLayoutDashboard />
+							<MenuItemText>Dashboard</MenuItemText>
+						</MenuItems>
+						<MenuItems to='/rooms'>
+							<VerticalDivider className='left-decoration' />
+							<SlKey />
+							<MenuItemText>Rooms</MenuItemText>
+						</MenuItems>
+						<MenuItems to='/bookings'>
+							<VerticalDivider className='left-decoration' />
+							<LuCalendarCheck2 />
+							<MenuItemText>Bookings</MenuItemText>
+						</MenuItems>
+						<MenuItems to='/contact'>
+							<VerticalDivider className='left-decoration' />
+							<MdOutlineRateReview />
+							<MenuItemText>Contact</MenuItemText>
+						</MenuItems>
+						<MenuItems to='/users'>
+							<VerticalDivider className='left-decoration' />
+							<SlPeople />
+							<MenuItemText>Users</MenuItemText>
+						</MenuItems>
+					</IconSection>
+					<UserCardInfo>
+						<UserCardProfilePictureVoid src={profPic} />
+						<UserCardText type='name'>
+							{!userName ? userName1 : userName}
+						</UserCardText>
+						<UserCardText>
+							{!userEmail ? userEmail1 : userEmail}
+						</UserCardText>
+						<UserCardButton onClick={handleToggleModal}>
+							Edit user
+						</UserCardButton>
+					</UserCardInfo>
+					<SideBarFooter>
+						<SideBarFooterText type='title'>
+							Travl Hotel Admin Dashboard
+						</SideBarFooterText>
+						<SideBarFooterText type='copyright'>
+							© 2020 All Rights Reserved
+						</SideBarFooterText>
+						<SideBarFooterText>
+							Made with ♥ by DPR
+						</SideBarFooterText>
+					</SideBarFooter>
+					<NavLink to='/contact'></NavLink>
+				</Container>
+			</>
+		)
+	return null
 }
 
 export default SideBar

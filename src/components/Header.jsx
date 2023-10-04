@@ -63,53 +63,55 @@ const Header = (props) => {
 		}
 	}, [props.newBreadCrumb, location.pathname])
 
-	if (!authState.auth) return null
-
-	return (
-		<>
-			<HeaderBar>
-				<LeftContainer>
-					<IconStyle menu='menu'>
-						<HiArrowsRightLeft onClick={handleToggleOfSideBar} />
-					</IconStyle>
-					<div>
-						<DashboardTitle>{curentTitle}</DashboardTitle>
-						<DashboardSubtitle>
-							{currentBreadCrumb}
-						</DashboardSubtitle>
-					</div>
-				</LeftContainer>
-				<RightContainer>
-					<IconStyle groupofrigthicons='groupofrigthicons'>
-						<AiOutlineHeart color='#135846' />
-					</IconStyle>
-					<IconStyle groupofrigthicons='groupofrigthicons'>
-						<LuMail color='#135846' />
-					</IconStyle>
-					<IconStyle groupofrigthicons='groupofrigthicons'>
-						<BiBell color='#135846' />
-					</IconStyle>
-					<IconStyle groupofrigthicons='groupofrigthicons'>
-						<BiMessageAltDetail color='#135846' />
-					</IconStyle>
-					<ProfilePictureVoid
-						src={
-							typeof authState.profilePicture === 'function'
-								? ' '
-								: authState.profilePicture
-						}
-					/>
-					<VerticalDivider />
-					<IconStyle logout='logout'>
-						<HiOutlineLogout
-							color='#E23428'
-							onClick={handleLogOut}
+	if (authState.auth)
+		return (
+			<>
+				<HeaderBar>
+					<LeftContainer>
+						<IconStyle menu='menu'>
+							<HiArrowsRightLeft
+								onClick={handleToggleOfSideBar}
+							/>
+						</IconStyle>
+						<div>
+							<DashboardTitle>{curentTitle}</DashboardTitle>
+							<DashboardSubtitle>
+								{currentBreadCrumb}
+							</DashboardSubtitle>
+						</div>
+					</LeftContainer>
+					<RightContainer>
+						<IconStyle groupofrigthicons='groupofrigthicons'>
+							<AiOutlineHeart color='#135846' />
+						</IconStyle>
+						<IconStyle groupofrigthicons='groupofrigthicons'>
+							<LuMail color='#135846' />
+						</IconStyle>
+						<IconStyle groupofrigthicons='groupofrigthicons'>
+							<BiBell color='#135846' />
+						</IconStyle>
+						<IconStyle groupofrigthicons='groupofrigthicons'>
+							<BiMessageAltDetail color='#135846' />
+						</IconStyle>
+						<ProfilePictureVoid
+							src={
+								typeof authState.profilePicture === 'function'
+									? ' '
+									: authState.profilePicture
+							}
 						/>
-					</IconStyle>
-				</RightContainer>
-			</HeaderBar>
-		</>
-	)
+						<VerticalDivider />
+						<IconStyle logout='logout'>
+							<HiOutlineLogout
+								color='#E23428'
+								onClick={handleLogOut}
+							/>
+						</IconStyle>
+					</RightContainer>
+				</HeaderBar>
+			</>
+		)
+	return null
 }
 
 export default Header
