@@ -14,3 +14,15 @@ export const fetchInitialRooms = createAsyncThunk(
         return await delay(roomsJSONfile)
     }
 )
+
+export const fetchOneRoom = createAsyncThunk(
+    'rooms/fetchOneRoom', async id => {
+        return await delay(id)
+    }
+)
+
+export const deleteRoom = createAsyncThunk(
+    'rooms/deleteRoom', async id => {
+        return await delay(id)
+    }
+)

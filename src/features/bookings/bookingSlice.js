@@ -47,7 +47,7 @@ const bookingSlice = createSlice({
                 const result = state.initialBookingFetch.filter((booking) =>
                     booking.id !== action.payload
                 )
-                state.initialBookingFetch = result
+                state.initialBookingFetch = [...result]
                 state.status = 'fulfilled'
             })
     }
@@ -55,6 +55,6 @@ const bookingSlice = createSlice({
 
 export default bookingSlice.reducer
 
-export const initialBookings = (state) => state.bookings.initialBookingFetch
-export const singleBooking = (state) => state.bookings.singleBookingFetch
-export const fetchBookingState = (state) => state.bookings.status
+export const initialBookings = state => state.bookings.initialBookingFetch
+export const singleBooking = state => state.bookings.singleBookingFetch
+export const fetchBookingState = state => state.bookings.status
