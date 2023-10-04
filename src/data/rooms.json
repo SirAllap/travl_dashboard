@@ -1,5 +1,6 @@
 [
 	{
+		"room_number": "101",
 		"id": "1ABCD123",
 		"room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 		"room_type": "Double Superior",
@@ -33,6 +34,7 @@
 		"status": "Booked"
 	},
 	{
+		"room_number": "102",
 		"id": "2EFGH456",
 		"room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 		"room_type": "Single Bed",
@@ -53,6 +55,7 @@
 		"status": "Available"
 	},
 	{
+		"room_number": "103",
 		"id": "3IJKL789",
 		"room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 		"room_type": "Suite",
@@ -87,6 +90,7 @@
 		"status": "Booked"
 	},
 	{
+		"room_number": "104",
 		"id": "4MNOPQ101",
 		"room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 		"room_type": "Double Bed",
@@ -107,6 +111,7 @@
 		"status": "Booked"
 	},
 	{
+		"room_number": "105",
 		"id": "5RSTU111",
 		"room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 		"room_type": "Double Superior",
@@ -139,6 +144,7 @@
 		"status": "Booked"
 	},
 	{
+		"room_number": "106",
 		"id": "6VWXYZ222",
 		"room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 		"room_type": "Double Bed",
@@ -159,6 +165,7 @@
 		"status": "Booked"
 	},
 	{
+		"room_number": "107",
 		"id": "7ABCDEF333",
 		"room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 		"room_type": "Suite",
@@ -193,6 +200,7 @@
 		"status": "Available"
 	},
 	{
+		"room_number": "108",
 		"id": "8GHIJK444",
 		"room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 		"room_type": "Single Bed",
@@ -213,6 +221,7 @@
 		"status": "Booked"
 	},
 	{
+		"room_number": "109",
 		"id": "9OPQRST555",
 		"room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 		"room_type": "Double Superior",
@@ -245,6 +254,7 @@
 		"status": "Available"
 	},
 	{
+		"room_number": "110",
 		"id": "10UVWXYZ6666",
 		"room_photo": "https://i.pinimg.com/originals/56/2c/97/562c97a653e162511371c8bb97286486.jpg",
 		"room_type": "Double Bed",
