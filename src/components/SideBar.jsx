@@ -9,9 +9,11 @@ import { SlPeople } from 'react-icons/sl'
 import { MdOutlineRateReview } from 'react-icons/md'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { supertoggleContext } from '../context/supertoggleContext'
+import { authenticationContext } from '../context/authenticationContext'
 
 const SideBar = (props) => {
 	const { state } = useContext(supertoggleContext)
+	const { authState, updateUserInfo } = useContext(authenticationContext)
 
 	const [toggleModal, setToggleModal] = useState(false)
 	const [userUpdatedName, setUpdatedUserName] = useState('')
@@ -23,18 +25,7 @@ const SideBar = (props) => {
 	const [profPic, setProfPic] = useState('')
 	const [file2Upload, setFile2Upload] = useState()
 
-	// eslint-disable-next-line
-	const handleProfilePictureChange = (newPictureUrl) => {
-		localStorage.setItem('profilePicture', newPictureUrl)
-	}
-
-	const handleChange = (e) => {
-		const newPictureUrl = URL.createObjectURL(e.target.files[0])
-		setFile2Upload(newPictureUrl)
-		handleProfilePictureChange(newPictureUrl)
-	}
-
-	const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+	const currentUser = authState
 	let fetchCurrentUser = {}
 	if (currentUser) {
 		fetchCurrentUser = currentUser
@@ -48,29 +39,25 @@ const SideBar = (props) => {
 	}
 
 	useEffect(() => {
-		setProfPic('https://robohash.org/Admin.png?set=any')
-		const savedProfilePicture = localStorage.getItem('profilePicture')
+		const savedProfilePicture = authState.profilePicture
 		setProfPic(
 			savedProfilePicture || 'https://robohash.org/oxygen.png?set=any'
 		)
-		props.setProfilePicture(
-			savedProfilePicture || 'https://robohash.org/oxygen.png?set=any'
-		)
-		fetchCurrentUser.userName !== null &&
-			setUserName1(fetchCurrentUser.userName)
+		fetchCurrentUser.name !== null && setUserName1(fetchCurrentUser.name)
 		fetchCurrentUser.email !== null && setUserEmail1(fetchCurrentUser.email)
 	}, [
 		profPic,
 		props,
-		handleProfilePictureChange,
 		currentUser,
+		fetchCurrentUser.name,
 		fetchCurrentUser.email,
-		fetchCurrentUser.userName,
+		authState.profilePicture,
 	])
 
 	const handleHeaderTitle = (titleName) => {
 		props.setHeaderTitle(titleName)
 	}
+
 	const handleToggleModal = () => {
 		if (!toggleModal) {
 			setToggleModal(true)
@@ -79,21 +66,33 @@ const SideBar = (props) => {
 		}
 	}
 
-	const handleUpdateAndCloseModal = () => {
+	const handlePictureChange = (e) => {
+		const newPictureUrl = URL.createObjectURL(e.target.files[0])
+		setFile2Upload(newPictureUrl)
+		handleUpdateAndCloseModal(newPictureUrl)
+	}
+
+	const handleUpdateAndCloseModal = (newPictureUrl) => {
 		if (userUpdatedName === '') {
-			setUserName(currentUser.userName)
+			setUserName(currentUser.name)
 		} else setUserName(userUpdatedName)
 		if (userUpdatedEmail === '') {
 			setUserEmail(currentUser.email)
 		} else setUserEmail(userUpdatedEmail)
-		setToggleModal(false)
-		const updateUser = {
+		updateUserInfo({
 			userName:
-				userUpdatedName === '' ? currentUser.userName : userUpdatedName,
+				userUpdatedName === '' ? currentUser.name : userUpdatedName,
 			email:
 				userUpdatedEmail === '' ? currentUser.email : userUpdatedEmail,
-		}
-		localStorage.setItem('currentUser', JSON.stringify(updateUser))
+			profilePicture:
+				typeof newPictureUrl === 'string'
+					? newPictureUrl
+					: authState.profilePicture,
+		})
+
+		setTimeout(() => {
+			setToggleModal(false)
+		}, 400)
 	}
 
 	return (
@@ -103,6 +102,9 @@ const SideBar = (props) => {
 				<EditUserModal open={toggleModal}>
 					<EditUserInputLable type='name'>Name</EditUserInputLable>
 					<Input
+						defaultValue={
+							userUpdatedName ? userUpdatedName : currentUser.name
+						}
 						type='name'
 						placeholder='name'
 						onChange={handleUpdateUserName}
@@ -110,6 +112,11 @@ const SideBar = (props) => {
 					<EditUserInputLable type='email'>Email</EditUserInputLable>
 
 					<Input
+						defaultValue={
+							userUpdatedEmail
+								? userUpdatedEmail
+								: currentUser.email
+						}
 						type='email'
 						placeholder='email'
 						onChange={handleUpdateUserEmail}
@@ -120,7 +127,7 @@ const SideBar = (props) => {
 					/>
 					<InputFile
 						type='file'
-						onChange={handleChange}
+						onChange={handlePictureChange}
 						alt='a photo of the user profile'
 					/>
 					<SaveCTA onClick={handleUpdateAndCloseModal}>Save</SaveCTA>
