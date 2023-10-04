@@ -8,11 +8,13 @@ const checkInitialState = () => {
 				auth: true,
 				name: JSON.parse(localStorage.getItem('currentUser')).userName,
 				email: JSON.parse(localStorage.getItem('currentUser')).email,
+				profilePicture: localStorage.getItem('profilePicture'),
 		  }
 		: {
-				auth: null,
-				name: null,
-				email: null,
+				auth: false,
+				name: String,
+				email: String,
+				profilePicture: String,
 		  }
 }
 
@@ -23,6 +25,15 @@ const authenticatorReducer = (state, action) => {
 				auth: true,
 				name: action.payload.userName,
 				email: action.payload.email,
+				profilePicture: action.payload.profilePicture,
+			}
+		}
+		case 'updateUserInfo': {
+			return {
+				auth: true,
+				name: action.payload.userName,
+				email: action.payload.email,
+				profilePicture: action.payload.profilePicture,
 			}
 		}
 		case 'logout': {
@@ -30,6 +41,7 @@ const authenticatorReducer = (state, action) => {
 				auth: false,
 				name: null,
 				email: null,
+				profilePicture: null,
 			}
 		}
 		default:
@@ -39,13 +51,17 @@ const authenticatorReducer = (state, action) => {
 
 const AuthenticationContext = ({ children }) => {
 	const navigate = useNavigate()
-	const [state, dispatch] = useReducer(
+
+	const [authState, dispatch] = useReducer(
 		authenticatorReducer,
 		checkInitialState()
 	)
 
-	const login = ({ userName, email }) => {
-		dispatch({ type: 'login', payload: { userName, email } })
+	const login = ({ userName, email, profilePicture }) => {
+		dispatch({
+			type: 'login',
+			payload: { userName, email, profilePicture },
+		})
 		localStorage.setItem(
 			'currentUser',
 			JSON.stringify({
@@ -53,9 +69,29 @@ const AuthenticationContext = ({ children }) => {
 				email: email,
 			})
 		)
+		localStorage.setItem('profilePicture', profilePicture)
 		localStorage.setItem('authenticated', true)
 		navigate('/')
 	}
+
+	const updateUserInfo = ({ userName, email, profilePicture }) => {
+		dispatch({
+			type: 'updateUserInfo',
+			payload: { userName, email, profilePicture },
+		})
+
+		localStorage.setItem(
+			'currentUser',
+			JSON.stringify({
+				userName: userName,
+				email: email,
+			})
+		)
+		localStorage.setItem('profilePicture', profilePicture)
+		localStorage.setItem('authenticated', true)
+		navigate('/')
+	}
+
 	const logout = () => {
 		dispatch({ type: 'logout' })
 		localStorage.clear()
@@ -67,8 +103,9 @@ const AuthenticationContext = ({ children }) => {
 			<authenticationContext.Provider
 				value={{
 					login,
+					updateUserInfo,
 					logout,
-					state,
+					authState,
 				}}
 			>
 				{children}
