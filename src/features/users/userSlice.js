@@ -30,4 +30,4 @@ const userSlice = createSlice({
 export default userSlice.reducer
 
 export const initialUsers = state => state.users.initialUserFetch
-export const fetchRoomState = state => state.users.status
+export const fetchUserState = state => state.users.status

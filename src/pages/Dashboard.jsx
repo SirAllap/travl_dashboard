@@ -7,7 +7,6 @@ import { FaRegEnvelopeOpen } from 'react-icons/fa'
 import { FaRegEnvelope } from 'react-icons/fa'
 import './styles.css'
 import { supertoggleContext } from '../context/supertoggleContext'
-
 import { Navigation, A11y } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
@@ -229,7 +228,9 @@ const Dashboard = (props) => {
 										>
 											{elem.isArchived === 'true' ? (
 												<FaRegEnvelopeOpen
-													style={{ color: 'green' }}
+													style={{
+														color: 'green',
+													}}
 												/>
 											) : (
 												<FaRegEnvelope />

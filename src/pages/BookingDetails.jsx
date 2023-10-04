@@ -239,7 +239,7 @@ const MainContainer = styled.main`
 	position: relative;
 	text-align: left;
 	height: 792px;
-	min-width: 1494px;
+	width: 1494px;
 	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
 	margin-top: 50px;
 	margin-right: 30px;
@@ -248,7 +248,7 @@ const MainContainer = styled.main`
 `
 
 const LeftDetailsCard = styled.div`
-	width: 50%;
+	width: 55%;
 	height: 792px;
 	display: inline-block;
 	vertical-align: top;
@@ -402,7 +402,7 @@ const RoomFacilitiesAmenities = styled.div`
 `
 
 const RightDetailsCard = styled.div`
-	width: 50%;
+	width: 45%;
 	height: 792px;
 	background-color: #c5c5c5;
 	border-radius: 0 10px 10px 0;

@@ -1,15 +1,21 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { initialRooms } from '../features/rooms/roomSlice'
 import { supertoggleContext } from '../context/supertoggleContext'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
+import { fetchInitialRooms } from '../features/rooms/roomThunks'
 
 const Rooms = (props) => {
+	const dispatch = useDispatch()
+	useEffect(() => {
+		dispatch(fetchInitialRooms())
+	}, [dispatch])
 	const { state } = useContext(supertoggleContext)
 	const initialRoomData = useSelector(initialRooms)
 	const sortedResult = [...initialRoomData]
-
+	const [toggleModal, setToggleModal] = useState(false)
 	const whoAmI = {
 		name: 'rooms',
 		redirect: true,
@@ -17,7 +23,7 @@ const Rooms = (props) => {
 	const cols = [
 		{
 			property: 'id',
-			label: 'Room Name',
+			label: 'Room Info',
 			display: ({ id, room_photo }) => (
 				<>
 					<RoomPhoto src={room_photo} />
@@ -105,8 +111,8 @@ const Rooms = (props) => {
 	const [sortRooms, setSortRooms] = useState(
 		sortedResult.sort((a, b) => a.price - b.price)
 	)
-	const handleSelectedFilter = (option) => {
-		switch (option) {
+	const handleSelectedFilter = (event) => {
+		switch (event.target.value) {
 			case 'pricedown':
 				setSortRooms(sortedResult.sort((a, b) => b.price - a.price))
 				break
@@ -118,9 +124,38 @@ const Rooms = (props) => {
 		}
 	}
 
+	const handleToggleModal = () => {
+		if (!toggleModal) {
+			setToggleModal(true)
+		} else {
+			setToggleModal(false)
+		}
+	}
+
 	return (
 		<>
 			<MainContainer toggle={state.position}>
+				<EditUserModalOverlay open={toggleModal} />
+				<EditUserModal open={toggleModal}>
+					<TitleText>Create Room:</TitleText>
+					<EditUserInputLable type='name'>Name</EditUserInputLable>
+					<Input type='name' placeholder='name' />
+					<EditUserInputLable type='email'>Email</EditUserInputLable>
+
+					<Input type='email' placeholder='email' />
+
+					<InputFile type='file' alt='a photo of the user profile' />
+					<SaveCTA
+						onClick={() => {
+							console.log('I will create the new room')
+						}}
+					>
+						Save
+					</SaveCTA>
+					<CloseCTA onClick={handleToggleModal}>
+						<AiOutlineCloseCircle />
+					</CloseCTA>
+				</EditUserModal>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
@@ -171,19 +206,13 @@ const Rooms = (props) => {
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>
-						<AddRoomCTA
-							onClick={() => {
-								console.log('im a button to add rooms')
-							}}
-						>
+						<AddRoomCTA onClick={handleToggleModal}>
 							+ Add Room{' '}
 						</AddRoomCTA>
 						<FilterSelector
 							name='bookingFilter'
 							id='bookingFilter'
-							onChange={(event) => {
-								handleSelectedFilter(event.target.value)
-							}}
+							onChange={handleSelectedFilter}
 						>
 							<option value='pricedown'>By Price Down</option>
 							<option value='priceup'>By Price Up</option>
@@ -202,6 +231,109 @@ const Rooms = (props) => {
 }
 
 export default Rooms
+
+const EditUserModalOverlay = styled.div`
+	z-index: 99;
+	position: absolute;
+	min-width: 100%;
+	min-height: 100% !important;
+	background-color: rgba(0, 0, 0, 0.434);
+	transition: all 0.5s;
+	display: ${(props) => (props.open ? 'block' : 'none')};
+`
+const EditUserModal = styled.div`
+	z-index: 100;
+	position: absolute;
+	top: 50%;
+	left: ${(props) => (props.toggle === 'close' ? '50%' : '59.9%')};
+	transform: translate(-50%, -50%);
+	width: 70%;
+	min-height: 60%;
+	background: #ffffff 0% 0% no-repeat padding-box;
+	border-radius: 20px;
+	transition: all 0.5s;
+	display: ${(props) => (props.open ? 'block' : 'none')};
+`
+const EditUserInputLable = styled.label`
+	position: absolute;
+	left: 3%;
+	margin-right: -50%;
+	top: ${(props) => (props.type === 'email' ? '30%' : '10%')};
+	transform: translate(-50%, -50%);
+	font: normal normal 500 17px Poppins;
+	display: block;
+	color: #135846;
+	margin-left: 40px;
+`
+const InputFile = styled.input`
+	position: absolute;
+	left: 50%;
+	margin-right: -50%;
+	top: 80%;
+	transform: translate(-50%, -50%);
+	max-width: 54.4%;
+	color: #135846;
+	transition: 0.3s;
+	color: #444;
+	background: #fff;
+	&::file-selector-button {
+		font: normal normal 500 14px Poppins;
+		border: none;
+		background: #135846;
+		padding: 10px 20px;
+		border-radius: 8px;
+		color: #fff;
+		cursor: pointer;
+		transition: background 0.2s ease-in-out;
+	}
+	&::file-selector-button:hover {
+		background: #ebf1ef;
+		color: #135846;
+	}
+`
+const Input = styled(InputFile)`
+	top: ${(props) => (props.type === 'email' ? '35%' : '15%')};
+	height: 47px;
+	width: 350px;
+	max-width: 90%;
+	background-color: #ebf1ef;
+	border: none;
+	border-radius: 8px;
+	padding: 20px;
+	margin-top: 16px;
+`
+const SaveCTA = styled.button`
+	position: absolute;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	bottom: 0px;
+	width: 90%;
+	height: 47px;
+	background-color: #ebf1ef;
+	border: none;
+	border-radius: 8px;
+	color: #135846;
+	font: normal normal 600 14px/21px Poppins;
+	margin-top: 16px;
+	cursor: pointer;
+	transition: 0.3s;
+	&:hover {
+		color: #ebf1ef;
+		background-color: #135846;
+	}
+`
+const CloseCTA = styled.button`
+	position: absolute;
+	right: 13px;
+	top: 13px;
+	font-size: 25px;
+	border: none;
+	background-color: transparent;
+	&:hover {
+		color: red;
+	}
+`
 
 const AddRoomCTA = styled.button`
 	font: 500 16px Poppins;
@@ -304,6 +436,13 @@ const TextFormatter = styled.span`
 		props.small === 'small' ? '300 13px Poppins' : '500 19px Poppins'};
 	text-align: center;
 	padding: ${(props) => props.small === 'offer' && '20px'};
+`
+
+const TitleText = styled.h1`
+	color: #393939;
+	font: 500 25px Poppins;
+	text-align: center;
+	padding: 5px;
 `
 
 const Status = styled.button`

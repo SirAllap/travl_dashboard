@@ -82,6 +82,7 @@ export default Table
 const TableData = styled.div`
 	background-color: #fff;
 	min-width: 1494px;
+	max-width: 1894px;
 	height: 670px;
 	margin-top: 30px;
 	border-radius: 20px 20px 0px 20px;
@@ -104,7 +105,10 @@ const TableHeadLabel = styled.div`
 					height: 65px;
 					border-bottom: 2px solid #f5f5f5;
 					p {
-						width: calc(1494px / 5);
+						width: ${(props) =>
+							props.whoami === 'contact'
+								? 'calc(1494px / 4)'
+								: 'calc(1494px / 5)'};
 						font: 600 18px Poppins;
 						color: #393939;
 						&:last-child {

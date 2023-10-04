@@ -9,13 +9,18 @@ import { initialBookings } from '../features/bookings/bookingSlice'
 import { NavLink } from 'react-router-dom'
 import {
 	deleteBooking,
+	fetchInitialBookings,
 	fetchOneBooking,
 } from '../features/bookings/bookingThunks'
-
 import { supertoggleContext } from '../context/supertoggleContext'
+import { Triangle } from 'react-loader-spinner'
+
 const Bookings = (props) => {
-	const { state } = useContext(supertoggleContext)
 	const dispatch = useDispatch()
+	useEffect(() => {
+		dispatch(fetchInitialBookings())
+	}, [dispatch])
+	const { state } = useContext(supertoggleContext)
 	const [displayData, setDisplayData] = useState([])
 	const [toggleModal, setToggleModal] = useState(false)
 	const [currentId, setCurrentId] = useState('')
@@ -171,6 +176,14 @@ const Bookings = (props) => {
 				break
 		}
 	}
+
+	const [spinner, setSpinner] = useState(true)
+	useEffect(() => {
+		setTimeout(() => {
+			setSpinner(false)
+		}, 500)
+	}, [])
+
 	return (
 		<>
 			<MainContainer toggle={state.position}>
@@ -232,18 +245,38 @@ const Bookings = (props) => {
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				<Table
-					cols={cols}
-					datas={displayData}
-					whoAmI={whoAmI}
-					filter={filter}
-				/>
+				{spinner ? (
+					<SpinnerContainer>
+						<Triangle
+							height='150'
+							width='150'
+							color='#135846'
+							ariaLabel='triangle-loading'
+							wrapperClassName=''
+							visible={spinner}
+						/>
+					</SpinnerContainer>
+				) : (
+					<Table
+						cols={cols}
+						datas={displayData}
+						whoAmI={whoAmI}
+						filter={filter}
+					/>
+				)}
 			</MainContainer>
 		</>
 	)
 }
 
 export default Bookings
+
+const SpinnerContainer = styled.div`
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+`
 
 const MoreOptionsModal = styled.span`
 	z-index: 100;

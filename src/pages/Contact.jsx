@@ -1,12 +1,17 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
 import { supertoggleContext } from '../context/supertoggleContext'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { initialContacts } from '../features/contact/contactSlice'
+import { fetchInitialContacts } from '../features/contact/contactThunks'
 
 const Contact = (props) => {
+	const dispatch = useDispatch()
+	useEffect(() => {
+		dispatch(fetchInitialContacts())
+	}, [dispatch])
 	const { state } = useContext(supertoggleContext)
 	const initialContactData = useSelector(initialContacts)
 

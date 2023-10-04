@@ -1,12 +1,17 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
 import { supertoggleContext } from '../context/supertoggleContext'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { initialUsers } from '../features/users/userSlice'
+import { fetchInitialUsers } from '../features/users/userThunks'
 
 const Users = (props) => {
+	const dispatch = useDispatch()
+	useEffect(() => {
+		dispatch(fetchInitialUsers())
+	}, [dispatch])
 	const initialUserData = useSelector(initialUsers)
 	const { state } = useContext(supertoggleContext)
 	const whoAmI = {
