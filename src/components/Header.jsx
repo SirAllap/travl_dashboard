@@ -16,6 +16,7 @@ const Header = (props) => {
 	const location = useLocation()
 	const [currentBreadCrumb, setCurrentBreadCrumb] = useState('')
 	const [curentTitle, setCurrentTitle] = useState('Dashboard')
+	const { authState } = useContext(authenticationContext)
 
 	const handleToggleOfSideBar = () => {
 		return state.position === 'open'
@@ -90,7 +91,13 @@ const Header = (props) => {
 					<IconStyle groupofrigthicons='groupofrigthicons'>
 						<BiMessageAltDetail color='#135846' />
 					</IconStyle>
-					<ProfilePictureVoid src={props.profilepicture} />
+					<ProfilePictureVoid
+						src={
+							typeof authState.profilePicture === 'function'
+								? ' '
+								: authState.profilePicture
+						}
+					/>
 					<VerticalDivider />
 					<IconStyle logout='logout'>
 						<HiOutlineLogout
