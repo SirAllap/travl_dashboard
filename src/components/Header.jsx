@@ -12,11 +12,10 @@ import { authenticationContext } from '../context/authenticationContext'
 
 const Header = (props) => {
 	const { dispatch, state } = useContext(supertoggleContext)
-	const { logout } = useContext(authenticationContext)
+	const { logout, authState } = useContext(authenticationContext)
 	const location = useLocation()
 	const [currentBreadCrumb, setCurrentBreadCrumb] = useState('')
 	const [curentTitle, setCurrentTitle] = useState('Dashboard')
-	const { authState } = useContext(authenticationContext)
 
 	const handleToggleOfSideBar = () => {
 		return state.position === 'open'
@@ -63,6 +62,8 @@ const Header = (props) => {
 				break
 		}
 	}, [props.newBreadCrumb, location.pathname])
+
+	if (!authState.auth) return null
 
 	return (
 		<>

@@ -95,6 +95,8 @@ const SideBar = (props) => {
 		}, 400)
 	}
 
+	if (!authState.auth) return null
+
 	return (
 		<>
 			<Container toggle={state.position}>
