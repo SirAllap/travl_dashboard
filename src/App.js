@@ -6,15 +6,14 @@ import ToggleContext from './context/ToggleContext.jsx'
 import AuthenticationContext from './context/AutheContext'
 
 const App = () => {
-    const [headerTitle, setHeaderTitle] = useState('Dashboard')
-    const [profilePicture, setProfilePicture] = useState('Dashboard')
+    const [profilePicture, setProfilePicture] = useState('')
     const [newBreadCrumb, setNewBreadCrumb] = useState('')
     return (
         <>
             <AuthenticationContext>
                 <ToggleContext>
-                    <SideBar setHeaderTitle={setHeaderTitle} setProfilePicture={setProfilePicture} />
-                    <Header newBreadCrumb={newBreadCrumb} title={headerTitle} profilepicture={profilePicture} />
+                    <SideBar setProfilePicture={setProfilePicture} />
+                    <Header newBreadCrumb={newBreadCrumb} profilepicture={profilePicture} />
                     <Routes setNewBreadCrumb={setNewBreadCrumb} />
                 </ToggleContext>
             </AuthenticationContext>
