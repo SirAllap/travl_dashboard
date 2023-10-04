@@ -33,7 +33,7 @@ const bookingSlice = createSlice({
             })
             .addCase(fetchOneBooking.fulfilled, (state, action) => {
                 const id = action.payload
-                state.singleBookingFetch = state.initialBookingFetch.filter((booking) => booking.id === id)
+                state.singleBookingFetch = state.initialBookingFetch.filter(booking => booking.id === id)
                 state.status = 'fulfilled'
             })
 

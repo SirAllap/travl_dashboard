@@ -33,7 +33,7 @@ const roomSlice = createSlice({
             })
             .addCase(fetchOneRoom.fulfilled, (state, action) => {
                 const id = action.payload
-                state.singleRoomFetch = state.initialRoomFetch.filter((room) => room.id === id)
+                state.singleRoomFetch = state.initialRoomFetch.filter(room => room.id === id)
                 state.status = 'fulfilled'
             })
 
