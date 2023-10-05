@@ -97,10 +97,12 @@ const SideBar = (props) => {
 				<Container toggle={state.position}>
 					<EditUserModalOverlay open={toggleModal} />
 					<EditUserModal open={toggleModal}>
-						<EditUserInputLable type='name'>
+						<EditUserInputLable type='name' htmlFor='name'>
 							Name
 						</EditUserInputLable>
 						<Input
+							id='name'
+							name='name'
 							defaultValue={
 								userUpdatedName
 									? userUpdatedName
@@ -109,12 +111,15 @@ const SideBar = (props) => {
 							type='name'
 							placeholder='name'
 							onChange={handleUpdateUserName}
+							autoComplete='off'
 						/>
-						<EditUserInputLable type='email'>
+						<EditUserInputLable type='email' htmlFor='email'>
 							Email
 						</EditUserInputLable>
 
 						<Input
+							id='email'
+							name='email'
 							defaultValue={
 								userUpdatedEmail
 									? userUpdatedEmail
@@ -123,6 +128,7 @@ const SideBar = (props) => {
 							type='email'
 							placeholder='email'
 							onChange={handleUpdateUserEmail}
+							autoComplete='off'
 						/>
 
 						<UserCardProfilePictureModal
