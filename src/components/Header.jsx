@@ -31,6 +31,8 @@ const Header = () => {
 		setCurrentTitle(stateBread.headerTitle)
 		if (location.pathname.startsWith('/bookings/')) {
 			setCurrentBreadCrumb(stateBread.bookingBreadCrumb)
+		} else if (location.pathname === '/rooms/create-room') {
+			setCurrentBreadCrumb('Rooms/Create New Room')
 		} else if (location.pathname.startsWith('/rooms/')) {
 			setCurrentBreadCrumb(stateBread.roomBreadCrumb)
 		} else {
@@ -51,6 +53,9 @@ const Header = () => {
 				break
 			case '/users':
 				setCurrentTitle('Users')
+				break
+			case '/rooms/create-room':
+				setCurrentTitle('New Room Form')
 				break
 			default:
 				break

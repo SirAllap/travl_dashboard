@@ -9,6 +9,7 @@ import Users from '../pages/Users'
 import Login from '../pages/Login'
 import Contact from '../pages/Contact'
 import PrivateRoute from '../pages/PrivateRoute'
+import CreateRoom from '../pages/CreateRoom'
 
 const Router = () => {
 	// const [breadCrumb, setBreadCrumb] = useState('')
@@ -35,6 +36,10 @@ const Router = () => {
 									element={<BookingDetails />}
 								/>
 								<Route path='/rooms' element={<Rooms />} />
+								<Route
+									path='/rooms/create-room'
+									element={<CreateRoom />}
+								/>
 								<Route
 									path='/rooms/:roomId'
 									element={<RoomDetails />}
