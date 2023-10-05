@@ -13,14 +13,14 @@ import { BiMessageRoundedDetail } from 'react-icons/bi'
 
 const BookingsDetails = () => {
 	const navigate = useNavigate()
+	const singleBookingData = useSelector(singleBooking)
+	const initialBookingState = useSelector(fetchBookingState)
 	const { state, bookingBreadCrumb } = useContext(supertoggleContext)
 	const location = useLocation()
 	const { bookingId } = useParams()
 	const [savedLastId, setSavedLastId] = useState('')
 	const [currentBooking, setCurrentBooking] = useState([])
 	const [spinner, setSpinner] = useState(true)
-	const singleBookingData = useSelector(singleBooking)
-	const bookingState = useSelector(fetchBookingState)
 
 	useEffect(() => {
 		if (
@@ -30,12 +30,10 @@ const BookingsDetails = () => {
 			bookingBreadCrumb(bookingId)
 			setSavedLastId(bookingId)
 		}
-		if (bookingState === 'pending') {
+		if (initialBookingState === 'pending') {
 			setSpinner(true)
-		} else {
-			setTimeout(() => {
-				setSpinner(false)
-			}, 500)
+		} else if (initialBookingState === 'fulfilled') {
+			setSpinner(false)
 			setCurrentBooking(singleBookingData[0])
 		}
 	}, [
@@ -43,7 +41,7 @@ const BookingsDetails = () => {
 		bookingId,
 		location.pathname,
 		singleBookingData,
-		bookingState,
+		initialBookingState,
 		bookingBreadCrumb,
 	])
 

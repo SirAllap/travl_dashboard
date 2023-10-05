@@ -5,7 +5,10 @@ import { BiSearch } from 'react-icons/bi'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
-import { initialBookings } from '../features/bookings/bookingSlice'
+import {
+	fetchBookingState,
+	initialBookings,
+} from '../features/bookings/bookingSlice'
 import { NavLink } from 'react-router-dom'
 import {
 	deleteBooking,
@@ -17,14 +20,26 @@ import { Triangle } from 'react-loader-spinner'
 
 const Bookings = () => {
 	const dispatch = useDispatch()
-	useEffect(() => {
-		dispatch(fetchInitialBookings())
-	}, [dispatch])
+	const initialBookingData = useSelector(initialBookings)
+	const initialBookingState = useSelector(fetchBookingState)
 	const { state } = useContext(supertoggleContext)
+	const [spinner, setSpinner] = useState(true)
 	const [displayData, setDisplayData] = useState([])
 	const [toggleModal, setToggleModal] = useState(false)
 	const [currentId, setCurrentId] = useState('')
-	const initialBookingData = useSelector(initialBookings)
+
+	useEffect(() => {
+		dispatch(fetchInitialBookings())
+	}, [dispatch])
+
+	useEffect(() => {
+		if (initialBookingState === 'pending') {
+			setSpinner(true)
+		} else if (initialBookingState === 'fulfilled') {
+			setSpinner(false)
+			setDisplayData(initialBookingData)
+		}
+	}, [initialBookingData, initialBookingState])
 
 	const handleModalMore = (id) => {
 		if (!toggleModal) {
@@ -39,10 +54,6 @@ const Bookings = () => {
 		dispatch(deleteBooking(currentId))
 		setToggleModal(false)
 	}
-
-	useEffect(() => {
-		setDisplayData(initialBookingData)
-	}, [initialBookingData])
 
 	const whoAmI = {
 		name: 'bookings',
@@ -177,13 +188,6 @@ const Bookings = () => {
 				break
 		}
 	}
-
-	const [spinner, setSpinner] = useState(true)
-	useEffect(() => {
-		setTimeout(() => {
-			setSpinner(false)
-		}, 500)
-	}, [])
 
 	return (
 		<>

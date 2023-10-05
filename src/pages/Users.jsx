@@ -6,20 +6,32 @@ import { supertoggleContext } from '../context/supertoggleContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { initialUsers } from '../features/users/userSlice'
+import { fetchUserState, initialUsers } from '../features/users/userSlice'
 import { deleteUser, fetchInitialUsers } from '../features/users/userThunks'
 import { Triangle } from 'react-loader-spinner'
 
 const Users = (props) => {
+	const dispatch = useDispatch()
+	const initialUserData = useSelector(initialUsers)
+	const initialUserState = useSelector(fetchUserState)
+	const { state } = useContext(supertoggleContext)
 	const [displayData, setDisplayData] = useState([])
 	const [toggleModal, setToggleModal] = useState(false)
 	const [currentId, setCurrentId] = useState('')
-	const dispatch = useDispatch()
+	const [spinner, setSpinner] = useState(true)
+
 	useEffect(() => {
 		dispatch(fetchInitialUsers())
 	}, [dispatch])
-	const initialUserData = useSelector(initialUsers)
-	const { state } = useContext(supertoggleContext)
+
+	useEffect(() => {
+		if (initialUserState === 'pending') {
+			setSpinner(true)
+		} else if (initialUserState === 'fulfilled') {
+			setSpinner(false)
+			setDisplayData(initialUserData)
+		}
+	}, [initialUserData, initialUserState])
 
 	const handleModalMore = (id) => {
 		if (!toggleModal) {
@@ -34,10 +46,6 @@ const Users = (props) => {
 		dispatch(deleteUser(currentId))
 		setToggleModal(false)
 	}
-
-	useEffect(() => {
-		setDisplayData(initialUserData)
-	}, [initialUserData])
 
 	const whoAmI = {
 		name: 'users',
@@ -135,13 +143,6 @@ const Users = (props) => {
 				break
 		}
 	}
-
-	const [spinner, setSpinner] = useState(true)
-	useEffect(() => {
-		setTimeout(() => {
-			setSpinner(false)
-		}, 500)
-	}, [])
 
 	return (
 		<>

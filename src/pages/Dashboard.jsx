@@ -14,7 +14,10 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import { useDispatch, useSelector } from 'react-redux'
-import { initialContacts } from '../features/contact/contactSlice'
+import {
+	fetchContactState,
+	initialContacts,
+} from '../features/contact/contactSlice'
 import {
 	archiveContacts,
 	fetchInitialContacts,
@@ -23,14 +26,25 @@ import { Triangle } from 'react-loader-spinner'
 
 const Dashboard = (props) => {
 	const dispatch = useDispatch()
-	useEffect(() => {
-		dispatch(fetchInitialContacts())
-	}, [dispatch])
+	const initialContactData = useSelector(initialContacts)
+	const initialContactState = useSelector(fetchContactState)
 	const { state } = useContext(supertoggleContext)
 	const [toggleModal, setToggleModal] = useState(false)
 	const [toggleModalUser, setToggleModalUser] = useState({})
 	const [currentId, setCurrentId] = useState('')
-	const initialContactData = useSelector(initialContacts)
+	const [spinner, setSpinner] = useState(true)
+
+	useEffect(() => {
+		dispatch(fetchInitialContacts())
+	}, [dispatch])
+
+	useEffect(() => {
+		if (initialContactState === 'pending') {
+			setSpinner(true)
+		} else if (initialContactState === 'fulfilled') {
+			setSpinner(false)
+		}
+	}, [initialContactState])
 
 	const handleToggleModal = (userReview) => {
 		setCurrentId(userReview.id)
@@ -45,13 +59,6 @@ const Dashboard = (props) => {
 	const handleMarkAsRead = (id) => {
 		dispatch(archiveContacts(id))
 	}
-
-	const [spinner, setSpinner] = useState(true)
-	useEffect(() => {
-		setTimeout(() => {
-			setSpinner(false)
-		}, 500)
-	}, [])
 
 	return (
 		<>

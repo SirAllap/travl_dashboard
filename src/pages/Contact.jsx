@@ -4,22 +4,37 @@ import Table from '../components/Table'
 import { BiSearch } from 'react-icons/bi'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { useDispatch, useSelector } from 'react-redux'
-import { initialContacts } from '../features/contact/contactSlice'
+import {
+	fetchContactState,
+	initialContacts,
+} from '../features/contact/contactSlice'
 import { fetchInitialContacts } from '../features/contact/contactThunks'
 import { Triangle } from 'react-loader-spinner'
 
 const Contact = () => {
 	const dispatch = useDispatch()
+	const initialContactData = useSelector(initialContacts)
+	const initialContactState = useSelector(fetchContactState)
+	const { state } = useContext(supertoggleContext)
+	const [spinner, setSpinner] = useState(true)
+
 	useEffect(() => {
 		dispatch(fetchInitialContacts())
 	}, [dispatch])
-	const { state } = useContext(supertoggleContext)
-	const initialContactData = useSelector(initialContacts)
+
+	useEffect(() => {
+		if (initialContactState === 'pending') {
+			setSpinner(true)
+		} else if (initialContactState === 'fulfilled') {
+			setSpinner(false)
+		}
+	}, [initialContactState])
 
 	const whoAmI = {
 		name: 'contact',
 		redirect: false,
 	}
+
 	const cols = [
 		{
 			property: 'id',
@@ -83,13 +98,6 @@ const Contact = () => {
 				break
 		}
 	}
-
-	const [spinner, setSpinner] = useState(true)
-	useEffect(() => {
-		setTimeout(() => {
-			setSpinner(false)
-		}, 500)
-	}, [])
 
 	return (
 		<>

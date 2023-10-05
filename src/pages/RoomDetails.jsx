@@ -11,14 +11,14 @@ import { singleRoom } from '../features/rooms/roomSlice'
 
 const RoomDetails = () => {
 	const navigate = useNavigate()
+	const singleRoomData = useSelector(singleRoom)
+	const initialRoomState = useSelector(fetchBookingState)
 	const { state, roomBreadCrumb } = useContext(supertoggleContext)
 	const location = useLocation()
 	const { roomId } = useParams()
 	const [savedLastId, setSavedLastId] = useState('')
 	const [currentBooking, setCurrentBooking] = useState([])
 	const [spinner, setSpinner] = useState(true)
-	const singleRoomData = useSelector(singleRoom)
-	const bookingState = useSelector(fetchBookingState)
 
 	useEffect(() => {
 		if (
@@ -28,12 +28,10 @@ const RoomDetails = () => {
 			roomBreadCrumb(roomId)
 			setSavedLastId(roomId)
 		}
-		if (bookingState === 'pending') {
+		if (initialRoomState === 'pending') {
 			setSpinner(true)
-		} else {
-			setTimeout(() => {
-				setSpinner(false)
-			}, 500)
+		} else if (initialRoomState === 'fulfilled') {
+			setSpinner(false)
 			setCurrentBooking(singleRoomData[0])
 		}
 	}, [
@@ -41,7 +39,7 @@ const RoomDetails = () => {
 		roomId,
 		location.pathname,
 		singleRoomData,
-		bookingState,
+		initialRoomState,
 		roomBreadCrumb,
 	])
 
