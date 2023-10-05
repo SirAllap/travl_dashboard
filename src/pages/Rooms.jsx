@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Table from '../components/Table'
 import { useDispatch, useSelector } from 'react-redux'
-import { initialRooms } from '../features/rooms/roomSlice'
+import { fetchRoomState, initialRooms } from '../features/rooms/roomSlice'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
@@ -16,15 +16,27 @@ import { NavLink } from 'react-router-dom'
 
 const Rooms = (props) => {
 	const dispatch = useDispatch()
-	useEffect(() => {
-		dispatch(fetchInitialRooms())
-	}, [dispatch])
+	const initialRoomData = useSelector(initialRooms)
+	const initialRoomState = useSelector(fetchRoomState)
 	const { state } = useContext(supertoggleContext)
+	const [spinner, setSpinner] = useState(true)
 	const [displayData, setDisplayData] = useState([])
 	const [toggleModal, setToggleModal] = useState(false)
 	const [currentId, setCurrentId] = useState('')
 	const [toggleModalNewRoom, setToggleModalNewRoom] = useState(false)
-	const initialRoomData = useSelector(initialRooms)
+
+	useEffect(() => {
+		dispatch(fetchInitialRooms())
+	}, [dispatch])
+
+	useEffect(() => {
+		if (initialRoomState === 'pending') {
+			setSpinner(true)
+		} else if (initialRoomState === 'fulfilled') {
+			setSpinner(false)
+			setDisplayData(initialRoomData)
+		}
+	}, [initialRoomData, initialRoomState])
 
 	const handleModalMore = (id) => {
 		if (!toggleModal) {
@@ -34,10 +46,6 @@ const Rooms = (props) => {
 		}
 		setCurrentId(id)
 	}
-
-	useEffect(() => {
-		setDisplayData(initialRoomData)
-	}, [initialRoomData])
 
 	const whoAmI = {
 		name: 'rooms',
@@ -201,13 +209,6 @@ const Rooms = (props) => {
 		setToggleModal(false)
 	}
 
-	const [spinner, setSpinner] = useState(true)
-	useEffect(() => {
-		setTimeout(() => {
-			setSpinner(false)
-		}, 500)
-	}, [])
-
 	return (
 		<>
 			<MainContainer toggle={state.position}>
@@ -223,27 +224,180 @@ const Rooms = (props) => {
 						<AiOutlineCloseCircle />
 					</CloseCTA>
 				</MoreOptionsModal>
-				<EditUserModalOverlay open={toggleModalNewRoom} />
-				<EditUserModal open={toggleModalNewRoom}>
-					<TitleText>Create Room:</TitleText>
-					<EditUserInputLable type='name'>Name</EditUserInputLable>
-					<Input type='name' placeholder='name' />
-					<EditUserInputLable type='email'>Email</EditUserInputLable>
+				<CreateRoomModalOverlay open={toggleModalNewRoom} />
+				<CreateRoomModal open={toggleModalNewRoom}>
+					<TitleText newroom='title'>Create New Room</TitleText>
+					<ModalInnerInfo>
+						<ModalInnerLeftInfo>
+							<CreateRoomInputLable>
+								Room Type:
+							</CreateRoomInputLable>
+							<RoomTypeSelector
+								name='bookingFilter'
+								id='bookingFilter'
+								onChange={handleSelectedFilter}
+								defaultValue='byprice'
+							>
+								<option value='byprice' disabled hidden>
+									Select the room type:
+								</option>
+								<option value='single'>Single Bed</option>
+								<option value='doube'>Double Bed</option>
+								<option value='doube_superior'>
+									Double Superior
+								</option>
+								<option value='suite'>Suite</option>
+							</RoomTypeSelector>
 
-					<Input type='email' placeholder='email' />
+							<CreateRoomInputLable>
+								Room Number:
+							</CreateRoomInputLable>
+							<CreateRoomInput
+								type='number'
+								placeholder='e.g: 207'
+								min='101'
+								max='910'
+							/>
+							<Info>
+								There are a total of 9 floors in the building,
+								with each floor consisting of 10 rooms. To
+								maintain a consistent numbering system, the
+								first room on each floor is designated as room
+								101, while the last room is numbered as room
+								110. This numbering scheme is applied uniformly
+								across all floors.
+							</Info>
 
-					<InputFile type='file' alt='a photo of the user profile' />
-					<SaveCTA
-						onClick={() => {
-							console.log('I will create the new room')
-						}}
-					>
-						Save
-					</SaveCTA>
-					<CloseCTA onClick={handleToggleModalNewRoom}>
-						<AiOutlineCloseCircle />
-					</CloseCTA>
-				</EditUserModal>
+							<CreateRoomInputLable>
+								Description:
+							</CreateRoomInputLable>
+							<CreateRoomTextArea
+								id='room_description'
+								name='room_description'
+							></CreateRoomTextArea>
+						</ModalInnerLeftInfo>
+						<ModalInnerRightInfo>
+							<CreateRoomInputLable>
+								Price per nigth:
+							</CreateRoomInputLable>
+							<CreateRoomInput
+								type='number'
+								placeholder='e.g: $196'
+							/>
+							<br />
+							<br />
+							<br />
+
+							<CreateRoomInputLable>Offer</CreateRoomInputLable>
+							<CreateRoomInputLable radio='radio'>
+								Yes
+							</CreateRoomInputLable>
+							<CreateRoomInput
+								radio='radio'
+								type='radio'
+								id='yes'
+								name='offer'
+								value='yes'
+							/>
+							<CreateRoomInputLable radio='radio'>
+								No
+							</CreateRoomInputLable>
+							<CreateRoomInput
+								radio='radio'
+								type='radio'
+								id='No'
+								name='offer'
+								value='No'
+							/>
+
+							<br />
+							<br />
+							<CreateRoomInputLable>
+								Discount ammount:
+							</CreateRoomInputLable>
+							<CreateRoomInputLable radio='radio'>
+								5%
+							</CreateRoomInputLable>
+							<CreateRoomInput
+								disabled={false}
+								radio='radio'
+								type='radio'
+								id='5'
+								name='discount_ammount'
+								value='5'
+							/>
+
+							<CreateRoomInputLable radio='radio'>
+								10%
+							</CreateRoomInputLable>
+							<CreateRoomInput
+								disabled={false}
+								radio='radio'
+								type='radio'
+								id='10'
+								name='discount_ammount'
+								value='10'
+							/>
+
+							<CreateRoomInputLable radio='radio'>
+								15%
+							</CreateRoomInputLable>
+							<CreateRoomInput
+								disabled={false}
+								radio='radio'
+								type='radio'
+								id='15'
+								name='discount_ammount'
+								value='15'
+							/>
+
+							<CreateRoomInputLable radio='radio'>
+								20%
+							</CreateRoomInputLable>
+							<CreateRoomInput
+								disabled={false}
+								radio='radio'
+								type='radio'
+								id='20'
+								name='discount_ammount'
+								value='20'
+							/>
+							<br />
+							<br />
+							<br />
+
+							<CreateRoomInputLable type='name'>
+								Amenities Pack:
+							</CreateRoomInputLable>
+							<RoomTypeSelector
+								name='bookingFilter'
+								id='bookingFilter'
+								onChange={handleSelectedFilter}
+								defaultValue='byprice'
+							>
+								<option value='byprice' disabled hidden>
+									Select the amenities pack:
+								</option>
+								<option value='single'>Premium Package</option>
+								<option value='doube'>Full Package</option>
+								<option value='doube_superior'>
+									Midrange Package
+								</option>
+								<option value='suite'>Basic Package</option>
+							</RoomTypeSelector>
+						</ModalInnerRightInfo>
+						<SaveCTA
+							onClick={() => {
+								console.log('I will create the new room')
+							}}
+						>
+							Create Room
+						</SaveCTA>
+						<CloseCTA onClick={handleToggleModalNewRoom}>
+							<AiOutlineCloseCircle />
+						</CloseCTA>
+					</ModalInnerInfo>
+				</CreateRoomModal>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
@@ -389,7 +543,7 @@ const OptionsButton = styled(SpecialRequest)`
 	}
 `
 
-const EditUserModalOverlay = styled.div`
+const CreateRoomModalOverlay = styled.div`
 	z-index: 99;
 	position: absolute;
 	min-width: 100%;
@@ -398,66 +552,103 @@ const EditUserModalOverlay = styled.div`
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
-const EditUserModal = styled.div`
+const CreateRoomModal = styled.div`
 	z-index: 100;
 	position: absolute;
-	top: 50%;
+	top: 60%;
 	left: ${(props) => (props.toggle === 'close' ? '50%' : '59.9%')};
 	transform: translate(-50%, -50%);
 	width: 70%;
-	min-height: 60%;
+	height: 630px;
 	background: #ffffff 0% 0% no-repeat padding-box;
 	border-radius: 20px;
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
-const EditUserInputLable = styled.label`
-	position: absolute;
-	left: 3%;
-	margin-right: -50%;
-	top: ${(props) => (props.type === 'email' ? '30%' : '10%')};
-	transform: translate(-50%, -50%);
-	font: normal normal 500 17px Poppins;
-	display: block;
-	color: #135846;
-	margin-left: 40px;
+const ModalInnerInfo = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: start;
+	width: 100%;
+	height: 100%;
 `
-const InputFile = styled.input`
-	position: absolute;
-	left: 50%;
-	margin-right: -50%;
-	top: 80%;
-	transform: translate(-50%, -50%);
-	max-width: 54.4%;
+const ModalInnerLeftInfo = styled.div`
+	text-align: left;
+	height: 100%;
+	padding: 20px;
+`
+const ModalInnerRightInfo = styled.div`
+	text-align: left;
+	height: 100%;
+	padding: 20px;
+`
+
+const CreateRoomInputLable = styled.label`
+	display: ${(props) => (props.radio === 'radio' ? 'inline' : 'block')};
+	text-align: left;
+	font: normal normal 500 17px Poppins;
 	color: #135846;
-	transition: 0.3s;
-	color: #444;
-	background: #fff;
-	&::file-selector-button {
-		font: normal normal 500 14px Poppins;
-		border: none;
-		background: #135846;
-		padding: 10px 20px;
-		border-radius: 8px;
-		color: #fff;
-		cursor: pointer;
-		transition: background 0.2s ease-in-out;
-	}
-	&::file-selector-button:hover {
-		background: #ebf1ef;
+	padding: 15px 0 10px 0;
+`
+
+const CreateRoomInput = styled.input`
+	${(props) => {
+		switch (props.radio) {
+			case 'radio':
+				return css`
+					margin: 0 25px 0 5px;
+				`
+			default:
+				return css`
+					height: 47px;
+					width: 400px;
+					background-color: #fff;
+					border: 2px solid #ebf1ef;
+					border-radius: 8px;
+					padding-left: 15px;
+					font: 500 16px Poppins;
+					color: #135846;
+				`
+		}
+	}}
+`
+
+const Info = styled.p`
+	width: 400px;
+	color: #ff8000ba;
+	font: 200 11px Poppins;
+	text-align: justify;
+`
+
+const CreateRoomTextArea = styled.textarea`
+	height: 141px;
+	width: 400px;
+	resize: none;
+	background-color: #fff;
+	border: 2px solid #ebf1ef;
+	border-radius: 8px;
+	padding-left: 15px;
+	font: 500 16px Poppins;
+	color: #135846;
+`
+
+const RoomTypeSelector = styled.select`
+	height: 47px;
+	width: 400px;
+	border: 1px solid #135846;
+	font: 500 16px Poppins;
+	color: #135846;
+	border: 2px solid #ebf1ef;
+	border-radius: 8px;
+	background-color: #fff;
+	cursor: pointer;
+	outline: none;
+	padding-left: 15px;
+	option {
+		font: 500 16px Poppins;
 		color: #135846;
 	}
-`
-const Input = styled(InputFile)`
-	top: ${(props) => (props.type === 'email' ? '35%' : '15%')};
-	height: 47px;
-	width: 350px;
-	max-width: 90%;
-	background-color: #ebf1ef;
-	border: none;
-	border-radius: 8px;
-	padding: 20px;
-	margin-top: 16px;
 `
 const SaveCTA = styled.button`
 	position: absolute;
@@ -600,8 +791,10 @@ const TextFormatter = styled.span`
 `
 
 const TitleText = styled.h1`
-	color: #393939;
-	font: 500 25px Poppins;
+	border-bottom: 1px dotted #1358463d;
+	color: ${(props) => (props.newroom === 'title' ? '#135846' : '#393939')};
+	font: ${(props) =>
+		props.newroom === 'title' ? '600 25px Poppins' : '500 25px Poppins'};
 	text-align: center;
 	padding: 5px;
 `
