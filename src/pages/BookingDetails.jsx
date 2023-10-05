@@ -11,7 +11,7 @@ import { Triangle } from 'react-loader-spinner'
 import { BsFillTelephoneFill } from 'react-icons/bs'
 import { BiMessageRoundedDetail } from 'react-icons/bi'
 
-const BookingsDetails = (props) => {
+const BookingsDetails = () => {
 	const navigate = useNavigate()
 	const { state, bookingBreadCrumb } = useContext(supertoggleContext)
 	const location = useLocation()
@@ -27,7 +27,6 @@ const BookingsDetails = (props) => {
 			savedLastId !== bookingId &&
 			location.pathname === `/bookings/${bookingId}`
 		) {
-			// props.setbreadcrumb(`Bookings/${bookingId}`)
 			bookingBreadCrumb(bookingId)
 			setSavedLastId(bookingId)
 		}
@@ -43,7 +42,6 @@ const BookingsDetails = (props) => {
 		savedLastId,
 		bookingId,
 		location.pathname,
-		props,
 		singleBookingData,
 		bookingState,
 		bookingBreadCrumb,

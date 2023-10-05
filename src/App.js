@@ -6,14 +6,14 @@ import ToggleContext from './context/ToggleContext.jsx'
 import AuthenticationContext from './context/AutheContext'
 
 const App = () => {
-    const [newBreadCrumb, setNewBreadCrumb] = useState('')
+    // const [newBreadCrumb, setNewBreadCrumb] = useState('')
     return (
         <>
             <AuthenticationContext>
                 <ToggleContext>
                     <SideBar />
-                    <Header newBreadCrumb={newBreadCrumb} />
-                    <Routes setNewBreadCrumb={setNewBreadCrumb} />
+                    <Header />
+                    <Routes />
                 </ToggleContext>
             </AuthenticationContext>
         </>

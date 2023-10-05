@@ -8,7 +8,7 @@ import { initialContacts } from '../features/contact/contactSlice'
 import { fetchInitialContacts } from '../features/contact/contactThunks'
 import { Triangle } from 'react-loader-spinner'
 
-const Contact = (props) => {
+const Contact = () => {
 	const dispatch = useDispatch()
 	useEffect(() => {
 		dispatch(fetchInitialContacts())

@@ -15,7 +15,7 @@ import {
 import { supertoggleContext } from '../context/supertoggleContext'
 import { Triangle } from 'react-loader-spinner'
 
-const Bookings = (props) => {
+const Bookings = () => {
 	const dispatch = useDispatch()
 	useEffect(() => {
 		dispatch(fetchInitialBookings())

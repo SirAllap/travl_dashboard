@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
 import { useDispatch, useSelector } from 'react-redux'
-import { initialRooms, singleRoom } from '../features/rooms/roomSlice'
+import { initialRooms } from '../features/rooms/roomSlice'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
@@ -25,7 +25,6 @@ const Rooms = (props) => {
 	const [currentId, setCurrentId] = useState('')
 	const [toggleModalNewRoom, setToggleModalNewRoom] = useState(false)
 	const initialRoomData = useSelector(initialRooms)
-	// const singleRoomData = useSelector(singleRoom)
 
 	const handleModalMore = (id) => {
 		if (!toggleModal) {
@@ -58,8 +57,7 @@ const Rooms = (props) => {
 				<>
 					<NavLink
 						style={{ textDecoration: 'none' }}
-						// to={`/rooms/${id}`}
-						to={`/rooms`}
+						to={`/rooms/${id}`}
 					>
 						<span
 							onClick={() => {

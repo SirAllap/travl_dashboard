@@ -10,11 +10,11 @@ import Login from '../pages/Login'
 import Contact from '../pages/Contact'
 import PrivateRoute from '../pages/PrivateRoute'
 
-const Router = (props) => {
-	const [breadCrumb, setBreadCrumb] = useState('')
-	useEffect(() => {
-		props.setNewBreadCrumb(breadCrumb)
-	}, [breadCrumb, props])
+const Router = () => {
+	// const [breadCrumb, setBreadCrumb] = useState('')
+	// useEffect(() => {
+	// 	props.setNewBreadCrumb(breadCrumb)
+	// }, [breadCrumb, props])
 
 	return (
 		<>
@@ -29,15 +29,10 @@ const Router = (props) => {
 					<Route path='/bookings' element={<Bookings />} />
 					<Route
 						path='/bookings/:bookingId'
-						element={
-							<BookingDetails setbreadcrumb={setBreadCrumb} />
-						}
+						element={<BookingDetails />}
 					/>
 					<Route path='/rooms' element={<Rooms />} />
-					<Route
-						path='/rooms/:roomId'
-						element={<RoomDetails setbreadcrumb={setBreadCrumb} />}
-					/>
+					<Route path='/rooms/:roomId' element={<RoomDetails />} />
 					<Route path='/contact' element={<Contact />} />
 					<Route path='/users' element={<Users />} />
 				</Routes>

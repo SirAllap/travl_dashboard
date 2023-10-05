@@ -10,7 +10,7 @@ import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { authenticationContext } from '../context/authenticationContext'
 
-const Header = (props) => {
+const Header = () => {
 	const { dispatch, state } = useContext(supertoggleContext)
 	const { logout, authState } = useContext(authenticationContext)
 	const location = useLocation()
@@ -28,12 +28,11 @@ const Header = (props) => {
 	}
 
 	useEffect(() => {
-		const idNumb = props.newBreadCrumb.split('/')
+		setCurrentTitle(state.headerTitle)
 		if (location.pathname.startsWith('/bookings/')) {
-			// setCurrentBreadCrumb(props.newBreadCrumb)
 			setCurrentBreadCrumb(state.bookingBreadCrumb)
 		} else if (location.pathname.startsWith('/rooms/')) {
-			setCurrentBreadCrumb(props.newBreadCrumb)
+			setCurrentBreadCrumb(state.roomBreadCrumb)
 		} else {
 			setCurrentBreadCrumb('')
 		}
@@ -53,16 +52,15 @@ const Header = (props) => {
 			case '/users':
 				setCurrentTitle('Users')
 				break
-			case `/bookings/${idNumb[1]}`:
-				setCurrentTitle('Booking Details')
-				break
-			case `/rooms/${idNumb[1]}`:
-				setCurrentTitle('Room Details')
-				break
 			default:
 				break
 		}
-	}, [props.newBreadCrumb, location.pathname, state.bookingBreadCrumb])
+	}, [
+		location.pathname,
+		state.bookingBreadCrumb,
+		state.roomBreadCrumb,
+		state.headerTitle,
+	])
 
 	if (authState.auth)
 		return (

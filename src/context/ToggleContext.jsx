@@ -5,6 +5,7 @@ const initialState = {
 	position: 'open',
 	bookingBreadCrumb: '',
 	rooomBreadCrumb: '',
+	headerTitle: '',
 }
 
 const reducer = (state, action) => {
@@ -22,11 +23,13 @@ const reducer = (state, action) => {
 		case 'getBookingBreadCrumb': {
 			return {
 				bookingBreadCrumb: `Bookings/${action.payload.id}`,
+				headerTitle: `Booking Details`,
 			}
 		}
 		case 'getRoomBreadCrumb': {
 			return {
-				rooomBreadCrumb: action.payload,
+				roomBreadCrumb: `Rooms/${action.payload.id}`,
+				headerTitle: `Rooms Details`,
 			}
 		}
 		default:
@@ -45,7 +48,10 @@ const ToggleContext = ({ children }) => {
 	}
 
 	const roomBreadCrumb = (id) => {
-		console.log('dispatch this one!')
+		dispatch({
+			type: 'getRoomBreadCrumb',
+			payload: { id },
+		})
 	}
 
 	return (
