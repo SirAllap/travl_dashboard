@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { deleteRoom, fetchInitialRooms, fetchOneRoom } from './roomThunks'
+import { createOneRoom, deleteRoom, fetchInitialRooms, fetchOneRoom } from './roomThunks'
 
 const initialState = {
     initialRoomFetch: [],
     singleRoomFetch: [],
+    newRoom: [],
     status: 'idle',
     error: 'null'
 }
@@ -37,6 +38,18 @@ const roomSlice = createSlice({
                 state.status = 'fulfilled'
             })
 
+            .addCase(createOneRoom.pending, (state, action) => {
+                state.status = 'pending'
+            })
+            .addCase(createOneRoom.rejected, (state, action) => {
+                state.status = 'rejected'
+            })
+            .addCase(createOneRoom.fulfilled, (state, action) => {
+                console.log(action.payload)
+                state.initialRoomFetch.push(action.payload)
+                state.status = 'fulfilled'
+            })
+
             .addCase(deleteRoom.pending, (state, action) => {
                 state.status = 'pending'
             })
@@ -56,4 +69,5 @@ export default roomSlice.reducer
 
 export const initialRooms = state => state.rooms.initialRoomFetch
 export const singleRoom = state => state.rooms.singleRoomFetch
+export const newRoom = state => state.rooms.newRoom
 export const fetchRoomState = state => state.rooms.status
