@@ -149,12 +149,7 @@ const Contact = () => {
 							</button>
 						</Tabs>
 					</TableTabsContainer>
-					<TableSearchAndFilterContainer>
-						<InputSearch />
-						<Icons search='search'>
-							<BiSearch />
-						</Icons>
-					</TableSearchAndFilterContainer>
+					<TableSearchAndFilterContainer></TableSearchAndFilterContainer>
 				</TopTableContainer>
 				{spinner ? (
 					<SpinnerContainer>

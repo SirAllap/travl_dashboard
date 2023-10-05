@@ -67,8 +67,8 @@ const Users = (props) => {
 			display: ({ full_name, employee_id, phone_number }) => (
 				<>
 					<TextFormatter name='name'>{full_name}</TextFormatter>
-					<TextFormatter small='small'>#{employee_id}</TextFormatter>
 					<TextFormatter small='small'>{phone_number}</TextFormatter>
+					<TextFormatter small='small'>#{employee_id}</TextFormatter>
 				</>
 			),
 		},
@@ -94,7 +94,9 @@ const Users = (props) => {
 			label: 'Archive',
 			display: ({ status }) => (
 				<>
-					<Status status={status}>Archived</Status>
+					<Status status={status}>
+						{status === 'active' ? 'Active' : 'Inactive'}
+					</Status>
 				</>
 			),
 		},
@@ -190,7 +192,7 @@ const Users = (props) => {
 										'#135846',
 								}}
 							>
-								Archived
+								Active
 							</button>
 							<button
 								onClick={() => {
@@ -204,7 +206,7 @@ const Users = (props) => {
 										filter.value === 'active' && '#135846',
 								}}
 							>
-								Non Archived
+								Inactive
 							</button>
 						</Tabs>
 					</TableTabsContainer>

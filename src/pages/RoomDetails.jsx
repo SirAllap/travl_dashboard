@@ -3,16 +3,15 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { useSelector } from 'react-redux'
-import { fetchBookingState } from '../features/bookings/bookingSlice'
 import { Triangle } from 'react-loader-spinner'
 import { BsFillTelephoneFill } from 'react-icons/bs'
 import { BiMessageRoundedDetail } from 'react-icons/bi'
-import { singleRoom } from '../features/rooms/roomSlice'
+import { fetchRoomState, singleRoom } from '../features/rooms/roomSlice'
 
 const RoomDetails = () => {
 	const navigate = useNavigate()
 	const singleRoomData = useSelector(singleRoom)
-	const initialRoomState = useSelector(fetchBookingState)
+	const initialRoomState = useSelector(fetchRoomState)
 	const { state, roomBreadCrumb } = useContext(supertoggleContext)
 	const location = useLocation()
 	const { roomId } = useParams()
