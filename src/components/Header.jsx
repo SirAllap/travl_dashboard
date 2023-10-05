@@ -11,7 +11,7 @@ import { HiOutlineLogout } from 'react-icons/hi'
 import { authenticationContext } from '../context/authenticationContext'
 
 const Header = () => {
-	const { dispatch, state } = useContext(supertoggleContext)
+	const { dispatch, state, stateBread } = useContext(supertoggleContext)
 	const { logout, authState } = useContext(authenticationContext)
 	const location = useLocation()
 	const [currentBreadCrumb, setCurrentBreadCrumb] = useState('')
@@ -28,11 +28,11 @@ const Header = () => {
 	}
 
 	useEffect(() => {
-		setCurrentTitle(state.headerTitle)
+		setCurrentTitle(stateBread.headerTitle)
 		if (location.pathname.startsWith('/bookings/')) {
-			setCurrentBreadCrumb(state.bookingBreadCrumb)
+			setCurrentBreadCrumb(stateBread.bookingBreadCrumb)
 		} else if (location.pathname.startsWith('/rooms/')) {
-			setCurrentBreadCrumb(state.roomBreadCrumb)
+			setCurrentBreadCrumb(stateBread.roomBreadCrumb)
 		} else {
 			setCurrentBreadCrumb('')
 		}
@@ -57,9 +57,9 @@ const Header = () => {
 		}
 	}, [
 		location.pathname,
-		state.bookingBreadCrumb,
-		state.roomBreadCrumb,
-		state.headerTitle,
+		stateBread.roomBreadCrumb,
+		stateBread.headerTitle,
+		stateBread.bookingBreadCrumb,
 	])
 
 	if (authState.auth)
