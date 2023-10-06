@@ -9,6 +9,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { fetchUserState, initialUsers } from '../features/users/userSlice'
 import { deleteUser, fetchInitialUsers } from '../features/users/userThunks'
 import { Triangle } from 'react-loader-spinner'
+import { NavLink } from 'react-router-dom'
 
 const Users = (props) => {
 	const dispatch = useDispatch()
@@ -215,6 +216,15 @@ const Users = (props) => {
 						<Icons search='search'>
 							<BiSearch />
 						</Icons>
+						<NavLink to={'/users/create-employee'}>
+							<AddRoomCTA
+							// onClick={() => {
+							// 	dispatch(resetState())
+							// }}
+							>
+								+ Add Employee{' '}
+							</AddRoomCTA>
+						</NavLink>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
 				{spinner ? (
@@ -364,7 +374,7 @@ const InputSearch = styled.input`
 	font: 500 16px Poppins;
 	color: #135846;
 	padding: 10px 10px 10px 50px;
-	width: 351px;
+	width: 251px;
 	height: 50px;
 	border: none;
 	border-radius: 12px;
@@ -410,4 +420,25 @@ const CustomerPhoto = styled.img`
 	width: 100px;
 	background: ${(props) => (props.src ? 'transparent' : '#7992832e')};
 	border-radius: 8px;
+`
+
+const AddRoomCTA = styled.button`
+	font: 500 16px Poppins;
+	width: 364px;
+	height: 50px;
+	border: 1px solid #135846;
+	color: #135846ab;
+	border: 2px solid #1358465c;
+	border-radius: 12px;
+	margin-right: 20px;
+	cursor: pointer;
+	outline: none;
+	padding: 0 15px 0 15px;
+	background-color: #eef9f296;
+	transition: 0.3s all;
+	&:hover {
+		background-color: #13584663;
+		color: #ffffffc4;
+		border: 2px solid #79928381;
+	}
 `

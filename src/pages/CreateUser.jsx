@@ -21,7 +21,7 @@ const CreateUser = (props) => {
 			setSpinner(true)
 		} else if (createRoomCurretState === 'fulfilled') {
 			setSpinner(false)
-			navigate('/rooms')
+			navigate('/users')
 		}
 	}, [initialRoomData, createRoomCurretState, navigate])
 
@@ -212,7 +212,7 @@ const CreateUser = (props) => {
 	return (
 		<>
 			<MainContainer toggle={state.position}>
-				<NavLink to={'/rooms'}>
+				<NavLink to={'/users'}>
 					<CTA>Back</CTA>
 				</NavLink>
 				<TitleText newroom='title'>Create New Room</TitleText>

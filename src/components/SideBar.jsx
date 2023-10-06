@@ -178,7 +178,7 @@ const SideBar = (props) => {
 						<MenuItems to='/users'>
 							<VerticalDivider className='left-decoration' />
 							<SlPeople />
-							<MenuItemText>Users</MenuItemText>
+							<MenuItemText>Employees</MenuItemText>
 						</MenuItems>
 					</IconSection>
 					<UserCardInfo>

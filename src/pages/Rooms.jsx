@@ -391,21 +391,22 @@ const CloseCTA = styled.button`
 
 const AddRoomCTA = styled.button`
 	font: 500 16px Poppins;
-	width: 464px;
+	width: 364px;
 	height: 50px;
 	border: 1px solid #135846;
-	color: #135846;
-	border: 2px solid #135846;
+	color: #135846ab;
+	border: 2px solid #1358465c;
 	border-radius: 12px;
 	margin-right: 20px;
 	cursor: pointer;
 	outline: none;
 	padding: 0 15px 0 15px;
-	background-color: #eef9f2;
+	background-color: #eef9f296;
+	transition: 0.3s all;
 	&:hover {
-		background-color: #135846;
-		color: #fff;
-		border: 2px solid #799283;
+		background-color: #13584663;
+		color: #ffffffc4;
+		border: 2px solid #79928381;
 	}
 `
 

@@ -5,7 +5,6 @@ const initialState = {
     initialRoomFetch: [],
     initialRoomFetchPlusNewRooms: [],
     singleRoomFetch: [],
-    newRoom: [],
     status: 'idle',
     createRoomStatus: 'idle',
     error: 'null'
@@ -86,6 +85,5 @@ export const { resetState } = roomSlice.actions
 export const initialRooms = state => state.rooms.initialRoomFetch
 export const initialRoomsPlusNewRooms = state => state.rooms.initialRoomFetchPlusNewRooms
 export const singleRoom = state => state.rooms.singleRoomFetch
-export const newRoom = state => state.rooms.newRoom
 export const fetchRoomState = state => state.rooms.status
 export const createRoomState = state => state.rooms.createRoomStatus

@@ -1,18 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { deleteUser, fetchInitialUsers, fetchOneUser } from './userThunks'
+import { createOneUser, deleteUser, fetchInitialUsers, fetchOneUser } from './userThunks'
 
 
 const initialState = {
     initialUserFetch: [],
+    initialUserFetchPlusNewUsers: [],
     singleUserFetch: [],
     status: 'idle',
+    createUserStatus: 'idle',
     error: 'null'
 }
 
 const userSlice = createSlice({
     name: 'users',
     initialState,
-    reducers: {},
+    reducers: {
+        resetState: (state, action) => {
+            state.createUserStatus = 'idle'
+        },
+    },
     extraReducers: builder => {
         builder
             .addCase(fetchInitialUsers.pending, (state, action) => {
@@ -36,6 +42,22 @@ const userSlice = createSlice({
                 const id = action.payload
                 state.singleUserFetch = state.initialUserFetch.filter(user => user.id === id)
                 state.status = 'fulfilled'
+            })
+
+            .addCase(createOneUser.pending, (state, action) => {
+                state.createUserStatus = 'pending'
+            })
+            .addCase(createOneUser.rejected, (state, action) => {
+                state.createUserStatus = 'rejected'
+            })
+            .addCase(createOneUser.fulfilled, (state, action) => {
+                if (state.initialUserFetchPlusNewUsers.length !== 0) {
+                    state.initialUserFetchPlusNewUsers.push(action.payload)
+                } else {
+                    state.initialUserFetch.push(action.payload)
+                    state.initialUserFetchPlusNewUsers = [...state.initialUserFetch]
+                }
+                state.createUserStatus = 'fulfilled'
             })
 
             .addCase(deleteUser.pending, (state, action) => {

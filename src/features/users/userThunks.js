@@ -21,6 +21,12 @@ export const fetchOneUser = createAsyncThunk(
     }
 )
 
+export const createOneUser = createAsyncThunk(
+    'users/createOneUser', async newUser => {
+        return await delay(newUser, 1000)
+    }
+)
+
 export const deleteUser = createAsyncThunk(
     'users/deleteUser', async id => {
         return await delay(id)

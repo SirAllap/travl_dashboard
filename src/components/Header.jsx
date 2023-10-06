@@ -33,6 +33,8 @@ const Header = () => {
 			setCurrentBreadCrumb(stateBread.bookingBreadCrumb)
 		} else if (location.pathname === '/rooms/create-room') {
 			setCurrentBreadCrumb('Rooms/Create New Room')
+		} else if (location.pathname === '/users/create-employee') {
+			setCurrentBreadCrumb('Employees/Create New Employee')
 		} else if (location.pathname.startsWith('/rooms/')) {
 			setCurrentBreadCrumb(stateBread.roomBreadCrumb)
 		} else {
@@ -52,7 +54,10 @@ const Header = () => {
 				setCurrentTitle('Contact')
 				break
 			case '/users':
-				setCurrentTitle('Users')
+				setCurrentTitle('Employees')
+				break
+			case '/users/create-employee':
+				setCurrentTitle('New User Form')
 				break
 			case '/rooms/create-room':
 				setCurrentTitle('New Room Form')

@@ -46,11 +46,11 @@ const Router = () => {
 									element={<RoomDetails />}
 								/>
 								<Route path='/contact' element={<Contact />} />
+								<Route path='/users' element={<Users />} />
 								<Route
-									path='/contact/create-user'
+									path='/users/create-employee'
 									element={<CreateUser />}
 								/>
-								<Route path='/users' element={<Users />} />
 							</Routes>
 						</PrivateRoute>
 					}
