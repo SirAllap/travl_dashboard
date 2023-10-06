@@ -30,7 +30,6 @@ const Rooms = (props) => {
 	const [toggleModal, setToggleModal] = useState(false)
 	const [currentId, setCurrentId] = useState('')
 
-	console.log(initialRoomStatePlusNewRooms)
 	useEffect(() => {
 		dispatch(fetchInitialRooms())
 	}, [dispatch])

@@ -74,7 +74,6 @@ const roomSlice = createSlice({
                 } else {
                     const result = state.initialRoomFetch.filter((room) => room.id !== id)
                     state.initialRoomFetch = [...result]
-                    console.log('old')
                 }
                 state.status = 'fulfilled'
             })

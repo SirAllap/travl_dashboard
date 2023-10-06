@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Table from '../components/Table'
-import { BiSearch } from 'react-icons/bi'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -10,6 +9,12 @@ import {
 } from '../features/contact/contactSlice'
 import { fetchInitialContacts } from '../features/contact/contactThunks'
 import { Triangle } from 'react-loader-spinner'
+import { Navigation, A11y } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
 
 const Contact = () => {
 	const dispatch = useDispatch()
@@ -102,6 +107,53 @@ const Contact = () => {
 	return (
 		<>
 			<MainContainer toggle={state.position}>
+				<CustomerCardText
+					type={{
+						text: 'cardTitle',
+					}}
+				>
+					Latest Review by Customers
+				</CustomerCardText>
+				<CustomerReviewContainer>
+					{spinner ? (
+						<br />
+					) : (
+						<>
+							<Swiper
+								modules={[Navigation, A11y]}
+								spaceBetween={0}
+								slidesPerView={3}
+								navigation
+							>
+								{initialContactData.map((elem, index) => (
+									<SwiperSlide key={index}>
+										<CustomerReviewCard>
+											<CustomerCardText
+												type={{
+													text: 'cardSubject',
+												}}
+											>
+												{elem.subject_of_review}
+											</CustomerCardText>
+											<HorizontalDivider />
+											<CustomerReviewCardTopData
+												modal={'false'}
+											>
+												<CustomerCardText
+													type={{
+														text: 'cardBody',
+													}}
+												>
+													{elem.review_body}
+												</CustomerCardText>
+											</CustomerReviewCardTopData>
+										</CustomerReviewCard>
+									</SwiperSlide>
+								))}
+							</Swiper>
+						</>
+					)}
+				</CustomerReviewContainer>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
@@ -179,12 +231,13 @@ export default Contact
 
 const SpinnerContainer = styled.div`
 	position: absolute;
-	left: 60%;
+	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
 `
 
 const MainContainer = styled.main`
+	position: relative;
 	text-align: center;
 	max-height: 730px;
 	min-width: 1494px;
@@ -195,14 +248,14 @@ const MainContainer = styled.main`
 
 const TopTableContainer = styled.div`
 	min-width: 100%;
-	max-height: 50px;
+	max-height: 20px;
 `
 
 const TableTabsContainer = styled.div`
 	vertical-align: top;
-	display: inline-block;
-	width: 49%;
-	min-height: 50px;
+	width: fit-content;
+	height: 40px;
+	width: 34%;
 	margin-right: 10px;
 `
 const TableSearchAndFilterContainer = styled.div`
@@ -210,19 +263,16 @@ const TableSearchAndFilterContainer = styled.div`
 	position: relative;
 	display: inline-block;
 	width: 49%;
-	min-height: 50px;
 `
 
 const Tabs = styled.div`
-	border-bottom: 1px solid #d4d4d4;
 	width: 100%;
-	height: 50px;
 	button {
 		font: 500 16px Poppins;
 		background-color: transparent;
 		color: #6e6e6e;
 		display: inline-block;
-		padding: 0 30px 24px 30px;
+		padding: 13px 30px 6px 30px;
 		border-radius: 0 0 3px 3px;
 		border: 0;
 		border-bottom: 3px solid transparent;
@@ -232,35 +282,6 @@ const Tabs = styled.div`
 			color: #135846;
 		}
 	}
-`
-
-const InputSearch = styled.input`
-	position: absolute;
-	left: 90px;
-	background-color: #fff;
-	font: 500 16px Poppins;
-	color: #135846;
-	padding: 10px 10px 10px 50px;
-	width: 351px;
-	height: 50px;
-	border: none;
-	border-radius: 12px;
-	outline: none;
-	&:focus {
-		outline: 2px solid #135846;
-	}
-	&:hover {
-		outline: 2px solid #799283;
-	}
-`
-
-const Icons = styled.div`
-	font-size: 30px;
-	cursor: pointer;
-	color: ${(props) => (props.search === 'search' ? '#6E6E6E' : 'red')};
-	position: ${(props) => props.search === 'search' && 'absolute'};
-	top: 12px;
-	left: 105px;
 `
 
 const TextFormatter = styled.span`
@@ -278,4 +299,112 @@ const Status = styled.button`
 	border: none;
 	border-radius: 8px;
 	color: ${(props) => (props.status === 'true' ? '#E23428' : '#5AD07A')};
+`
+
+const CustomerReviewContainer = styled.div`
+	position: relative;
+	text-align: center;
+	margin: 0 auto;
+	background-color: #fff;
+	border-radius: 20px;
+	box-shadow: 0px 4px 4px #00000005;
+	margin-top: 40px;
+	text-align: center;
+	height: 200px;
+	min-width: 1494px;
+`
+
+const CustomerReviewCard = styled.div`
+	position: relative;
+	width: 431px;
+	height: 180px;
+	background-color: #fff;
+	border: 1px solid #ebebeb;
+	border-radius: 20px;
+	margin: 10px 40px 20px 20px;
+	transition: 0.3s;
+	vertical-align: top;
+	&:last-child {
+		margin-right: 0px;
+	}
+	&:hover {
+		transform: scale(1.01);
+		box-shadow: 0px 16px 30px #00000014;
+	}
+`
+const CustomerCardText = styled.p`
+	${(props) => {
+		switch (props.type.text) {
+			case 'cardTitle':
+				return css`
+					font: normal normal 500 20px Poppins;
+					color: #393939;
+					text-align: left;
+					position: absolute;
+					left: 5px;
+					top: -40px;
+					z-index: 300;
+				`
+			case 'cardBody':
+				return css`
+					font: normal normal 300 16px Poppins;
+					line-height: 28px;
+					color: #4e4e4e;
+					text-align: justify;
+				`
+			case 'cardUserName':
+				return css`
+					font: normal normal 600 16px Poppins;
+					color: #262626;
+					text-align: left;
+					margin: 10px 0 5px 0;
+				`
+			case 'cardSubject':
+				return css`
+					font: normal normal 500 16px Poppins;
+					color: #135846;
+					text-align: center;
+					margin: 5px 0 0px 0;
+				`
+			case 'cardReadChecker':
+				return css`
+					position: absolute;
+					bottom: 0px;
+					right: 10px;
+					font: normal normal 600 26px Poppins;
+					color: ${(props) =>
+						props.read === true ? '#5AD07A' : '#E23428'};
+					text-align: left;
+				`
+			default:
+				return css`
+					font: normal normal 400 14px Poppins;
+					color: #799283;
+					text-align: left;
+				`
+		}
+	}}
+`
+
+const CustomerReviewCardTopData = styled.div`
+	width: 371px;
+	height: ${(props) => (props.modal === 'true' ? 'fitConten' : '110px')};
+	overflow-y: clip;
+	margin: 10px auto 0 auto;
+	scrollbar-width: auto;
+	scrollbar-color: #8f54a0 #ffffff;
+	&::-webkit-scrollbar {
+		width: 15px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background-color: #ebf1ef;
+		border-radius: 10px;
+		border: 3px solid #ffffff;
+	}
+`
+
+const HorizontalDivider = styled.div`
+	width: 230px;
+	border-bottom: dashed 1px #ebebeb;
+	margin: 5px auto 0 auto;
 `

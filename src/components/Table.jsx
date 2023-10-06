@@ -40,7 +40,7 @@ const Table = (props) => {
 
 	return (
 		<>
-			<TableData>
+			<TableData whoami={props.whoAmI.name}>
 				<TableHeadContainer>
 					<TableHeadLabel whoami={props.whoAmI.name}>
 						{props.cols.map((colLabel, index) => (
@@ -70,7 +70,7 @@ const TableData = styled.div`
 	background-color: #fff;
 	min-width: 1494px;
 	max-width: 1894px;
-	height: 670px;
+	height: ${(props) => (props.whoami === 'contact' ? '550px' : '670px')};
 	margin-top: 30px;
 	border-radius: 20px 20px 0px 20px;
 `
@@ -148,8 +148,9 @@ const TableHeadLabel = styled.div`
 `
 
 const TableAllRowsContainer = styled.div`
+	height: 550px;
 	min-width: 100%;
-	height: 605px;
+	height: ${(props) => (props.whoami === 'contact' ? '485px' : '605px')};
 	border-radius: 0 0 0 20px;
 	overflow-y: auto;
 	&::-webkit-scrollbar {

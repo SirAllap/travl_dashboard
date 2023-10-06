@@ -4,8 +4,6 @@ import styled from 'styled-components'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { useSelector } from 'react-redux'
 import { Triangle } from 'react-loader-spinner'
-import { BsFillTelephoneFill } from 'react-icons/bs'
-import { BiMessageRoundedDetail } from 'react-icons/bi'
 import { fetchRoomState, singleRoom } from '../features/rooms/roomSlice'
 
 const RoomDetails = () => {
@@ -16,7 +14,7 @@ const RoomDetails = () => {
 	const location = useLocation()
 	const { roomId } = useParams()
 	const [savedLastId, setSavedLastId] = useState('')
-	const [currentBooking, setCurrentBooking] = useState([])
+	const [currentRoom, setCurrentRoom] = useState([])
 	const [spinner, setSpinner] = useState(true)
 
 	useEffect(() => {
@@ -31,7 +29,7 @@ const RoomDetails = () => {
 			setSpinner(true)
 		} else if (initialRoomState === 'fulfilled') {
 			setSpinner(false)
-			setCurrentBooking(singleRoomData[0])
+			setCurrentRoom(singleRoomData[0])
 		}
 	}, [
 		savedLastId,
@@ -41,40 +39,7 @@ const RoomDetails = () => {
 		initialRoomState,
 		roomBreadCrumb,
 	])
-
-	function formatDateString(inputDateString) {
-		var date = new Date(inputDateString)
-		var randomHour = Math.floor(Math.random() * 24)
-		date.setHours(randomHour)
-		function getDayWithSuffix(day) {
-			if (day >= 11 && day <= 13) {
-				return day + 'th'
-			}
-			switch (day % 10) {
-				case 1:
-					return day + 'st'
-				case 2:
-					return day + 'nd'
-				case 3:
-					return day + 'rd'
-				default:
-					return day + 'th'
-			}
-		}
-		var dayWithSuffix = getDayWithSuffix(date.getDate())
-		var options = {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-			hour: 'numeric',
-			minute: 'numeric',
-			hour12: true,
-		}
-		var formattedDate = date.toLocaleDateString('en-US', options)
-		formattedDate = formattedDate.replace(date.getDate(), dayWithSuffix)
-		formattedDate = formattedDate.replace('at', '|')
-		return formattedDate
-	}
+	console.log(currentRoom)
 
 	return (
 		<>
@@ -94,58 +59,6 @@ const RoomDetails = () => {
 				) : (
 					<>
 						<LeftDetailsCard>
-							<TopSideInnerDetailsCard>
-								<PhotoContainer
-									src={
-										currentBooking
-											? `https://robohash.org/${currentBooking.guest}.png?set=any`
-											: ' '
-									}
-								/>
-								<InfoBookingContainer>
-									<TextFormatter>
-										{currentBooking
-											? currentBooking.guest
-											: ' '}
-									</TextFormatter>
-									<TextFormatter type='small'>
-										{currentBooking
-											? `ID ${currentBooking.id}`
-											: ' '}
-									</TextFormatter>
-									<IconContainer>
-										<BsFillTelephoneFill />
-									</IconContainer>
-									<IconContainer type='message'>
-										<BiMessageRoundedDetail />
-										<span>Send Message</span>
-									</IconContainer>
-								</InfoBookingContainer>
-							</TopSideInnerDetailsCard>
-							<UnderTopSideInnerDetailsCard>
-								<CheckinInfo>
-									<p>Check In</p>
-									<span>
-										{currentBooking
-											? formatDateString(
-													currentBooking.check_in
-											  )
-											: ' '}
-									</span>
-								</CheckinInfo>
-								<CheckinInfo>
-									<p>Check Out</p>
-									<span>
-										{currentBooking
-											? formatDateString(
-													currentBooking.check_out
-											  )
-													.split('|')[0]
-													.trim()
-											: ' '}
-									</span>
-								</CheckinInfo>
-							</UnderTopSideInnerDetailsCard>
 							<RoomInfoContainer>
 								<RoomInfoData>
 									<RoomInfoDataTopText>
@@ -194,7 +107,11 @@ const RoomDetails = () => {
 								</RoomFacilitiesData>
 							</RoomInfoContainer>
 						</LeftDetailsCard>
-						<RightDetailsCard></RightDetailsCard>
+						<RightDetailsCard>
+							<RooomPhotos
+								src={currentRoom.room_photo[0]}
+							></RooomPhotos>
+						</RightDetailsCard>
 					</>
 				)}
 			</MainContainer>
@@ -203,6 +120,12 @@ const RoomDetails = () => {
 }
 
 export default RoomDetails
+
+const RooomPhotos = styled.img`
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+`
 
 const SpinnerContainer = styled.div`
 	position: absolute;
@@ -243,106 +166,20 @@ const MainContainer = styled.main`
 `
 
 const LeftDetailsCard = styled.div`
-	width: 55%;
+	width: 35%;
 	height: 792px;
 	display: inline-block;
 	vertical-align: top;
 `
-const TopSideInnerDetailsCard = styled.div`
-	box-sizing: border-box;
-	width: 725px;
-	height: 156px;
-	margin: 40px auto 39px auto;
-`
 
-const PhotoContainer = styled.img`
-	width: 156px;
-	height: 156px;
-	background: transparent 0% 0% no-repeat padding-box;
-	border-radius: 8px;
-	margin: 0px 0px 0px 0px;
-	display: inline-block;
-`
-const InfoBookingContainer = styled.div`
-	padding-left: 39px;
-	width: 566px;
-	height: 156px;
-	margin: 0px 0px 0px 0px;
-	display: inline-block;
-	vertical-align: top;
-	flex-shrink: 0;
-	white-space: nowrap;
-`
-
-const TextFormatter = styled.p`
-	text-align: left;
-	color: ${(props) => (props.type === 'small' ? '#799283' : '#393939')};
-	font: ${(props) =>
-		props.type === 'small' ? '400 14px Poppins' : '600 30px Poppins'};
-`
-
-const IconContainer = styled.div`
-	width: ${(props) => (props.type === 'message' ? '209px' : '59px')};
-	height: 59px;
-	border: ${(props) =>
-		props.type === 'message' ? '1px solid #e8f2ef' : '1px solid #e8f2ef'};
-	border-radius: 12px;
-	background-color: #fff;
-	padding: 15px;
-	margin: 30px 16px 0 0;
-	font-size: ${(props) => (props.type === 'message' ? '30px' : '25px')};
-	color: ${(props) => (props.type === 'message' ? '#fff' : '#135846')};
-	background-color: ${(props) => (props.type === 'message' ? '#135846' : '#fff')};
-	display: inline-block;
-	vertical-align: top;
-	transition: 0.3s all;
-	&:hover {
-		color: ${(props) => (props.type === 'message' ? '#135846' : '#fff')};
-	background-color: ${(props) => (props.type === 'message' ? '#fff' : '#135846')};
-	}
-	span {
-		display: inline-block;
-		vertical-align: top;
-		text-align: left;
-		margin: 2px 0 0 16px;
-		font: 400 16px Poppins};
-		font: normal normal 600 Poppins;
-	}
-`
-
-const UnderTopSideInnerDetailsCard = styled.div`
-	display: flex;
-	flex-direction: row;
-	box-sizing: border-box;
-	width: 725px;
-	height: 95px;
-	margin: 40px auto 39px auto;
-	border-bottom: 3px solid #ebebeb;
-`
-const CheckinInfo = styled.div`
-	box-sizing: border-box;
-	width: 50%;
-	height: 109px;
-	p {
-		font: 500 14px Poppins;
-		color: #799283;
-		margin-bottom: 10px;
-	}
-	span {
-		font: 600 18px Poppins;
-		color: #212121;
-	}
-`
 const RoomInfoContainer = styled.div`
-	box-sizing: border-box;
-	width: 725px;
-	height: 360px;
-	margin: 40px auto 39px auto;
+	width: 100%;
+	height: 792px;
+	padding: 20px;
 `
 const RoomInfoData = styled.div`
-	box-sizing: border-box;
-	width: 725px;
-	height: 200px;
+	width: 100%;
+	height: 450px;
 `
 const RoomInfoDataTopText = styled.div`
 	display: inline-block;
@@ -361,8 +198,8 @@ const RoomInfoDataTopText = styled.div`
 `
 const RoomInfoDataBottomText = styled.div`
 	box-sizing: border-box;
-	width: 725px;
-	height: 110px;
+	width: 100%;
+	height: 270px;
 	p {
 		font: 400 16px Poppins;
 		color: #363636;
@@ -373,8 +210,10 @@ const RoomInfoDataBottomText = styled.div`
 	}
 `
 const RoomFacilitiesData = styled.div`
+	width: 100%;
+	height: 652px;
 	box-sizing: border-box;
-	width: 725px;
+	width: 100%;
 	height: 160px;
 	p {
 		font: 400 15px Poppins;
@@ -397,9 +236,9 @@ const RoomFacilitiesAmenities = styled.div`
 `
 
 const RightDetailsCard = styled.div`
-	width: 45%;
+	width: 65%;
 	height: 792px;
-	background-color: #c5c5c5;
+	background-color: #fff;
 	border-radius: 0 10px 10px 0;
 	display: inline-block;
 `
