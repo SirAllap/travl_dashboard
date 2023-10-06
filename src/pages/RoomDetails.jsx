@@ -5,6 +5,13 @@ import { supertoggleContext } from '../context/supertoggleContext'
 import { useSelector } from 'react-redux'
 import { Triangle } from 'react-loader-spinner'
 import { fetchRoomState, singleRoom } from '../features/rooms/roomSlice'
+import { Navigation, A11y } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
+import './room_details_styles.css'
 
 const RoomDetails = () => {
 	const navigate = useNavigate()
@@ -39,7 +46,6 @@ const RoomDetails = () => {
 		initialRoomState,
 		roomBreadCrumb,
 	])
-	console.log(currentRoom)
 
 	return (
 		<>
@@ -108,9 +114,18 @@ const RoomDetails = () => {
 							</RoomInfoContainer>
 						</LeftDetailsCard>
 						<RightDetailsCard>
-							<RooomPhotos
-								src={currentRoom.room_photo[0]}
-							></RooomPhotos>
+							<Swiper
+								modules={[Navigation, A11y]}
+								spaceBetween={0}
+								slidesPerView={1}
+								navigation
+							>
+								{currentRoom.room_photo.map((elem, index) => (
+									<SwiperSlide key={index}>
+										<RooomPhotos src={elem}></RooomPhotos>
+									</SwiperSlide>
+								))}
+							</Swiper>
 						</RightDetailsCard>
 					</>
 				)}
