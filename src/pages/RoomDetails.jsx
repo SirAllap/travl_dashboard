@@ -47,6 +47,11 @@ const RoomDetails = () => {
 		roomBreadCrumb,
 	])
 
+	const applyDiscount = (currentPrice, discount) => {
+		const result = currentPrice - currentPrice * (discount / 100)
+		return `$${result}`
+	}
+
 	return (
 		<>
 			<MainContainer toggle={state.position}>
@@ -69,47 +74,35 @@ const RoomDetails = () => {
 								<RoomInfoData>
 									<RoomInfoDataTopText>
 										<p>Room Info</p>
-										<span>Deluxe Z - 002424</span>
+										<span>{currentRoom.room_type}</span>
 									</RoomInfoDataTopText>
 									<RoomInfoDataTopText>
-										<p>Price</p>
-										<span>$136 /Nigth</span>
+										<p>Final Price</p>
+										<span>
+											{currentRoom.offer_price
+												? applyDiscount(
+														currentRoom.price,
+														currentRoom.discount
+												  )
+												: currentRoom.price}
+											/Nigth
+										</span>
 									</RoomInfoDataTopText>
 									<RoomInfoDataBottomText>
-										<p>
-											Experience the epitome of luxury and
-											comfort in our Double Superior room.
-											This spacious and elegantly
-											appointed room is designed to
-											provide you with the utmost
-											relaxation and convenience during
-											your stay. With a modern and stylish
-											decor, it offers a serene oasis in
-											the heart of the city.
-										</p>
+										<p>{currentRoom.description}</p>
 									</RoomInfoDataBottomText>
 								</RoomInfoData>
 								<RoomFacilitiesData>
 									<p>Amenities</p>
-									<RoomFacilitiesAmenities>
-										<span>ICO 3 Bed Space</span>
-									</RoomFacilitiesAmenities>
-									<RoomFacilitiesAmenities>
-										<span>ICO 24 Hours Guard</span>
-									</RoomFacilitiesAmenities>
-									<RoomFacilitiesAmenities>
-										<span>ICO Free Wifi</span>
-									</RoomFacilitiesAmenities>
-									<br />
-									<RoomFacilitiesAmenities type='small'>
-										<span>3 Bed Space</span>
-									</RoomFacilitiesAmenities>
-									<RoomFacilitiesAmenities type='small'>
-										<span>3 Bed Space</span>
-									</RoomFacilitiesAmenities>
-									<RoomFacilitiesAmenities type='small'>
-										<span>3 Bed Space</span>
-									</RoomFacilitiesAmenities>
+									{currentRoom.amenities.map(
+										(elem, index) => (
+											<RoomFacilitiesAmenities
+												key={index}
+											>
+												<span>{elem.name}</span>
+											</RoomFacilitiesAmenities>
+										)
+									)}
 								</RoomFacilitiesData>
 							</RoomInfoContainer>
 						</LeftDetailsCard>
@@ -194,7 +187,7 @@ const RoomInfoContainer = styled.div`
 `
 const RoomInfoData = styled.div`
 	width: 100%;
-	height: 450px;
+	height: 320px;
 `
 const RoomInfoDataTopText = styled.div`
 	display: inline-block;
