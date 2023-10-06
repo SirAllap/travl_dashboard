@@ -189,6 +189,22 @@ const Bookings = () => {
 		}
 	}
 
+	const filterBookingsByName = (result) => {
+		if (!result) {
+			setDisplayData(initialBookingData)
+		} else {
+			const filteredBookings = initialBookingData.filter((booking) =>
+				booking.guest.toLowerCase().includes(result.toLowerCase())
+			)
+			setDisplayData(filteredBookings)
+		}
+	}
+
+	const handleSearchInputChange = (event) => {
+		const result = event.target.value
+		filterBookingsByName(result)
+	}
+
 	return (
 		<>
 			<MainContainer toggle={state.position}>
@@ -269,7 +285,7 @@ const Bookings = () => {
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>
-						<InputSearch />
+						<InputSearch onChange={handleSearchInputChange} />
 						<Icons search='search'>
 							<BiSearch />
 						</Icons>
