@@ -157,6 +157,37 @@ const Users = (props) => {
 		}
 	}
 
+	const filterUsersByName = (result) => {
+		let filteredUsers
+
+		if (!result) {
+			filteredUsers =
+				initialUsersPlusLatestUsers.length !== 0
+					? initialUsersPlusLatestUsers
+					: initialUserData
+		} else {
+			filteredUsers =
+				initialUsersPlusLatestUsers.length !== 0
+					? initialUsersPlusLatestUsers.filter((user) =>
+							user.full_name
+								?.toLowerCase()
+								.includes(result.toLowerCase())
+					  )
+					: initialUserData.filter((user) =>
+							user.full_name
+								?.toLowerCase()
+								.includes(result.toLowerCase())
+					  )
+		}
+
+		setDisplayData(filteredUsers)
+	}
+
+	const handleSearchInputChange = (event) => {
+		const result = event.target.value
+		filterUsersByName(result)
+	}
+
 	return (
 		<>
 			<MainContainer toggle={state.position}>
@@ -222,7 +253,7 @@ const Users = (props) => {
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>
-						<InputSearch />
+						<InputSearch onChange={handleSearchInputChange} />
 						<Icons search='search'>
 							<BiSearch />
 						</Icons>
