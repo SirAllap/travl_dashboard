@@ -68,18 +68,25 @@ const userSlice = createSlice({
             })
             .addCase(deleteUser.fulfilled, (state, action) => {
                 const id = action.payload
-                const result = state.initialUserFetch.filter((user) =>
-                    user.employee_id !== id
-                )
-                state.initialUserFetch = [...result]
+                if (state.initialUserFetchPlusNewUsers.length !== 0) {
+                    const result = state.initialUserFetchPlusNewUsers.filter((user) => user.employee_id !== id)
+                    state.initialUserFetchPlusNewUsers = [...result]
+                } else {
+                    const result = state.initialUserFetch.filter((user) =>
+                        user.employee_id !== id
+                    )
+                    state.initialUserFetch = [...result]
+                }
                 state.status = 'fulfilled'
-
             })
     }
 })
 
 export default userSlice.reducer
 
+export const { resetState } = userSlice.actions
 export const initialUsers = state => state.users.initialUserFetch
+export const initialUsersPlusNewUsers = state => state.users.initialUserFetchPlusNewUsers
 export const singleUser = state => state.users.singleUserFetch
 export const fetchUserState = state => state.users.status
+export const createUserState = state => state.users.createUserStatus

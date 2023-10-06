@@ -21,7 +21,7 @@ import { NavLink } from 'react-router-dom'
 
 const Rooms = (props) => {
 	const dispatch = useDispatch()
-	const initialRoomStatePlusNewRooms = useSelector(initialRoomsPlusNewRooms)
+	const initialRoomsPlusLatestRooms = useSelector(initialRoomsPlusNewRooms)
 	const initialRoomData = useSelector(initialRooms)
 	const initialRoomState = useSelector(fetchRoomState)
 	const { state } = useContext(supertoggleContext)
@@ -39,13 +39,13 @@ const Rooms = (props) => {
 			setSpinner(true)
 		} else if (initialRoomState === 'fulfilled') {
 			setSpinner(false)
-			if (initialRoomStatePlusNewRooms.length !== 0) {
-				setDisplayData(initialRoomStatePlusNewRooms)
+			if (initialRoomsPlusLatestRooms.length !== 0) {
+				setDisplayData(initialRoomsPlusLatestRooms)
 			} else {
 				setDisplayData(initialRoomData)
 			}
 		}
-	}, [initialRoomData, initialRoomState, initialRoomStatePlusNewRooms])
+	}, [initialRoomData, initialRoomState, initialRoomsPlusLatestRooms])
 
 	const handleModalMore = (id) => {
 		if (!toggleModal) {

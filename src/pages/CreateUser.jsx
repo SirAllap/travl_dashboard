@@ -1,204 +1,85 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { createRoomState, initialRooms } from '../features/rooms/roomSlice'
 import { supertoggleContext } from '../context/supertoggleContext'
-import { createOneRoom } from '../features/rooms/roomThunks'
 import { Triangle } from 'react-loader-spinner'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { createUserState } from '../features/users/userSlice'
+import { createOneUser } from '../features/users/userThunks'
 
 const CreateUser = (props) => {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
-	const initialRoomData = useSelector(initialRooms)
-	const createRoomCurretState = useSelector(createRoomState)
+	const createUserCurretState = useSelector(createUserState)
 	const { state } = useContext(supertoggleContext)
 	const [spinner, setSpinner] = useState(false)
 	const [toggleModalNewRoom, setToggleModalNewRoom] = useState(false)
 
 	useEffect(() => {
-		if (createRoomCurretState === 'pending') {
+		if (createUserCurretState === 'pending') {
 			setSpinner(true)
-		} else if (createRoomCurretState === 'fulfilled') {
+		} else if (createUserCurretState === 'fulfilled') {
 			setSpinner(false)
 			navigate('/users')
 		}
-	}, [initialRoomData, createRoomCurretState, navigate])
+	}, [createUserCurretState, navigate])
 
-	const [newRoomType, setNewRoomType] = useState('')
-	const handleRoomTypeSelector = (event) => {
+	const [newUserPosition, setNewUserPosition] = useState('')
+	const handleNewUserPosition = (event) => {
 		switch (event.target.value) {
-			case 'single':
-				setNewRoomType('Single Bed')
+			case 'recepcionist':
+				setNewUserPosition('Recepcionist')
 				break
-			case 'double':
-				setNewRoomType('Double Bed')
+			case 'clean':
+				setNewUserPosition('Cleaner')
 				break
-			case 'double_superior':
-				setNewRoomType('Double Superior')
+			case 'sales':
+				setNewUserPosition('Sales')
 				break
-			case 'suite':
-				setNewRoomType('Suite')
+			case 'director':
+				setNewUserPosition('Director')
 				break
 			default:
 				break
 		}
 	}
 
-	const [newRoomNumber, setNewRoomNumber] = useState('')
-	const handleRoomNumber = (event) => {
-		setNewRoomNumber(event.target.value)
+	const [newUserName, setNewUserName] = useState('')
+	const handleNewUserName = (event) => {
+		setNewUserName(event.target.value)
 	}
 
-	const [newRoomDescription, setNewRoomDescription] = useState('')
-	const handleRoomDescription = (event) => {
-		setNewRoomDescription(event.target.value)
+	const [newUserPhoneNumber, setNewUserPhoneNumber] = useState(0)
+	const handleNewPhoneNumber = (event) => {
+		setNewUserPhoneNumber(parseInt(event.target.value))
 	}
 
-	const [newRoomPrice, setNewRoomPrice] = useState(0)
-	const handleRoomPrice = (event) => {
-		setNewRoomPrice(parseInt(event.target.value))
+	const [newUserStartDate, setNewUserStartDate] = useState('')
+	const handleUserStartDate = (event) => {
+		setNewUserStartDate(event.target.value)
 	}
 
-	const [newRoomOffer, setNewRoomOffer] = useState('false')
-	const handleRadioOffer = (event) => {
-		setNewRoomOffer(event.target.value)
-	}
-
-	const [newRoomDiscount, setNewRoomDiscount] = useState(0)
-	const handleRadioDiscount = (event) => {
-		setNewRoomDiscount(parseInt(event.target.value))
-	}
-
-	const [newRoomAmenities, setNewRoomAmenities] = useState([])
-	const handleNewRoomAmenities = (event) => {
-		switch (event.target.value) {
-			case 'basic':
-				setNewRoomAmenities([
-					{ name: '1/3 Bed Space', description: 'Cozy bed area' },
-					{ name: 'Free Wifi', description: 'Complimentary Wi-Fi' },
-					{ name: 'Air Conditioner', description: 'Climate control' },
-					{ name: 'Television', description: 'Flat-screen TV' },
-					{ name: 'Towels', description: 'Fresh towels provided' },
-					{
-						name: 'Coffee Set',
-						description: 'Coffee and tea making facilities',
-					},
-				])
-				break
-			case 'midrange':
-				setNewRoomAmenities([
-					{
-						name: '1/2 Bathroom',
-						description: 'Private half bathroom',
-					},
-					{ name: 'Air Conditioner', description: 'Climate control' },
-					{ name: 'Television', description: 'Flat-screen TV' },
-					{ name: 'Towels', description: 'Fresh towels provided' },
-					{
-						name: 'Mini Bar',
-						description: 'Mini bar with refreshments',
-					},
-					{
-						name: 'Coffee Set',
-						description: 'Coffee and tea making facilities',
-					},
-				])
-				break
-			case 'full':
-				setNewRoomAmenities([
-					{ name: '1/3 Bed Space', description: 'Spacious bed area' },
-					{
-						name: '24-Hour Guard',
-						description: 'Security available around the clock',
-					},
-					{
-						name: 'Free Wifi',
-						description: 'High-speed internet access',
-					},
-					{ name: 'Air Conditioner', description: 'Climate control' },
-					{ name: 'Television', description: 'Flat-screen TV' },
-					{ name: 'Towels', description: 'Fresh towels provided' },
-					{
-						name: 'Mini Bar',
-						description: 'Mini bar with refreshments',
-					},
-					{
-						name: 'Coffee Set',
-						description: 'Coffee and tea making facilities',
-					},
-					{
-						name: 'Nice Views',
-						description: 'Scenic views from the room',
-					},
-				])
-				break
-			case 'premium':
-				setNewRoomAmenities([
-					{ name: '1/3 Bed Space', description: 'Spacious bed area' },
-					{
-						name: '24-Hour Guard',
-						description: 'Security available around the clock',
-					},
-					{
-						name: 'Free Wifi',
-						description: 'High-speed internet access',
-					},
-					{ name: 'Air Conditioner', description: 'Climate control' },
-					{ name: 'Television', description: 'Flat-screen TV' },
-					{ name: 'Towels', description: 'Fresh towels provided' },
-					{
-						name: 'Mini Bar',
-						description: 'Mini bar with refreshments',
-					},
-					{
-						name: 'Coffee Set',
-						description: 'Coffee and tea making facilities',
-					},
-					{ name: 'Bathtub', description: 'Luxurious bathtub' },
-					{ name: 'Jacuzzi', description: 'Private Jacuzzi' },
-					{
-						name: 'Nice Views',
-						description: 'Scenic views from the room',
-					},
-				])
-				break
-			default:
-				break
-		}
+	const [newRoomOffer, setNewUserEmail] = useState('')
+	const handleNewUserEmail = (event) => {
+		setNewUserEmail(event.target.value)
 	}
 
 	function randomID() {
 		return Math.floor(Math.random() * 1000000).toString()
 	}
 	const handleCreateOneRoom = () => {
-		const newRoom = {
-			room_number: newRoomNumber,
-			id: randomID(),
-			room_photo: [
-				'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-				'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-				'https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-				'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-			],
-			room_type: newRoomType,
-			description: newRoomDescription,
-			amenities: newRoomAmenities,
-			price: newRoomPrice,
-			offer_price: newRoomOffer === 'true' ? true : false,
-			discount: newRoomDiscount,
-			status: 'Available',
+		const newUser = {
+			employee_id: randomID(),
+			full_name: newUserName,
+			email: newRoomOffer,
+			photo: 'https://robohash.org/JohnDoe.png?set=any',
+			start_date: newUserStartDate,
+			description: newUserPosition,
+			phone_number: newUserPhoneNumber,
+			status: 'active',
 		}
-		dispatch(createOneRoom(newRoom))
+		dispatch(createOneUser(newUser))
 		handleToggleModalNewRoom()
-	}
-
-	const [autoAddDescription, setAutoAddDescription] = useState(false)
-	const quickAddDescription = () => {
-		setAutoAddDescription(true)
-		setNewRoomDescription(
-			'Experience the epitome of luxury and comfort in our Double Superior room. This spacious and elegantly appointed room is designed to provide you with the utmost relaxation and convenience during your stay. With a modern and stylish decor, it offers a serene oasis in the heart of the city.'
-		)
 	}
 
 	const handleToggleModalNewRoom = () => {
@@ -215,7 +96,7 @@ const CreateUser = (props) => {
 				<NavLink to={'/users'}>
 					<CTA>Back</CTA>
 				</NavLink>
-				<TitleText newroom='title'>Create New Room</TitleText>
+				<TitleText newroom='title'>Create New Employee</TitleText>
 				<ModalInnerInfo>
 					{spinner ? (
 						<SpinnerContainer>
@@ -231,213 +112,76 @@ const CreateUser = (props) => {
 					) : (
 						<>
 							<ModalInnerLeftInfo>
-								<CreateRoomInputLable htmlFor='roomType'>
-									Room Type:
+								<CreateRoomInputLable htmlFor='userPosition'>
+									Position
 								</CreateRoomInputLable>
 								<RoomTypeSelector
-									name='roomType'
-									id='roomType'
-									onChange={handleRoomTypeSelector}
-									defaultValue='roomtype'
+									name='userPosition'
+									id='userPosition'
+									onChange={handleNewUserPosition}
+									defaultValue='userPosition'
 								>
-									<option value='roomtype' disabled hidden>
-										Select the room type:
+									<option
+										value='userPosition'
+										disabled
+										hidden
+									>
+										Position:
 									</option>
-									<option value='single'>Single Bed</option>
-									<option value='double'>Double Bed</option>
-									<option value='double_superior'>
-										Double Superior
+									<option value='recepcionist'>
+										Recepcionist
 									</option>
-									<option value='suite'>Suite</option>
+									<option value='clean'>Cleaner</option>
+									<option value='sales'>Sales</option>
+									<option value='director'>Director</option>
 								</RoomTypeSelector>
 
-								<CreateRoomInputLable htmlFor='roomNumber'>
-									Room Number:
+								<CreateRoomInputLable htmlFor='userName'>
+									Full Name:
 								</CreateRoomInputLable>
 								<CreateRoomInput
-									name='roomNumber'
-									id='roomNumber'
-									type='number'
-									placeholder='e.g: 207'
-									min='101'
-									max='910'
-									onChange={handleRoomNumber}
+									name='userName'
+									id='userName'
+									type='text'
+									placeholder='David Pallarés'
+									onChange={handleNewUserName}
 								/>
-								<Info>
-									There are a total of 9 floors in the
-									building, with each floor consisting of 10
-									rooms. To maintain a consistent numbering
-									system, the first room on each floor is
-									designated as room 101, while the last room
-									is numbered as room 110. This numbering
-									scheme is applied uniformly across all
-									floors.
-								</Info>
 
-								<CreateRoomInputLable htmlFor='roomDescription'>
-									Description:
+								<CreateRoomInputLable htmlFor='userPhoneNumber'>
+									Phone Number:
 								</CreateRoomInputLable>
-								<CreateRoomTextArea
-									id='roomDescription'
-									name='roomDescription'
-									onChange={handleRoomDescription}
-									defaultValue={
-										autoAddDescription
-											? 'Experience the epitome of luxury and comfort in our Double Superior room. This spacious and elegantly appointed room is designed to provide you with the utmost relaxation and convenience during your stay. With a modern and stylish decor, it offers a serene oasis in the heart of the city.'
-											: ''
-									}
-								></CreateRoomTextArea>
-								<ADDCTA onClick={quickAddDescription}>
-									FILL
-								</ADDCTA>
+								<CreateRoomInput
+									name='userPhoneNumber'
+									id='userPhoneNumber'
+									type='number'
+									placeholder='e.g: +34 675-953-234'
+									onChange={handleNewPhoneNumber}
+								/>
 							</ModalInnerLeftInfo>
 							<ModalInnerRightInfo>
-								<CreateRoomInputLable htmlFor='roomPrice'>
-									Price per nigth:
+								<CreateRoomInputLable htmlFor='userName'>
+									Email:
 								</CreateRoomInputLable>
 								<CreateRoomInput
-									id='roomPrice'
-									name='roomPrice'
-									type='number'
-									placeholder='e.g: $196'
-									onChange={handleRoomPrice}
+									name='userName'
+									id='userName'
+									type='email'
+									placeholder='an-email@empty.com'
+									onChange={handleNewUserEmail}
+								/>
+								<CreateRoomInputLable htmlFor='userStartDate'>
+									Start Date:
+								</CreateRoomInputLable>
+								<CreateRoomInput
+									id='userStartDate'
+									name='userStartDate'
+									type='date'
+									onChange={handleUserStartDate}
 								/>
 								<br />
 								<br />
 								<br />
-								<fieldset style={{ border: 'none' }}>
-									<CreateRoomInputLable as='legend'>
-										Offer
-									</CreateRoomInputLable>
-									<CreateRoomInputLable
-										radio='radio'
-										htmlFor='radioNo'
-									>
-										No
-									</CreateRoomInputLable>
-									<CreateRoomInput
-										checked={
-											newRoomOffer === 'true'
-												? false
-												: true
-										}
-										radio='radio'
-										type='radio'
-										id='radioNo'
-										name='offer'
-										value='false'
-										onChange={handleRadioOffer}
-									/>
-									<CreateRoomInputLable
-										radio='radio'
-										htmlFor='radioYes'
-									>
-										Yes
-									</CreateRoomInputLable>
-									<CreateRoomInput
-										radio='radio'
-										type='radio'
-										id='radioYes'
-										name='offer'
-										value='true'
-										onChange={handleRadioOffer}
-									/>
-								</fieldset>
-								<fieldset
-									style={{
-										border: 'none',
-										opacity:
-											newRoomOffer === 'false'
-												? '0.4'
-												: '1',
-									}}
-								>
-									<CreateRoomInputLable
-										as='legend'
-										htmlFor='5'
-									>
-										Discount ammount:
-									</CreateRoomInputLable>
-									<CreateRoomInputLable
-										radio='radio'
-										htmlFor='5'
-									>
-										5%
-									</CreateRoomInputLable>
-									<CreateRoomInput
-										disabled={
-											newRoomOffer === 'true'
-												? false
-												: true
-										}
-										radio='radio'
-										type='radio'
-										id='5'
-										name='discount_ammount'
-										value='5'
-										onChange={handleRadioDiscount}
-									/>
-
-									<CreateRoomInputLable
-										radio='radio'
-										htmlFor='10'
-									>
-										10%
-									</CreateRoomInputLable>
-									<CreateRoomInput
-										disabled={
-											newRoomOffer === 'true'
-												? false
-												: true
-										}
-										radio='radio'
-										type='radio'
-										id='10'
-										name='discount_ammount'
-										value='10'
-										onChange={handleRadioDiscount}
-									/>
-
-									<CreateRoomInputLable
-										radio='radio'
-										htmlFor='15'
-									>
-										15%
-									</CreateRoomInputLable>
-									<CreateRoomInput
-										disabled={
-											newRoomOffer === 'true'
-												? false
-												: true
-										}
-										radio='radio'
-										type='radio'
-										id='15'
-										name='discount_ammount'
-										value='15'
-										onChange={handleRadioDiscount}
-									/>
-
-									<CreateRoomInputLable
-										radio='radio'
-										htmlFor='20'
-									>
-										20%
-									</CreateRoomInputLable>
-									<CreateRoomInput
-										disabled={
-											newRoomOffer === 'true'
-												? false
-												: true
-										}
-										radio='radio'
-										type='radio'
-										id='20'
-										name='discount_ammount'
-										value='20'
-										onChange={handleRadioDiscount}
-									/>
-								</fieldset>
+								<br />
 								<br />
 								<br />
 								<br />
@@ -446,30 +190,21 @@ const CreateUser = (props) => {
 									type='name'
 									htmlFor='roomAmenitiesSelector'
 								>
-									Amenities Pack:
+									Profile Photo:
+									<button
+										name='roomAmenitiesSelector'
+										id='roomAmenitiesSelector'
+										// onChange={handleNewUserProfilePhoto}
+									>
+										Upload a profile photo
+									</button>
 								</CreateRoomInputLable>
-								<RoomTypeSelector
-									name='roomAmenitiesSelector'
-									id='roomAmenitiesSelector'
-									onChange={handleNewRoomAmenities}
-									defaultValue='byamenities'
-								>
-									<option value='byamenities' disabled hidden>
-										Select the amenities pack:
-									</option>
-									<option value='premium'>
-										Premium Package
-									</option>
-									<option value='full'>Full Package</option>
-									<option value='midrange'>
-										Midrange Package
-									</option>
-									<option value='basic'>Basic Package</option>
-								</RoomTypeSelector>
 							</ModalInnerRightInfo>
 						</>
 					)}
-					<SaveCTA onClick={handleCreateOneRoom}>Create Room</SaveCTA>
+					<SaveCTA onClick={handleCreateOneRoom}>
+						Create Employee
+					</SaveCTA>
 				</ModalInnerInfo>
 			</MainContainer>
 		</>
@@ -554,25 +289,6 @@ const CreateRoomInput = styled.input`
 				`
 		}
 	}}
-`
-
-const Info = styled.p`
-	width: 400px;
-	color: #ff8000ba;
-	font: 200 11px Poppins;
-	text-align: justify;
-`
-
-const CreateRoomTextArea = styled.textarea`
-	height: 141px;
-	width: 400px;
-	resize: none;
-	background-color: #fff;
-	border: 2px solid #ebf1ef;
-	border-radius: 8px;
-	padding-left: 15px;
-	font: 500 16px Poppins;
-	color: #135846;
 `
 
 const RoomTypeSelector = styled.select`

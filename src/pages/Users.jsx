@@ -6,7 +6,12 @@ import { supertoggleContext } from '../context/supertoggleContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { fetchUserState, initialUsers } from '../features/users/userSlice'
+import {
+	fetchUserState,
+	initialUsers,
+	initialUsersPlusNewUsers,
+	resetState,
+} from '../features/users/userSlice'
 import { deleteUser, fetchInitialUsers } from '../features/users/userThunks'
 import { Triangle } from 'react-loader-spinner'
 import { NavLink } from 'react-router-dom'
@@ -14,6 +19,7 @@ import { NavLink } from 'react-router-dom'
 const Users = (props) => {
 	const dispatch = useDispatch()
 	const initialUserData = useSelector(initialUsers)
+	const initialUsersPlusLatestUsers = useSelector(initialUsersPlusNewUsers)
 	const initialUserState = useSelector(fetchUserState)
 	const { state } = useContext(supertoggleContext)
 	const [displayData, setDisplayData] = useState([])
@@ -30,9 +36,13 @@ const Users = (props) => {
 			setSpinner(true)
 		} else if (initialUserState === 'fulfilled') {
 			setSpinner(false)
-			setDisplayData(initialUserData)
+			if (initialUsersPlusLatestUsers.length !== 0) {
+				setDisplayData(initialUsersPlusLatestUsers)
+			} else {
+				setDisplayData(initialUserData)
+			}
 		}
-	}, [initialUserData, initialUserState])
+	}, [initialUserData, initialUserState, initialUsersPlusLatestUsers])
 
 	const handleModalMore = (id) => {
 		if (!toggleModal) {
@@ -218,9 +228,9 @@ const Users = (props) => {
 						</Icons>
 						<NavLink to={'/users/create-employee'}>
 							<AddRoomCTA
-							// onClick={() => {
-							// 	dispatch(resetState())
-							// }}
+								onClick={() => {
+									dispatch(resetState())
+								}}
 							>
 								+ Add Employee{' '}
 							</AddRoomCTA>
