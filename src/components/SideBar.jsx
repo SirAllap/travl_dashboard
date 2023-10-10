@@ -147,7 +147,7 @@ const SideBar = (props) => {
 						</CloseCTA>
 					</EditUserModal>
 					<LogoSection>
-						<NavLink to={'/dashboard'}>
+						<NavLink to={'/'}>
 							<LogoImage
 								src={logo}
 								alt='a logo of the hotel dashboard'
