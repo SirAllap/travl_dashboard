@@ -11,6 +11,7 @@ import {
 	initialUsers,
 	initialUsersPlusNewUsers,
 	resetState,
+	deleteUserStatus,
 } from '../features/users/userSlice'
 import { deleteUser, fetchInitialUsers } from '../features/users/userThunks'
 import { Triangle } from 'react-loader-spinner'
@@ -21,11 +22,13 @@ const Users = (props) => {
 	const initialUserData = useSelector(initialUsers)
 	const initialUsersPlusLatestUsers = useSelector(initialUsersPlusNewUsers)
 	const initialUserState = useSelector(fetchUserState)
+	const deleteUserCurentStatus = useSelector(deleteUserStatus)
 	const { state } = useContext(supertoggleContext)
 	const [displayData, setDisplayData] = useState([])
 	const [toggleModal, setToggleModal] = useState(false)
 	const [currentId, setCurrentId] = useState('')
 	const [spinner, setSpinner] = useState(true)
+	const [deleteSpinner, setDeleteSpinner] = useState(false)
 
 	useEffect(() => {
 		dispatch(fetchInitialUsers())
@@ -42,7 +45,17 @@ const Users = (props) => {
 				setDisplayData(initialUserData)
 			}
 		}
-	}, [initialUserData, initialUserState, initialUsersPlusLatestUsers])
+		if (deleteUserCurentStatus === 'pending') {
+			setDeleteSpinner(true)
+		} else {
+			setDeleteSpinner(false)
+		}
+	}, [
+		initialUserData,
+		initialUserState,
+		initialUsersPlusLatestUsers,
+		deleteUserCurentStatus,
+	])
 
 	const handleModalMore = (id) => {
 		if (!toggleModal) {
@@ -285,6 +298,7 @@ const Users = (props) => {
 						datas={displayData}
 						whoAmI={whoAmI}
 						filter={filter}
+						spinner={deleteSpinner}
 					/>
 				)}
 			</MainContainer>

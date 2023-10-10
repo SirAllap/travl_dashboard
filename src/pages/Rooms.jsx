@@ -7,6 +7,7 @@ import {
 	initialRooms,
 	initialRoomsPlusNewRooms,
 	resetState,
+	deleteRoomStatus,
 } from '../features/rooms/roomSlice'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { supertoggleContext } from '../context/supertoggleContext'
@@ -24,8 +25,10 @@ const Rooms = (props) => {
 	const initialRoomsPlusLatestRooms = useSelector(initialRoomsPlusNewRooms)
 	const initialRoomData = useSelector(initialRooms)
 	const initialRoomState = useSelector(fetchRoomState)
+	const deleteRoomCurrentStatus = useSelector(deleteRoomStatus)
 	const { state } = useContext(supertoggleContext)
 	const [spinner, setSpinner] = useState(true)
+	const [deleteSpinner, setDeleteSpinner] = useState(false)
 	const [displayData, setDisplayData] = useState([])
 	const [toggleModal, setToggleModal] = useState(false)
 	const [currentId, setCurrentId] = useState('')
@@ -45,7 +48,17 @@ const Rooms = (props) => {
 				setDisplayData(initialRoomData)
 			}
 		}
-	}, [initialRoomData, initialRoomState, initialRoomsPlusLatestRooms])
+		if (deleteRoomCurrentStatus === 'pending') {
+			setDeleteSpinner(true)
+		} else {
+			setDeleteSpinner(false)
+		}
+	}, [
+		initialRoomData,
+		initialRoomState,
+		initialRoomsPlusLatestRooms,
+		deleteRoomCurrentStatus,
+	])
 
 	const handleModalMore = (id) => {
 		if (!toggleModal) {
@@ -316,6 +329,7 @@ const Rooms = (props) => {
 						datas={sortRooms.length !== 0 ? sortRooms : displayData}
 						whoAmI={whoAmI}
 						filter={filter}
+						spinner={deleteSpinner}
 					/>
 				)}
 			</MainContainer>

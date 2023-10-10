@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
 	fetchBookingState,
 	initialBookings,
+	deleteBookingStatus,
 } from '../features/bookings/bookingSlice'
 import { NavLink } from 'react-router-dom'
 import {
@@ -22,8 +23,10 @@ const Bookings = () => {
 	const dispatch = useDispatch()
 	const initialBookingData = useSelector(initialBookings)
 	const initialBookingState = useSelector(fetchBookingState)
+	const deleteBookingCurrentStatus = useSelector(deleteBookingStatus)
 	const { state } = useContext(supertoggleContext)
 	const [spinner, setSpinner] = useState(true)
+	const [deleteSpinner, setDeleteSpinner] = useState(false)
 	const [displayData, setDisplayData] = useState([])
 	const [toggleModal, setToggleModal] = useState(false)
 	const [currentId, setCurrentId] = useState('')
@@ -39,7 +42,12 @@ const Bookings = () => {
 			setSpinner(false)
 			setDisplayData(initialBookingData)
 		}
-	}, [initialBookingData, initialBookingState])
+		if (deleteBookingCurrentStatus === 'pending') {
+			setDeleteSpinner(true)
+		} else {
+			setDeleteSpinner(false)
+		}
+	}, [initialBookingData, initialBookingState, deleteBookingCurrentStatus])
 
 	const handleModalMore = (id) => {
 		if (!toggleModal) {
@@ -314,6 +322,7 @@ const Bookings = () => {
 						datas={displayData}
 						whoAmI={whoAmI}
 						filter={filter}
+						spinner={deleteSpinner}
 					/>
 				)}
 			</MainContainer>
