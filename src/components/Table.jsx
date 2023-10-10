@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
+import { Triangle } from 'react-loader-spinner'
 
 const Table = (props) => {
 	const [filterToApply, setFilterToApply] = useState({})
+	const [noMoreData, setNoMoreData] = useState(false)
 	let property = 'all'
 	let value = ''
 
@@ -13,7 +15,8 @@ const Table = (props) => {
 
 	useEffect(() => {
 		setFilterToApply(props.filter)
-	}, [props.filter])
+		props.datas.length === 0 ? setNoMoreData(true) : setNoMoreData(false)
+	}, [props.filter, props.datas.length])
 
 	const displayRow = (row, index) => {
 		const rowContent = (
@@ -48,6 +51,22 @@ const Table = (props) => {
 						))}
 					</TableHeadLabel>
 				</TableHeadContainer>
+				{props.whoAmI.name !== 'contact' && (
+					<SpinnerContainer>
+						{noMoreData ? (
+							<h1>No more data on the DB!</h1>
+						) : (
+							<Triangle
+								height='150'
+								width='150'
+								color='red'
+								ariaLabel='triangle-loading'
+								visible={props.spinner}
+							/>
+						)}
+					</SpinnerContainer>
+				)}
+
 				<TableAllRowsContainer whoami={props.whoAmI.name}>
 					{property === 'all'
 						? props.datas.map((filteredRow, index) =>
@@ -145,6 +164,13 @@ const TableHeadLabel = styled.div`
 				`
 		}
 	}}
+`
+
+const SpinnerContainer = styled.div`
+	position: absolute;
+	left: ${(props) => (props.isfor === 'newroom' ? '50%' : '60%')};
+	top: 50%;
+	transform: translate(-50%, -50%);
 `
 
 const TableAllRowsContainer = styled.div`
