@@ -8,6 +8,7 @@ const initialState = {
     singleUserFetch: [],
     status: 'idle',
     createUserStatus: 'idle',
+    deleteUserStatus: 'idle',
     error: 'null'
 }
 
@@ -61,10 +62,10 @@ const userSlice = createSlice({
             })
 
             .addCase(deleteUser.pending, (state, action) => {
-                state.status = 'pending'
+                state.deleteUserStatus = 'pending'
             })
             .addCase(deleteUser.rejected, (state, action) => {
-                state.status = 'rejected'
+                state.deleteUserStatus = 'rejected'
             })
             .addCase(deleteUser.fulfilled, (state, action) => {
                 const id = action.payload
@@ -77,7 +78,7 @@ const userSlice = createSlice({
                     )
                     state.initialUserFetch = [...result]
                 }
-                state.status = 'fulfilled'
+                state.deleteUserStatus = 'fulfilled'
             })
     }
 })
@@ -90,3 +91,4 @@ export const initialUsersPlusNewUsers = state => state.users.initialUserFetchPlu
 export const singleUser = state => state.users.singleUserFetch
 export const fetchUserState = state => state.users.status
 export const createUserState = state => state.users.createUserStatus
+export const deleteUserStatus = state => state.users.deleteUserStatus

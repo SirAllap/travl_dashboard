@@ -5,6 +5,7 @@ const initialState = {
     initialBookingFetch: [],
     singleBookingFetch: [],
     status: 'idle',
+    deleteBookingStatus: 'idle',
     error: 'null',
 }
 
@@ -38,17 +39,17 @@ const bookingSlice = createSlice({
             })
 
             .addCase(deleteBooking.pending, (state, action) => {
-                state.status = 'pending'
+                state.deleteBookingStatus = 'pending'
             })
             .addCase(deleteBooking.rejected, (state, action) => {
-                state.status = 'rejected'
+                state.deleteBookingStatus = 'rejected'
             })
             .addCase(deleteBooking.fulfilled, (state, action) => {
                 const result = state.initialBookingFetch.filter((booking) =>
                     booking.id !== action.payload
                 )
                 state.initialBookingFetch = [...result]
-                state.status = 'fulfilled'
+                state.deleteBookingStatus = 'fulfilled'
             })
     }
 })
@@ -58,3 +59,4 @@ export default bookingSlice.reducer
 export const initialBookings = state => state.bookings.initialBookingFetch
 export const singleBooking = state => state.bookings.singleBookingFetch
 export const fetchBookingState = state => state.bookings.status
+export const deleteBookingStatus = state => state.bookings.deleteBookingStatus

@@ -7,6 +7,7 @@ const initialState = {
     singleRoomFetch: [],
     status: 'idle',
     createRoomStatus: 'idle',
+    deleteRoomStatus: 'idle',
     error: 'null'
 }
 
@@ -60,10 +61,10 @@ const roomSlice = createSlice({
             })
 
             .addCase(deleteRoom.pending, (state, action) => {
-                state.status = 'pending'
+                state.deleteRoomStatus = 'pending'
             })
             .addCase(deleteRoom.rejected, (state, action) => {
-                state.status = 'rejected'
+                state.deleteRoomStatus = 'rejected'
             })
             .addCase(deleteRoom.fulfilled, (state, action) => {
                 const id = action.payload
@@ -74,7 +75,7 @@ const roomSlice = createSlice({
                     const result = state.initialRoomFetch.filter((room) => room.id !== id)
                     state.initialRoomFetch = [...result]
                 }
-                state.status = 'fulfilled'
+                state.deleteRoomStatus = 'fulfilled'
             })
     }
 })
@@ -87,3 +88,4 @@ export const initialRoomsPlusNewRooms = state => state.rooms.initialRoomFetchPlu
 export const singleRoom = state => state.rooms.singleRoomFetch
 export const fetchRoomState = state => state.rooms.status
 export const createRoomState = state => state.rooms.createRoomStatus
+export const deleteRoomStatus = state => state.rooms.deleteRoomStatus
