@@ -1,7 +1,7 @@
 .swiper-button-next {
 	background: #135846;
 	background-image: url('/src/assets/arrow_R.png');
-	filter: drop-shadow(0 0 0.75rem #135846);
+	filter: drop-shadow(0 0 3px #242424);
 	background-repeat: no-repeat;
 	background-size: 85% auto;
 	background-position: center;
@@ -21,7 +21,7 @@
 .swiper-button-prev {
 	background: #135846;
 	background-image: url('/src/assets/arrow_L.png');
-	filter: drop-shadow(0 0 0.75rem #135846);
+	filter: drop-shadow(0 0 3px #242424);
 	background-repeat: no-repeat;
 	background-size: 85% auto;
 	background-position: center;
