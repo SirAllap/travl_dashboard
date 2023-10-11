@@ -4,6 +4,7 @@ import { archiveContacts, fetchInitialContacts } from './contactThunks'
 const initialState = {
     initialContactFetch: [],
     status: 'idle',
+    archiveStatus: 'idle',
     error: 'null',
 }
 
@@ -26,18 +27,16 @@ const contactSlice = createSlice({
             })
 
             .addCase(archiveContacts.pending, (state, action) => {
-                state.status = 'pending'
+                state.archiveStatus = 'pending'
             })
             .addCase(archiveContacts.rejected, (state, action) => {
-                state.status = 'rejected'
+                state.archiveStatus = 'rejected'
             })
             .addCase(archiveContacts.fulfilled, (state, action) => {
-                const result = state.initialContactFetch.map((contact) =>
-                    // contact.id === action.payload ? contact.isArchived = 'true' : null
-                    contact
+                state.initialContactFetch.map((contact) =>
+                    contact.id === action.payload ? contact.isArchived = 'true' : null
                 )
-                // state.initialContactFetch = result
-                state.status = 'fulfilled'
+                state.archiveStatus = 'fulfilled'
             })
     }
 })
@@ -46,3 +45,4 @@ export default contactSlice.reducer
 
 export const initialContacts = state => state.contacts.initialContactFetch
 export const fetchContactState = state => state.contacts.status
+export const archiveStatus = state => state.contacts.archiveStatus
