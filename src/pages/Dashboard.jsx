@@ -15,6 +15,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+	archiveStatus,
 	fetchContactState,
 	initialContacts,
 } from '../features/contact/contactSlice'
@@ -28,11 +29,13 @@ const Dashboard = (props) => {
 	const dispatch = useDispatch()
 	const initialContactData = useSelector(initialContacts)
 	const initialContactState = useSelector(fetchContactState)
+	const archiveCurrentStatus = useSelector(archiveStatus)
 	const { state } = useContext(supertoggleContext)
 	const [toggleModal, setToggleModal] = useState(false)
 	const [toggleModalUser, setToggleModalUser] = useState({})
 	const [currentId, setCurrentId] = useState('')
 	const [spinner, setSpinner] = useState(true)
+	const [archiveSpinner, setArchiveSpinner] = useState(false)
 
 	useEffect(() => {
 		dispatch(fetchInitialContacts())
@@ -44,15 +47,19 @@ const Dashboard = (props) => {
 		} else if (initialContactState === 'fulfilled') {
 			setSpinner(false)
 		}
-	}, [initialContactState])
+		if (archiveCurrentStatus === 'pending') {
+			setArchiveSpinner(true)
+		} else {
+			setArchiveSpinner(false)
+			setToggleModal(false)
+		}
+	}, [initialContactState, archiveCurrentStatus])
 
 	const handleToggleModal = (userReview) => {
 		setCurrentId(userReview.id)
 		if (!toggleModal) {
 			setToggleModal(true)
 			setToggleModalUser(userReview)
-		} else {
-			setToggleModal(false)
 		}
 	}
 
@@ -92,6 +99,16 @@ const Dashboard = (props) => {
 								</CustomerCardText>
 							</CustomerReviewCardTopData>
 							<CustomerReviewCardBottomData>
+								<SpinnerContainerInsideModal>
+									<Triangle
+										height='150'
+										width='150'
+										color='red'
+										ariaLabel='triangle-loading'
+										wrapperClassName=''
+										visible={archiveSpinner}
+									/>
+								</SpinnerContainerInsideModal>
 								<CustomerReviewCardUserPhoto
 									src={`https://robohash.org/${toggleModalUser.full_name}.png?set=any`}
 								/>
@@ -117,6 +134,7 @@ const Dashboard = (props) => {
 									{toggleModalUser.phone_number}
 								</CustomerCardText>
 								<CustomerCardText
+									style={{ zIndex: '100' }}
 									type={{
 										text: 'cardReadChecker',
 									}}
@@ -293,6 +311,13 @@ const SpinnerContainer = styled.div`
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, 60%);
+`
+
+const SpinnerContainerInsideModal = styled.div`
+	position: absolute;
+	left: 50%;
+	bottom: 50%;
+	transform: translate(-50%, -50%);
 `
 
 const MainContainer = styled.main`
@@ -485,6 +510,7 @@ const CustomerReviewCardTopData = styled.div`
 `
 
 const CustomerReviewCardBottomData = styled.div`
+	position: relative;
 	border: 1px solid transparent;
 	width: 371px;
 	height: 90px;
