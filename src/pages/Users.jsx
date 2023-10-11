@@ -147,13 +147,13 @@ const Users = (props) => {
 	})
 	const manageFilterTab = (param) => {
 		switch (param) {
-			case 'nonarchived':
+			case 'active':
 				setFilter({
 					property: 'status',
 					value: 'active',
 				})
 				break
-			case 'archived':
+			case 'inactive':
 				setFilter({
 					property: 'status',
 					value: 'inactive',
@@ -236,7 +236,21 @@ const Users = (props) => {
 							</button>
 							<button
 								onClick={() => {
-									manageFilterTab('archived')
+									manageFilterTab('active')
+								}}
+								style={{
+									borderBottom:
+										filter.value === 'active' &&
+										'3px solid #135846',
+									color:
+										filter.value === 'active' && '#135846',
+								}}
+							>
+								Active
+							</button>
+							<button
+								onClick={() => {
+									manageFilterTab('inactive')
 								}}
 								style={{
 									borderBottom:
@@ -245,20 +259,6 @@ const Users = (props) => {
 									color:
 										filter.value === 'inactive' &&
 										'#135846',
-								}}
-							>
-								Active
-							</button>
-							<button
-								onClick={() => {
-									manageFilterTab('nonarchived')
-								}}
-								style={{
-									borderBottom:
-										filter.value === 'active' &&
-										'3px solid #135846',
-									color:
-										filter.value === 'active' && '#135846',
 								}}
 							>
 								Inactive
