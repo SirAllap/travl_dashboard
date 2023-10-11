@@ -4,10 +4,14 @@ import Table from '../components/Table'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+	archiveStatus,
 	fetchContactState,
 	initialContacts,
 } from '../features/contact/contactSlice'
-import { fetchInitialContacts } from '../features/contact/contactThunks'
+import {
+	archiveContacts,
+	fetchInitialContacts,
+} from '../features/contact/contactThunks'
 import { Triangle } from 'react-loader-spinner'
 import { Navigation, A11y } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -20,8 +24,10 @@ const Contact = () => {
 	const dispatch = useDispatch()
 	const initialContactData = useSelector(initialContacts)
 	const initialContactState = useSelector(fetchContactState)
+	const archiveCurrentStatus = useSelector(archiveStatus)
 	const { state } = useContext(supertoggleContext)
 	const [spinner, setSpinner] = useState(true)
+	const [archiveSpinner, setArchiveSpinner] = useState(false)
 
 	useEffect(() => {
 		dispatch(fetchInitialContacts())
@@ -33,11 +39,20 @@ const Contact = () => {
 		} else if (initialContactState === 'fulfilled') {
 			setSpinner(false)
 		}
-	}, [initialContactState])
+		if (archiveCurrentStatus === 'pending') {
+			setArchiveSpinner(true)
+		} else {
+			setArchiveSpinner(false)
+		}
+	}, [initialContactState, archiveCurrentStatus])
 
 	const whoAmI = {
 		name: 'contact',
 		redirect: false,
+	}
+
+	const handleArchive = (id) => {
+		dispatch(archiveContacts(id))
 	}
 
 	const cols = [
@@ -67,9 +82,16 @@ const Contact = () => {
 		{
 			property: 'isArchived',
 			label: 'Archive',
-			display: ({ isArchived }) => (
+			display: ({ isArchived, id }) => (
 				<>
-					<Status status={isArchived}>Archived</Status>
+					<Status
+						onClick={() => {
+							handleArchive(id)
+						}}
+						status={isArchived}
+					>
+						Archived
+					</Status>
 				</>
 			),
 		},
@@ -220,6 +242,7 @@ const Contact = () => {
 						datas={initialContactData}
 						whoAmI={whoAmI}
 						filter={filter}
+						spinner={archiveSpinner}
 					/>
 				)}
 			</MainContainer>
@@ -299,6 +322,13 @@ const Status = styled.button`
 	border: none;
 	border-radius: 8px;
 	color: ${(props) => (props.status === 'true' ? '#E23428' : '#5AD07A')};
+	background-color: #efefef;
+	cursor: pointer;
+	transition: 0.3s all;
+	&:hover {
+		background-color: #efefef96;
+		scale: 1.05;
+	}
 `
 
 const CustomerReviewContainer = styled.div`
