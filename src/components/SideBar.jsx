@@ -11,7 +11,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { authenticationContext } from '../context/authenticationContext'
 
-const SideBar = (props) => {
+const SideBar = () => {
 	const { state } = useContext(supertoggleContext)
 	const { authState, updateUserInfo } = useContext(authenticationContext)
 
@@ -47,7 +47,6 @@ const SideBar = (props) => {
 		fetchCurrentUser.email !== null && setUserEmail1(fetchCurrentUser.email)
 	}, [
 		profPic,
-		props,
 		currentUser,
 		fetchCurrentUser.name,
 		fetchCurrentUser.email,
