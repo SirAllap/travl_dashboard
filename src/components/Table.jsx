@@ -51,21 +51,19 @@ const Table = (props) => {
 						))}
 					</TableHeadLabel>
 				</TableHeadContainer>
-				{props.whoAmI.name !== 'contact' && (
-					<SpinnerContainer>
-						{noMoreData ? (
-							<h1>No more data on the DB!</h1>
-						) : (
-							<Triangle
-								height='150'
-								width='150'
-								color='red'
-								ariaLabel='triangle-loading'
-								visible={props.spinner}
-							/>
-						)}
-					</SpinnerContainer>
-				)}
+				<SpinnerContainer whoami={props.whoAmI.name}>
+					{noMoreData ? (
+						<h1>No more data on the DB!</h1>
+					) : (
+						<Triangle
+							height='150'
+							width='150'
+							color='red'
+							ariaLabel='triangle-loading'
+							visible={props.spinner}
+						/>
+					)}
+				</SpinnerContainer>
 
 				<TableAllRowsContainer whoami={props.whoAmI.name}>
 					{property === 'all'
@@ -166,14 +164,8 @@ const TableHeadLabel = styled.div`
 	}}
 `
 
-const SpinnerContainer = styled.div`
-	position: absolute;
-	left: ${(props) => (props.isfor === 'newroom' ? '50%' : '60%')};
-	top: 50%;
-	transform: translate(-50%, -50%);
-`
-
 const TableAllRowsContainer = styled.div`
+	position: relative;
 	height: 550px;
 	min-width: 100%;
 	height: ${(props) => (props.whoami === 'contact' ? '485px' : '605px')};
@@ -201,6 +193,27 @@ const TableAllRowsContainer = styled.div`
 		color: #393939;
 		font: 300 16px Poppins;
 	}
+`
+
+const SpinnerContainer = styled.div`
+	${(props) => {
+		switch (props.whoami) {
+			case 'contact':
+				return css`
+					position: absolute;
+					right: 50%;
+					top: 70%;
+					transform: translate(-50%, -50%);
+				`
+			default:
+				return css`
+					position: absolute;
+					left: 50%;
+					bottom: 50%;
+					transform: translate(-50%, -50%);
+				`
+		}
+	}}
 `
 
 const TableSingleRowContainer = styled.div`
