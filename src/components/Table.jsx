@@ -89,6 +89,7 @@ const Table = (props) => {
 export default Table
 
 const TableData = styled.div`
+	position: relative;
 	background-color: #fff;
 	min-width: 1494px;
 	max-width: 1894px;
@@ -155,20 +156,21 @@ const TableAllRowsContainer = styled.div`
 `
 
 const SpinnerContainer = styled.div`
+	z-index: 100;
 	${(props) => {
 		switch (props.whoami) {
 			case 'contact':
 				return css`
 					position: absolute;
-					right: 50%;
-					top: 70%;
+					right: 40%;
+					top: 50%;
 					transform: translate(-50%, -50%);
 				`
 			default:
 				return css`
 					position: absolute;
 					left: 50%;
-					bottom: 50%;
+					bottom: 30%;
 					transform: translate(-50%, -50%);
 				`
 		}

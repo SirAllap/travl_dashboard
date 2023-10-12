@@ -414,8 +414,8 @@ const OptionsButton = styled(SpecialRequest)`
 
 const CloseCTA = styled.button`
 	position: absolute;
-	right: 13px;
-	top: 13px;
+	right: 5px;
+	top: 5px;
 	font-size: 25px;
 	border: none;
 	background-color: transparent;
