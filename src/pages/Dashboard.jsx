@@ -244,7 +244,7 @@ const Dashboard = (props) => {
 											>
 												<CustomerCardText
 													type={{
-														text: 'cardBody',
+														text: 'cardBodyNoModal',
 													}}
 												>
 													{elem.review_body}
@@ -416,6 +416,7 @@ const CustomerReviewContainer = styled.div`
 `
 
 const CustomerReviewCard = styled.div`
+	cursor: pointer;
 	border: 1px solid red;
 	position: relative;
 	width: 431px;
@@ -439,66 +440,71 @@ const CustomerCardText = styled.p`
 		switch (props.type.text) {
 			case 'cardTitle':
 				return css`
-          font: normal normal 500 20px Poppins;
-          color: #393939;
-		  text-align: left;
-		  position: absolute;
-		  left: 50px;
-		  top: 30px;
-          }
-        `
+					font: normal normal 500 20px/1.5 Poppins;
+					color: #393939;
+					text-align: left;
+					position: absolute;
+					left: 50px;
+					top: 30px;
+				`
 			case 'cardBody':
 				return css`
-          font: normal normal 300 16px Poppins;
-		  line-height: 28px;
-          color: #4E4E4E;
-		  text-align: justify;
-          }
-        `
+					font: normal normal 300 16px/1.5 Poppins;
+					color: #4e4e4e;
+					text-align: justify;
+				`
+			case 'cardBodyNoModal':
+				return css`
+					font: normal normal 300 16px/1.5 Poppins;
+					color: #4e4e4e;
+					text-align: justify;
+					display: -webkit-box;
+					overflow: hidden;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 4;
+				`
 			case 'cardUserName':
 				return css`
-          font: normal normal 600 16px Poppins;
-          color: #262626;
-		  text-align: left;
-		  margin: 10px 0 5px 0;
-          }
-        `
+					font: normal normal 600 16px/1.5 Poppins;
+					color: #262626;
+					text-align: left;
+					margin: 10px 0 5px 0;
+				`
 			case 'cardSubject':
 				return css`
-          font: normal normal 500 16px Poppins;
-          color: #135846;
-		  text-align: center;
-		  margin: 5px 0 0px 0;
-          }
-        `
+					font: normal normal 500 16px/1.5 Poppins;
+					color: #135846;
+					text-align: center;
+					margin: 5px 0 0 0;
+				`
 			case 'cardReadChecker':
 				return css`
-		  position: absolute;
-		  bottom: 0px;
-		  right: 10px;
-          font: normal normal 600 26px Poppins;
-          color: ${(props) => (props.read === true ? '#5AD07A' : '#E23428')};
-		  text-align: left;
-          }
-        `
+					position: absolute;
+					bottom: 0;
+					right: 10px;
+					font: normal normal 600 26px/1.5 Poppins;
+					color: ${props.read ? '#5AD07A' : '#E23428'};
+					text-align: left;
+				`
 			default:
 				return css`
-          font: normal normal 400 14px Poppins;
-		  color: #799283;
-		  text-align: left;
-          }
-        `
+					font: normal normal 400 14px/1.5 Poppins;
+					color: #799283;
+					text-align: left;
+				`
 		}
 	}}
 `
 
 const CustomerReviewCardTopData = styled.div`
 	width: 371px;
-	height: ${(props) => (props.modal === 'true' ? 'fitConten' : '110px')};
-	overflow-y: clip;
+	height: ${(props) => (props.modal === 'true' ? 'fitContent' : '110px')};
+	overflow-y: auto;
 	margin: 10px auto 0 auto;
 	scrollbar-width: auto;
 	scrollbar-color: #8f54a0 #ffffff;
+
+	/* Webkit-specific styles for scrollbar */
 	&::-webkit-scrollbar {
 		width: 15px;
 	}
@@ -544,11 +550,12 @@ const CustomerReviewModal = styled.div`
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
+
 const CustomerReviewModalOverlay = styled.div`
 	z-index: 99;
 	position: absolute;
-	width: 100%;
-	height: 100%;
+	width: 79%;
+	height: 79%;
 	background-color: rgba(0, 0, 0, 0.434);
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
