@@ -42,6 +42,12 @@ const breadCrumbReducer = (state, action) => {
 				headerTitle: `Rooms Details`,
 			}
 		}
+		case 'getRoomEditionBreadCrumb': {
+			return {
+				roomBreadCrumb: `Rooms/${action.payload.id}`,
+				headerTitle: `Rooms Edition`,
+			}
+		}
 		default:
 			break
 	}
@@ -68,6 +74,13 @@ const ToggleContext = ({ children }) => {
 		})
 	}
 
+	const roomEditioBreadCrumb = (id) => {
+		dispatchBread({
+			type: 'getRoomEditionBreadCrumb',
+			payload: { id },
+		})
+	}
+
 	return (
 		<>
 			<supertoggleContext.Provider
@@ -78,6 +91,7 @@ const ToggleContext = ({ children }) => {
 					stateBread,
 					bookingBreadCrumb,
 					roomBreadCrumb,
+					roomEditioBreadCrumb,
 				}}
 			>
 				{children}
