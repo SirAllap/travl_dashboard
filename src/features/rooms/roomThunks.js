@@ -27,6 +27,12 @@ export const createOneRoom = createAsyncThunk(
     }
 )
 
+export const editCurrentRoom = createAsyncThunk(
+    'rooms/editCurrentRoom', async editedRoomData => {
+        return await delay(editedRoomData, 1000)
+    }
+)
+
 export const deleteRoom = createAsyncThunk(
     'rooms/deleteRoom', async id => {
         return await delay(id)

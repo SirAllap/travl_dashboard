@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { createOneRoom, deleteRoom, fetchInitialRooms, fetchOneRoom } from './roomThunks'
+import { createOneRoom, deleteRoom, editCurrentRoom, fetchInitialRooms, fetchOneRoom } from './roomThunks'
 
 const initialState = {
     initialRoomFetch: [],
@@ -42,6 +42,9 @@ const roomSlice = createSlice({
             .addCase(fetchOneRoom.fulfilled, (state, action) => {
                 const id = action.payload
                 state.singleRoomFetch = state.initialRoomFetch.filter(room => room.id === id)
+                if (state.singleRoomFetch.length === 0) {
+                    state.singleRoomFetch = state.initialRoomFetchPlusNewRooms.filter(room => room.id === id)
+                }
                 state.status = 'fulfilled'
             })
 
@@ -58,6 +61,17 @@ const roomSlice = createSlice({
                     state.initialRoomFetch.push(action.payload)
                     state.initialRoomFetchPlusNewRooms = [...state.initialRoomFetch]
                 }
+                state.createRoomStatus = 'fulfilled'
+            })
+
+            .addCase(editCurrentRoom.pending, (state, action) => {
+                state.createRoomStatus = 'pending'
+            })
+            .addCase(editCurrentRoom.rejected, (state, action) => {
+                state.createRoomStatus = 'rejected'
+            })
+            .addCase(editCurrentRoom.fulfilled, (state, action) => {
+                console.log(action.payload)
                 state.createRoomStatus = 'fulfilled'
             })
 
