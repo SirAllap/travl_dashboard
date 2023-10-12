@@ -213,8 +213,16 @@ const Rooms = (props) => {
 							>
 								DELETE
 							</OptionsButton>
-							<NavLink to={`/rooms/edit-room/${id}`}>
-								<OptionsButton button_type='edit'>
+							<NavLink
+								style={{ textDecoration: 'none' }}
+								to={`/rooms/edit-room/${id}`}
+							>
+								<OptionsButton
+									onClick={() => {
+										dispatch(fetchOneRoom(id))
+									}}
+									button_type='edit'
+								>
 									EDIT
 								</OptionsButton>
 							</NavLink>
@@ -412,12 +420,14 @@ const SpecialRequest = styled.button`
 `
 
 const OptionsButton = styled(SpecialRequest)`
+	display: block;
 	cursor: pointer;
 	font: 400 16px Poppins;
 	width: 110px;
 	height: 48px;
 	border: none;
 	border-radius: 8px;
+	margin: 0 auto;
 	margin-top: ${(props) => props.button_type === 'edit' && '10px'};
 	color: ${(props) => (props.button_type === 'edit' ? '#f7a32e' : '#e23428')};
 	background-color: ${(props) =>
