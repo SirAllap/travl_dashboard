@@ -134,7 +134,15 @@ const Rooms = (props) => {
 					>
 						${price}
 					</TextFormatter>
-					<span>/night</span>
+					<span
+						style={{
+							font: '300 14px Poppins',
+							color: offer_price && '#ed0b0b86',
+							textDecoration: offer_price && 'line-through',
+						}}
+					>
+						/night
+					</span>
 				</>
 			),
 		},
@@ -143,12 +151,25 @@ const Rooms = (props) => {
 			label: 'Offer Price',
 			display: ({ offer_price, price, discount }) => (
 				<>
-					<TextFormatter small='price'>
+					<TextFormatter
+						small='offer_price'
+						style={{
+							font: offer_price && '600 23px Poppins',
+							color: offer_price && '#f7a32e',
+						}}
+					>
 						{offer_price
 							? applyDiscount(price, discount)
 							: 'There is NO discount to be applied to the current price.'}
 					</TextFormatter>
-					<span>{offer_price && '/night'}</span>
+					<span
+						style={{
+							font: '600 15px Poppins',
+							color: offer_price && '#f7a32e',
+						}}
+					>
+						{offer_price && '/night'}
+					</span>
 				</>
 			),
 		},
@@ -498,17 +519,23 @@ const FilterSelector = styled.select`
 `
 
 const TextFormatter = styled.span`
-	display: ${(props) => (props.small === 'price' ? 'inline' : 'block')};
+	display: ${(props) =>
+		props.small === 'price'
+			? 'inline'
+			: props.small === 'offer_price'
+			? 'inline'
+			: 'block'};
 	text-align: left;
 	color: ${(props) =>
 		props.small === 'small'
 			? '#799283'
 			: props.offer === 'true'
-			? '#3939393a'
+			? '#ed0b0b86'
 			: '#393939'};
 	font: ${(props) =>
 		props.small === 'small' ? '400 13px Poppins' : '500 19px Poppins'};
 	text-align: center;
+	text-decoration: ${(props) => props.offer === 'true' && 'line-through'};
 `
 
 export const Status = styled.button`
