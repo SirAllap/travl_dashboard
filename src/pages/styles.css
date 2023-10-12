@@ -7,13 +7,13 @@
 	background-position: center;
 	position: absolute;
 	opacity: 0.8 !important;
-	border: 1px solid #ffffff !important;
 	border-radius: 12px;
 	width: 56px !important;
 	height: 56px !important;
-	right: 0px !important;
+	right: 10px !important;
 	transition: 0.3s;
 }
+
 .swiper-button-next::after,
 .swiper-button-prev::after {
 	display: none;
@@ -27,11 +27,10 @@
 	background-position: center;
 	position: absolute;
 	opacity: 0.8 !important;
-	border: 1px solid #ffffff !important;
 	border-radius: 12px;
 	width: 56px !important;
 	height: 56px !important;
-	left: 0px !important;
+	left: 10px !important;
 	transition: 0.3s;
 }
 
