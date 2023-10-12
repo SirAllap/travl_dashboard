@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Dashboard from '../pages/Dashboard'
 import Bookings from '../pages/Bookings'
@@ -10,14 +10,10 @@ import Login from '../pages/Login'
 import Contact from '../pages/Contact'
 import PrivateRoute from '../pages/PrivateRoute'
 import CreateRoom from '../pages/CreateRoom'
+import EditRoom from '../pages/EditRoom'
 import CreateUser from '../pages/CreateUser'
 
 const Router = () => {
-	// const [breadCrumb, setBreadCrumb] = useState('')
-	// useEffect(() => {
-	// 	props.setNewBreadCrumb(breadCrumb)
-	// }, [breadCrumb, props])
-
 	return (
 		<>
 			<Routes>
@@ -40,6 +36,10 @@ const Router = () => {
 								<Route
 									path='/rooms/create-room'
 									element={<CreateRoom />}
+								/>
+								<Route
+									path='/rooms/edit-room/:roomId'
+									element={<EditRoom />}
 								/>
 								<Route
 									path='/rooms/:roomId'
