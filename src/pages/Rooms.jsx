@@ -511,7 +511,7 @@ const TextFormatter = styled.span`
 	text-align: center;
 `
 
-const Status = styled.button`
+export const Status = styled.button`
 	font: 600 16px Poppins;
 	width: 109px;
 	height: 48px;
@@ -524,7 +524,9 @@ const Status = styled.button`
 			: props.status === 'Booked'
 			? '#E23428'
 			: '#FFEDEC'};
+	transition: 0.3s all;
 	&:hover {
+		scale: 1.05;
 	}
 `
 

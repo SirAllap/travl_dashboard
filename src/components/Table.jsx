@@ -97,6 +97,26 @@ const TableHeadContainer = styled.div`
 	border-radius: 20px 20px 0 0;
 `
 
+// const TableHeadLabel = styled.div`
+// 	display: flex;
+// 	flex-direction: row;
+// 	align-items: center;
+// 	width: 100%;
+// 	height: 65px;
+// 	border-bottom: 2px solid #f5f5f5;
+// 	p {
+// 		width: calc(1494px / 5);
+// 		font: 600 18px Poppins;
+// 		color: #393939;
+// 		&:last-child {
+// 			margin-right: 10px;
+// 		}
+// 	}
+// 	:last-child {
+// 		width: 12%;
+// 	}
+// `
+
 const TableHeadLabel = styled.div`
 	${(props) => {
 		switch (props.whoami) {

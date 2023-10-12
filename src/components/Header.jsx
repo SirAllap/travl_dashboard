@@ -77,10 +77,8 @@ const Header = () => {
 			<>
 				<HeaderBar>
 					<LeftContainer>
-						<IconStyle menu='menu'>
-							<HiArrowsRightLeft
-								onClick={handleToggleOfSideBar}
-							/>
+						<IconStyle menu='menu' onClick={handleToggleOfSideBar}>
+							<HiArrowsRightLeft />
 						</IconStyle>
 						<div>
 							<DashboardTitle>{curentTitle}</DashboardTitle>
@@ -149,7 +147,7 @@ const RightContainer = styled.div`
 	align-items: center;
 `
 
-const IconStyle = styled.div`
+export const IconStyle = styled.div`
 	display: flex;
 	align-items: center;
 	font-size: 30px;

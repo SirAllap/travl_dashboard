@@ -93,7 +93,7 @@ const SideBar = () => {
 	if (authState.auth)
 		return (
 			<>
-				<Container toggle={state.position}>
+				<Container data-testid='sidebarToggle' toggle={state.position}>
 					<EditUserModalOverlay open={toggleModal} />
 					<EditUserModal open={toggleModal}>
 						<EditUserInputLable type='name' htmlFor='name'>
