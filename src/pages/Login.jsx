@@ -82,47 +82,6 @@ const Login = () => {
 					Log in
 				</CTA>
 			</LoginContainer>
-			<Credentials>
-				<LoginHardCodeAuth>
-					User: Admin{' '}
-					<FiCopy
-						onClick={() => {
-							navigator.clipboard.writeText(copyAdmin)
-						}}
-						style={{ cursor: 'pointer', fontSize: '35px' }}
-					/>
-				</LoginHardCodeAuth>
-				<LoginHardCodeAuth>
-					Password: oxygen{' '}
-					<FiCopy
-						onClick={() => {
-							navigator.clipboard.writeText(copyAdminPass)
-						}}
-						style={{ cursor: 'pointer', fontSize: '35px' }}
-					/>
-				</LoginHardCodeAuth>
-				<LoginHardCodeAuth>
-					User: David{' '}
-					<FiCopy
-						onClick={() => {
-							navigator.clipboard.writeText(copyUser)
-						}}
-						style={{
-							cursor: 'pointer',
-							fontSize: '35px',
-						}}
-					/>
-				</LoginHardCodeAuth>
-				<LoginHardCodeAuth>
-					Password: travl{' '}
-					<FiCopy
-						onClick={() => {
-							navigator.clipboard.writeText(copyUserPass)
-						}}
-						style={{ cursor: 'pointer', fontSize: '35px' }}
-					/>
-				</LoginHardCodeAuth>
-			</Credentials>
 		</>
 	)
 }
