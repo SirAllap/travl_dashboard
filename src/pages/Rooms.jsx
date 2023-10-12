@@ -68,6 +68,17 @@ const Rooms = (props) => {
 		setCurrentId(id)
 	}
 
+	const handleDelete = (id) => {
+		dispatch(deleteRoom(currentId))
+		handleMoreOptions(id)
+	}
+
+	const handleEdition = (id) => {
+		alert(`ill be the one who edit this id => ${id}`)
+		// dispatch(editRoom(currentId))
+		// handleMoreOptions(id)
+	}
+
 	const whoAmI = {
 		name: 'rooms',
 		redirect: true,
@@ -197,19 +208,16 @@ const Rooms = (props) => {
 						<MoreOptions open={toggleMoreOptions[id]}>
 							<OptionsButton
 								onClick={() => {
-									handleDelete()
+									handleDelete(id)
 								}}
 							>
 								DELETE
 							</OptionsButton>
-							<OptionsButton
-								button_type='edit'
-								onClick={() => {
-									handleEdition()
-								}}
-							>
-								EDIT
-							</OptionsButton>
+							<NavLink to={`/rooms/edit-room/${id}`}>
+								<OptionsButton button_type='edit'>
+									EDIT
+								</OptionsButton>
+							</NavLink>
 							<CloseCTA
 								onClick={() => {
 									handleMoreOptions(id)
@@ -266,15 +274,6 @@ const Rooms = (props) => {
 			default:
 				break
 		}
-	}
-
-	const handleDelete = () => {
-		dispatch(deleteRoom(currentId))
-		setToggleMoreOptions(false)
-	}
-
-	const handleEdition = () => {
-		console.log('ill be the one who edit')
 	}
 
 	return (
@@ -435,9 +434,8 @@ const OptionsButton = styled(SpecialRequest)`
 const CloseCTA = styled.button`
 	cursor: pointer;
 	position: absolute;
-	left: 50%;
+	right: 10px;
 	top: 0px;
-	transform: translate(-50%, -50%);
 	font-size: 25px;
 	border: none;
 	background-color: transparent;

@@ -28,7 +28,7 @@ const Bookings = () => {
 	const [spinner, setSpinner] = useState(true)
 	const [deleteSpinner, setDeleteSpinner] = useState(false)
 	const [displayData, setDisplayData] = useState([])
-	const [toggleModal, setToggleModal] = useState(false)
+	const [toggleMoreOptions, setToggleMoreOptions] = useState(false)
 	const [currentId, setCurrentId] = useState('')
 
 	useEffect(() => {
@@ -49,18 +49,23 @@ const Bookings = () => {
 		}
 	}, [initialBookingData, initialBookingState, deleteBookingCurrentStatus])
 
-	const handleModalMore = (id) => {
-		if (!toggleModal) {
-			setToggleModal(true)
-		} else {
-			setToggleModal(false)
-		}
+	const handleMoreOptions = (id) => {
+		setToggleMoreOptions((prevToggleMoreOptions) => ({
+			...prevToggleMoreOptions,
+			[id]: !prevToggleMoreOptions[id],
+		}))
 		setCurrentId(id)
 	}
 
-	const handleDelete = () => {
+	const handleDelete = (id) => {
 		dispatch(deleteBooking(currentId))
-		setToggleModal(false)
+		handleMoreOptions(id)
+	}
+
+	const handleEdition = (id) => {
+		alert(`ill be the one who edit this id => ${id}`)
+		// dispatch(editRoom(currentId))
+		// handleMoreOptions(id)
 	}
 
 	const whoAmI = {
@@ -152,10 +157,37 @@ const Bookings = () => {
 					<>
 						<BsThreeDotsVertical
 							onClick={() => {
-								handleModalMore(id)
+								handleMoreOptions(id)
 							}}
-							style={{ fontSize: '30px', cursor: 'pointer' }}
+							style={{
+								fontSize: '30px',
+								cursor: 'pointer',
+								display: toggleMoreOptions[id]
+									? 'none'
+									: 'inline-block',
+							}}
 						/>
+						<MoreOptions open={toggleMoreOptions[id]}>
+							<OptionsButton
+								onClick={() => {
+									handleDelete(id)
+								}}
+							>
+								DELETE
+							</OptionsButton>
+							{/* <NavLink to={`/rooms/edit-room/${id}`}> */}
+							<OptionsButton button_type='edit'>
+								EDIT
+							</OptionsButton>
+							{/* </NavLink> */}
+							<CloseCTA
+								onClick={() => {
+									handleMoreOptions(id)
+								}}
+							>
+								<AiOutlineCloseCircle />
+							</CloseCTA>
+						</MoreOptions>
 					</>
 				)
 			},
@@ -216,18 +248,6 @@ const Bookings = () => {
 	return (
 		<>
 			<MainContainer toggle={state.position}>
-				<MoreOptionsModal open={toggleModal}>
-					<OptionsButton
-						onClick={() => {
-							handleDelete()
-						}}
-					>
-						DELETE
-					</OptionsButton>
-					<CloseCTA onClick={handleModalMore}>
-						<AiOutlineCloseCircle />
-					</CloseCTA>
-				</MoreOptionsModal>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
@@ -339,26 +359,55 @@ const SpinnerContainer = styled.div`
 	transform: translate(-50%, -50%);
 `
 
-const MoreOptionsModal = styled.span`
+const MoreOptions = styled.span`
+	position: relative;
 	z-index: 100;
-	position: absolute;
-	top: 50%;
-	left: 90%;
-	transform: translate(-50%, -50%);
-	width: 150px;
-	min-height: 200px;
-	background: #ffffff 0% 0% no-repeat padding-box;
-	border-radius: 20px;
-	transition: all 0.5s;
-	padding: 35px 20px 20px 20px;
+	width: 100%;
+	padding: 10px;
 	display: ${(props) => (props.open ? 'block' : 'none')};
-	box-shadow: 0px 4px 30px #0000004e;
+`
+
+const SpecialRequest = styled.button`
+	cursor: ${(props) =>
+		props.selectionable === 'true' ? 'pointer' : 'not-allowed'};
+	font: 400 16px Poppins;
+	width: 160px;
+	height: 48px;
+	border: none;
+	border-radius: 8px;
+	color: ${(props) => (props.specialrequest >= 1 ? '#799283' : '#212121')};
+	background-color: ${(props) =>
+		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
+	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
+`
+
+const OptionsButton = styled(SpecialRequest)`
+	display: block;
+	cursor: pointer;
+	font: 400 16px Poppins;
+	width: 100px;
+	height: 38px;
+	border: none;
+	border-radius: 8px;
+	margin: ${(props) =>
+		props.button_type === 'edit' ? '10px auto 0 auto' : 'auto'};
+	color: ${(props) => (props.button_type === 'edit' ? '#f7a32e' : '#e23428')};
+	background-color: ${(props) =>
+		props.button_type === 'edit' ? '#fdebd1' : '#ffedec'};
+	transition: 0.3s all;
+	&:hover {
+		color: ${(props) =>
+			props.button_type === 'edit' ? '#fdebd1' : '#ffedec'};
+		background-color: ${(props) =>
+			props.button_type === 'edit' ? '#f7a32e' : '#e23428'};
+	}
 `
 
 const CloseCTA = styled.button`
+	cursor: pointer;
 	position: absolute;
-	right: 5px;
-	top: 5px;
+	right: 10px;
+	top: 0px;
 	font-size: 25px;
 	border: none;
 	background-color: transparent;
@@ -497,35 +546,6 @@ const Status = styled.button`
 			? '#FF9C3A'
 			: 'transparent'};
 	&:hover {
-	}
-`
-
-const SpecialRequest = styled.button`
-	cursor: ${(props) =>
-		props.selectionable === 'true' ? 'pointer' : 'not-allowed'};
-	font: 400 16px Poppins;
-	width: 160px;
-	height: 48px;
-	border: none;
-	border-radius: 8px;
-	color: ${(props) => (props.specialrequest >= 1 ? '#799283' : '#212121')};
-	background-color: ${(props) =>
-		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
-	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
-`
-
-const OptionsButton = styled(SpecialRequest)`
-	font: 400 16px Poppins;
-	width: 110px;
-	height: 48px;
-	border: none;
-	border-radius: 8px;
-	color: #e23428;
-	background-color: #ffedec;
-	transition: 0.3s all;
-	&:hover {
-		color: #ffedec;
-		background-color: #e23428;
 	}
 `
 
