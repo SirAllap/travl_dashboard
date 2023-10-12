@@ -30,7 +30,7 @@ const Rooms = (props) => {
 	const [spinner, setSpinner] = useState(true)
 	const [deleteSpinner, setDeleteSpinner] = useState(false)
 	const [displayData, setDisplayData] = useState([])
-	const [toggleModal, setToggleModal] = useState(false)
+	const [toggleMoreOptions, setToggleMoreOptions] = useState(false)
 	const [currentId, setCurrentId] = useState('')
 
 	useEffect(() => {
@@ -60,12 +60,11 @@ const Rooms = (props) => {
 		deleteRoomCurrentStatus,
 	])
 
-	const handleModalMore = (id) => {
-		if (!toggleModal) {
-			setToggleModal(true)
-		} else {
-			setToggleModal(false)
-		}
+	const handleMoreOptions = (id) => {
+		setToggleMoreOptions((prevToggleMoreOptions) => ({
+			...prevToggleMoreOptions,
+			[id]: !prevToggleMoreOptions[id],
+		}))
 		setCurrentId(id)
 	}
 
@@ -185,10 +184,40 @@ const Rooms = (props) => {
 					<>
 						<BsThreeDotsVertical
 							onClick={() => {
-								handleModalMore(id)
+								handleMoreOptions(id)
 							}}
-							style={{ fontSize: '30px', cursor: 'pointer' }}
+							style={{
+								fontSize: '30px',
+								cursor: 'pointer',
+								display: toggleMoreOptions[id]
+									? 'none'
+									: 'inline-block',
+							}}
 						/>
+						<MoreOptions open={toggleMoreOptions[id]}>
+							<OptionsButton
+								onClick={() => {
+									handleDelete()
+								}}
+							>
+								DELETE
+							</OptionsButton>
+							<OptionsButton
+								button_type='edit'
+								onClick={() => {
+									handleEdition()
+								}}
+							>
+								EDIT
+							</OptionsButton>
+							<CloseCTA
+								onClick={() => {
+									handleMoreOptions(id)
+								}}
+							>
+								<AiOutlineCloseCircle />
+							</CloseCTA>
+						</MoreOptions>
 					</>
 				)
 			},
@@ -241,25 +270,16 @@ const Rooms = (props) => {
 
 	const handleDelete = () => {
 		dispatch(deleteRoom(currentId))
-		setToggleModal(false)
+		setToggleMoreOptions(false)
+	}
+
+	const handleEdition = () => {
+		console.log('ill be the one who edit')
 	}
 
 	return (
 		<>
 			<MainContainer toggle={state.position}>
-				<MoreOptionsModal open={toggleModal}>
-					<OptionsButton
-						onClick={() => {
-							handleDelete()
-						}}
-					>
-						DELETE
-					</OptionsButton>
-					<CloseCTA onClick={handleModalMore}>
-						<AiOutlineCloseCircle />
-					</CloseCTA>
-				</MoreOptionsModal>
-
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
@@ -367,20 +387,15 @@ const SpinnerContainer = styled.div`
 	transform: translate(-50%, -50%);
 `
 
-const MoreOptionsModal = styled.span`
+const MoreOptions = styled.span`
+	position: relative;
 	z-index: 100;
-	position: absolute;
-	top: 50%;
-	left: 90%;
-	transform: translate(-50%, -50%);
-	width: 150px;
-	min-height: 200px;
+	width: 100%;
 	background: #ffffff 0% 0% no-repeat padding-box;
 	border-radius: 20px;
 	transition: all 0.5s;
 	padding: 35px 20px 20px 20px;
 	display: ${(props) => (props.open ? 'block' : 'none')};
-	box-shadow: 0px 4px 30px #0000004e;
 `
 
 const SpecialRequest = styled.button`
@@ -398,24 +413,31 @@ const SpecialRequest = styled.button`
 `
 
 const OptionsButton = styled(SpecialRequest)`
+	cursor: pointer;
 	font: 400 16px Poppins;
 	width: 110px;
 	height: 48px;
 	border: none;
 	border-radius: 8px;
-	color: #e23428;
-	background-color: #ffedec;
+	margin-top: ${(props) => props.button_type === 'edit' && '10px'};
+	color: ${(props) => (props.button_type === 'edit' ? '#f7a32e' : '#e23428')};
+	background-color: ${(props) =>
+		props.button_type === 'edit' ? '#fdebd1' : '#ffedec'};
 	transition: 0.3s all;
 	&:hover {
-		color: #ffedec;
-		background-color: #e23428;
+		color: ${(props) =>
+			props.button_type === 'edit' ? '#fdebd1' : '#ffedec'};
+		background-color: ${(props) =>
+			props.button_type === 'edit' ? '#f7a32e' : '#e23428'};
 	}
 `
 
 const CloseCTA = styled.button`
+	cursor: pointer;
 	position: absolute;
-	right: 5px;
-	top: 5px;
+	left: 50%;
+	top: 0px;
+	transform: translate(-50%, -50%);
 	font-size: 25px;
 	border: none;
 	background-color: transparent;
