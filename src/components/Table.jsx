@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { Triangle } from 'react-loader-spinner'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const Table = (props) => {
 	const [filterToApply, setFilterToApply] = useState({})
 	const [noMoreData, setNoMoreData] = useState(false)
+	const [tableSmoothAnimation] = useAutoAnimate()
 	let property = 'all'
 	let value = ''
 
@@ -65,7 +67,10 @@ const Table = (props) => {
 					)}
 				</SpinnerContainer>
 
-				<TableAllRowsContainer whoami={props.whoAmI.name}>
+				<TableAllRowsContainer
+					ref={tableSmoothAnimation}
+					whoami={props.whoAmI.name}
+				>
 					{property === 'all'
 						? props.datas.map((filteredRow, index) =>
 								displayRow(filteredRow, index)
