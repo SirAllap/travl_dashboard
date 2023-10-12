@@ -256,10 +256,6 @@ const TableSingleRowContainer = styled.div`
 					&:hover {
 						box-shadow: 0px 4px 30px #0000001a;
 					}
-					:nth-child(7) {
-						text-align: justify;
-						padding: 20px 5px 20px 5px;
-					}
 				`
 			case 'bookings':
 				return css`
@@ -274,9 +270,6 @@ const TableSingleRowContainer = styled.div`
 					&:hover {
 						box-shadow: 0px 4px 30px #0000001a;
 					}
-					:nth-child(15) {
-						width: 12%;
-					}
 				`
 			case 'rooms':
 				return css`
@@ -290,9 +283,6 @@ const TableSingleRowContainer = styled.div`
 					transition: 0.3s all;
 					&:hover {
 						box-shadow: 0px 4px 30px #0000001a;
-					}
-					:nth-child(13) {
-						width: 12%;
 					}
 				`
 			default:

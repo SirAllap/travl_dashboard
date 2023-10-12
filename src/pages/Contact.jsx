@@ -61,9 +61,9 @@ const Contact = () => {
 			label: 'Date',
 			display: ({ date, dateTime, id }) => (
 				<>
-					<TextFormatter name='name'>{date}</TextFormatter>
-					<TextFormatter small='small'>{dateTime}</TextFormatter>
-					<TextFormatter small='small'>#{id}</TextFormatter>
+					<TextFormatter text_type='name'>{date}</TextFormatter>
+					<TextFormatter text_type='small'>{dateTime}</TextFormatter>
+					<TextFormatter text_type='small'>#{id}</TextFormatter>
 				</>
 			),
 		},
@@ -78,6 +78,13 @@ const Contact = () => {
 		{
 			property: 'review_body',
 			label: 'Comment',
+			display: ({ review_body }) => (
+				<>
+					<TextFormatter text_type='comment'>
+						{review_body}
+					</TextFormatter>
+				</>
+			),
 		},
 		{
 			property: 'isArchived',
@@ -308,11 +315,14 @@ const Tabs = styled.div`
 `
 
 const TextFormatter = styled.span`
+	text-align: ${(props) =>
+		props.text_type === 'comment' && 'justify !important'};
+	padding: ${(props) => props.text_type === 'comment' && '10px'};
 	display: block;
 	text-align: center;
-	color: ${(props) => (props.small === 'small' ? '#799283' : '#393939')};
+	color: ${(props) => (props.text_type === 'small' ? '#799283' : '#393939')};
 	font: ${(props) =>
-		props.small === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
+		props.text_type === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
 `
 
 const Status = styled.button`

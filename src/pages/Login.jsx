@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import logo from '../assets/logo_dashboard.png'
-import { FiCopy } from 'react-icons/fi'
 import { authenticationContext } from '../context/authenticationContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -43,11 +42,6 @@ const Login = () => {
 			alert('You introduce wrong credentials')
 		}
 	}
-
-	const copyAdmin = 'Admin'
-	const copyAdminPass = 'oxygen'
-	const copyUser = 'David'
-	const copyUserPass = 'travl'
 
 	const [quick, setQuick] = useState(false)
 	const quickLogin = () => {
@@ -169,22 +163,5 @@ const CTAXtra = styled(CTA)`
 		color: #ffffff;
 		background-color: #8400ff7a;
 		outline: none;
-	}
-`
-
-const Credentials = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-	width: fit-content;
-	max-height: fit-content;
-`
-const LoginHardCodeAuth = styled.p`
-	font: normal normal 500 22px Poppins;
-	color: #135846;
-	margin-left: 40px;
-	padding-bottom: 20px;
-	&:nth-child(2) {
-		margin-bottom: 60px;
 	}
 `
