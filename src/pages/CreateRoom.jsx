@@ -71,13 +71,13 @@ const CreateRoom = (props) => {
 	}
 
 	const [newRoomAmenities, setNewRoomAmenities] = useState([])
+	const [newRoomAmenitiesType, setNewRoomAmenitiesType] = useState([])
 	const handleNewRoomAmenities = (event) => {
 		switch (event.target.value) {
 			case 'basic':
+				setNewRoomAmenitiesType('basic')
 				setNewRoomAmenities([
 					{ name: '1/3 Bed Space', description: 'Cozy bed area' },
-					{ name: 'Free Wifi', description: 'Complimentary Wi-Fi' },
-					{ name: 'Air Conditioner', description: 'Climate control' },
 					{ name: 'Television', description: 'Flat-screen TV' },
 					{ name: 'Towels', description: 'Fresh towels provided' },
 					{
@@ -87,6 +87,7 @@ const CreateRoom = (props) => {
 				])
 				break
 			case 'midrange':
+				setNewRoomAmenitiesType('midrange')
 				setNewRoomAmenities([
 					{
 						name: '1/2 Bathroom',
@@ -106,6 +107,7 @@ const CreateRoom = (props) => {
 				])
 				break
 			case 'full':
+				setNewRoomAmenitiesType('full')
 				setNewRoomAmenities([
 					{ name: '1/3 Bed Space', description: 'Spacious bed area' },
 					{
@@ -134,6 +136,7 @@ const CreateRoom = (props) => {
 				])
 				break
 			case 'premium':
+				setNewRoomAmenitiesType('premium')
 				setNewRoomAmenities([
 					{ name: '1/3 Bed Space', description: 'Spacious bed area' },
 					{
@@ -183,6 +186,7 @@ const CreateRoom = (props) => {
 			],
 			room_type: newRoomType,
 			description: newRoomDescription,
+			amenities_type: newRoomAmenitiesType,
 			amenities: newRoomAmenities,
 			price: newRoomPrice,
 			offer_price: newRoomOffer === 'true' ? true : false,
