@@ -64,17 +64,23 @@ const Login = () => {
 			<LoginContainer>
 				<LoginInputLable>User</LoginInputLable>
 				<LoginInput
+					data-cy='input-user'
 					defaultValue={quick ? 'Admin' : ''}
 					onChange={(e) => setUserName(e.target.value)}
 				/>
 				<LoginInputLable>Password</LoginInputLable>
 				<LoginInput
+					data-cy='input-password'
 					defaultValue={quick ? 'oxygen' : ''}
 					type='password'
 					onChange={(e) => setUserPassword(e.target.value)}
 				/>
-				<CTAXtra onClick={quickLogin}>XtraQuick - LOGIN</CTAXtra>
-				<CTA onClick={authUser}>Log in</CTA>
+				<CTAXtra onClick={quickLogin} data-cy='xtraquick-login-button'>
+					XtraQuick - LOGIN
+				</CTAXtra>
+				<CTA data-cy='trigger-login-button' onClick={authUser}>
+					Log in
+				</CTA>
 			</LoginContainer>
 			<Credentials>
 				<LoginHardCodeAuth>

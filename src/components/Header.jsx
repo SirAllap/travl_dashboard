@@ -110,6 +110,7 @@ const Header = () => {
 						<VerticalDivider />
 						<IconStyle logout='logout'>
 							<HiOutlineLogout
+								data-cy='icon-trigger-logout'
 								color='#E23428'
 								onClick={handleLogOut}
 							/>

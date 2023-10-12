@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { Triangle } from 'react-loader-spinner'
-import { useAutoAnimate } from '@formkit/auto-animate/react'
+// import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const Table = (props) => {
 	const [filterToApply, setFilterToApply] = useState({})
 	const [noMoreData, setNoMoreData] = useState(false)
-	const [tableSmoothAnimation] = useAutoAnimate()
+	// const [tableSmoothAnimation] = useAutoAnimate()
 	let property = 'all'
 	let value = ''
 
@@ -68,7 +68,7 @@ const Table = (props) => {
 				</SpinnerContainer>
 
 				<TableAllRowsContainer
-					ref={tableSmoothAnimation}
+					// ref={tableSmoothAnimation}
 					whoami={props.whoAmI.name}
 				>
 					{property === 'all'
@@ -102,91 +102,90 @@ const TableHeadContainer = styled.div`
 	border-radius: 20px 20px 0 0;
 `
 
-// const TableHeadLabel = styled.div`
-// 	display: flex;
-// 	flex-direction: row;
-// 	align-items: center;
-// 	width: 100%;
-// 	height: 65px;
-// 	border-bottom: 2px solid #f5f5f5;
-// 	p {
-// 		width: calc(1494px / 5);
-// 		font: 600 18px Poppins;
-// 		color: #393939;
-// 		&:last-child {
-// 			margin-right: 10px;
+// ${(props) => {
+// 		switch (props.whoami) {
+// 			case 'bookings':
+// 				return css`
+// 					display: flex;
+// 					flex-direction: row;
+// 					align-items: center;
+// 					width: 100%;
+// 					height: 65px;
+// 					border-bottom: 2px solid #f5f5f5;
+// 					p {
+// 						width: calc(1494px / 5);
+// 						width: 300px;
+// 						font: 600 18px Poppins;
+// 						color: #393939;
+// 						&:last-child {
+// 							margin-right: 10px;
+// 						}
+// 					}
+// 					/* :last-child {
+// 						width: 12%;
+// 					} */
+// 				`
+// 			case 'rooms':
+// 				return css`
+// 					display: flex;
+// 					flex-direction: row;
+// 					align-items: center;
+// 					width: 100%;
+// 					height: 65px;
+// 					border-bottom: 2px solid #f5f5f5;
+// 					p {
+// 						width: calc(1494px / 5);
+// 						font: 600 18px Poppins;
+// 						color: #393939;
+// 						&:last-child {
+// 							margin-right: 10px;
+// 						}
+// 					}
+// 					/* :last-child {
+// 						width: 12%;
+// 					} */
+// 				`
+// 			default:
+// 				return css`
+// 					display: flex;
+// 					flex-direction: row;
+// 					align-items: center;
+// 					width: 100%;
+// 					height: 65px;
+// 					border-bottom: 2px solid #f5f5f5;
+// 					p {
+// 						width: ${(props) =>
+// 							props.whoami === 'contact'
+// 								? 'calc(1494px / 4)'
+// 								: 'calc(1494px / 5)'};
+// 						font: 600 18px Poppins;
+// 						color: #393939;
+// 						&:last-child {
+// 							margin-right: 10px;
+// 						}
+// 					}
+// 				`
 // 		}
-// 	}
-// 	:last-child {
-// 		width: 12%;
-// 	}
-// `
+// 	}}
 
 const TableHeadLabel = styled.div`
-	${(props) => {
-		switch (props.whoami) {
-			case 'bookings':
-				return css`
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					width: 100%;
-					height: 65px;
-					border-bottom: 2px solid #f5f5f5;
-					p {
-						width: calc(1494px / 5);
-						font: 600 18px Poppins;
-						color: #393939;
-						&:last-child {
-							margin-right: 10px;
-						}
-					}
-					:last-child {
-						width: 12%;
-					}
-				`
-			case 'rooms':
-				return css`
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					width: 100%;
-					height: 65px;
-					border-bottom: 2px solid #f5f5f5;
-					p {
-						width: calc(1494px / 5);
-						font: 600 18px Poppins;
-						color: #393939;
-						&:last-child {
-							margin-right: 10px;
-						}
-					}
-					:last-child {
-						width: 12%;
-					}
-				`
-			default:
-				return css`
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					width: 100%;
-					height: 65px;
-					border-bottom: 2px solid #f5f5f5;
-					p {
-						width: ${(props) =>
-							props.whoami === 'contact'
-								? 'calc(1494px / 4)'
-								: 'calc(1494px / 5)'};
-						font: 600 18px Poppins;
-						color: #393939;
-						&:last-child {
-							margin-right: 10px;
-						}
-					}
-				`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: 65px;
+	border-bottom: 2px solid #f5f5f5;
+	p {
+		width: ${(props) =>
+			props.whoami === 'contact'
+				? 'calc(1494px / 4)'
+				: 'calc(1494px / 5)'};
+		font: 600 18px Poppins;
+		color: #393939;
+		&:last-child {
+			margin-right: 10px;
 		}
-	}}
+	}
 `
 
 const TableAllRowsContainer = styled.div`
@@ -258,8 +257,8 @@ const TableSingleRowContainer = styled.div`
 						box-shadow: 0px 4px 30px #0000001a;
 					}
 					:nth-child(7) {
-						padding: 20px 5px 20px 5px;
 						text-align: justify;
+						padding: 20px 5px 20px 5px;
 					}
 				`
 			case 'bookings':
