@@ -31,6 +31,8 @@ const Header = () => {
 		setCurrentTitle(stateBread.headerTitle)
 		if (location.pathname.startsWith('/bookings/')) {
 			setCurrentBreadCrumb(stateBread.bookingBreadCrumb)
+		} else if (location.pathname === '/rooms/edit-room/') {
+			setCurrentBreadCrumb(stateBread.roomEditioBreadCrumb)
 		} else if (location.pathname === '/rooms/create-room') {
 			setCurrentBreadCrumb('Rooms/Create New Room')
 		} else if (location.pathname === '/users/create-employee') {
@@ -70,6 +72,7 @@ const Header = () => {
 		stateBread.roomBreadCrumb,
 		stateBread.headerTitle,
 		stateBread.bookingBreadCrumb,
+		stateBread.roomEditioBreadCrumb,
 	])
 
 	if (authState.auth)
