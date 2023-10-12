@@ -23,6 +23,7 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
+		"cypress:open": "cypress open",
 		"plus-build": "react-scripts build && aws s3 sync build/ s3://hotelmiranda-dashboard --delete --profile sirallap",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
@@ -49,6 +50,8 @@
 		]
 	},
 	"devDependencies": {
+		"cypress": "^13.3.1",
+		"eslint-plugin-cypress": "^2.15.1",
 		"gh-pages": "^6.0.0"
 	}
 }
