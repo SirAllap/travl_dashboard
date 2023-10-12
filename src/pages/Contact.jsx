@@ -70,6 +70,13 @@ const Contact = () => {
 		{
 			property: 'full_name',
 			label: 'Customer',
+			display: ({ full_name }) => (
+				<>
+					<TextFormatter text_type='customer-name'>
+						{full_name}
+					</TextFormatter>
+				</>
+			),
 		},
 		{
 			property: 'subject_of_review',
@@ -278,7 +285,8 @@ const MainContainer = styled.main`
 
 const TopTableContainer = styled.div`
 	min-width: 100%;
-	max-height: 20px;
+	margin-top: 20px;
+	max-height: 40px;
 `
 
 const TableTabsContainer = styled.div`
@@ -317,12 +325,18 @@ const Tabs = styled.div`
 const TextFormatter = styled.span`
 	text-align: ${(props) =>
 		props.text_type === 'comment' && 'justify !important'};
-	padding: ${(props) => props.text_type === 'comment' && '10px'};
+	padding: ${(props) =>
+		props.text_type === 'comment' && '15px 10px 15px 10px'};
 	display: block;
 	text-align: center;
 	color: ${(props) => (props.text_type === 'small' ? '#799283' : '#393939')};
 	font: ${(props) =>
-		props.text_type === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
+		props.text_type === 'small'
+			? '300 13px Poppins'
+			: props.text_type === 'customer-name'
+			? '600 18px Poppins'
+			: '500 16px Poppins'};
+	margin: 10px;
 `
 
 const Status = styled.button`
@@ -350,14 +364,14 @@ const CustomerReviewContainer = styled.div`
 	box-shadow: 0px 4px 4px #00000005;
 	margin-top: 40px;
 	text-align: center;
-	height: 200px;
+	height: 160px;
 	min-width: 1494px;
 `
 
 const CustomerReviewCard = styled.div`
 	position: relative;
 	width: 431px;
-	height: 180px;
+	height: 140px;
 	background-color: #fff;
 	border: 1px solid #ebebeb;
 	border-radius: 20px;
@@ -391,6 +405,10 @@ const CustomerCardText = styled.p`
 					line-height: 28px;
 					color: #4e4e4e;
 					text-align: justify;
+					display: -webkit-box;
+					overflow: hidden;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 3;
 				`
 			case 'cardUserName':
 				return css`
