@@ -8,6 +8,7 @@ const initialState = {
     status: 'idle',
     createRoomStatus: 'idle',
     deleteRoomStatus: 'idle',
+    editionRoomStatus: 'idle',
     error: 'null'
 }
 
@@ -89,3 +90,4 @@ export const singleRoom = state => state.rooms.singleRoomFetch
 export const fetchRoomState = state => state.rooms.status
 export const createRoomState = state => state.rooms.createRoomStatus
 export const deleteRoomStatus = state => state.rooms.deleteRoomStatus
+export const editionRoomStatus = state => state.rooms.editionRoomStatus
