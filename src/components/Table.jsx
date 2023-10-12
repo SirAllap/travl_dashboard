@@ -93,80 +93,15 @@ const TableData = styled.div`
 	min-width: 1494px;
 	max-width: 1894px;
 	height: ${(props) => (props.whoami === 'contact' ? '550px' : '670px')};
-	margin-top: 30px;
+	margin: 30px auto 0 auto;
 	border-radius: 20px 20px 0px 20px;
+	transition: 0.3s all;
 `
 const TableHeadContainer = styled.div`
 	min-width: 100%;
 	height: 65px;
 	border-radius: 20px 20px 0 0;
 `
-
-// ${(props) => {
-// 		switch (props.whoami) {
-// 			case 'bookings':
-// 				return css`
-// 					display: flex;
-// 					flex-direction: row;
-// 					align-items: center;
-// 					width: 100%;
-// 					height: 65px;
-// 					border-bottom: 2px solid #f5f5f5;
-// 					p {
-// 						width: calc(1494px / 5);
-// 						width: 300px;
-// 						font: 600 18px Poppins;
-// 						color: #393939;
-// 						&:last-child {
-// 							margin-right: 10px;
-// 						}
-// 					}
-// 					/* :last-child {
-// 						width: 12%;
-// 					} */
-// 				`
-// 			case 'rooms':
-// 				return css`
-// 					display: flex;
-// 					flex-direction: row;
-// 					align-items: center;
-// 					width: 100%;
-// 					height: 65px;
-// 					border-bottom: 2px solid #f5f5f5;
-// 					p {
-// 						width: calc(1494px / 5);
-// 						font: 600 18px Poppins;
-// 						color: #393939;
-// 						&:last-child {
-// 							margin-right: 10px;
-// 						}
-// 					}
-// 					/* :last-child {
-// 						width: 12%;
-// 					} */
-// 				`
-// 			default:
-// 				return css`
-// 					display: flex;
-// 					flex-direction: row;
-// 					align-items: center;
-// 					width: 100%;
-// 					height: 65px;
-// 					border-bottom: 2px solid #f5f5f5;
-// 					p {
-// 						width: ${(props) =>
-// 							props.whoami === 'contact'
-// 								? 'calc(1494px / 4)'
-// 								: 'calc(1494px / 5)'};
-// 						font: 600 18px Poppins;
-// 						color: #393939;
-// 						&:last-child {
-// 							margin-right: 10px;
-// 						}
-// 					}
-// 				`
-// 		}
-// 	}}
 
 const TableHeadLabel = styled.div`
 	display: flex;
@@ -245,41 +180,13 @@ const TableSingleRowContainer = styled.div`
 		switch (props.whoami) {
 			case 'contact':
 				return css`
-					border-bottom: 3px solid #f5f5f5;
+					border-bottom: 2px solid #f5f5f5;
 					display: flex;
 					flex-direction: row;
 					align-items: center;
 					width: 100%;
 					margin: 0;
 					height: auto;
-					transition: 0.3s all;
-					&:hover {
-						box-shadow: 0px 4px 30px #0000001a;
-					}
-				`
-			case 'bookings':
-				return css`
-					border-bottom: 1px solid #f5f5f5;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					width: 100%;
-					margin: 0;
-					height: 121px;
-					transition: 0.3s all;
-					&:hover {
-						box-shadow: 0px 4px 30px #0000001a;
-					}
-				`
-			case 'rooms':
-				return css`
-					border-bottom: 1px solid #f5f5f5;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					width: 100%;
-					margin: 0;
-					height: 250px;
 					transition: 0.3s all;
 					&:hover {
 						box-shadow: 0px 4px 30px #0000001a;
