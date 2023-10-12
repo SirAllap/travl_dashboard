@@ -10,6 +10,7 @@
 		],
 		"room_type": "Double Superior",
 		"description": "Indulge in the ultimate luxury and comfort of our Double Superior room. Immerse yourself in the tranquility of this generously sized and tastefully designed space, ensuring your stay is marked by sheer relaxation and unparalleled convenience. Adorned with a contemporary and chic decor, it creates a peaceful sanctuary amidst the bustling city.",
+		"amenities_type": "full",
 		"amenities": [
 			{ "name": "1/3 Bed Space", "description": "Spacious bed area" },
 			{
@@ -49,10 +50,9 @@
 		],
 		"room_type": "Single Bed",
 		"description": "Discover pure opulence and serenity within our Double Superior room. This expansive and exquisitely furnished accommodation is meticulously crafted to provide you with the highest levels of comfort and convenience throughout your stay. Featuring a sleek and modern design, it offers a serene escape right in the heart of the urban landscape.",
+		"amenities_type": "basic",
 		"amenities": [
 			{ "name": "1/3 Bed Space", "description": "Cozy bed area" },
-			{ "name": "Free Wifi", "description": "Complimentary Wi-Fi" },
-			{ "name": "Air Conditioner", "description": "Climate control" },
 			{ "name": "Television", "description": "Flat-screen TV" },
 			{ "name": "Towels", "description": "Fresh towels provided" },
 			{
@@ -76,6 +76,7 @@
 		],
 		"room_type": "Suite",
 		"description": "Embrace the pinnacle of lavishness and ease within our Double Superior room. This generously proportioned, elegantly designed space is dedicated to ensuring your stay is an experience of sheer relaxation and effortless convenience. With its contemporary and stylish aesthetics, it provides a tranquil retreat in the heart of the vibrant city.",
+		"amenities_type": "premium",
 		"amenities": [
 			{ "name": "1/3 Bed Space", "description": "Spacious bed area" },
 			{
@@ -117,6 +118,7 @@
 		],
 		"room_type": "Double Bed",
 		"description": "Immerse yourself in a world of luxury and ease within our Double Superior room. This spacious and beautifully appointed accommodation is meticulously curated to offer you the ultimate in relaxation and convenience during your stay. Featuring a modern and tasteful decor, it serves as a peaceful haven amidst the city's hustle and bustle.",
+		"amenities_type": "midrange",
 		"amenities": [
 			{ "name": "1/2 Bathroom", "description": "Private half bathroom" },
 			{ "name": "Air Conditioner", "description": "Climate control" },
@@ -144,6 +146,7 @@
 		],
 		"room_type": "Double Superior",
 		"description": "Step into a realm of pure luxury and comfort in our Double Superior room. This generously sized and elegantly designed space is dedicated to providing you with the utmost relaxation and convenience during your stay. Adorned with contemporary and stylish decor, it offers a serene escape right in the heart of the urban landscape.",
+		"amenities_type": "full",
 		"amenities": [
 			{ "name": "1/3 Bed Space", "description": "Spacious bed area" },
 			{
@@ -183,6 +186,7 @@
 		],
 		"room_type": "Double Bed",
 		"description": "Step into a realm of pure luxury and comfort in our Double Superior room. This generously sized and elegantly designed space is dedicated to providing you with the utmost relaxation and convenience during your stay. Adorned with contemporary and stylish decor, it offers a serene escape right in the heart of the urban landscape.",
+		"amenities_type": "midrange",
 		"amenities": [
 			{ "name": "1/2 Bathroom", "description": "Private half bathroom" },
 			{ "name": "Air Conditioner", "description": "Climate control" },
@@ -210,6 +214,7 @@
 		],
 		"room_type": "Suite",
 		"description": "Experience the epitome of opulence and comfort within our Double Superior room. This spacious, beautifully appointed haven is thoughtfully designed to ensure your stay is a blend of relaxation and convenience. Adorned with modern and chic decor, it provides a tranquil oasis at the heart of the city.",
+		"amenities_type": "premium",
 		"amenities": [
 			{ "name": "1/3 Bed Space", "description": "Spacious bed area" },
 			{
@@ -251,10 +256,9 @@
 		],
 		"room_type": "Single Bed",
 		"description": "Unwind in sheer luxury and convenience in our Double Superior room. This generously proportioned, elegantly designed space is your haven for ultimate relaxation during your stay. Featuring contemporary and stylish decor, it offers a serene retreat amidst the city's vibrant energy.",
+		"amenities_type": "basic",
 		"amenities": [
 			{ "name": "1/3 Bed Space", "description": "Cozy bed area" },
-			{ "name": "Free Wifi", "description": "Complimentary Wi-Fi" },
-			{ "name": "Air Conditioner", "description": "Climate control" },
 			{ "name": "Television", "description": "Flat-screen TV" },
 			{ "name": "Towels", "description": "Fresh towels provided" },
 			{
@@ -278,6 +282,7 @@
 		],
 		"room_type": "Double Superior",
 		"description": "Savor the pinnacle of luxury and comfort within our Double Superior room. This spacious and exquisitely furnished retreat is meticulously crafted to ensure your stay is defined by relaxation and convenience. With a modern and stylish ambiance, it offers a peaceful escape in the heart of the bustling city.",
+		"amenities_type": "full",
 		"amenities": [
 			{ "name": "1/3 Bed Space", "description": "Spacious bed area" },
 			{
@@ -317,6 +322,7 @@
 		],
 		"room_type": "Double Bed",
 		"description": "Savor the pinnacle of luxury and comfort within our Double Superior room. This spacious and exquisitely furnished retreat is meticulously crafted to ensure your stay is defined by relaxation and convenience. With a modern and stylish ambiance, it offers a peaceful escape in the heart of the bustling city.",
+		"amenities_type": "midrange",
 		"amenities": [
 			{ "name": "1/2 Bathroom", "description": "Private half bathroom" },
 			{ "name": "Air Conditioner", "description": "Climate control" },
