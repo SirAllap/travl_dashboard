@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import logo1 from '../assets/logo_dashboard1.png'
+import logo from '../assets/logo_dashboard.png'
 import { authenticationContext } from '../context/authenticationContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -54,10 +54,7 @@ const Login = () => {
 		<>
 			<LoginContainer>
 				<LogoSection>
-					<LogoImage
-						src={logo1}
-						alt='a logo of the hotel dashboard'
-					/>
+					<LogoImage src={logo} alt='a logo of the hotel dashboard' />
 				</LogoSection>
 				<LoginInputLable>User</LoginInputLable>
 				<LoginInput
@@ -96,18 +93,18 @@ const LoginContainer = styled.div`
 	border-radius: 8px;
 	background-color: #f8f8f8;
 	width: 500px;
-	height: 640px;
+	height: 620px;
 `
 
 const LogoSection = styled.section`
 	height: fit-content;
 	width: fit-content;
 	text-align: center;
-	margin: 0 auto;
+	margin: 0 auto 50px auto;
 `
 
 const LogoImage = styled.img`
-	width: 180px;
+	width: 400px;
 	object-fit: contain;
 `
 
