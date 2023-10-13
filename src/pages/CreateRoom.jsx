@@ -6,6 +6,7 @@ import { supertoggleContext } from '../context/supertoggleContext'
 import { createOneRoom } from '../features/rooms/roomThunks'
 import { Triangle } from 'react-loader-spinner'
 import { NavLink, useNavigate } from 'react-router-dom'
+import * as color from '../components/Variables'
 
 const CreateRoom = (props) => {
 	const dispatch = useDispatch()
@@ -226,7 +227,7 @@ const CreateRoom = (props) => {
 							<Triangle
 								height='150'
 								width='150'
-								color='#135846'
+								color={color.softer_strongPurple}
 								ariaLabel='triangle-loading'
 								wrapperClassName=''
 								visible={spinner}
@@ -493,18 +494,18 @@ const CTA = styled.button`
 	font: normal normal 600 18px Poppins;
 	position: absolute;
 	left: 0px;
-	top: -63px;
+	top: -40px;
 	width: 138px;
 	height: 33px;
-	background-color: #ffedec;
+	color: ${color.normalPinkie};
+	background-color: ${color.softer_ligthPinkie};
 	border: none;
 	border-radius: 4px;
-	color: #e23428;
 	transition: 0.3s;
 	cursor: pointer;
 	&:hover {
-		color: #fff;
-		background-color: #e23428;
+		color: white;
+		background-color: ${color.normalPinkie};
 	}
 `
 
@@ -534,7 +535,7 @@ const CreateRoomInputLable = styled.label`
 	display: ${(props) => (props.radio === 'radio' ? 'inline' : 'block')};
 	text-align: left;
 	font: normal normal 500 17px Poppins;
-	color: #135846;
+	color: ${color.strongPurple};
 	padding: 15px 0 10px 0;
 `
 
@@ -547,14 +548,18 @@ const CreateRoomInput = styled.input`
 				`
 			default:
 				return css`
+					font: 500 16px Poppins;
 					height: 47px;
 					width: 400px;
 					background-color: #fff;
-					border: 2px solid #ebf1ef;
+					border: 2px solid ${color.ligthPurple};
+					color: ${color.softer_strongPurple};
+					outline: none;
 					border-radius: 8px;
 					padding-left: 15px;
-					font: 500 16px Poppins;
-					color: #135846;
+					&:focus {
+						outline: 2px solid ${color.softer_ligthPurple};
+					}
 				`
 		}
 	}}
@@ -562,38 +567,40 @@ const CreateRoomInput = styled.input`
 
 const Info = styled.p`
 	width: 400px;
-	color: #ff8000ba;
+	color: ${color.normalPinkie};
 	font: 200 11px Poppins;
 	text-align: justify;
 `
 
 const CreateRoomTextArea = styled.textarea`
+	font: 500 16px Poppins;
 	height: 141px;
 	width: 400px;
 	resize: none;
 	background-color: #fff;
-	border: 2px solid #ebf1ef;
+	border: 2px solid ${color.ligthPurple};
+	color: ${color.softer_strongPurple};
+	outline: none;
 	border-radius: 8px;
 	padding-left: 15px;
-	font: 500 16px Poppins;
-	color: #135846;
+	&:focus {
+		outline: 2px solid ${color.softer_ligthPurple};
+	}
 `
 
 const RoomTypeSelector = styled.select`
 	height: 47px;
 	width: 400px;
-	border: 1px solid #135846;
-	font: 500 16px Poppins;
-	color: #135846;
-	border: 2px solid #ebf1ef;
-	border-radius: 8px;
 	background-color: #fff;
-	cursor: pointer;
+	border: 2px solid ${color.ligthPurple};
+	color: ${color.softer_strongPurple};
 	outline: none;
+	font: 500 16px Poppins;
+	border-radius: 8px;
+	cursor: pointer;
 	padding-left: 15px;
-	option {
-		font: 500 16px Poppins;
-		color: #135846;
+	&:focus {
+		outline: 2px solid ${color.softer_ligthPurple};
 	}
 `
 const SaveCTA = styled.button`
@@ -604,35 +611,36 @@ const SaveCTA = styled.button`
 	bottom: 0px;
 	width: 90%;
 	height: 47px;
-	background-color: #ebf1ef;
+	color: ${color.normalPurple};
+	background-color: ${color.softer_ligthPurple};
 	border: none;
 	border-radius: 8px;
-	color: #135846;
 	font: normal normal 600 14px/21px Poppins;
 	margin-top: 16px;
 	cursor: pointer;
 	transition: 0.3s;
 	&:hover {
-		color: #ebf1ef;
-		background-color: #135846;
+		color: white;
+		background-color: ${color.normalPurple};
 	}
 `
 
 const ADDCTA = styled.button`
 	position: absolute;
-	left: 35%;
-	top: 50%;
+	left: 34.4%;
+	top: 54%;
 	border: none;
 	width: 100px;
 	border-radius: 2px;
-	color: #135846;
+	color: ${color.normalPurple};
+	background-color: ${color.softer_ligthPurple};
 	font: normal normal 600 14px/21px Poppins;
 	margin-top: 16px;
 	cursor: pointer;
 	transition: 0.3s;
 	&:hover {
-		color: #ebf1ef;
-		background-color: #135846;
+		color: white;
+		background-color: ${color.normalPurple};
 	}
 `
 
@@ -649,8 +657,8 @@ const MainContainer = styled.main`
 const TitleText = styled.h1`
 	background-color: #fff;
 	border-radius: 20px 20px 0px 0px;
-	border-bottom: 1px dashed #1358464a;
-	color: ${(props) => (props.newroom === 'title' ? '#135846' : '#393939')};
+	border-bottom: 1px dashed ${color.ligthPurple};
+	color: ${color.strongPurple};
 	font: ${(props) =>
 		props.newroom === 'title' ? '600 25px Poppins' : '500 25px Poppins'};
 	text-align: center;

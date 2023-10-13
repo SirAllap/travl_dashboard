@@ -23,10 +23,10 @@ test('Should call the onClick when button is clicked', () => {
 
 test("Should return this #5AD07A color when passing 'Available' as a prop", () => {
     render(<Status data-testid='roomStatus' status={'Available'} />)
-    expect(screen.getByTestId('roomStatus')).toHaveStyle('background-color: #5AD07A')
+    expect(screen.getByTestId('roomStatus')).toHaveStyle('background-color: #532B8D99')
 })
 
 test("Should return this #E23428 color when passing 'Booked' as a prop", () => {
     render(<Status data-testid='roomStatus' status={'Booked'} />)
-    expect(screen.getByTestId('roomStatus')).toHaveStyle('background-color: #E23428')
+    expect(screen.getByTestId('roomStatus')).toHaveStyle('background-color: #F4506E')
 })

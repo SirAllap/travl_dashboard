@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import styled, { css } from 'styled-components'
-import logo from '../assets/logo_dashboard.png'
 import logo1 from '../assets/logo_dashboard1.png'
-import logo2 from '../assets/logo_dashboard2.png'
 import { NavLink } from 'react-router-dom'
 import { LuLayoutDashboard } from 'react-icons/lu'
 import { SlKey } from 'react-icons/sl'
@@ -12,6 +10,7 @@ import { MdOutlineRateReview } from 'react-icons/md'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { supertoggleContext } from '../context/supertoggleContext'
 import { authenticationContext } from '../context/authenticationContext'
+import * as color from './Variables'
 
 const SideBar = () => {
 	const { state } = useContext(supertoggleContext)
@@ -245,7 +244,6 @@ const VerticalDivider = styled.div`
 	visibility: hidden;
 	width: 8px;
 	height: 64px;
-	background-color: #e23428;
 	border-radius: 0 6px 6px 0;
 	position: relative;
 	right: 63px;
@@ -259,14 +257,14 @@ const MenuItems = styled(NavLink)`
 	align-items: center;
 	text-align: right;
 	font-size: 25px;
-	color: #799283;
+	color: ${color.softer_normalGrey};
 	transition: 0.3s;
 	cursor: pointer;
 	&:hover {
-		color: #e2342891;
+		color: ${color.normalPurple};
 		${VerticalDivider} {
 			transition: 0.2s;
-			background-color: #e2342891;
+			background-color: ${color.normalPurple};
 			width: 19px;
 		}
 	}
@@ -280,12 +278,14 @@ const MenuItems = styled(NavLink)`
 		text-decoration: none;
 	}
 	&.active {
-		color: #e23428;
-		:nth-child(1) {
-			visibility: visible;
-		}
+		color: ${color.strongPurple};
 		&:hover {
-			color: #e2342891;
+			color: ${color.strongPurple};
+		}
+		${VerticalDivider} {
+			transition: 0.2s;
+			visibility: visible;
+			background-color: ${color.strongPurple};
 		}
 	}
 `
@@ -319,17 +319,15 @@ const UserCardText = styled.p`
 		switch (props.type) {
 			case 'name':
 				return css`
-          font: normal normal 500 16px Poppins;
-          color: #393939;
-          margin: 15px 0 9px 0;
-		}
-        `
+					font: normal normal 500 16px/1.2 Poppins;
+					color: ${color.strongGrey};
+					margin: 15px 0 9px 0;
+				`
 			default:
 				return css`
-          font: normal normal 300 12px Poppins;
-          color: #B2B2B2;
-		}
-        `
+					font: normal normal 300 12px/1.2 Poppins;
+					color: ${color.softer_normalGrey};
+				`
 		}
 	}}
 `
@@ -337,17 +335,17 @@ const UserCardText = styled.p`
 const UserCardButton = styled.button`
 	width: 158px;
 	height: 47px;
-	background-color: #ebf1ef;
+	background-color: ${color.softer_ligthPinkie};
 	border: none;
 	border-radius: 8px;
-	color: #135846;
+	color: ${color.normalPinkie};
 	font: normal normal 600 14px/21px Poppins;
 	margin-top: 16px;
 	cursor: pointer;
 	transition: 0.3s;
 	&:hover {
-		color: #ebf1ef;
-		background-color: #135846;
+		color: white;
+		background-color: ${color.softer_normalPinkie};
 	}
 `
 
@@ -363,21 +361,21 @@ const SideBarFooterText = styled.p`
 			case 'title':
 				return css`
           font: normal normal 600 16px Poppins;
-          color: #212121;
-          margin: 0 0 5px 0;
+          color: ${color.strongGrey};
+          margin: 0 0 10px 0;
           }
         `
 			case 'copyright':
 				return css`
-          font: normal normal 300 14px Poppins;
-          color: #799283;
-          margin: 0 0 27px 0;
+          font: normal normal 500 14px Poppins;
+          color: ${color.softer_strongGrey};
+          margin: 0 0 7px 0;
           }
         `
 			default:
 				return css`
-          font: normal normal 300 14px Poppins;
-          color: #799283;
+          font: normal normal 500 14px Poppins;
+          color: ${color.softer_normalPinkie};
           }
         `
 		}
@@ -390,8 +388,8 @@ const EditUserModal = styled.div`
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 331px;
-	min-height: 500px;
+	width: 431px;
+	min-height: 550px;
 	background: #ffffff 0% 0% no-repeat padding-box;
 	border-radius: 20px;
 	transition: all 0.5s;
@@ -414,17 +412,17 @@ const SaveCTA = styled.button`
 	bottom: 0px;
 	width: 90%;
 	height: 47px;
-	background-color: #ebf1ef;
+	color: ${color.normalPinkie};
+	background-color: ${color.ligthPinkie};
 	border: none;
 	border-radius: 8px;
-	color: #135846;
 	font: normal normal 600 14px/21px Poppins;
 	margin-top: 16px;
 	cursor: pointer;
 	transition: 0.3s;
 	&:hover {
-		color: #ebf1ef;
-		background-color: #135846;
+		color: white;
+		background-color: ${color.softer_normalPinkie};
 	}
 `
 
@@ -435,7 +433,7 @@ const UserCardProfilePictureModal = styled(UserCardProfilePictureVoid)`
 	left: 50%;
 	margin-right: -50%;
 	transform: translate(-50%, -50%);
-	bottom: 65px;
+	bottom: 85px;
 	&:hover {
 		opacity: 0.8;
 	}
@@ -448,8 +446,10 @@ const CloseCTA = styled.button`
 	font-size: 25px;
 	border: none;
 	background-color: transparent;
+	color: ${color.normalGrey};
+	transition: 0.3s all;
 	&:hover {
-		color: red;
+		color: ${color.normalPinkie};
 	}
 `
 
@@ -457,49 +457,54 @@ const InputFile = styled.input`
 	position: absolute;
 	left: 50%;
 	margin-right: -50%;
-	top: 80%;
+	top: 76%;
 	transform: translate(-50%, -50%);
-	max-width: 54.4%;
-	color: #135846;
+	max-width: 42.2%;
 	transition: 0.3s;
 	color: #444;
 	background: #fff;
 	&::file-selector-button {
 		font: normal normal 500 14px Poppins;
 		border: none;
-		background: #135846;
+		color: white;
+		background-color: ${color.softer_normalPurple};
 		padding: 10px 20px;
 		border-radius: 8px;
-		color: #fff;
 		cursor: pointer;
 		transition: background 0.2s ease-in-out;
 	}
 	&::file-selector-button:hover {
-		background: #ebf1ef;
-		color: #135846;
+		color: ${color.normalPurple};
+		background-color: ${color.ligthPurple};
 	}
 `
 
 const Input = styled(InputFile)`
-	top: ${(props) => (props.type === 'email' ? '35%' : '15%')};
+	top: ${(props) => (props.type === 'email' ? '37%' : '15%')};
 	height: 47px;
-	width: 350px;
+	width: 100%;
 	max-width: 90%;
-	background-color: #ebf1ef;
-	border: none;
+	background-color: #fff;
+	border: 2px solid ${color.ligthPurple};
+	color: ${color.strongPurple};
+	outline: none;
+	font: normal normal 500 14px Poppins;
 	border-radius: 8px;
-	padding: 20px;
+	padding: 15px;
 	margin-top: 16px;
+	&:focus {
+		outline: 2px solid ${color.softer_ligthPurple};
+	}
 `
 
 const EditUserInputLable = styled.label`
 	position: absolute;
-	left: 3%;
+	left: 2%;
 	margin-right: -50%;
-	top: ${(props) => (props.type === 'email' ? '30%' : '10%')};
+	top: ${(props) => (props.type === 'email' ? '32%' : '10%')};
 	transform: translate(-50%, -50%);
-	font: normal normal 500 17px Poppins;
+	font: normal normal 600 17px Poppins;
 	display: block;
-	color: #135846;
+	color: ${color.strongPurple};
 	margin-left: 40px;
 `

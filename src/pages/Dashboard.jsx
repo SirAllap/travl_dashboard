@@ -24,6 +24,7 @@ import {
 	fetchInitialContacts,
 } from '../features/contact/contactThunks'
 import { Triangle } from 'react-loader-spinner'
+import * as color from '../components/Variables'
 
 const Dashboard = (props) => {
 	const dispatch = useDispatch()
@@ -103,7 +104,7 @@ const Dashboard = (props) => {
 									<Triangle
 										height='150'
 										width='150'
-										color='red'
+										color={color.normalPinkie}
 										ariaLabel='triangle-loading'
 										wrapperClassName=''
 										visible={archiveSpinner}
@@ -210,7 +211,7 @@ const Dashboard = (props) => {
 							<Triangle
 								height='150'
 								width='150'
-								color='#135846'
+								color={color.softer_strongPurple}
 								ariaLabel='triangle-loading'
 								wrapperClassName=''
 								visible={spinner}
@@ -279,13 +280,14 @@ const Dashboard = (props) => {
 													type={{
 														text: 'cardReadChecker',
 													}}
+													read={elem.isArchived}
 												>
 													{elem.isArchived ===
 													'true' ? (
 														<FaRegEnvelopeOpen
-															style={{
-																color: 'green',
-															}}
+														// style={{
+														// 	color: `${color.normalOrange}`,
+														// }}
 														/>
 													) : (
 														<FaRegEnvelope />
@@ -345,7 +347,7 @@ const KPICardInfo = styled.div`
 	box-shadow: 0px 4px 4px #00000005;
 	transition: 0.3s;
 	&:hover .icon-square {
-		background-color: #e23428;
+		background-color: ${color.normalPinkie};
 		color: #fff;
 		transform: scale(1.1);
 	}
@@ -376,28 +378,27 @@ const KPITextContaind = styled.div`
 const KPICardIcon = styled.div`
 	width: 65px;
 	height: 65px;
-	background-color: #ffedec;
+	background-color: ${color.softer_ligthPinkie};
 	border-radius: 8px;
 	font-size: 35px;
 	padding: 15px;
 	transition: 0.3s;
-	color: #e23428;
+	color: ${color.normalPinkie};
 `
+
 const CardText = styled.p`
 	${(props) => {
 		switch (props.type) {
 			case 'title':
 				return css`
-          font: normal normal 600 30px Poppins;
-          color: #393939;
-          }
-        `
+					font: normal normal 600 30px/1.2 Poppins;
+					color: ${color.strongGrey};
+				`
 			default:
 				return css`
-          font: normal normal 300 14px Poppins;
-		  color: #787878;
-          }
-        `
+					font: normal normal 300 14px/1.4 Poppins;
+					color: ${color.softer_strongGrey};
+				`
 		}
 	}}
 `
@@ -422,7 +423,7 @@ const CustomerReviewCard = styled.div`
 	width: 431px;
 	min-height: 275px;
 	background-color: #fff;
-	border: 1px solid #ebebeb;
+	border: 1px solid ${color.softer_ligthGrey};
 	border-radius: 20px;
 	margin: 88px 40px 20px 20px;
 	transition: 0.3s;
@@ -441,7 +442,7 @@ const CustomerCardText = styled.p`
 			case 'cardTitle':
 				return css`
 					font: normal normal 500 20px/1.5 Poppins;
-					color: #393939;
+					color: ${color.strongGrey};
 					text-align: left;
 					position: absolute;
 					left: 50px;
@@ -450,13 +451,13 @@ const CustomerCardText = styled.p`
 			case 'cardBody':
 				return css`
 					font: normal normal 300 16px/1.5 Poppins;
-					color: #4e4e4e;
+					color: ${color.strongGrey};
 					text-align: justify;
 				`
 			case 'cardBodyNoModal':
 				return css`
 					font: normal normal 300 16px/1.5 Poppins;
-					color: #4e4e4e;
+					color: ${color.strongGrey};
 					text-align: justify;
 					display: -webkit-box;
 					overflow: hidden;
@@ -466,14 +467,14 @@ const CustomerCardText = styled.p`
 			case 'cardUserName':
 				return css`
 					font: normal normal 600 16px/1.5 Poppins;
-					color: #262626;
+					color: ${color.strongGrey};
 					text-align: left;
 					margin: 10px 0 5px 0;
 				`
 			case 'cardSubject':
 				return css`
 					font: normal normal 500 16px/1.5 Poppins;
-					color: #135846;
+					color: ${color.strongPurple};
 					text-align: center;
 					margin: 5px 0 0 0;
 				`
@@ -483,13 +484,22 @@ const CustomerCardText = styled.p`
 					bottom: 0;
 					right: 10px;
 					font: normal normal 600 26px/1.5 Poppins;
-					color: ${props.read ? '#5AD07A' : '#E23428'};
+					color: ${props.read === 'true'
+						? `${color.softer_normalPurple}`
+						: `${color.normalPinkie}`};
 					text-align: left;
+					transition: 0.3s all;
+					&:hover {
+						scale: 1.1;
+						color: ${props.read === 'true'
+							? `${color.normalPurple}`
+							: `${color.softer_normalPinkie}`};
+					}
 				`
 			default:
 				return css`
 					font: normal normal 400 14px/1.5 Poppins;
-					color: #799283;
+					color: ${color.softer_strongGrey};
 					text-align: left;
 				`
 		}
@@ -562,12 +572,15 @@ const CustomerReviewModalOverlay = styled.div`
 `
 const CloseCTA = styled.button`
 	position: absolute;
-	right: 13px;
+	right: 20px;
 	bottom: 13px;
 	font-size: 25px;
 	border: none;
 	background-color: transparent;
+	transition: 0.3s all;
+	color: ${color.strongPurple};
 	&:hover {
-		color: green;
+		scale: 1.1;
+		color: ${color.normalPurple};
 	}
 `
