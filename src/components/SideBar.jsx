@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react'
 import styled, { css } from 'styled-components'
 import logo from '../assets/logo_dashboard.png'
+import logo1 from '../assets/logo_dashboard1.png'
+import logo2 from '../assets/logo_dashboard2.png'
 import { NavLink } from 'react-router-dom'
 import { LuLayoutDashboard } from 'react-icons/lu'
 import { SlKey } from 'react-icons/sl'
@@ -148,7 +150,7 @@ const SideBar = () => {
 					<LogoSection>
 						<NavLink to={'/'}>
 							<LogoImage
-								src={logo}
+								src={logo1}
 								alt='a logo of the hotel dashboard'
 							/>
 						</NavLink>
@@ -226,11 +228,11 @@ const LogoSection = styled.section`
 	height: fit-content;
 	width: 345px;
 	text-align: center;
-	margin: 32px 0 67px 0;
+	margin: 20px auto 20px auto;
 `
 
 const LogoImage = styled.img`
-	max-width: 220px;
+	width: 100px;
 	object-fit: contain;
 `
 

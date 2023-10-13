@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import logo from '../assets/logo_dashboard.png'
+import logo1 from '../assets/logo_dashboard1.png'
 import { authenticationContext } from '../context/authenticationContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -52,10 +52,13 @@ const Login = () => {
 
 	return (
 		<>
-			<LogoSection>
-				<LogoImage src={logo} alt='a logo of the hotel dashboard' />
-			</LogoSection>
 			<LoginContainer>
+				<LogoSection>
+					<LogoImage
+						src={logo1}
+						alt='a logo of the hotel dashboard'
+					/>
+				</LogoSection>
 				<LoginInputLable>User</LoginInputLable>
 				<LoginInput
 					data-cy='input-user'
@@ -93,18 +96,18 @@ const LoginContainer = styled.div`
 	border-radius: 8px;
 	background-color: #f8f8f8;
 	width: 500px;
-	height: 440px;
+	height: 640px;
 `
 
 const LogoSection = styled.section`
 	height: fit-content;
 	width: fit-content;
 	text-align: center;
-	margin: 50px auto;
+	margin: 0 auto;
 `
 
 const LogoImage = styled.img`
-	min-width: 320px;
+	width: 180px;
 	object-fit: contain;
 `
 

@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event'
 import { Status } from './pages/Rooms'
 import { IconStyle } from './components/Header'
 
-
 afterEach(() => {
     cleanup()
 })
