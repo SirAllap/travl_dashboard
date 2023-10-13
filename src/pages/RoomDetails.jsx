@@ -11,6 +11,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
+import * as color from '../components/Variables'
 
 const RoomDetails = () => {
 	const navigate = useNavigate()
@@ -60,7 +61,7 @@ const RoomDetails = () => {
 						<Triangle
 							height='150'
 							width='150'
-							color='#135846'
+							color={color.softer_strongPurple}
 							ariaLabel='triangle-loading'
 							wrapperClassName=''
 							visible={spinner}
@@ -129,7 +130,6 @@ const RoomDetails = () => {
 export default RoomDetails
 
 const RooomPhotos = styled.img`
-	width: 100%;
 	height: 100%;
 	object-fit: contain;
 `
@@ -145,18 +145,18 @@ const CTA = styled.button`
 	font: normal normal 600 18px Poppins;
 	position: absolute;
 	left: 0px;
-	top: -63px;
+	top: -40px;
 	width: 138px;
 	height: 33px;
-	background-color: #ffedec;
+	color: ${color.normalPinkie};
+	background-color: ${color.softer_ligthPinkie};
 	border: none;
 	border-radius: 4px;
-	color: #e23428;
 	transition: 0.3s;
 	cursor: pointer;
 	&:hover {
-		color: #fff;
-		background-color: #e23428;
+		color: white;
+		background-color: ${color.normalPinkie};
 	}
 `
 
@@ -195,12 +195,12 @@ const RoomInfoDataTopText = styled.div`
 	height: 90px;
 	p {
 		font: 400 15px Poppins;
-		color: #799283;
+		color: ${color.softer_strongGrey};
 		margin-bottom: 5px;
 	}
 	span {
 		font: 500 24px Poppins;
-		color: #212121;
+		color: ${color.strongPurple};
 	}
 `
 const RoomInfoDataBottomText = styled.div`
@@ -209,11 +209,11 @@ const RoomInfoDataBottomText = styled.div`
 	height: 270px;
 	p {
 		font: 400 16px Poppins;
-		color: #363636;
+		color: ${color.strongGrey};
 	}
 	span {
 		font: 600 18px Poppins;
-		color: #212121;
+		color: ${color.strongGrey};
 	}
 `
 const RoomFacilitiesData = styled.div`
@@ -224,27 +224,28 @@ const RoomFacilitiesData = styled.div`
 	height: 160px;
 	p {
 		font: 400 15px Poppins;
-		color: #799283;
+		color: ${color.softer_strongGrey};
 	}
 `
 const RoomFacilitiesAmenities = styled.div`
 	width: fit-content;
 	height: ${(props) => (props.type === 'small' ? '45px' : '65px')};
-	background: #eef9f2;
+	background: ${color.softerPLus_ligthPurple};
 	border-radius: 8px;
 	margin: 8px;
 	padding: ${(props) =>
 		props.type === 'small' ? '12px 20px 12px 20px' : '20px'};
 	display: inline-block;
 	span {
-		color: #135846;
+		color: ${color.softer_strongPurple};
 		font: 500 16px Poppins;
 	}
 `
 
 const RightDetailsCard = styled.div`
+	padding: 20px;
 	width: 65%;
-	height: 792px;
+	height: 100%;
 	background-color: #fff;
 	border-radius: 0 10px 10px 0;
 	display: inline-block;

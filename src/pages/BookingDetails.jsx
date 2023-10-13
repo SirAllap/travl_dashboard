@@ -10,6 +10,7 @@ import {
 import { Triangle } from 'react-loader-spinner'
 import { BsFillTelephoneFill } from 'react-icons/bs'
 import { BiMessageRoundedDetail } from 'react-icons/bi'
+import * as color from '../components/Variables'
 
 const BookingsDetails = () => {
 	const navigate = useNavigate()
@@ -88,7 +89,7 @@ const BookingsDetails = () => {
 						<Triangle
 							height='150'
 							width='150'
-							color='#135846'
+							color={color.softer_strongPurple}
 							ariaLabel='triangle-loading'
 							wrapperClassName=''
 							visible={spinner}
@@ -218,18 +219,18 @@ const CTA = styled.button`
 	font: normal normal 600 18px Poppins;
 	position: absolute;
 	left: 0px;
-	top: -63px;
+	top: -40px;
 	width: 138px;
 	height: 33px;
-	background-color: #ffedec;
+	color: ${color.normalPinkie};
+	background-color: ${color.softer_ligthPinkie};
 	border: none;
 	border-radius: 4px;
-	color: #e23428;
 	transition: 0.3s;
 	cursor: pointer;
 	&:hover {
-		color: #fff;
-		background-color: #e23428;
+		color: white;
+		background-color: ${color.normalPinkie};
 	}
 `
 
@@ -241,7 +242,7 @@ const MainContainer = styled.main`
 	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
 	margin-top: 50px;
 	margin-right: 30px;
-	background-color: #fff;
+	background-color: white;
 	border-radius: 10px;
 `
 
@@ -279,7 +280,10 @@ const InfoBookingContainer = styled.div`
 
 const TextFormatter = styled.p`
 	text-align: left;
-	color: ${(props) => (props.type === 'small' ? '#799283' : '#393939')};
+	color: ${(props) =>
+		props.type === 'small'
+			? `${color.softer_strongGrey}`
+			: `${color.strongGrey}`};
 	font: ${(props) =>
 		props.type === 'small' ? '400 14px Poppins' : '600 30px Poppins'};
 `
@@ -288,20 +292,26 @@ const IconContainer = styled.div`
 	width: ${(props) => (props.type === 'message' ? '209px' : '59px')};
 	height: 59px;
 	border: ${(props) =>
-		props.type === 'message' ? '1px solid #e8f2ef' : '1px solid #e8f2ef'};
+		props.type === 'message'
+			? `1px solid ${color.softer_normalPinkie}`
+			: `1px solid ${color.softer_normalPinkie}`};
 	border-radius: 12px;
 	background-color: #fff;
 	padding: 15px;
 	margin: 30px 16px 0 0;
 	font-size: ${(props) => (props.type === 'message' ? '30px' : '25px')};
-	color: ${(props) => (props.type === 'message' ? '#fff' : '#135846')};
-	background-color: ${(props) => (props.type === 'message' ? '#135846' : '#fff')};
+	color: ${(props) =>
+		props.type === 'message' ? '#fff' : `${color.softer_normalPinkie}`};
+	background-color: ${(props) =>
+		props.type === 'message' ? `${color.normalPinkie}` : '#fff'};
 	display: inline-block;
 	vertical-align: top;
 	transition: 0.3s all;
 	&:hover {
-		color: ${(props) => (props.type === 'message' ? '#135846' : '#fff')};
-	background-color: ${(props) => (props.type === 'message' ? '#fff' : '#135846')};
+		color: ${(props) =>
+			props.type === 'message' ? `${color.softer_normalPinkie}` : '#fff'};
+	background-color: ${(props) =>
+		props.type === 'message' ? '#fff' : `${color.normalPinkie}`};
 	}
 	span {
 		display: inline-block;
@@ -327,13 +337,13 @@ const CheckinInfo = styled.div`
 	width: 50%;
 	height: 109px;
 	p {
-		font: 500 14px Poppins;
-		color: #799283;
+		font: 400 14px Poppins;
+		color: ${color.softer_normalGrey};
 		margin-bottom: 10px;
 	}
 	span {
-		font: 600 18px Poppins;
-		color: #212121;
+		font: 500 18px Poppins;
+		color: ${color.strongGrey};
 	}
 `
 const RoomInfoContainer = styled.div`
@@ -354,12 +364,12 @@ const RoomInfoDataTopText = styled.div`
 	height: 90px;
 	p {
 		font: 400 15px Poppins;
-		color: #799283;
+		color: ${color.softer_normalGrey};
 		margin-bottom: 5px;
 	}
 	span {
 		font: 500 24px Poppins;
-		color: #212121;
+		color: ${color.strongGrey};
 	}
 `
 const RoomInfoDataBottomText = styled.div`
@@ -368,11 +378,11 @@ const RoomInfoDataBottomText = styled.div`
 	height: 110px;
 	p {
 		font: 400 16px Poppins;
-		color: #363636;
+		color: ${color.strongGrey};
 	}
 	span {
 		font: 600 18px Poppins;
-		color: #212121;
+		color: ${color.strongGrey};
 	}
 `
 const RoomFacilitiesData = styled.div`
@@ -381,20 +391,20 @@ const RoomFacilitiesData = styled.div`
 	height: 160px;
 	p {
 		font: 400 15px Poppins;
-		color: #799283;
+		color: ${color.softer_normalGrey};
 	}
 `
 const RoomFacilitiesAmenities = styled.div`
 	width: fit-content;
 	height: ${(props) => (props.type === 'small' ? '45px' : '65px')};
-	background: #eef9f2;
+	background: ${color.softerPLus_ligthPurple};
 	border-radius: 8px;
 	margin: 8px;
 	padding: ${(props) =>
 		props.type === 'small' ? '12px 20px 12px 20px' : '20px'};
 	display: inline-block;
 	span {
-		color: #135846;
+		color: ${color.softer_strongPurple};
 		font: 500 16px Poppins;
 	}
 `

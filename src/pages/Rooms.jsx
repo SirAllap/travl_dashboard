@@ -407,20 +407,7 @@ const MoreOptions = styled.span`
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
 
-const SpecialRequest = styled.button`
-	cursor: ${(props) =>
-		props.selectionable === 'true' ? 'pointer' : 'not-allowed'};
-	font: 400 16px Poppins;
-	width: 160px;
-	height: 48px;
-	border: none;
-	border-radius: 8px;
-	background-color: ${(props) =>
-		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
-	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
-`
-
-const OptionsButton = styled(SpecialRequest)`
+const OptionsButton = styled.button`
 	display: block;
 	cursor: pointer;
 	font: 400 16px Poppins;
@@ -558,7 +545,6 @@ const TextFormatter = styled.span`
 			: props.small === 'offer_price'
 			? 'inline'
 			: 'block'};
-	text-align: left;
 	color: ${(props) =>
 		props.small === 'small'
 			? `${color.softer_normalGrey}`
@@ -599,7 +585,7 @@ const AmenitiesTag = styled.button`
 		props.type === 'Suite'
 			? `${color.normalOrange}`
 			: props.type === 'Double Superior'
-			? `${color.normalPurple}`
+			? `${color.softer_strongPurple}`
 			: `${color.normalGrey}`};
 	background-color: ${(props) =>
 		props.type === 'Suite'

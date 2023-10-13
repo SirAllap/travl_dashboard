@@ -9,7 +9,7 @@ import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { authenticationContext } from '../context/authenticationContext'
-import * as color from './Variables'
+import * as color from '../components/Variables'
 
 const Header = () => {
 	const { dispatch, state, stateBread } = useContext(supertoggleContext)

@@ -582,9 +582,24 @@ const CreateRoomTextArea = styled.textarea`
 	color: ${color.softer_strongPurple};
 	outline: none;
 	border-radius: 8px;
-	padding-left: 15px;
+	padding: 5px 15px 5px 15px;
+	text-align: justify;
 	&:focus {
 		outline: 2px solid ${color.softer_ligthPurple};
+	}
+	&::-webkit-scrollbar {
+		width: 10px;
+		background-color: #ebf1ef;
+	}
+	&::-webkit-scrollbar-thumb {
+		border-radius: 2px;
+		-webkit-box-shadow: inset 0 0 6px rgba(235, 241, 239, 0.3);
+		background-color: rgba(102, 51, 153, 0.153);
+	}
+	&::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(235, 241, 239, 0.3);
+		border-radius: 2px;
+		background-color: rgba(235, 241, 239, 0.612);
 	}
 `
 
@@ -628,19 +643,18 @@ const SaveCTA = styled.button`
 const ADDCTA = styled.button`
 	position: absolute;
 	left: 34.4%;
-	top: 54%;
+	top: 47.5%;
 	border: none;
 	width: 100px;
 	border-radius: 2px;
-	color: ${color.normalPurple};
-	background-color: ${color.softer_ligthPurple};
+	color: white;
+	background-color: ${color.normalPurple};
 	font: normal normal 600 14px/21px Poppins;
 	margin-top: 16px;
 	cursor: pointer;
 	transition: 0.3s;
 	&:hover {
-		color: white;
-		background-color: ${color.normalPurple};
+		background-color: ${color.softer_normalPurple};
 	}
 `
 

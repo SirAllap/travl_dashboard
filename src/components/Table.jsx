@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { Triangle } from 'react-loader-spinner'
+import * as color from '../components/Variables'
 // import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const Table = (props) => {
@@ -60,7 +61,7 @@ const Table = (props) => {
 						<Triangle
 							height='150'
 							width='150'
-							color='red'
+							color={color.softer_normalPinkie}
 							ariaLabel='triangle-loading'
 							visible={props.spinner}
 						/>
