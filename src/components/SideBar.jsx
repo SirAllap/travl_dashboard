@@ -149,7 +149,7 @@ const SideBar = () => {
 					<LogoSection>
 						<NavLink to={'/'}>
 							<LogoImage
-								src={logo1}
+								src={logo}
 								alt='a logo of the hotel dashboard'
 							/>
 						</NavLink>
@@ -231,7 +231,7 @@ const LogoSection = styled.section`
 `
 
 const LogoImage = styled.img`
-	width: 100px;
+	width: 260px;
 	object-fit: contain;
 `
 
