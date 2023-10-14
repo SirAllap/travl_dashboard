@@ -17,7 +17,6 @@ import {
 	fetchInitialRooms,
 	fetchOneRoom,
 } from '../features/rooms/roomThunks'
-import { Triangle } from 'react-loader-spinner'
 import { NavLink } from 'react-router-dom'
 import * as color from '../components/Variables'
 
@@ -74,11 +73,11 @@ const Rooms = (props) => {
 		handleMoreOptions(id)
 	}
 
-	const handleEdition = (id) => {
-		alert(`ill be the one who edit this id => ${id}`)
-		// dispatch(editRoom(currentId))
-		// handleMoreOptions(id)
-	}
+	// const handleEdition = (id) => {
+	// alert(`ill be the one who edit this id => ${id}`)
+	// dispatch(editRoom(currentId))
+	// handleMoreOptions(id)
+	// }
 
 	const whoAmI = {
 		name: 'rooms',
@@ -362,39 +361,20 @@ const Rooms = (props) => {
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				{spinner ? (
-					<SpinnerContainer>
-						<Triangle
-							height='150'
-							width='150'
-							color={color.softer_strongPurple}
-							ariaLabel='triangle-loading'
-							wrapperClassName=''
-							visible={spinner}
-						/>
-					</SpinnerContainer>
-				) : (
-					<Table
-						cols={cols}
-						datas={sortRooms.length !== 0 ? sortRooms : displayData}
-						whoAmI={whoAmI}
-						filter={filter}
-						spinner={deleteSpinner}
-					/>
-				)}
+				<Table
+					cols={cols}
+					datas={sortRooms.length !== 0 ? sortRooms : displayData}
+					whoAmI={whoAmI}
+					filter={filter}
+					spinner={deleteSpinner}
+					loadingSpinner={spinner}
+				/>
 			</MainContainer>
 		</>
 	)
 }
 
 export default Rooms
-
-const SpinnerContainer = styled.div`
-	position: absolute;
-	left: ${(props) => (props.isfor === 'newroom' ? '50%' : '60%')};
-	top: 50%;
-	transform: translate(-50%, -50%);
-`
 
 const MoreOptions = styled.span`
 	position: relative;
@@ -514,6 +494,7 @@ const Tabs = styled.div`
 		border-radius: 0 0 3px 3px;
 		border: 0;
 		border-bottom: 3px solid transparent;
+		transition: 0.3s all;
 		cursor: pointer;
 		&:hover {
 			border-bottom: 3px solid ${color.strongPurple};
@@ -528,7 +509,8 @@ const FilterSelector = styled.select`
 	height: 50px;
 	border: 1px solid #135846;
 	font: 500 16px Poppins;
-	color: ${color.normalPurple};
+
+	color: ${color.strongPurple};
 	border: none;
 	border-radius: 12px;
 	margin-right: 20px;

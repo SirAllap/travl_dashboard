@@ -12,13 +12,13 @@ import {
 	archiveContacts,
 	fetchInitialContacts,
 } from '../features/contact/contactThunks'
-import { Triangle } from 'react-loader-spinner'
 import { Navigation, A11y } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
+import * as color from '../components/Variables'
 
 const Contact = () => {
 	const dispatch = useDispatch()
@@ -200,10 +200,10 @@ const Contact = () => {
 								style={{
 									borderBottom:
 										filter.value === 'All Contact' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
 										filter.value === 'All Contact' &&
-										'#135846',
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								All Contact
@@ -215,8 +215,10 @@ const Contact = () => {
 								style={{
 									borderBottom:
 										filter.value === 'true' &&
-										'3px solid #135846',
-									color: filter.value === 'true' && '#135846',
+										`3px solid ${color.softer_strongPurple}`,
+									color:
+										filter.value === 'true' &&
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								Archived
@@ -228,9 +230,10 @@ const Contact = () => {
 								style={{
 									borderBottom:
 										filter.value === 'false' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
-										filter.value === 'false' && '#135846',
+										filter.value === 'false' &&
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								Non Archived
@@ -239,26 +242,14 @@ const Contact = () => {
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer></TableSearchAndFilterContainer>
 				</TopTableContainer>
-				{spinner ? (
-					<SpinnerContainer>
-						<Triangle
-							height='150'
-							width='150'
-							color='#135846'
-							ariaLabel='triangle-loading'
-							wrapperClassName=''
-							visible={spinner}
-						/>
-					</SpinnerContainer>
-				) : (
-					<Table
-						cols={cols}
-						datas={initialContactData}
-						whoAmI={whoAmI}
-						filter={filter}
-						spinner={archiveSpinner}
-					/>
-				)}
+				<Table
+					cols={cols}
+					datas={initialContactData}
+					whoAmI={whoAmI}
+					filter={filter}
+					spinner={archiveSpinner}
+					loadingSpinner={spinner}
+				/>
 			</MainContainer>
 		</>
 	)
@@ -266,15 +257,7 @@ const Contact = () => {
 
 export default Contact
 
-const SpinnerContainer = styled.div`
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-`
-
 const MainContainer = styled.main`
-	position: relative;
 	text-align: center;
 	max-height: 730px;
 	min-width: 1494px;
@@ -314,10 +297,11 @@ const Tabs = styled.div`
 		border-radius: 0 0 3px 3px;
 		border: 0;
 		border-bottom: 3px solid transparent;
+		transition: 0.3s all;
 		cursor: pointer;
 		&:hover {
-			border-bottom: 3px solid green;
-			color: #135846;
+			border-bottom: 3px solid ${color.strongPurple};
+			color: ${color.strongPurple};
 		}
 	}
 `
@@ -329,13 +313,16 @@ const TextFormatter = styled.span`
 		props.text_type === 'comment' && '15px 10px 15px 10px'};
 	display: block;
 	text-align: center;
-	color: ${(props) => (props.text_type === 'small' ? '#799283' : '#393939')};
+	color: ${(props) =>
+		props.text_type === 'small'
+			? `${color.softer_strongGrey}`
+			: `${color.strongGrey}`};
 	font: ${(props) =>
 		props.text_type === 'small'
 			? '300 13px Poppins'
 			: props.text_type === 'customer-name'
 			? '600 18px Poppins'
-			: '500 16px Poppins'};
+			: '400 16px Poppins'};
 	margin: 10px;
 `
 
@@ -345,13 +332,19 @@ const Status = styled.button`
 	height: 48px;
 	border: none;
 	border-radius: 8px;
-	color: ${(props) => (props.status === 'true' ? '#E23428' : '#5AD07A')};
-	background-color: #efefef;
-	cursor: pointer;
+	color: ${(props) =>
+		props.status === 'true'
+			? `${color.normalPinkie}`
+			: `${color.softer_strongGrey}`};
+	background-color: ${color.softer_ligthGrey};
+	cursor: ${(props) => (props.status === 'true' ? 'none' : 'pointer')};
 	transition: 0.3s all;
 	&:hover {
-		background-color: #efefef96;
-		scale: 1.05;
+		background-color: ${(props) =>
+			props.status === 'false'
+				? `${color.ligthGrey}`
+				: `${color.softer_ligthGrey}`};
+		scale: ${(props) => (props.status === 'true' ? 'none' : '1.05')};
 	}
 `
 
@@ -373,7 +366,7 @@ const CustomerReviewCard = styled.div`
 	width: 431px;
 	height: 140px;
 	background-color: #fff;
-	border: 1px solid #ebebeb;
+	border: 1px solid ${color.softer_ligthGrey};
 	border-radius: 20px;
 	margin: 10px 40px 20px 20px;
 	transition: 0.3s;
@@ -392,7 +385,7 @@ const CustomerCardText = styled.p`
 			case 'cardTitle':
 				return css`
 					font: normal normal 500 20px Poppins;
-					color: #393939;
+					color: ${color.strongGrey};
 					text-align: left;
 					position: absolute;
 					left: 5px;
@@ -403,7 +396,7 @@ const CustomerCardText = styled.p`
 				return css`
 					font: normal normal 300 16px Poppins;
 					line-height: 28px;
-					color: #4e4e4e;
+					color: ${color.strongGrey};
 					text-align: justify;
 					display: -webkit-box;
 					overflow: hidden;
@@ -413,31 +406,21 @@ const CustomerCardText = styled.p`
 			case 'cardUserName':
 				return css`
 					font: normal normal 600 16px Poppins;
-					color: #262626;
+					color: ${color.strongGrey};
 					text-align: left;
 					margin: 10px 0 5px 0;
 				`
 			case 'cardSubject':
 				return css`
 					font: normal normal 500 16px Poppins;
-					color: #135846;
+					color: ${color.softer_strongPurple};
 					text-align: center;
 					margin: 5px 0 0px 0;
-				`
-			case 'cardReadChecker':
-				return css`
-					position: absolute;
-					bottom: 0px;
-					right: 10px;
-					font: normal normal 600 26px Poppins;
-					color: ${(props) =>
-						props.read === true ? '#5AD07A' : '#E23428'};
-					text-align: left;
 				`
 			default:
 				return css`
 					font: normal normal 400 14px Poppins;
-					color: #799283;
+					color: ${color.softer_strongGrey};
 					text-align: left;
 				`
 		}

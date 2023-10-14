@@ -17,7 +17,6 @@ import {
 	fetchOneBooking,
 } from '../features/bookings/bookingThunks'
 import { supertoggleContext } from '../context/supertoggleContext'
-import { Triangle } from 'react-loader-spinner'
 import * as color from '../components/Variables'
 
 const Bookings = () => {
@@ -63,11 +62,11 @@ const Bookings = () => {
 		handleMoreOptions(id)
 	}
 
-	const handleEdition = (id) => {
-		alert(`ill be the one who edit this id => ${id}`)
-		// dispatch(editRoom(currentId))
-		// handleMoreOptions(id)
-	}
+	// const handleEdition = (id) => {
+	// alert(`ill be the one who edit this id => ${id}`)
+	// dispatch(editRoom(currentId))
+	// handleMoreOptions(id)
+	// }
 
 	const whoAmI = {
 		name: 'bookings',
@@ -327,26 +326,14 @@ const Bookings = () => {
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				{spinner ? (
-					<SpinnerContainer>
-						<Triangle
-							height='150'
-							width='150'
-							color={color.softer_strongPurple}
-							ariaLabel='triangle-loading'
-							wrapperClassName=''
-							visible={spinner}
-						/>
-					</SpinnerContainer>
-				) : (
-					<Table
-						cols={cols}
-						datas={displayData}
-						whoAmI={whoAmI}
-						filter={filter}
-						spinner={deleteSpinner}
-					/>
-				)}
+				<Table
+					cols={cols}
+					datas={displayData}
+					whoAmI={whoAmI}
+					filter={filter}
+					spinner={deleteSpinner}
+					loadingSpinner={spinner}
+				/>
 			</MainContainer>
 		</>
 	)
@@ -354,11 +341,13 @@ const Bookings = () => {
 
 export default Bookings
 
-const SpinnerContainer = styled.div`
-	position: absolute;
-	left: 60%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+const MainContainer = styled.main`
+	text-align: center;
+	max-height: 730px;
+	min-width: 1494px;
+	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
+	margin-top: 50px;
+	margin-right: 30px;
 `
 
 const MoreOptions = styled.span`
@@ -437,15 +426,6 @@ const CloseCTA = styled.button`
 	}
 `
 
-const MainContainer = styled.main`
-	text-align: center;
-	max-height: 730px;
-	min-width: 1494px;
-	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
-	margin-top: 50px;
-	margin-right: 30px;
-`
-
 const TopTableContainer = styled.div`
 	min-width: 100%;
 	max-height: 50px;
@@ -479,6 +459,7 @@ const Tabs = styled.div`
 		border-radius: 0 0 3px 3px;
 		border: 0;
 		border-bottom: 3px solid transparent;
+		transition: 0.3s all;
 		cursor: pointer;
 		&:hover {
 			border-bottom: 3px solid ${color.strongPurple};
@@ -522,7 +503,7 @@ const FilterSelector = styled.select`
 	height: 50px;
 	border: 1px solid #135846;
 	font: 500 16px Poppins;
-	color: ${color.normalPurple};
+	color: ${color.strongPurple};
 	border: none;
 	border-radius: 12px;
 	margin-right: 20px;

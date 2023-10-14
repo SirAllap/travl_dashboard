@@ -474,7 +474,7 @@ const CustomerCardText = styled.p`
 			case 'cardSubject':
 				return css`
 					font: normal normal 500 16px/1.5 Poppins;
-					color: ${color.strongPurple};
+					color: ${color.softer_strongPurple};
 					text-align: center;
 					margin: 5px 0 0 0;
 				`
