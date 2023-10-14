@@ -507,7 +507,7 @@ const ModalInnerInfo = styled.div`
 	align-items: start;
 	width: 100%;
 	height: 600px;
-	background-color: #fff;
+	background-color: white;
 	border-radius: 0px 0px 20px 20px;
 `
 const ModalInnerLeftInfo = styled.div`
