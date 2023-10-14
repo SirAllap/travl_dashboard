@@ -47,41 +47,56 @@ const Table = (props) => {
 	return (
 		<>
 			<TableData whoami={props.whoAmI.name}>
-				<TableHeadContainer>
-					<TableHeadLabel whoami={props.whoAmI.name}>
-						{props.cols.map((colLabel, index) => (
-							<p key={index}>{colLabel.label}</p>
-						))}
-					</TableHeadLabel>
-				</TableHeadContainer>
-				<SpinnerContainer whoami={props.whoAmI.name}>
-					{noMoreData ? (
-						<h1>No more data on the DB!</h1>
-					) : (
+				{props.loadingSpinner ? (
+					<SpinnerContainer>
 						<Triangle
 							height='150'
 							width='150'
-							color={color.softer_normalPinkie}
+							color={color.softer_strongPurple}
 							ariaLabel='triangle-loading'
-							visible={props.spinner}
+							visible={props.loadingSpinner}
 						/>
-					)}
-				</SpinnerContainer>
-
-				<TableAllRowsContainer
-					// ref={tableSmoothAnimation}
-					whoami={props.whoAmI.name}
-				>
-					{property === 'all'
-						? props.datas.map((filteredRow, index) =>
-								displayRow(filteredRow, index)
-						  )
-						: props.datas
-								.filter((row) => row[property] === value)
-								.map((filteredRow, index) =>
-									displayRow(filteredRow, index)
-								)}
-				</TableAllRowsContainer>
+					</SpinnerContainer>
+				) : (
+					<>
+						<TableHeadContainer>
+							<TableHeadLabel whoami={props.whoAmI.name}>
+								{props.cols.map((colLabel, index) => (
+									<p key={index}>{colLabel.label}</p>
+								))}
+							</TableHeadLabel>
+						</TableHeadContainer>
+						<SpinnerContainer whoami={props.whoAmI.name}>
+							{noMoreData ? (
+								<h1>No more data on the DB!</h1>
+							) : (
+								<Triangle
+									height='150'
+									width='150'
+									color={color.softer_normalPinkie}
+									ariaLabel='triangle-loading'
+									visible={props.spinner}
+								/>
+							)}
+						</SpinnerContainer>
+						<TableAllRowsContainer
+							// ref={tableSmoothAnimation}
+							whoami={props.whoAmI.name}
+						>
+							{property === 'all'
+								? props.datas.map((filteredRow, index) =>
+										displayRow(filteredRow, index)
+								  )
+								: props.datas
+										.filter(
+											(row) => row[property] === value
+										)
+										.map((filteredRow, index) =>
+											displayRow(filteredRow, index)
+										)}
+						</TableAllRowsContainer>
+					</>
+				)}
 			</TableData>
 		</>
 	)
