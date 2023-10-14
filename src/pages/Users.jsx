@@ -14,8 +14,8 @@ import {
 	deleteUserStatus,
 } from '../features/users/userSlice'
 import { deleteUser, fetchInitialUsers } from '../features/users/userThunks'
-import { Triangle } from 'react-loader-spinner'
 import { NavLink } from 'react-router-dom'
+import * as color from '../components/Variables'
 
 const Users = (props) => {
 	const dispatch = useDispatch()
@@ -25,7 +25,7 @@ const Users = (props) => {
 	const deleteUserCurentStatus = useSelector(deleteUserStatus)
 	const { state } = useContext(supertoggleContext)
 	const [displayData, setDisplayData] = useState([])
-	const [toggleModal, setToggleModal] = useState(false)
+	const [toggleMoreOptions, setToggleMoreOptions] = useState(false)
 	const [currentId, setCurrentId] = useState('')
 	const [spinner, setSpinner] = useState(true)
 	const [deleteSpinner, setDeleteSpinner] = useState(false)
@@ -57,18 +57,17 @@ const Users = (props) => {
 		deleteUserCurentStatus,
 	])
 
-	const handleModalMore = (id) => {
-		if (!toggleModal) {
-			setToggleModal(true)
-		} else {
-			setToggleModal(false)
-		}
+	const handleMoreOptions = (id) => {
+		setToggleMoreOptions((prevToggleMoreOptions) => ({
+			...prevToggleMoreOptions,
+			[id]: !prevToggleMoreOptions[id],
+		}))
 		setCurrentId(id)
 	}
 
-	const handleDelete = () => {
+	const handleDelete = (id) => {
 		dispatch(deleteUser(currentId))
-		setToggleModal(false)
+		handleMoreOptions(id)
 	}
 
 	const whoAmI = {
@@ -88,20 +87,20 @@ const Users = (props) => {
 		{
 			property: 'full_name',
 			label: 'Name',
-			display: ({ full_name, employee_id, phone_number }) => (
+			display: ({ full_name }) => (
 				<>
 					<TextFormatter name='name'>{full_name}</TextFormatter>
-					<TextFormatter small='small'>{phone_number}</TextFormatter>
-					<TextFormatter small='small'>#{employee_id}</TextFormatter>
 				</>
 			),
 		},
 		{
 			property: 'email',
-			label: 'Email',
-			display: ({ email }) => (
+			label: 'Info',
+			display: ({ email, employee_id, phone_number }) => (
 				<>
 					<TextFormatter small='small'>{email}</TextFormatter>
+					<TextFormatter small='small'>{phone_number}</TextFormatter>
+					<TextFormatter small='small'>#{employee_id}</TextFormatter>
 				</>
 			),
 		},
@@ -115,7 +114,7 @@ const Users = (props) => {
 		},
 		{
 			property: 'status',
-			label: 'Archive',
+			label: 'Status',
 			display: ({ status }) => (
 				<>
 					<Status status={status}>
@@ -131,10 +130,37 @@ const Users = (props) => {
 					<>
 						<BsThreeDotsVertical
 							onClick={() => {
-								handleModalMore(employee_id)
+								handleMoreOptions(employee_id)
 							}}
-							style={{ fontSize: '30px', cursor: 'pointer' }}
+							style={{
+								fontSize: '30px',
+								cursor: 'pointer',
+								display: toggleMoreOptions[employee_id]
+									? 'none'
+									: 'inline-block',
+							}}
 						/>
+						<MoreOptions open={toggleMoreOptions[employee_id]}>
+							<OptionsButton
+								onClick={() => {
+									handleDelete(employee_id)
+								}}
+							>
+								DELETE
+							</OptionsButton>
+							{/* <NavLink to={`/rooms/edit-room/${id}`}> */}
+							<OptionsButton button_type='edit'>
+								EDIT
+							</OptionsButton>
+							{/* </NavLink> */}
+							<CloseCTA
+								onClick={() => {
+									handleMoreOptions(employee_id)
+								}}
+							>
+								<AiOutlineCloseCircle />
+							</CloseCTA>
+						</MoreOptions>
 					</>
 				)
 			},
@@ -204,18 +230,6 @@ const Users = (props) => {
 	return (
 		<>
 			<MainContainer toggle={state.position}>
-				<MoreOptionsModal open={toggleModal}>
-					<OptionsButton
-						onClick={() => {
-							handleDelete()
-						}}
-					>
-						DELETE
-					</OptionsButton>
-					<CloseCTA onClick={handleModalMore}>
-						<AiOutlineCloseCircle />
-					</CloseCTA>
-				</MoreOptionsModal>
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
@@ -226,10 +240,10 @@ const Users = (props) => {
 								style={{
 									borderBottom:
 										filter.value === 'All Employees' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
 										filter.value === 'All Employees' &&
-										'#135846',
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								All Employees
@@ -241,9 +255,10 @@ const Users = (props) => {
 								style={{
 									borderBottom:
 										filter.value === 'active' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
-										filter.value === 'active' && '#135846',
+										filter.value === 'active' &&
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								Active
@@ -255,10 +270,10 @@ const Users = (props) => {
 								style={{
 									borderBottom:
 										filter.value === 'inactive' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
 										filter.value === 'inactive' &&
-										'#135846',
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								Inactive
@@ -281,26 +296,14 @@ const Users = (props) => {
 						</NavLink>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				{spinner ? (
-					<SpinnerContainer>
-						<Triangle
-							height='150'
-							width='150'
-							color='#135846'
-							ariaLabel='triangle-loading'
-							wrapperClassName=''
-							visible={spinner}
-						/>
-					</SpinnerContainer>
-				) : (
-					<Table
-						cols={cols}
-						datas={displayData}
-						whoAmI={whoAmI}
-						filter={filter}
-						spinner={deleteSpinner}
-					/>
-				)}
+				<Table
+					cols={cols}
+					datas={displayData}
+					whoAmI={whoAmI}
+					filter={filter}
+					spinner={deleteSpinner}
+					loadingSpinner={spinner}
+				/>
 			</MainContainer>
 		</>
 	)
@@ -308,56 +311,49 @@ const Users = (props) => {
 
 export default Users
 
-const SpinnerContainer = styled.div`
-	position: absolute;
-	left: 60%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+const MainContainer = styled.main`
+	text-align: center;
+	max-height: 730px;
+	min-width: 1494px;
+	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
+	margin-top: 50px;
+	margin-right: 30px;
 `
 
-const MoreOptionsModal = styled.span`
-	z-index: 100;
-	position: absolute;
-	top: 50%;
-	left: 90%;
-	transform: translate(-50%, -50%);
-	width: 150px;
-	min-height: 200px;
-	background: #ffffff 0% 0% no-repeat padding-box;
-	border-radius: 20px;
-	transition: all 0.5s;
-	padding: 35px 20px 20px 20px;
-	display: ${(props) => (props.open ? 'block' : 'none')};
-	box-shadow: 0px 4px 30px #0000004e;
-`
-
-const SpecialRequest = styled.button`
-	cursor: ${(props) =>
-		props.selectionable === 'true' ? 'pointer' : 'not-allowed'};
+const OptionsButton = styled.button`
+	display: block;
+	cursor: pointer;
 	font: 400 16px Poppins;
-	width: 160px;
-	height: 48px;
+	width: 100px;
+	height: 38px;
 	border: none;
 	border-radius: 8px;
-	color: ${(props) => (props.specialrequest >= 1 ? '#799283' : '#212121')};
+	margin: ${(props) =>
+		props.button_type === 'edit' ? '10px auto 0 auto' : 'auto'};
+	color: ${(props) =>
+		props.button_type === 'edit'
+			? `${color.softer_strongPurple}`
+			: `${color.normalPinkie}`};
 	background-color: ${(props) =>
-		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
-	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
-`
-
-const OptionsButton = styled(SpecialRequest)`
-	font: 400 16px Poppins;
-	width: 110px;
-	height: 48px;
-	border: none;
-	border-radius: 8px;
-	color: #e23428;
-	background-color: #ffedec;
+		props.button_type === 'edit'
+			? `${color.softerPLus_ligthPurple}`
+			: `${color.softer_ligthPinkie}`};
 	transition: 0.3s all;
 	&:hover {
-		color: #ffedec;
-		background-color: #e23428;
+		color: ${(props) => (props.button_type === 'edit' ? 'white' : 'white')};
+		background-color: ${(props) =>
+			props.button_type === 'edit'
+				? `${color.softer_strongPurple}`
+				: `${color.normalPinkie}`};
 	}
+`
+
+const MoreOptions = styled.span`
+	position: relative;
+	z-index: 100;
+	width: 100%;
+	padding: 10px;
+	display: ${(props) => (props.open ? 'block' : 'none')};
 `
 
 const CloseCTA = styled.button`
@@ -367,18 +363,10 @@ const CloseCTA = styled.button`
 	font-size: 25px;
 	border: none;
 	background-color: transparent;
+	transition: 0.3s all;
 	&:hover {
-		color: red;
+		color: ${color.normalPinkie};
 	}
-`
-
-const MainContainer = styled.main`
-	text-align: center;
-	max-height: 730px;
-	min-width: 1494px;
-	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
-	margin-top: 50px;
-	margin-right: 30px;
 `
 
 const TopTableContainer = styled.div`
@@ -416,8 +404,8 @@ const Tabs = styled.div`
 		border-bottom: 3px solid transparent;
 		cursor: pointer;
 		&:hover {
-			border-bottom: 3px solid green;
-			color: #135846;
+			border-bottom: 3px solid ${color.strongPurple};
+			color: ${color.strongPurple};
 		}
 	}
 `
@@ -445,7 +433,7 @@ const InputSearch = styled.input`
 const Icons = styled.div`
 	font-size: 30px;
 	cursor: pointer;
-	color: ${(props) => (props.search === 'search' ? '#6E6E6E' : 'red')};
+	color: #6e6e6e;
 	position: ${(props) => props.search === 'search' && 'absolute'};
 	top: 12px;
 	left: 105px;
@@ -454,7 +442,10 @@ const Icons = styled.div`
 const TextFormatter = styled.span`
 	display: block;
 	text-align: center;
-	color: ${(props) => (props.small === 'small' ? '#799283' : '#393939')};
+	color: ${(props) =>
+		props.small === 'small'
+			? `${color.softer_strongGrey}`
+			: `${color.strongGrey}`};
 	font: ${(props) =>
 		props.small === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
 `
@@ -465,8 +456,11 @@ const Status = styled.button`
 	height: 48px;
 	border: none;
 	border-radius: 8px;
-	color: ${(props) => (props.status === 'inactive' ? '#E23428' : '#5AD07A')};
-	background-color: transparent;
+	color: white;
+	background-color: ${(props) =>
+		props.status === 'inactive'
+			? `${color.normalPinkie}`
+			: `${color.normalPurple}`};
 `
 
 const CustomerPhoto = styled.img`
@@ -481,19 +475,17 @@ const AddRoomCTA = styled.button`
 	font: 500 16px Poppins;
 	width: 364px;
 	height: 50px;
-	border: 1px solid #135846;
-	color: #135846ab;
-	border: 2px solid #1358465c;
+	border: none;
+	color: ${color.normalPinkie};
+	background-color: ${color.softer_ligthPinkie};
 	border-radius: 12px;
 	margin-right: 20px;
 	cursor: pointer;
 	outline: none;
 	padding: 0 15px 0 15px;
-	background-color: #eef9f296;
 	transition: 0.3s all;
 	&:hover {
-		background-color: #13584663;
-		color: #ffffffc4;
-		border: 2px solid #79928381;
+		color: white;
+		background-color: ${color.softer_normalPinkie};
 	}
 `
