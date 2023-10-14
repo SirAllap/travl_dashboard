@@ -330,24 +330,6 @@ const SaveCTA = styled.button`
 	}
 `
 
-const ADDCTA = styled.button`
-	position: absolute;
-	left: 35%;
-	top: 50%;
-	border: none;
-	width: 100px;
-	border-radius: 2px;
-	color: #135846;
-	font: normal normal 600 14px/21px Poppins;
-	margin-top: 16px;
-	cursor: pointer;
-	transition: 0.3s;
-	&:hover {
-		color: #ebf1ef;
-		background-color: #135846;
-	}
-`
-
 const MainContainer = styled.main`
 	position: relative;
 	text-align: center;
