@@ -72,79 +72,80 @@ const Dashboard = (props) => {
 
 	return (
 		<>
-			<MainContainer toggle={state.position}>
-				<CustomerReviewModalOverlay open={toggleModal} />
-				<CustomerReviewModal open={toggleModal}>
-					<SpinnerContainerInsideModal>
-						<Triangle
-							height='150'
-							width='150'
-							color={color.normalPinkie}
-							ariaLabel='triangle-loading'
-							wrapperClassName=''
-							visible={archiveSpinner}
-						/>
-					</SpinnerContainerInsideModal>
-					<CloseCTA onClick={handleToggleModal}>
-						<FaRegEnvelopeOpen />
-					</CloseCTA>
-					{toggleModalUser && (
-						<>
+			<CustomerReviewModalOverlay
+				onClick={handleToggleModal}
+				open={toggleModal}
+			/>
+			<CustomerReviewModal open={toggleModal}>
+				<SpinnerContainerInsideModal>
+					<Triangle
+						height='150'
+						width='150'
+						color={color.normalPinkie}
+						ariaLabel='triangle-loading'
+						wrapperClassName=''
+						visible={archiveSpinner}
+					/>
+				</SpinnerContainerInsideModal>
+				<CloseCTA onClick={handleToggleModal}>
+					<FaRegEnvelopeOpen />
+				</CloseCTA>
+				{toggleModalUser && (
+					<>
+						<CustomerCardText
+							type={{
+								text: 'cardSubject',
+							}}
+						>
+							{toggleModalUser.subject_of_review}
+						</CustomerCardText>
+						<HorizontalDivider />
+						<CustomerReviewCardTopData modal={'true'}>
 							<CustomerCardText
 								type={{
-									text: 'cardSubject',
+									text: 'cardBody',
 								}}
 							>
-								{toggleModalUser.subject_of_review}
+								{toggleModalUser.review_body}
 							</CustomerCardText>
-							<HorizontalDivider />
-							<CustomerReviewCardTopData modal={'true'}>
-								<CustomerCardText
-									type={{
-										text: 'cardBody',
-									}}
-								>
-									{toggleModalUser.review_body}
-								</CustomerCardText>
-							</CustomerReviewCardTopData>
-							<CustomerReviewCardBottomData>
-								<CustomerReviewCardUserPhoto
-									src={`https://robohash.org/${toggleModalUser.full_name}.png?set=any`}
-								/>
-								<CustomerCardText
-									type={{
-										text: 'cardUserName',
-									}}
-								>
-									{toggleModalUser.full_name}
-								</CustomerCardText>
-								<CustomerCardText
-									type={{
-										text: 'cardUserEmail',
-									}}
-								>
-									{toggleModalUser.email}
-								</CustomerCardText>
-								<CustomerCardText
-									type={{
-										text: 'cardUserPhoneNumber',
-									}}
-								>
-									{toggleModalUser.phone_number}
-								</CustomerCardText>
-								<CustomerCardText
-									style={{ zIndex: '100' }}
-									type={{
-										text: 'cardReadChecker',
-									}}
-									read={
-										toggleModalUser.state ? 'true' : 'false'
-									}
-								></CustomerCardText>
-							</CustomerReviewCardBottomData>
-						</>
-					)}
-				</CustomerReviewModal>
+						</CustomerReviewCardTopData>
+						<CustomerReviewCardBottomData>
+							<CustomerReviewCardUserPhoto
+								src={`https://robohash.org/${toggleModalUser.full_name}.png?set=any`}
+							/>
+							<CustomerCardText
+								type={{
+									text: 'cardUserName',
+								}}
+							>
+								{toggleModalUser.full_name}
+							</CustomerCardText>
+							<CustomerCardText
+								type={{
+									text: 'cardUserEmail',
+								}}
+							>
+								{toggleModalUser.email}
+							</CustomerCardText>
+							<CustomerCardText
+								type={{
+									text: 'cardUserPhoneNumber',
+								}}
+							>
+								{toggleModalUser.phone_number}
+							</CustomerCardText>
+							<CustomerCardText
+								style={{ zIndex: '100' }}
+								type={{
+									text: 'cardReadChecker',
+								}}
+								read={toggleModalUser.state ? 'true' : 'false'}
+							></CustomerCardText>
+						</CustomerReviewCardBottomData>
+					</>
+				)}
+			</CustomerReviewModal>
+			<MainContainer toggle={state.position}>
 				<ContainerCardKPI>
 					<KPICardInfo>
 						<KPICardContainer>
@@ -550,8 +551,8 @@ const CustomerReviewModal = styled.div`
 	z-index: 100;
 	position: absolute;
 	top: 50%;
-	left: ${(props) => (props.toggle === 'close' ? '50%' : '59.9%')};
-	transform: translate(-50%, -50%);
+	left: 50%;
+	transform: translate(-50%, 50%);
 	width: 431px;
 	min-height: 275px;
 	background: #ffffff 0% 0% no-repeat padding-box;
@@ -561,10 +562,10 @@ const CustomerReviewModal = styled.div`
 `
 
 const CustomerReviewModalOverlay = styled.div`
-	z-index: 99;
+	z-index: 100;
 	position: absolute;
-	width: 79%;
-	height: 79%;
+	width: 100%;
+	height: 90vh;
 	background-color: rgba(0, 0, 0, 0.434);
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};

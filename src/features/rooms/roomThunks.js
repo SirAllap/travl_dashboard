@@ -5,7 +5,7 @@ const delay = (data, time = 500) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve(data)
-        }, 500)
+        }, time)
     })
 }
 

@@ -15,7 +15,6 @@ import * as color from './Variables'
 const SideBar = () => {
 	const { state } = useContext(supertoggleContext)
 	const { authState, updateUserInfo } = useContext(authenticationContext)
-
 	const [toggleModal, setToggleModal] = useState(false)
 	const [userUpdatedName, setUpdatedUserName] = useState('')
 	const [userUpdatedEmail, setUpdatedUserEmail] = useState('')
@@ -94,58 +93,57 @@ const SideBar = () => {
 	if (authState.auth)
 		return (
 			<>
+				<EditUserModalOverlay
+					onClick={handleToggleModal}
+					open={toggleModal}
+				/>
+				<EditUserModal open={toggleModal}>
+					<EditUserInputLable type='name' htmlFor='name'>
+						Name
+					</EditUserInputLable>
+					<Input
+						id='name'
+						name='name'
+						defaultValue={
+							userUpdatedName ? userUpdatedName : currentUser.name
+						}
+						type='name'
+						placeholder='name'
+						onChange={handleUpdateUserName}
+						autoComplete='off'
+					/>
+					<EditUserInputLable type='email' htmlFor='email'>
+						Email
+					</EditUserInputLable>
+
+					<Input
+						id='email'
+						name='email'
+						defaultValue={
+							userUpdatedEmail
+								? userUpdatedEmail
+								: currentUser.email
+						}
+						type='email'
+						placeholder='email'
+						onChange={handleUpdateUserEmail}
+						autoComplete='off'
+					/>
+
+					<UserCardProfilePictureModal
+						src={!file2Upload ? profPic : file2Upload}
+					/>
+					<InputFile
+						type='file'
+						onChange={handlePictureChange}
+						alt='a photo of the user profile'
+					/>
+					<SaveCTA onClick={handleUpdateAndCloseModal}>Save</SaveCTA>
+					<CloseCTA onClick={handleToggleModal}>
+						<AiOutlineCloseCircle />
+					</CloseCTA>
+				</EditUserModal>
 				<Container data-testid='sidebarToggle' toggle={state.position}>
-					<EditUserModalOverlay open={toggleModal} />
-					<EditUserModal open={toggleModal}>
-						<EditUserInputLable type='name' htmlFor='name'>
-							Name
-						</EditUserInputLable>
-						<Input
-							id='name'
-							name='name'
-							defaultValue={
-								userUpdatedName
-									? userUpdatedName
-									: currentUser.name
-							}
-							type='name'
-							placeholder='name'
-							onChange={handleUpdateUserName}
-							autoComplete='off'
-						/>
-						<EditUserInputLable type='email' htmlFor='email'>
-							Email
-						</EditUserInputLable>
-
-						<Input
-							id='email'
-							name='email'
-							defaultValue={
-								userUpdatedEmail
-									? userUpdatedEmail
-									: currentUser.email
-							}
-							type='email'
-							placeholder='email'
-							onChange={handleUpdateUserEmail}
-							autoComplete='off'
-						/>
-
-						<UserCardProfilePictureModal
-							src={!file2Upload ? profPic : file2Upload}
-						/>
-						<InputFile
-							type='file'
-							onChange={handlePictureChange}
-							alt='a photo of the user profile'
-						/>
-						<SaveCTA onClick={handleUpdateAndCloseModal}>
-							Save
-						</SaveCTA>
-						<CloseCTA onClick={handleToggleModal}>
-							<AiOutlineCloseCircle />
-						</CloseCTA>
-					</EditUserModal>
 					<LogoSection>
 						<NavLink to={'/'}>
 							<LogoImage
@@ -387,7 +385,7 @@ const EditUserModal = styled.div`
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, -30%);
 	width: 431px;
 	min-height: 550px;
 	background: #ffffff 0% 0% no-repeat padding-box;
@@ -398,8 +396,8 @@ const EditUserModal = styled.div`
 const EditUserModalOverlay = styled.div`
 	z-index: 99;
 	position: absolute;
-	min-width: 100%;
-	min-height: 100% !important;
+	width: 100vw;
+	height: 100vh;
 	background-color: rgba(0, 0, 0, 0.434);
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};

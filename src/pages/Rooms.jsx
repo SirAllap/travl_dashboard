@@ -73,12 +73,6 @@ const Rooms = (props) => {
 		handleMoreOptions(id)
 	}
 
-	// const handleEdition = (id) => {
-	// alert(`ill be the one who edit this id => ${id}`)
-	// dispatch(editRoom(currentId))
-	// handleMoreOptions(id)
-	// }
-
 	const whoAmI = {
 		name: 'rooms',
 		redirect: true,

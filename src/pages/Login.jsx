@@ -53,48 +53,60 @@ const Login = () => {
 
 	return (
 		<>
-			<LoginContainer>
-				<LogoSection>
-					<LogoImage src={logo} alt='a logo of the hotel dashboard' />
-				</LogoSection>
-				<LoginInputLable>User</LoginInputLable>
-				<LoginInput
-					data-cy='input-user'
-					defaultValue={quick ? 'Admin' : ''}
-					onChange={(e) => setUserName(e.target.value)}
-				/>
-				<LoginInputLable>Password</LoginInputLable>
-				<LoginInput
-					data-cy='input-password'
-					defaultValue={quick ? 'oxygen' : ''}
-					type='password'
-					onChange={(e) => setUserPassword(e.target.value)}
-				/>
-				<CTAXtra onClick={quickLogin} data-cy='xtraquick-login-button'>
-					XtraQuick - LOGIN
-				</CTAXtra>
-				<CTA data-cy='trigger-login-button' onClick={authUser}>
-					Log in
-				</CTA>
-			</LoginContainer>
+			<MainContainer>
+				<LoginContainer>
+					<LogoSection>
+						<LogoImage
+							src={logo}
+							alt='a logo of the hotel dashboard'
+						/>
+					</LogoSection>
+					<LoginInputLable>User</LoginInputLable>
+					<LoginInput
+						data-cy='input-user'
+						defaultValue={quick ? 'Admin' : ''}
+						onChange={(e) => setUserName(e.target.value)}
+					/>
+					<LoginInputLable>Password</LoginInputLable>
+					<LoginInput
+						data-cy='input-password'
+						defaultValue={quick ? 'oxygen' : ''}
+						type='password'
+						onChange={(e) => setUserPassword(e.target.value)}
+					/>
+					<CTAXtra
+						onClick={quickLogin}
+						data-cy='xtraquick-login-button'
+					>
+						XtraQuick - LOGIN
+					</CTAXtra>
+					<CTA data-cy='trigger-login-button' onClick={authUser}>
+						Log in
+					</CTA>
+				</LoginContainer>
+			</MainContainer>
 		</>
 	)
 }
 
 export default Login
 
+const MainContainer = styled.div`
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`
+
 const LoginContainer = styled.div`
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-right: -50%;
-	transform: translate(-50%, -50%);
 	border: 2px solid ${color.ligthPurple};
 	padding-top: 40px;
 	border-radius: 8px;
 	background-color: #f8f8f8;
 	width: 500px;
 	height: 620px;
+	/* margin: auto; */
 `
 
 const LogoSection = styled.section`
