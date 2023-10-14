@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+	createRoomState,
 	fetchRoomState,
 	initialRooms,
 	singleRoom,
@@ -18,6 +19,7 @@ const EditRoom = (props) => {
 	const initialRoomData = useSelector(initialRooms)
 	const singleRoomData = useSelector(singleRoom)
 	const initialRoomState = useSelector(fetchRoomState)
+	const editionRoomCurrentStatus = useSelector(createRoomState)
 	const { state, roomEditioBreadCrumb } = useContext(supertoggleContext)
 	const [spinner, setSpinner] = useState(false)
 	const location = useLocation()
@@ -27,6 +29,12 @@ const EditRoom = (props) => {
 	const [editCurrentDiscount, setEditCurrentDiscount] = useState(0)
 
 	useEffect(() => {
+		if (editionRoomCurrentStatus === 'pending') {
+			setSpinner(true)
+		} else if (editionRoomCurrentStatus === 'fulfilled') {
+			setSpinner(false)
+			navigate('/rooms')
+		}
 		if (
 			savedLastId !== roomId &&
 			location.pathname === `/rooms/edit-room/${roomId}`
@@ -65,6 +73,7 @@ const EditRoom = (props) => {
 		currentRoom.offer_price,
 		currentRoom.discount,
 		currentRoom,
+		editionRoomCurrentStatus,
 	])
 
 	const [newRoomType, setNewRoomType] = useState('')
@@ -109,7 +118,10 @@ const EditRoom = (props) => {
 
 	const [newRoomDiscount, setNewRoomDiscount] = useState(0)
 	const handleRadioDiscount = (event) => {
-		setNewRoomDiscount(parseInt(event.target.value))
+		setEditCurrentDiscount(parseInt(event.target.value))
+		setTimeout(() => {
+			setNewRoomDiscount(editCurrentDiscount)
+		}, 1000)
 	}
 
 	const [newRoomAmenities, setNewRoomAmenities] = useState([])
@@ -233,7 +245,7 @@ const EditRoom = (props) => {
 					? currentRoom.amenities_type
 					: newRoomAmenitiesType,
 			amenities:
-				newRoomAmenities === currentRoom.amenities
+				newRoomAmenities.length === 0
 					? currentRoom.amenities
 					: newRoomAmenities,
 			price: newRoomPrice === 0 ? currentRoom.price : newRoomPrice,

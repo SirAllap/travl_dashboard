@@ -15,7 +15,6 @@ const CreateRoom = (props) => {
 	const createRoomCurretState = useSelector(createRoomState)
 	const { state } = useContext(supertoggleContext)
 	const [spinner, setSpinner] = useState(false)
-	const [toggleModalNewRoom, setToggleModalNewRoom] = useState(false)
 
 	useEffect(() => {
 		if (createRoomCurretState === 'pending') {
@@ -195,7 +194,6 @@ const CreateRoom = (props) => {
 			status: 'Available',
 		}
 		dispatch(createOneRoom(newRoom))
-		handleToggleModalNewRoom()
 	}
 
 	const [autoAddDescription, setAutoAddDescription] = useState(false)
@@ -204,14 +202,6 @@ const CreateRoom = (props) => {
 		setNewRoomDescription(
 			'Experience the epitome of luxury and comfort in our Double Superior room. This spacious and elegantly appointed room is designed to provide you with the utmost relaxation and convenience during your stay. With a modern and stylish decor, it offers a serene oasis in the heart of the city.'
 		)
-	}
-
-	const handleToggleModalNewRoom = () => {
-		if (!toggleModalNewRoom) {
-			setToggleModalNewRoom(true)
-		} else {
-			setToggleModalNewRoom(false)
-		}
 	}
 
 	return (

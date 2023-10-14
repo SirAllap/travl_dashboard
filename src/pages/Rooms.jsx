@@ -220,6 +220,7 @@ const Rooms = (props) => {
 								<OptionsButton
 									onClick={() => {
 										dispatch(fetchOneRoom(id))
+										dispatch(resetState())
 									}}
 									button_type='edit'
 								>

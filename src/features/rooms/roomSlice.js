@@ -56,9 +56,9 @@ const roomSlice = createSlice({
             })
             .addCase(createOneRoom.fulfilled, (state, action) => {
                 if (state.initialRoomFetchPlusNewRooms.length !== 0) {
-                    state.initialRoomFetchPlusNewRooms.push(action.payload)
+                    state.initialRoomFetchPlusNewRooms = [action.payload, ...state.initialRoomFetchPlusNewRooms]
                 } else {
-                    state.initialRoomFetch.push(action.payload)
+                    state.initialRoomFetch = [action.payload, ...state.initialRoomFetch]
                     state.initialRoomFetchPlusNewRooms = [...state.initialRoomFetch]
                 }
                 state.createRoomStatus = 'fulfilled'
@@ -71,7 +71,14 @@ const roomSlice = createSlice({
                 state.createRoomStatus = 'rejected'
             })
             .addCase(editCurrentRoom.fulfilled, (state, action) => {
-                console.log(action.payload)
+                if (state.initialRoomFetchPlusNewRooms.length !== 0) {
+                    state.initialRoomFetchPlusNewRooms = state.initialRoomFetchPlusNewRooms.filter(room => room.id !== action.payload.id)
+                    state.initialRoomFetchPlusNewRooms = [action.payload, ...state.initialRoomFetchPlusNewRooms]
+                } else {
+                    state.initialRoomFetch = state.initialRoomFetch.filter(room => room.id !== action.payload.id)
+                    state.initialRoomFetch = [action.payload, ...state.initialRoomFetch]
+                    state.initialRoomFetchPlusNewRooms = [...state.initialRoomFetch]
+                }
                 state.createRoomStatus = 'fulfilled'
             })
 
