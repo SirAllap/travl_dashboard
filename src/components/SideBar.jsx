@@ -261,10 +261,10 @@ const MenuItems = styled(NavLink)`
 	transition: 0.3s;
 	cursor: pointer;
 	&:hover {
-		color: ${color.normalPurple};
+		color: ${color.strongPurple};
 		${VerticalDivider} {
 			transition: 0.2s;
-			background-color: ${color.normalPurple};
+			background-color: ${color.strongPurple};
 			width: 19px;
 		}
 	}
@@ -278,14 +278,14 @@ const MenuItems = styled(NavLink)`
 		text-decoration: none;
 	}
 	&.active {
-		color: ${color.strongPurple};
+		color: ${color.softer_strongPurple};
 		&:hover {
-			color: ${color.strongPurple};
+			color: ${color.softer_strongPurple};
 		}
 		${VerticalDivider} {
 			transition: 0.2s;
 			visibility: visible;
-			background-color: ${color.strongPurple};
+			background-color: ${color.softer_strongPurple};
 		}
 	}
 `
