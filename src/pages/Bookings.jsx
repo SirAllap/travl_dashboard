@@ -17,7 +17,7 @@ import {
 	fetchOneBooking,
 } from '../features/bookings/bookingThunks'
 import { supertoggleContext } from '../context/supertoggleContext'
-import { Triangle } from 'react-loader-spinner'
+import * as color from '../components/Variables'
 
 const Bookings = () => {
 	const dispatch = useDispatch()
@@ -62,11 +62,11 @@ const Bookings = () => {
 		handleMoreOptions(id)
 	}
 
-	const handleEdition = (id) => {
-		alert(`ill be the one who edit this id => ${id}`)
-		// dispatch(editRoom(currentId))
-		// handleMoreOptions(id)
-	}
+	// const handleEdition = (id) => {
+	// alert(`ill be the one who edit this id => ${id}`)
+	// dispatch(editRoom(currentId))
+	// handleMoreOptions(id)
+	// }
 
 	const whoAmI = {
 		name: 'bookings',
@@ -258,10 +258,10 @@ const Bookings = () => {
 								style={{
 									borderBottom:
 										filter.value === 'All Bookings' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
 										filter.value === 'All Bookings' &&
-										'#135846',
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								All Bookings
@@ -273,9 +273,10 @@ const Bookings = () => {
 								style={{
 									borderBottom:
 										filter.value === 'CheckIn' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
-										filter.value === 'CheckIn' && '#135846',
+										filter.value === 'CheckIn' &&
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								Check In
@@ -287,10 +288,10 @@ const Bookings = () => {
 								style={{
 									borderBottom:
 										filter.value === 'CheckOut' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
 										filter.value === 'CheckOut' &&
-										'#135846',
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								Check Out
@@ -302,10 +303,10 @@ const Bookings = () => {
 								style={{
 									borderBottom:
 										filter.value === 'In Progress' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
 										filter.value === 'In Progress' &&
-										'#135846',
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								In Progress
@@ -325,26 +326,14 @@ const Bookings = () => {
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				{spinner ? (
-					<SpinnerContainer>
-						<Triangle
-							height='150'
-							width='150'
-							color='#135846'
-							ariaLabel='triangle-loading'
-							wrapperClassName=''
-							visible={spinner}
-						/>
-					</SpinnerContainer>
-				) : (
-					<Table
-						cols={cols}
-						datas={displayData}
-						whoAmI={whoAmI}
-						filter={filter}
-						spinner={deleteSpinner}
-					/>
-				)}
+				<Table
+					cols={cols}
+					datas={displayData}
+					whoAmI={whoAmI}
+					filter={filter}
+					spinner={deleteSpinner}
+					loadingSpinner={spinner}
+				/>
 			</MainContainer>
 		</>
 	)
@@ -352,11 +341,13 @@ const Bookings = () => {
 
 export default Bookings
 
-const SpinnerContainer = styled.div`
-	position: absolute;
-	left: 60%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+const MainContainer = styled.main`
+	text-align: center;
+	max-height: 730px;
+	min-width: 1494px;
+	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
+	margin-top: 50px;
+	margin-right: 30px;
 `
 
 const MoreOptions = styled.span`
@@ -370,15 +361,27 @@ const MoreOptions = styled.span`
 const SpecialRequest = styled.button`
 	cursor: ${(props) =>
 		props.selectionable === 'true' ? 'pointer' : 'not-allowed'};
-	font: 400 16px Poppins;
+	font: 500 16px Poppins;
 	width: 160px;
 	height: 48px;
 	border: none;
 	border-radius: 8px;
-	color: ${(props) => (props.specialrequest >= 1 ? '#799283' : '#212121')};
+	transition: 0.3s all;
+	color: ${(props) =>
+		props.specialrequest >= 1
+			? `${color.softer_strongPurple}`
+			: `${color.softer_normalGrey}`};
 	background-color: ${(props) =>
-		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
-	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
+		props.specialrequest >= 1
+			? `${color.softerPLus_ligthPurple}`
+			: `${color.softer_ligthGrey}`};
+	border: none;
+	&:hover {
+		scale: ${(props) => props.specialrequest >= 1 && '1.06'};
+		color: ${(props) => props.specialrequest >= 1 && 'white'};
+		background-color: ${(props) =>
+			props.specialrequest >= 1 && `${color.softer_strongPurple}`};
+	}
 `
 
 const OptionsButton = styled(SpecialRequest)`
@@ -391,15 +394,21 @@ const OptionsButton = styled(SpecialRequest)`
 	border-radius: 8px;
 	margin: ${(props) =>
 		props.button_type === 'edit' ? '10px auto 0 auto' : 'auto'};
-	color: ${(props) => (props.button_type === 'edit' ? '#f7a32e' : '#e23428')};
+	color: ${(props) =>
+		props.button_type === 'edit'
+			? `${color.softer_strongPurple}`
+			: `${color.normalPinkie}`};
 	background-color: ${(props) =>
-		props.button_type === 'edit' ? '#fdebd1' : '#ffedec'};
+		props.button_type === 'edit'
+			? `${color.softerPLus_ligthPurple}`
+			: `${color.softer_ligthPinkie}`};
 	transition: 0.3s all;
 	&:hover {
-		color: ${(props) =>
-			props.button_type === 'edit' ? '#fdebd1' : '#ffedec'};
+		color: ${(props) => (props.button_type === 'edit' ? 'white' : 'white')};
 		background-color: ${(props) =>
-			props.button_type === 'edit' ? '#f7a32e' : '#e23428'};
+			props.button_type === 'edit'
+				? `${color.softer_strongPurple}`
+				: `${color.normalPinkie}`};
 	}
 `
 
@@ -411,18 +420,10 @@ const CloseCTA = styled.button`
 	font-size: 25px;
 	border: none;
 	background-color: transparent;
+	transition: 0.3s all;
 	&:hover {
-		color: red;
+		color: ${color.normalPinkie};
 	}
-`
-
-const MainContainer = styled.main`
-	text-align: center;
-	max-height: 730px;
-	min-width: 1494px;
-	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
-	margin-top: 50px;
-	margin-right: 30px;
 `
 
 const TopTableContainer = styled.div`
@@ -458,13 +459,15 @@ const Tabs = styled.div`
 		border-radius: 0 0 3px 3px;
 		border: 0;
 		border-bottom: 3px solid transparent;
+		transition: 0.3s all;
 		cursor: pointer;
 		&:hover {
-			border-bottom: 3px solid green;
-			color: #135846;
+			border-bottom: 3px solid ${color.strongPurple};
+			color: ${color.strongPurple};
 		}
 	}
 `
+
 const InputSearch = styled.input`
 	position: absolute;
 	left: 90px;
@@ -495,30 +498,28 @@ const Icons = styled.div`
 `
 
 const FilterSelector = styled.select`
-	width: 134px;
+	-webkit-appearance: none;
+	width: 175px;
 	height: 50px;
-	border: 1px solid green;
+	border: 1px solid #135846;
 	font: 500 16px Poppins;
-	color: #135846;
-	border: 2px solid #135846;
+	color: ${color.strongPurple};
+	border: none;
 	border-radius: 12px;
 	margin-right: 20px;
+	background-color: ${color.softer_ligthPurple};
 	cursor: pointer;
 	outline: none;
-	padding-left: 15px;
-	option {
-		font: 500 16px Poppins;
-		color: #135846;
-	}
-	&:hover {
-		border: 2px solid #799283;
-	}
+	padding-left: 25px;
 `
 
 const TextFormatter = styled.span`
 	display: block;
 	text-align: left;
-	color: ${(props) => (props.small === 'small' ? '#799283' : '#393939')};
+	color: ${(props) =>
+		props.small === 'small'
+			? `${color.softer_normalGrey}`
+			: `${color.strongGrey}`};
 	font: ${(props) =>
 		props.small === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
 `
@@ -529,22 +530,13 @@ const Status = styled.button`
 	height: 48px;
 	border: none;
 	border-radius: 8px;
-	color: ${(props) =>
-		props.status === 'CheckIn'
-			? '#5AD07A'
-			: props.status === 'CheckOut'
-			? '#E23428'
-			: props.status === 'In Progress'
-			? '#fff'
-			: 'transparent'};
+	color: white;
 	background-color: ${(props) =>
 		props.status === 'CheckIn'
-			? '#E8FFEE'
+			? `${color.normalPurple}`
 			: props.status === 'CheckOut'
-			? '#FFEDEC'
-			: props.status === 'In Progress'
-			? '#FF9C3A'
-			: 'transparent'};
+			? `${color.normalPinkie}`
+			: props.status === 'In Progress' && `${color.normalOrange}`};
 	&:hover {
 	}
 `

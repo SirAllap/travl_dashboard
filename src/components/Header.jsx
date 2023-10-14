@@ -9,6 +9,7 @@ import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { authenticationContext } from '../context/authenticationContext'
+import * as color from '../components/Variables'
 
 const Header = () => {
 	const { dispatch, state, stateBread } = useContext(supertoggleContext)
@@ -92,16 +93,16 @@ const Header = () => {
 					</LeftContainer>
 					<RightContainer>
 						<IconStyle groupofrigthicons='groupofrigthicons'>
-							<AiOutlineHeart color='#135846' />
+							<AiOutlineHeart />
 						</IconStyle>
 						<IconStyle groupofrigthicons='groupofrigthicons'>
-							<LuMail color='#135846' />
+							<LuMail />
 						</IconStyle>
 						<IconStyle groupofrigthicons='groupofrigthicons'>
-							<BiBell color='#135846' />
+							<BiBell />
 						</IconStyle>
 						<IconStyle groupofrigthicons='groupofrigthicons'>
-							<BiMessageAltDetail color='#135846' />
+							<BiMessageAltDetail />
 						</IconStyle>
 						<ProfilePictureVoid
 							src={
@@ -114,7 +115,6 @@ const Header = () => {
 						<IconStyle logout='logout'>
 							<HiOutlineLogout
 								data-cy='icon-trigger-logout'
-								color='#E23428'
 								onClick={handleLogOut}
 							/>
 						</IconStyle>
@@ -155,7 +155,7 @@ export const IconStyle = styled.div`
 	display: flex;
 	align-items: center;
 	font-size: 30px;
-	color: black;
+	color: ${color.softer_strongGrey};
 	margin: ${(props) =>
 		props.menu === 'menu'
 			? '0 50px 0 41px'
@@ -169,10 +169,17 @@ export const IconStyle = styled.div`
 	&:hover {
 		transform: scale(1.1);
 	}
+	&:last-child {
+		color: ${color.softer_normalPinkie};
+		&:hover {
+			color: ${color.normalPinkie};
+		}
+	}
 `
 
 const DashboardTitle = styled.p`
-	font: normal normal 600 28px/42px Poppins;
+	font: normal 600 30px Poppins;
+	color: ${color.strongGrey};
 `
 
 const DashboardSubtitle = styled.p`
@@ -192,6 +199,6 @@ const ProfilePictureVoid = styled.img`
 const VerticalDivider = styled.div`
 	width: 3px;
 	height: 55px;
-	border-left: solid 3px #ebebeb;
+	border-left: dashed 1px ${color.softer_normalGrey};
 	margin-right: 20px;
 `

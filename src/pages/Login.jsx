@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import logo from '../assets/logo_dashboard.png'
 import { authenticationContext } from '../context/authenticationContext'
 import { useNavigate } from 'react-router-dom'
+import * as color from '../components/Variables'
 
 const Login = () => {
 	const navigate = useNavigate()
@@ -88,7 +89,7 @@ const LoginContainer = styled.div`
 	left: 50%;
 	margin-right: -50%;
 	transform: translate(-50%, -50%);
-	border: 2px solid #79928362;
+	border: 2px solid ${color.ligthPurple};
 	padding-top: 40px;
 	border-radius: 8px;
 	background-color: #f8f8f8;
@@ -112,21 +113,22 @@ const LoginInput = styled.input`
 	width: 86%;
 	height: 47px;
 	margin: 5px 35px 35px 35px;
-	background-color: #ebf1ef;
+	background-color: ${color.softerPLus_ligthPurple};
 	border: none;
 	border-radius: 8px;
 	color: #000;
-	color: #135846;
+	color: ${color.strongPurple};
 	padding: 10px;
 	font-size: 17px;
-	outline: 2px solid #79928362;
+	font: normal normal 500 17px Poppins;
+	outline: 2px solid ${color.ligthPurple};
 	transition: 0.3s;
 `
 
 const LoginInputLable = styled.label`
 	font: normal normal 500 17px Poppins;
 	display: block;
-	color: #135846;
+	color: ${color.normalPinkie};
 	margin-left: 40px;
 `
 
@@ -134,24 +136,22 @@ const CTA = styled.button`
 	width: 86%;
 	height: 47px;
 	margin: 0px 35px 35px 35px;
-	background-color: #f8a756;
+	background-color: ${color.normalPinkie};
 	border: none;
-	outline: 2px solid #ff9c3a;
 	border-radius: 8px;
 	color: #fff;
 	font: normal normal 600 14px/21px Poppins;
 	cursor: pointer;
 	transition: 0.3s;
 	&:hover {
-		color: #799283;
-		background-color: #fb9f4498;
-		outline: 2px solid #fb9f4498;
+		color: #ffffff;
+		background-color: ${color.softer_normalPinkie};
 	}
 `
 const CTAXtra = styled(CTA)`
 	width: 86%;
 	height: 47px;
-	background-color: #8400ff;
+	background-color: ${color.normalPurple};
 	border: none;
 	outline: none;
 	border-radius: 8px;
@@ -161,7 +161,7 @@ const CTAXtra = styled(CTA)`
 	transition: 0.3s;
 	&:hover {
 		color: #ffffff;
-		background-color: #8400ff7a;
+		background-color: ${color.softer_normalPurple};
 		outline: none;
 	}
 `

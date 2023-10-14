@@ -17,8 +17,8 @@ import {
 	fetchInitialRooms,
 	fetchOneRoom,
 } from '../features/rooms/roomThunks'
-import { Triangle } from 'react-loader-spinner'
 import { NavLink } from 'react-router-dom'
+import * as color from '../components/Variables'
 
 const Rooms = (props) => {
 	const dispatch = useDispatch()
@@ -73,11 +73,11 @@ const Rooms = (props) => {
 		handleMoreOptions(id)
 	}
 
-	const handleEdition = (id) => {
-		alert(`ill be the one who edit this id => ${id}`)
-		// dispatch(editRoom(currentId))
-		// handleMoreOptions(id)
-	}
+	// const handleEdition = (id) => {
+	// alert(`ill be the one who edit this id => ${id}`)
+	// dispatch(editRoom(currentId))
+	// handleMoreOptions(id)
+	// }
 
 	const whoAmI = {
 		name: 'rooms',
@@ -147,7 +147,7 @@ const Rooms = (props) => {
 					<span
 						style={{
 							font: '300 14px Poppins',
-							color: offer_price && '#ed0b0b86',
+							color: offer_price && `${color.normalPinkie}`,
 							textDecoration: offer_price && 'line-through',
 						}}
 					>
@@ -165,7 +165,7 @@ const Rooms = (props) => {
 						small='offer_price'
 						style={{
 							font: offer_price && '600 23px Poppins',
-							color: offer_price && '#f7a32e',
+							color: offer_price && `${color.normalPurple}`,
 						}}
 					>
 						{offer_price
@@ -175,7 +175,7 @@ const Rooms = (props) => {
 					<span
 						style={{
 							font: '600 15px Poppins',
-							color: offer_price && '#f7a32e',
+							color: offer_price && `${color.normalPurple}`,
 						}}
 					>
 						{offer_price && '/night'}
@@ -297,10 +297,10 @@ const Rooms = (props) => {
 								style={{
 									borderBottom:
 										filter.value === 'All Rooms' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
 										filter.value === 'All Rooms' &&
-										'#135846',
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								All Rooms
@@ -312,10 +312,10 @@ const Rooms = (props) => {
 								style={{
 									borderBottom:
 										filter.value === 'Available' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
 										filter.value === 'Available' &&
-										'#135846',
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								Available
@@ -327,9 +327,10 @@ const Rooms = (props) => {
 								style={{
 									borderBottom:
 										filter.value === 'Booked' &&
-										'3px solid #135846',
+										`3px solid ${color.softer_strongPurple}`,
 									color:
-										filter.value === 'Booked' && '#135846',
+										filter.value === 'Booked' &&
+										`${color.softer_strongPurple}`,
 								}}
 							>
 								Booked
@@ -353,46 +354,27 @@ const Rooms = (props) => {
 							defaultValue='byprice'
 						>
 							<option value='byprice' disabled hidden>
-								By price
+								Filter by price >
 							</option>
 							<option value='pricedown'>Down</option>
 							<option value='priceup'>Up</option>
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
-				{spinner ? (
-					<SpinnerContainer>
-						<Triangle
-							height='150'
-							width='150'
-							color='#135846'
-							ariaLabel='triangle-loading'
-							wrapperClassName=''
-							visible={spinner}
-						/>
-					</SpinnerContainer>
-				) : (
-					<Table
-						cols={cols}
-						datas={sortRooms.length !== 0 ? sortRooms : displayData}
-						whoAmI={whoAmI}
-						filter={filter}
-						spinner={deleteSpinner}
-					/>
-				)}
+				<Table
+					cols={cols}
+					datas={sortRooms.length !== 0 ? sortRooms : displayData}
+					whoAmI={whoAmI}
+					filter={filter}
+					spinner={deleteSpinner}
+					loadingSpinner={spinner}
+				/>
 			</MainContainer>
 		</>
 	)
 }
 
 export default Rooms
-
-const SpinnerContainer = styled.div`
-	position: absolute;
-	left: ${(props) => (props.isfor === 'newroom' ? '50%' : '60%')};
-	top: 50%;
-	transform: translate(-50%, -50%);
-`
 
 const MoreOptions = styled.span`
 	position: relative;
@@ -405,21 +387,7 @@ const MoreOptions = styled.span`
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
 
-const SpecialRequest = styled.button`
-	cursor: ${(props) =>
-		props.selectionable === 'true' ? 'pointer' : 'not-allowed'};
-	font: 400 16px Poppins;
-	width: 160px;
-	height: 48px;
-	border: none;
-	border-radius: 8px;
-	color: ${(props) => (props.specialrequest >= 1 ? '#799283' : '#212121')};
-	background-color: ${(props) =>
-		props.specialrequest >= 1 ? '#fff' : '#EEF9F2'};
-	border: ${(props) => props.specialrequest >= 1 && '1px solid #799283'};
-`
-
-const OptionsButton = styled(SpecialRequest)`
+const OptionsButton = styled.button`
 	display: block;
 	cursor: pointer;
 	font: 400 16px Poppins;
@@ -429,15 +397,21 @@ const OptionsButton = styled(SpecialRequest)`
 	border-radius: 8px;
 	margin: 0 auto;
 	margin-top: ${(props) => props.button_type === 'edit' && '10px'};
-	color: ${(props) => (props.button_type === 'edit' ? '#f7a32e' : '#e23428')};
+	color: ${(props) =>
+		props.button_type === 'edit'
+			? `${color.softer_strongPurple}`
+			: `${color.normalPinkie}`};
 	background-color: ${(props) =>
-		props.button_type === 'edit' ? '#fdebd1' : '#ffedec'};
+		props.button_type === 'edit'
+			? `${color.softerPLus_ligthPurple}`
+			: `${color.softer_ligthPinkie}`};
 	transition: 0.3s all;
 	&:hover {
-		color: ${(props) =>
-			props.button_type === 'edit' ? '#fdebd1' : '#ffedec'};
+		color: ${(props) => (props.button_type === 'edit' ? 'white' : 'white')};
 		background-color: ${(props) =>
-			props.button_type === 'edit' ? '#f7a32e' : '#e23428'};
+			props.button_type === 'edit'
+				? `${color.softer_strongPurple}`
+				: `${color.normalPinkie}`};
 	}
 `
 
@@ -449,8 +423,9 @@ const CloseCTA = styled.button`
 	font-size: 25px;
 	border: none;
 	background-color: transparent;
+	transition: 0.3s all;
 	&:hover {
-		color: red;
+		color: ${color.normalPinkie};
 	}
 `
 
@@ -458,20 +433,18 @@ const AddRoomCTA = styled.button`
 	font: 500 16px Poppins;
 	width: 364px;
 	height: 50px;
-	border: 1px solid #135846;
-	color: #135846ab;
-	border: 2px solid #1358465c;
+	border: none;
+	color: ${color.normalPinkie};
+	background-color: ${color.softer_ligthPinkie};
 	border-radius: 12px;
 	margin-right: 20px;
 	cursor: pointer;
 	outline: none;
 	padding: 0 15px 0 15px;
-	background-color: #eef9f296;
 	transition: 0.3s all;
 	&:hover {
-		background-color: #13584663;
-		color: #ffffffc4;
-		border: 2px solid #79928381;
+		color: white;
+		background-color: ${color.softer_normalPinkie};
 	}
 `
 
@@ -521,31 +494,30 @@ const Tabs = styled.div`
 		border-radius: 0 0 3px 3px;
 		border: 0;
 		border-bottom: 3px solid transparent;
+		transition: 0.3s all;
 		cursor: pointer;
 		&:hover {
-			border-bottom: 3px solid #135846;
-			color: #135846;
+			border-bottom: 3px solid ${color.strongPurple};
+			color: ${color.strongPurple};
 		}
 	}
 `
 
 const FilterSelector = styled.select`
-	width: 164px;
+	-webkit-appearance: none;
+	width: 175px;
 	height: 50px;
 	border: 1px solid #135846;
 	font: 500 16px Poppins;
-	color: #135846;
-	border: 2px solid #135846;
+
+	color: ${color.strongPurple};
+	border: none;
 	border-radius: 12px;
 	margin-right: 20px;
-	background-color: #fff;
+	background-color: ${color.softer_ligthPurple};
 	cursor: pointer;
 	outline: none;
-	padding-left: 15px;
-	option {
-		font: 500 16px Poppins;
-		color: #135846;
-	}
+	padding-left: 25px;
 `
 
 const TextFormatter = styled.span`
@@ -555,13 +527,12 @@ const TextFormatter = styled.span`
 			: props.small === 'offer_price'
 			? 'inline'
 			: 'block'};
-	text-align: left;
 	color: ${(props) =>
 		props.small === 'small'
-			? '#799283'
+			? `${color.softer_normalGrey}`
 			: props.offer === 'true'
-			? '#ed0b0b86'
-			: '#393939'};
+			? `${color.normalPinkie}`
+			: `${color.strongGrey}`};
 	font: ${(props) =>
 		props.small === 'small' ? '400 13px Poppins' : '500 19px Poppins'};
 	text-align: center;
@@ -577,9 +548,9 @@ export const Status = styled.button`
 	color: #fff;
 	background-color: ${(props) =>
 		props.status === 'Available'
-			? '#5AD07A'
+			? `${color.softer_strongPurple}`
 			: props.status === 'Booked'
-			? '#E23428'
+			? `${color.normalPinkie}`
 			: '#FFEDEC'};
 	transition: 0.3s all;
 	&:hover {
@@ -588,13 +559,22 @@ export const Status = styled.button`
 `
 
 const AmenitiesTag = styled.button`
-	font: 400 12px Poppins;
+	font: 500 12.5px Poppins;
 	padding: 8px;
 	border: none;
 	border-radius: 6px;
-	color: ${(props) => (props.type === 'Suite' ? '#7801ff' : '#135846')};
+	color: ${(props) =>
+		props.type === 'Suite'
+			? `${color.normalOrange}`
+			: props.type === 'Double Superior'
+			? `${color.softer_strongPurple}`
+			: `${color.normalGrey}`};
 	background-color: ${(props) =>
-		props.type === 'Suite' ? '#7801ff16' : '#eef9f2'};
+		props.type === 'Suite'
+			? `${color.softer_ligthOrange}`
+			: props.type === 'Double Superior'
+			? `${color.softer_ligthPurple}`
+			: `${color.softer_ligthGrey}`};
 	margin: 3px;
 	svg {
 		font-size: 20px;

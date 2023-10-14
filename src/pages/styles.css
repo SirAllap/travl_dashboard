@@ -1,5 +1,5 @@
 .swiper-button-next {
-	background: #135846;
+	background: #522b8d4a;
 	background-image: url('/src/assets/arrow_R.png');
 	filter: drop-shadow(0 0 3px #242424);
 	background-repeat: no-repeat;
@@ -19,7 +19,7 @@
 	display: none;
 }
 .swiper-button-prev {
-	background: #135846;
+	background: #522b8d4a;
 	background-image: url('/src/assets/arrow_L.png');
 	filter: drop-shadow(0 0 3px #242424);
 	background-repeat: no-repeat;
