@@ -515,7 +515,7 @@ const InputSearch = styled.input`
 	left: 90px;
 	background-color: #fff;
 	font: 500 16px Poppins;
-	color: #135846;
+	color: ${color.strongPurple};
 	padding: 10px 10px 10px 50px;
 	width: 351px;
 	height: 50px;
@@ -523,10 +523,10 @@ const InputSearch = styled.input`
 	border-radius: 12px;
 	outline: none;
 	&:focus {
-		outline: 2px solid #135846;
+		outline: 2px solid ${color.softer_ligthPurple};
 	}
 	&:hover {
-		outline: 2px solid #799283;
+		outline: 2px solid ${color.softer_normalPurple};
 	}
 `
 
