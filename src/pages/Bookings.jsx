@@ -30,6 +30,8 @@ const Bookings = () => {
 	const [displayData, setDisplayData] = useState([])
 	const [toggleMoreOptions, setToggleMoreOptions] = useState(false)
 	const [currentId, setCurrentId] = useState('')
+	const [toggleModal, setToggleModal] = useState(false)
+	const [guestSpecialRequest, setGuestSpecialRequest] = useState('')
 
 	useEffect(() => {
 		dispatch(fetchInitialBookings())
@@ -67,6 +69,16 @@ const Bookings = () => {
 	// dispatch(editRoom(currentId))
 	// handleMoreOptions(id)
 	// }
+
+	const handleSpecialRequestModal = (msg) => {
+		if (!toggleModal) {
+			setToggleModal(true)
+			setGuestSpecialRequest(msg)
+		} else {
+			setToggleModal(false)
+			setGuestSpecialRequest('')
+		}
+	}
 
 	const whoAmI = {
 		name: 'bookings',
@@ -118,20 +130,15 @@ const Bookings = () => {
 			label: 'Special Request',
 			display: ({ special_request, id }) =>
 				special_request.length !== 0 ? (
-					<NavLink
+					<SpecialRequest
+						selectionable='true'
+						specialrequest={special_request.length}
 						onClick={() => {
-							dispatch(fetchOneBooking(id))
+							handleSpecialRequestModal(special_request)
 						}}
-						style={{ textDecoration: 'none' }}
-						to={`/bookings/${id}`}
 					>
-						<SpecialRequest
-							selectionable='true'
-							specialrequest={special_request.length}
-						>
-							View Notes
-						</SpecialRequest>
-					</NavLink>
+						View Notes
+					</SpecialRequest>
 				) : (
 					<SpecialRequest
 						selectionable='false'
@@ -247,6 +254,16 @@ const Bookings = () => {
 
 	return (
 		<>
+			<EditUserModalOverlay
+				onClick={handleSpecialRequestModal}
+				open={toggleModal}
+			/>
+			<EditUserModal
+				onClick={handleSpecialRequestModal}
+				open={toggleModal}
+			>
+				<TextFormatter>{guestSpecialRequest}</TextFormatter>
+			</EditUserModal>
 			<MainContainer toggle={state.position}>
 				<TopTableContainer>
 					<TableTabsContainer>
@@ -348,6 +365,31 @@ const MainContainer = styled.main`
 	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
 	margin-top: 50px;
 	margin-right: 30px;
+`
+
+const EditUserModalOverlay = styled.div`
+	z-index: 99;
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.434);
+	transition: all 0.5s;
+	display: ${(props) => (props.open ? 'block' : 'none')};
+`
+
+const EditUserModal = styled.div`
+	z-index: 100;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -30%);
+	width: fit-content;
+	min-height: fit-content;
+	background: #ffffff 0% 0% no-repeat padding-box;
+	border-radius: 20px;
+	transition: all 0.5s;
+	padding: 30px 20px 30px 20px;
+	display: ${(props) => (props.open ? 'block' : 'none')};
 `
 
 const MoreOptions = styled.span`
