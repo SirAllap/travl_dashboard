@@ -61,6 +61,8 @@ const Dashboard = (props) => {
 		if (!toggleModal) {
 			setToggleModal(true)
 			setToggleModalUser(userReview)
+		} else {
+			handleMarkAsRead(currentId)
 		}
 	}
 
@@ -73,12 +75,18 @@ const Dashboard = (props) => {
 			<MainContainer toggle={state.position}>
 				<CustomerReviewModalOverlay open={toggleModal} />
 				<CustomerReviewModal open={toggleModal}>
-					<CloseCTA onClick={handleToggleModal}>
-						<FaRegEnvelopeOpen
-							onClick={() => {
-								handleMarkAsRead(currentId)
-							}}
+					<SpinnerContainerInsideModal>
+						<Triangle
+							height='150'
+							width='150'
+							color={color.normalPinkie}
+							ariaLabel='triangle-loading'
+							wrapperClassName=''
+							visible={archiveSpinner}
 						/>
+					</SpinnerContainerInsideModal>
+					<CloseCTA onClick={handleToggleModal}>
+						<FaRegEnvelopeOpen />
 					</CloseCTA>
 					{toggleModalUser && (
 						<>
@@ -100,16 +108,6 @@ const Dashboard = (props) => {
 								</CustomerCardText>
 							</CustomerReviewCardTopData>
 							<CustomerReviewCardBottomData>
-								<SpinnerContainerInsideModal>
-									<Triangle
-										height='150'
-										width='150'
-										color={color.normalPinkie}
-										ariaLabel='triangle-loading'
-										wrapperClassName=''
-										visible={archiveSpinner}
-									/>
-								</SpinnerContainerInsideModal>
 								<CustomerReviewCardUserPhoto
 									src={`https://robohash.org/${toggleModalUser.full_name}.png?set=any`}
 								/>
@@ -316,9 +314,10 @@ const SpinnerContainer = styled.div`
 `
 
 const SpinnerContainerInsideModal = styled.div`
+	z-index: 100;
 	position: absolute;
 	left: 50%;
-	bottom: 50%;
+	top: 50%;
 	transform: translate(-50%, -50%);
 `
 
@@ -571,13 +570,17 @@ const CustomerReviewModalOverlay = styled.div`
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
 const CloseCTA = styled.button`
+	z-index: 100;
 	position: absolute;
 	right: 20px;
 	bottom: 13px;
-	font-size: 25px;
+	cursor: pointer;
+	width: 50px;
+	height: 50px;
 	border: none;
-	background-color: transparent;
 	transition: 0.3s all;
+	font-size: 25px;
+	background-color: white;
 	color: ${color.strongPurple};
 	&:hover {
 		scale: 1.1;
