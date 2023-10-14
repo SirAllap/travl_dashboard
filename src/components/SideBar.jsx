@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import styled, { css } from 'styled-components'
-import logo1 from '../assets/logo_dashboard1.png'
+import logo from '../assets/logo_dashboard1.png'
 import { NavLink } from 'react-router-dom'
 import { LuLayoutDashboard } from 'react-icons/lu'
 import { SlKey } from 'react-icons/sl'
@@ -231,7 +231,7 @@ const LogoSection = styled.section`
 `
 
 const LogoImage = styled.img`
-	width: 260px;
+	width: 100px;
 	object-fit: contain;
 `
 

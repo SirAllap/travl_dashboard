@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import logo from '../assets/logo_dashboard.png'
+import logo from '../assets/logo_dashboard1.png'
 import { authenticationContext } from '../context/authenticationContext'
 import { useNavigate } from 'react-router-dom'
 import * as color from '../components/Variables'
@@ -101,11 +101,11 @@ const LogoSection = styled.section`
 	height: fit-content;
 	width: fit-content;
 	text-align: center;
-	margin: 0 auto 50px auto;
+	margin: 0 auto 20px auto;
 `
 
 const LogoImage = styled.img`
-	width: 400px;
+	width: 150px;
 	object-fit: contain;
 `
 
