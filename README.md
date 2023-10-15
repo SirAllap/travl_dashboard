@@ -1,74 +1,50 @@
-# Hotel Management Platform
+# TRAVL: Hotel Management Platform
 
-Are you seeking a comprehensive hotel management platform designed to assist your hotel in handling booking, reviews, and requests effortlessly? Look no further! Our platform is crafted to meet the needs of your hotel. With user-friendly tools and intuitive interfaces, it simplifies reservation management. Whether your hotel caters to seasoned travelers or first-time guests, our platform offers everything necessary to enhance their stay. Don't hesitate – begin exploring today and witness how our platform can streamline your hotel's operations!
+Welcome to the TRAVL Hotel Management Dashboard, your one-stop solution for managing bookings, reviews, and guest requests with ease. Whether your hotel caters to seasoned travelers or first-time guests, our platform is tailored to meet your unique needs. With user-friendly tools and intuitive interfaces, it simplifies reservation management and enhances the overall guest experience. Explore the future of hotel management today and discover how TRAVL can streamline your operations!
 
-## Getting Started with Create React App
+![Project Screenshots](https://github.com/SirAllap/hotel_miranda_dashboard/assets/53468881/fffb3e17-b147-4d43-9117-c96aec120bf8)
+![Project Screenshots](https://github.com/SirAllap/hotel_miranda_dashboard/assets/53468881/7c67b150-ea52-4600-8dcb-ceb000630c34)
+![Project Screenshots](https://github.com/SirAllap/hotel_miranda_dashboard/assets/53468881/74e200ac-7565-4bf7-92ea-c197036b5426)
+![Project Screenshots](https://github.com/SirAllap/hotel_miranda_dashboard/assets/53468881/e4bb5b70-c7f6-4c40-972d-d455e66f91b3)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+## Project Status
 
-In the project directory, you can run:
+**I am actively working on implementing Redux Toolkit to manage the global state of the TRAVL application. This development phase includes a comprehensive set of features for user interaction:**
 
-### `npm start`
+- **Manage Rooms:** Effortlessly add, delete, or edit room details.
+- **Manage Bookings:** Review all bookings, access guest information, and handle special requests. (Note: Delete functionality is already implemented, and **add** and **edit** features will be added in the near future.)
+- **Manage Client Reviews:** View and oversee client reviews, mark them as read, or archive messages.
+- **Manage Users:** Seamlessly access and oversee all user (employees) accounts. (Note: Features to update personal information will be added in the near future.) You can assign roles, add new employees, and remove them from the system.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Stay tuned as I continue to enhance TRAVL with even more features and capabilities!
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Installation and Setup Instructions
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To get started with TRAVL on your local machine, follow these steps: 'Make sure you have Node.js and npm installed on your machine.'
 
-### `npm run build`
+1. Clone this repository.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```shell
+   git clone https://github.com/SirAllap/hotel_miranda_dashboard.git
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install project dependencies by running the following command within the project directory:
+   ```shell
+   npm install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. To run the test suite:
+   ```shell
+   npm test
 
-### `npm run eject`
+4. Start the development server:
+   ```shell
+   npm start
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+5. Visit the TRAVL App in your web browser:
+   ```shell
+   http://localhost:3000
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Now you're all set to explore and experiment with TRAVL on your local environment.
