@@ -4,6 +4,8 @@ import logo from '../assets/logo_dashboard1.png'
 import { authenticationContext } from '../context/authenticationContext'
 import { useNavigate } from 'react-router-dom'
 import * as color from '../components/Variables'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Login = () => {
 	const navigate = useNavigate()
@@ -40,7 +42,16 @@ const Login = () => {
 				profilePicture: getProfilePicture(userName),
 			})
 		} else {
-			alert('You introduce wrong credentials')
+			toast.error('❌ Wrong credentials!', {
+				position: 'top-center',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'light',
+			})
 		}
 	}
 
@@ -85,6 +96,18 @@ const Login = () => {
 					</CTA>
 				</LoginContainer>
 			</MainContainer>
+			<ToastContainer
+				position='top-center'
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss={false}
+				draggable
+				pauseOnHover
+				theme='light'
+			/>
 		</>
 	)
 }
