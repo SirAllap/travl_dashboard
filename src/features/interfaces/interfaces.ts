@@ -1,4 +1,4 @@
-export interface BookigInter {
+export interface BookingInter {
 	id: string
 	guest: string
 	phone_number: string
