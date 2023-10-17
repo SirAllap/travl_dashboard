@@ -10,8 +10,6 @@ const delay = (data: object[] | string, time: number = 500) => {
 	})
 }
 
-type FetchOneBookingResponse = string | object[]
-
 export const fetchInitialBookings = createAsyncThunk<BookingInter[]>(
 	'bookings/fetchInitialBookings',
 	async () => {
@@ -21,14 +19,14 @@ export const fetchInitialBookings = createAsyncThunk<BookingInter[]>(
 
 export const fetchOneBooking = createAsyncThunk(
 	'bookings/fetchOneBooking',
-	async (id: FetchOneBookingResponse) => {
-		return await delay(id)
+	async (id: string) => {
+		return (await delay(id)) as string
 	}
 )
 
 export const deleteBooking = createAsyncThunk(
 	'bookings/deleteBooking',
-	async (id: FetchOneBookingResponse) => {
-		return await delay(id)
+	async (id: string) => {
+		return (await delay(id)) as string
 	}
 )
