@@ -1,24 +1,50 @@
-import React, { useReducer } from 'react'
+import React, { ReactNode, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authenticationContext } from './authenticationContext'
 
-const checkInitialState = () => {
+type AuthState = {
+  auth: boolean;
+  name: string;
+  email: string;
+  profilePicture: string;
+};
+
+const checkInitialState = (): AuthState => {
 	return localStorage.getItem('authenticated')
 		? {
 				auth: true,
 				name: JSON.parse(localStorage.getItem('currentUser') || '{}').userName,
 				email: JSON.parse(localStorage.getItem('currentUser') || '{}').email,
-				profilePicture: localStorage.getItem('profilePicture'),
+				profilePicture: localStorage.getItem('profilePicture') || '{}',
 		  }
 		: {
 				auth: false,
-				name: String,
-				email: String,
-				profilePicture: String,
+				name: '',
+				email: '',
+				profilePicture: '',
 		  }
 }
 
-const authenticatorReducer = (action) => {
+type AuthAction =
+  | {
+      type: 'login';
+		payload: {
+			userName: string;
+			email: string;
+			profilePicture: string;
+		};
+    }
+  | {
+      type: 'updateUserInfo';
+      payload: { 
+			userName: string;
+			email: string;
+		  profilePicture: string;
+	  };
+    }
+  | { type: 'logout' };
+
+const authenticatorReducer = (state: AuthAction, action: AuthAction) => {
 	switch (action.type) {
 		case 'login': {
 			return {
@@ -49,10 +75,15 @@ const authenticatorReducer = (action) => {
 	}
 }
 
-const AuthenticationContext = ({ children }) => {
-	const navigate = useNavigate()
 
-	const [authState, dispatch] = useReducer(
+type AuthenticationContextProps = {
+  children: ReactNode;
+};
+
+const AuthenticationContext: React.FC<AuthenticationContextProps> = ({ children }) => {
+  const navigate = useNavigate();
+  
+	const [authState, dispatch] = useReducer<any>(
 		authenticatorReducer,
 		checkInitialState()
 	)
