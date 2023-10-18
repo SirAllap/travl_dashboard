@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { archiveContacts, fetchInitialContacts } from './contactThunks'
-import { ContactInter } from '../interfaces/interfaces'
+import { IContact } from '../interfaces/interfaces'
 import { RootState } from '../../app/store'
 
 interface ContactState {
-	initialContactFetch: ContactInter[]
+	initialContactFetch: IContact[]
 	status: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	archiveStatus: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	error: null | string

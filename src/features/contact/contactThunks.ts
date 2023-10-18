@@ -1,8 +1,8 @@
 import contactsJSONfile from '../../data/client_review.json'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { ContactInter } from '../interfaces/interfaces'
+import { IContact } from '../interfaces/interfaces'
 
-const delay = (data: ContactInter[] | string | ContactInter, time = 500) => {
+const delay = (data: IContact[] | string | IContact, time = 500) => {
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			resolve(data)
@@ -10,10 +10,10 @@ const delay = (data: ContactInter[] | string | ContactInter, time = 500) => {
 	})
 }
 
-export const fetchInitialContacts = createAsyncThunk<ContactInter[]>(
+export const fetchInitialContacts = createAsyncThunk<IContact[]>(
 	'contacts/fetchInitialContacts',
 	async () => {
-		return (await delay(contactsJSONfile)) as ContactInter[]
+		return (await delay(contactsJSONfile)) as IContact[]
 	}
 )
 

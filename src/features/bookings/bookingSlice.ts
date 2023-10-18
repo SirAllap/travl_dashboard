@@ -4,12 +4,12 @@ import {
 	fetchInitialBookings,
 	fetchOneBooking,
 } from './bookingThunks'
-import { BookingInter } from '../interfaces/interfaces'
+import { IBooking } from '../interfaces/interfaces'
 import { RootState } from '../../app/store'
 
 interface BookingState {
-	initialBookingFetch: BookingInter[]
-	singleBookingFetch: BookingInter[]
+	initialBookingFetch: IBooking[]
+	singleBookingFetch: IBooking[]
 	status: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	deleteBookingStatus: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	error: string | null

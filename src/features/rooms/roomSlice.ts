@@ -6,13 +6,13 @@ import {
 	fetchInitialRooms,
 	fetchOneRoom,
 } from './roomThunks'
-import { RoomInter } from '../interfaces/interfaces'
+import { IRoom } from '../interfaces/interfaces'
 import { RootState } from '../../app/store'
 
 interface RoomState {
-	initialRoomFetch: RoomInter[]
-	initialRoomFetchPlusNewRooms: RoomInter[]
-	singleRoomFetch: RoomInter[]
+	initialRoomFetch: IRoom[]
+	initialRoomFetchPlusNewRooms: IRoom[]
+	singleRoomFetch: IRoom[]
 	status: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	createRoomStatus: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	deleteRoomStatus: 'idle' | 'pending' | 'rejected' | 'fulfilled'

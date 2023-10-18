@@ -1,8 +1,8 @@
 import usersJSONfile from '../../data/employee_data.json'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { UserInter } from '../interfaces/interfaces'
+import { IUser } from '../interfaces/interfaces'
 
-const delay = (data: UserInter[] | string | UserInter, time: number = 500) => {
+const delay = (data: IUser[] | string | IUser, time: number = 500) => {
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			resolve(data)
@@ -10,10 +10,10 @@ const delay = (data: UserInter[] | string | UserInter, time: number = 500) => {
 	})
 }
 
-export const fetchInitialUsers = createAsyncThunk<UserInter[]>(
+export const fetchInitialUsers = createAsyncThunk<IUser[]>(
 	'users/fetchInitialUsers',
 	async () => {
-		return (await delay(usersJSONfile)) as UserInter[]
+		return (await delay(usersJSONfile)) as IUser[]
 	}
 )
 
@@ -26,8 +26,8 @@ export const fetchOneUser = createAsyncThunk(
 
 export const createOneUser = createAsyncThunk(
 	'users/createOneUser',
-	async (newUser: UserInter) => {
-		return (await delay(newUser, 1000)) as UserInter
+	async (newUser: IUser) => {
+		return (await delay(newUser, 1000)) as IUser
 	}
 )
 

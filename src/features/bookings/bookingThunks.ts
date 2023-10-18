@@ -1,6 +1,6 @@
 import bookingsJSONfile from '../../data/bookings.json'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { BookingInter } from '../interfaces/interfaces'
+import { IBooking } from '../interfaces/interfaces'
 
 const delay = (data: object[] | string, time: number = 500) => {
 	return new Promise((resolve) => {
@@ -10,10 +10,10 @@ const delay = (data: object[] | string, time: number = 500) => {
 	})
 }
 
-export const fetchInitialBookings = createAsyncThunk<BookingInter[]>(
+export const fetchInitialBookings = createAsyncThunk<IBooking[]>(
 	'bookings/fetchInitialBookings',
 	async () => {
-		return (await delay(bookingsJSONfile)) as BookingInter[]
+		return (await delay(bookingsJSONfile)) as IBooking[]
 	}
 )
 

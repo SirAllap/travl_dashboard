@@ -6,12 +6,12 @@ import {
 	fetchOneUser,
 } from './userThunks'
 import { RootState } from '../../app/store'
-import { UserInter } from '../interfaces/interfaces'
+import { IUser } from '../interfaces/interfaces'
 
 interface UserState {
-	initialUserFetch: UserInter[]
-	initialUserFetchPlusNewUsers: UserInter[]
-	singleUserFetch: UserInter[]
+	initialUserFetch: IUser[]
+	initialUserFetchPlusNewUsers: IUser[]
+	singleUserFetch: IUser[]
 	status: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	createUserStatus: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	deleteUserStatus: 'idle' | 'pending' | 'rejected' | 'fulfilled'
