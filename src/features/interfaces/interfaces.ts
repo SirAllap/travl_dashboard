@@ -1,4 +1,4 @@
-export interface BookingInter {
+export interface IBooking {
 	id: string
 	guest: string
 	phone_number: string
@@ -12,7 +12,7 @@ export interface BookingInter {
 	photos: string[]
 }
 
-export interface RoomInter {
+export interface IRoom {
 	room_number: string
 	id: string
 	room_photo: string[]
@@ -26,7 +26,7 @@ export interface RoomInter {
 	status: string
 }
 
-export interface ContactInter {
+export interface IContact {
 	id: string
 	full_name: string
 	email: string
@@ -38,7 +38,7 @@ export interface ContactInter {
 	isArchived: string
 }
 
-export interface UserInter {
+export interface IUser {
 	employee_id: string
 	full_name: string
 	email: string
