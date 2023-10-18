@@ -180,7 +180,10 @@ const SideBar = () => {
 						</MenuItems>
 					</IconSection>
 					<UserCardInfo>
-						<UserCardProfilePictureVoid src={profPic} />
+						<UserCardProfilePictureVoid
+							src={profPic}
+							onerror="this.src='https://robohash.org/oxygen.png?set=any'"
+						/>
 						<UserCardText type='name'>
 							{!userName ? userName1 : userName}
 						</UserCardText>
