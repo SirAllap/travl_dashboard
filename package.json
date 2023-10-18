@@ -22,12 +22,13 @@
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"start": "vite",
+		"build": "vite build",
+		"serve": "vite preview",
 		"cypress:open": "cypress open",
-		"plus-build": "react-scripts build && aws s3 sync build/ s3://hotelmiranda-dashboard --delete --profile sirallap",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
+		"plus-build": "vite build && aws s3 sync build/ s3://hotelmiranda-dashboard --delete --profile sirallap",
+		"test": "vite test",
+		"eject": "vite eject",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build"
 	},
