@@ -6,8 +6,8 @@ const checkInitialState = () => {
 	return localStorage.getItem('authenticated')
 		? {
 				auth: true,
-				name: JSON.parse(localStorage.getItem('currentUser')).userName,
-				email: JSON.parse(localStorage.getItem('currentUser')).email,
+				name: JSON.parse(localStorage.getItem('currentUser') || '{}').userName,
+				email: JSON.parse(localStorage.getItem('currentUser') || '{}').email,
 				profilePicture: localStorage.getItem('profilePicture'),
 		  }
 		: {
@@ -18,7 +18,7 @@ const checkInitialState = () => {
 		  }
 }
 
-const authenticatorReducer = (state, action) => {
+const authenticatorReducer = (action) => {
 	switch (action.type) {
 		case 'login': {
 			return {

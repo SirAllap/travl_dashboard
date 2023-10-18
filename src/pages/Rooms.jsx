@@ -349,7 +349,7 @@ const Rooms = (props) => {
 							defaultValue='byprice'
 						>
 							<option value='byprice' disabled hidden>
-								Filter by price >
+								Filter by price
 							</option>
 							<option value='pricedown'>Down</option>
 							<option value='priceup'>Up</option>
