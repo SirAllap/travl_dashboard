@@ -8,6 +8,8 @@ interface State {
 interface BreadCrumbState {
   roomBreadCrumb: string;
   headerTitle: string;
+  bookingBreadCrumb: string;
+  roomEditioBreadCrumb: string;
 }
 
 type Action = { type: 'open' } | { type: 'close' };
@@ -35,6 +37,8 @@ const initialState: State = {
 const breadCrumbInitialState: BreadCrumbState = {
   roomBreadCrumb: '',
   headerTitle: '',
+  bookingBreadCrumb: '',
+  roomEditioBreadCrumb: '',
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -60,16 +64,22 @@ const breadCrumbReducer = (state: BreadCrumbState, action: BreadCrumbAction): Br
       return {
         roomBreadCrumb: `Rooms/${action.payload.id}`,
         headerTitle: 'Booking Details',
+        bookingBreadCrumb: '',
+        roomEditioBreadCrumb:''
       };
     case 'getRoomBreadCrumb':
       return {
         roomBreadCrumb: `Rooms/${action.payload.id}`,
         headerTitle: 'Rooms Details',
+        bookingBreadCrumb: '',
+        roomEditioBreadCrumb:''
       };
     case 'getRoomEditionBreadCrumb':
       return {
         roomBreadCrumb: `Rooms/${action.payload.id}`,
         headerTitle: 'Rooms Edition',
+        bookingBreadCrumb: '',
+        roomEditioBreadCrumb:''
       };
     default:
       return state;
