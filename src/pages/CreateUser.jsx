@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { supertoggleContext } from '../context/supertoggleContext'
+import { supertoggleContext } from '../context/ToggleContext'
 import { Triangle } from 'react-loader-spinner'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { createUserState } from '../features/users/userSlice'
