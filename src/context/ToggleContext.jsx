@@ -1,5 +1,4 @@
-import React, { useReducer } from 'react'
-import { supertoggleContext } from './supertoggleContext'
+import React, { useReducer, createContext } from 'react'
 
 const initialState = {
 	position: 'open',
@@ -52,6 +51,8 @@ const breadCrumbReducer = (state, action) => {
 			break
 	}
 }
+
+export const supertoggleContext = createContext(null)
 
 const ToggleContext = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState)
