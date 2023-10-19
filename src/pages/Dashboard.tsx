@@ -13,7 +13,6 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
-import { useDispatch, useSelector } from 'react-redux'
 import {
 	archiveStatus,
 	fetchContactState,
@@ -25,13 +24,13 @@ import {
 } from '../features/contact/contactThunks'
 import { Triangle } from 'react-loader-spinner'
 import * as color from '../components/Variables'
-import { useAppDispatch } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 const Dashboard = () => {
 	const dispatch = useAppDispatch()
-	const initialContactData = useSelector(initialContacts)
-	const initialContactState = useSelector(fetchContactState)
-	const archiveCurrentStatus = useSelector(archiveStatus)
+	const initialContactData = useAppSelector(initialContacts)
+	const initialContactState = useAppSelector(fetchContactState)
+	const archiveCurrentStatus = useAppSelector(archiveStatus)
 	const { state } = useContext(supertoggleContext)!
 	const [toggleModal, setToggleModal] = useState<boolean>(false)
 	const [toggleModalUser, setToggleModalUser] = useState<IModalUser>({})
