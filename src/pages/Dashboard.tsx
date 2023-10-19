@@ -25,19 +25,29 @@ import {
 } from '../features/contact/contactThunks'
 import { Triangle } from 'react-loader-spinner'
 import * as color from '../components/Variables'
+import { useAppDispatch } from '../app/hooks';
 
-const Dashboard = (props) => {
-	const dispatch = useDispatch()
+const Dashboard = () => {
+	const dispatch = useAppDispatch()
 	const initialContactData = useSelector(initialContacts)
 	const initialContactState = useSelector(fetchContactState)
 	const archiveCurrentStatus = useSelector(archiveStatus)
-	const { state } = useContext(supertoggleContext)
-	const [toggleModal, setToggleModal] = useState(false)
-	const [toggleModalUser, setToggleModalUser] = useState({})
-	const [currentId, setCurrentId] = useState('')
-	const [spinner, setSpinner] = useState(true)
-	const [archiveSpinner, setArchiveSpinner] = useState(false)
+	const { state } = useContext(supertoggleContext)!
+	const [toggleModal, setToggleModal] = useState<boolean>(false)
+	const [toggleModalUser, setToggleModalUser] = useState<IModalUser>({})
+	const [currentId, setCurrentId] = useState<string>('')
+	const [spinner, setSpinner] = useState<boolean>(true)
+	const [archiveSpinner, setArchiveSpinner] = useState<boolean>(false)
 
+	interface IModalUser {
+		id?: string
+		subject_of_review?: string
+		review_body?: string
+		full_name?: string
+		email?: string
+		phone_number?: string
+		state?: string
+	}
 	useEffect(() => {
 		dispatch(fetchInitialContacts())
 	}, [dispatch])
@@ -56,24 +66,34 @@ const Dashboard = (props) => {
 		}
 	}, [initialContactState, archiveCurrentStatus])
 
-	const handleToggleModal = (userReview) => {
-		setCurrentId(userReview.id)
-		if (!toggleModal) {
-			setToggleModal(true)
-			setToggleModalUser(userReview)
+	const handleToggleModal = (userReview?: { id: string; }): void => {
+		if (userReview !== undefined) {
+			setCurrentId(userReview.id)
+			if (!toggleModal) {
+				setToggleModal(true)
+				setToggleModalUser(userReview)
+			} else {
+				handleMarkAsRead(currentId)
+			}	
 		} else {
-			handleMarkAsRead(currentId)
+			if (!toggleModal) {
+				setToggleModal(true)
+			} else {
+				handleMarkAsRead(currentId)
+			}	
 		}
 	}
 
-	const handleMarkAsRead = (id) => {
+	const handleMarkAsRead = (id:string) => {
 		dispatch(archiveContacts(id))
 	}
 
 	return (
 		<>
 			<CustomerReviewModalOverlay
-				onClick={handleToggleModal}
+				onClick={() => {
+				  handleToggleModal()
+				}}
 				open={toggleModal}
 			/>
 			<CustomerReviewModal open={toggleModal}>
@@ -83,11 +103,12 @@ const Dashboard = (props) => {
 						width='150'
 						color={color.normalPinkie}
 						ariaLabel='triangle-loading'
-						wrapperClassName=''
 						visible={archiveSpinner}
 					/>
 				</SpinnerContainerInsideModal>
-				<CloseCTA onClick={handleToggleModal}>
+				<CloseCTA onClick={() => {
+				  handleToggleModal()
+				}}>
 					<FaRegEnvelopeOpen />
 				</CloseCTA>
 				{toggleModalUser && (
@@ -212,7 +233,6 @@ const Dashboard = (props) => {
 								width='150'
 								color={color.softer_strongPurple}
 								ariaLabel='triangle-loading'
-								wrapperClassName=''
 								visible={spinner}
 							/>
 						</SpinnerContainer>
@@ -322,7 +342,11 @@ const SpinnerContainerInsideModal = styled.div`
 	transform: translate(-50%, -50%);
 `
 
-const MainContainer = styled.main`
+interface MainContainerProps {
+	readonly toggle: string
+}
+
+const MainContainer = styled.main<MainContainerProps>`
 	text-align: center;
 	max-height: 730px;
 	min-width: 1494px;
@@ -368,6 +392,7 @@ const KPICardContainer = styled.div`
 	gap: 22px;
 	height: 125px;
 `
+
 const KPITextContaind = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -386,7 +411,11 @@ const KPICardIcon = styled.div`
 	color: ${color.normalPinkie};
 `
 
-const CardText = styled.p`
+interface CardTextProps {
+	readonly type?: string
+}
+
+const CardText = styled.p<CardTextProps>`
 	${(props) => {
 		switch (props.type) {
 			case 'title':
@@ -436,7 +465,13 @@ const CustomerReviewCard = styled.div`
 		box-shadow: 0px 16px 30px #00000014;
 	}
 `
-const CustomerCardText = styled.p`
+
+interface CustomerCardTextProps {
+	readonly type: { text: string; }
+	readonly read?: string
+}
+
+const CustomerCardText = styled.p<CustomerCardTextProps>`
 	${(props) => {
 		switch (props.type.text) {
 			case 'cardTitle':
@@ -506,7 +541,11 @@ const CustomerCardText = styled.p`
 	}}
 `
 
-const CustomerReviewCardTopData = styled.div`
+interface CustomerReviewCardTopDataProps {
+	readonly modal: string
+}
+
+const CustomerReviewCardTopData = styled.div<CustomerReviewCardTopDataProps>`
 	width: 371px;
 	height: ${(props) => (props.modal === 'true' ? 'fitContent' : '110px')};
 	overflow-y: auto;
@@ -547,7 +586,11 @@ const HorizontalDivider = styled.div`
 	margin: 5px auto 0 auto;
 `
 
-const CustomerReviewModal = styled.div`
+interface CustomerReviewModalProps {
+	readonly open: boolean
+}
+
+const CustomerReviewModal = styled.div<CustomerReviewModalProps>`
 	z-index: 100;
 	position: absolute;
 	top: 50%;
@@ -560,8 +603,10 @@ const CustomerReviewModal = styled.div`
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
-
-const CustomerReviewModalOverlay = styled.div`
+interface CustomerReviewModalOverlayProps {
+	readonly open: boolean
+}
+const CustomerReviewModalOverlay = styled.div<CustomerReviewModalOverlayProps>`
 	z-index: 100;
 	position: absolute;
 	width: 100%;
