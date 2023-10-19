@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { supertoggleContext } from '../context/supertoggleContext'
+import { supertoggleContext } from '../context/ToggleContext'
 import styled from 'styled-components'
 import { HiArrowsRightLeft } from 'react-icons/hi2'
 import { AiOutlineHeart } from 'react-icons/ai'
@@ -8,7 +8,7 @@ import { LuMail } from 'react-icons/lu'
 import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
-import { authenticationContext } from '../context/authenticationContext'
+import { authenticationContext } from '../context/AutheContext'
 import * as color from '../components/Variables'
 
 const Header = () => {

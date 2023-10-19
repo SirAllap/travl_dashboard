@@ -10,7 +10,7 @@ import {
 	deleteRoomStatus,
 } from '../features/rooms/roomSlice'
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { supertoggleContext } from '../context/supertoggleContext'
+import { supertoggleContext } from '../context/ToggleContext'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import {
 	deleteRoom,

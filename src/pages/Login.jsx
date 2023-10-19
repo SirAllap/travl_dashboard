@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import logo from '../assets/logo_dashboard1.png'
-import { authenticationContext } from '../context/authenticationContext'
+import { authenticationContext } from '../context/AutheContext'
 import { useNavigate } from 'react-router-dom'
 import * as color from '../components/Variables'
 import { ToastContainer, toast } from 'react-toastify'
