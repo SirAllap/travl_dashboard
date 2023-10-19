@@ -13,7 +13,7 @@ import CreateRoom from '../pages/CreateRoom'
 import EditRoom from '../pages/EditRoom'
 import CreateUser from '../pages/CreateUser'
 
-const Router = () => {
+const Router: React.FC = () => {
 	return (
 		<>
 			<Routes>
