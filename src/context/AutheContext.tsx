@@ -70,9 +70,9 @@ interface AuthenticationContextProps {
 }
 
 interface LoginReducer {
-  userName: string;
-  email: string;
-  profilePicture: string;
+  userName: string | null;
+  email: string | null;
+  profilePicture: string | null;
 }
 
 export const useAuth = () => {
