@@ -7,7 +7,7 @@ import {
 	initialRooms,
 	singleRoom,
 } from '../features/rooms/roomSlice'
-import { supertoggleContext } from '../context/supertoggleContext'
+import { supertoggleContext } from '../context/ToggleContext'
 import { editCurrentRoom } from '../features/rooms/roomThunks'
 import { Triangle } from 'react-loader-spinner'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
