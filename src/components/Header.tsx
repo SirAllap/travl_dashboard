@@ -106,10 +106,12 @@ const Header: React.FC = () => {
 						</IconStyle>
 						<ProfilePictureVoid
 							src={
-								typeof authState.profilePicture === 'function'
-									? ' '
-									: authState.profilePicture
-							}
+							authState.profilePicture
+							? (typeof authState.profilePicture === 'function'
+								? ' '
+								: authState.profilePicture)
+							: undefined
+						}
 						/>
 						<VerticalDivider />
 						<IconStyle logout='logout'>
@@ -150,8 +152,13 @@ const RightContainer = styled.div`
 	display: flex;
 	align-items: center;
 `
-
-export const IconStyle = styled.div`
+interface ShadowedProps {
+    readonly menu?: string
+	readonly logout?: string
+	readonly groupofrigthicons?: string
+	readonly search?: string
+};
+export const IconStyle = styled.div<ShadowedProps>`
 	display: flex;
 	align-items: center;
 	font-size: 30px;
