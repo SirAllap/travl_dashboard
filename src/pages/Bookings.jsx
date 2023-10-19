@@ -16,7 +16,7 @@ import {
 	fetchInitialBookings,
 	fetchOneBooking,
 } from '../features/bookings/bookingThunks'
-import { supertoggleContext } from '../context/supertoggleContext'
+import { supertoggleContext } from '../context/ToggleContext'
 import * as color from '../components/Variables'
 
 const Bookings = () => {
