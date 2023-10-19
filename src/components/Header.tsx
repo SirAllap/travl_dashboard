@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { supertoggleContext } from '../context/ToggleContext'
 import styled from 'styled-components'
 import { HiArrowsRightLeft } from 'react-icons/hi2'
 import { AiOutlineHeart } from 'react-icons/ai'
@@ -8,15 +7,16 @@ import { LuMail } from 'react-icons/lu'
 import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
-import { authenticationContext } from '../context/AutheContext'
-import * as color from '../components/Variables'
+import * as color from './Variables'
+import { supertoggleContext } from '../context/ToggleContext';
+import { authenticationContext } from '../context/AutheContext';
 
-const Header = () => {
-	const { dispatch, state, stateBread } = useContext(supertoggleContext)
-	const { logout, authState } = useContext(authenticationContext)
+const Header: React.FC = () => {
+	const { dispatch, state, stateBread } = useContext(supertoggleContext)!;
+	const { logout, authState } = useContext(authenticationContext)!
 	const location = useLocation()
-	const [currentBreadCrumb, setCurrentBreadCrumb] = useState('')
-	const [curentTitle, setCurrentTitle] = useState('Dashboard')
+	const [currentBreadCrumb, setCurrentBreadCrumb] = useState<string>('')
+	const [curentTitle, setCurrentTitle] = useState<string>('Dashboard')
 
 	const handleToggleOfSideBar = () => {
 		return state.position === 'open'
@@ -106,10 +106,12 @@ const Header = () => {
 						</IconStyle>
 						<ProfilePictureVoid
 							src={
-								typeof authState.profilePicture === 'function'
-									? ' '
-									: authState.profilePicture
-							}
+							authState.profilePicture
+							? (typeof authState.profilePicture === 'function'
+								? ' '
+								: authState.profilePicture)
+							: undefined
+						}
 						/>
 						<VerticalDivider />
 						<IconStyle logout='logout'>
@@ -150,8 +152,13 @@ const RightContainer = styled.div`
 	display: flex;
 	align-items: center;
 `
-
-export const IconStyle = styled.div`
+interface IconStyleProps {
+    readonly menu?: string
+	readonly logout?: string
+	readonly groupofrigthicons?: string
+	readonly search?: string
+};
+export const IconStyle = styled.div<IconStyleProps>`
 	display: flex;
 	align-items: center;
 	font-size: 30px;

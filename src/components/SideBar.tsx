@@ -12,29 +12,31 @@ import { supertoggleContext } from '../context/ToggleContext'
 import { authenticationContext } from '../context/AutheContext'
 import * as color from './Variables'
 
-const SideBar = () => {
-	const { state } = useContext(supertoggleContext)
-	const { authState, updateUserInfo } = useContext(authenticationContext)
-	const [toggleModal, setToggleModal] = useState(false)
-	const [userUpdatedName, setUpdatedUserName] = useState('')
-	const [userUpdatedEmail, setUpdatedUserEmail] = useState('')
-	const [userName1, setUserName1] = useState('')
-	const [userEmail1, setUserEmail1] = useState('')
-	const [userName, setUserName] = useState('')
-	const [userEmail, setUserEmail] = useState('')
-	const [profPic, setProfPic] = useState('')
-	const [file2Upload, setFile2Upload] = useState()
+type AuthState = {
+	name?: string
+	email?: string
+}
+const SideBar: React.FC = () => {
+	const { state } = useContext(supertoggleContext)!
+	const { authState, updateUserInfo } = useContext(authenticationContext)!
+	const [toggleModal, setToggleModal] = useState<boolean>(false)
+	const [userUpdatedName, setUpdatedUserName] = useState<string>('')
+	const [userUpdatedEmail, setUpdatedUserEmail] = useState<string>('')
+	const [userName1, setUserName1] = useState<string>('')
+	const [userEmail1, setUserEmail1] = useState<string>('')
+	const [userName, setUserName] = useState<string | null>('')
+	const [userEmail, setUserEmail] = useState<string | null>('')
+	const [profPic, setProfPic] = useState<string>('')
+	const [file2Upload, setFile2Upload] = useState<string>()
 
-	const currentUser = authState
-	let fetchCurrentUser = {}
-	if (currentUser) {
-		fetchCurrentUser = currentUser
-	}
-
-	const handleUpdateUserName = (event) => {
+	const handleUpdateUserName = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
 		setUpdatedUserName(event.target.value)
 	}
-	const handleUpdateUserEmail = (event) => {
+	const handleUpdateUserEmail = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
 		setUpdatedUserEmail(event.target.value)
 	}
 
@@ -43,13 +45,12 @@ const SideBar = () => {
 		setProfPic(
 			savedProfilePicture || 'https://robohash.org/oxygen.png?set=any'
 		)
-		fetchCurrentUser.name !== null && setUserName1(fetchCurrentUser.name)
-		fetchCurrentUser.email !== null && setUserEmail1(fetchCurrentUser.email)
+		authState.name !== null && setUserName1(authState.name)
+		authState.email !== null && setUserEmail1(authState.email)
 	}, [
 		profPic,
-		currentUser,
-		fetchCurrentUser.name,
-		fetchCurrentUser.email,
+		authState.name,
+		authState.email,
 		authState.profilePicture,
 	])
 
@@ -61,24 +62,31 @@ const SideBar = () => {
 		}
 	}
 
-	const handlePictureChange = (e) => {
-		const newPictureUrl = URL.createObjectURL(e.target.files[0])
-		setFile2Upload(newPictureUrl)
-		handleUpdateAndCloseModal(newPictureUrl)
+	const handlePictureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const fileInput = e.target as HTMLInputElement
+		if (fileInput.files) {
+			const newPictureUrl: string = URL.createObjectURL(
+				fileInput.files[0]
+			)
+			setFile2Upload(newPictureUrl)
+			handleUpdateAndCloseModal(newPictureUrl)
+		} else {
+			console.error('No files selected')
+		}
 	}
 
-	const handleUpdateAndCloseModal = (newPictureUrl) => {
+	const handleUpdateAndCloseModal = (newPictureUrl: string) => {
 		if (userUpdatedName === '') {
-			setUserName(currentUser.name)
+			setUserName(authState.name)
 		} else setUserName(userUpdatedName)
 		if (userUpdatedEmail === '') {
-			setUserEmail(currentUser.email)
+			setUserEmail(authState.email)
 		} else setUserEmail(userUpdatedEmail)
 		updateUserInfo({
 			userName:
-				userUpdatedName === '' ? currentUser.name : userUpdatedName,
+				userUpdatedName === '' ? authState.name : userUpdatedName,
 			email:
-				userUpdatedEmail === '' ? currentUser.email : userUpdatedEmail,
+				userUpdatedEmail === '' ? authState.email : userUpdatedEmail,
 			profilePicture:
 				typeof newPictureUrl === 'string'
 					? newPictureUrl
@@ -105,7 +113,7 @@ const SideBar = () => {
 						id='name'
 						name='name'
 						defaultValue={
-							userUpdatedName ? userUpdatedName : currentUser.name
+							userUpdatedName ? userUpdatedName : authState.name
 						}
 						type='name'
 						placeholder='name'
@@ -122,7 +130,7 @@ const SideBar = () => {
 						defaultValue={
 							userUpdatedEmail
 								? userUpdatedEmail
-								: currentUser.email
+								: authState.email
 						}
 						type='email'
 						placeholder='email'
@@ -138,7 +146,9 @@ const SideBar = () => {
 						onChange={handlePictureChange}
 						alt='a photo of the user profile'
 					/>
-					<SaveCTA onClick={handleUpdateAndCloseModal}>Save</SaveCTA>
+					<SaveCTA onClick={() => {
+					  handleUpdateAndCloseModal
+					}}>Save</SaveCTA>
 					<CloseCTA onClick={handleToggleModal}>
 						<AiOutlineCloseCircle />
 					</CloseCTA>
@@ -211,7 +221,11 @@ const SideBar = () => {
 
 export default SideBar
 
-const Container = styled.aside`
+interface ContainerProps {
+	readonly toggle: string
+}
+
+const Container = styled.aside<ContainerProps>`
 	min-width: 345px;
 	height: 100vh;
 	background-color: #ffffff;
@@ -311,8 +325,11 @@ const UserCardProfilePictureVoid = styled.img`
 	border-radius: 8px;
 	margin: 0 auto;
 `
+interface UserCardTextProps {
+	readonly type?: string
+}
 
-const UserCardText = styled.p`
+const UserCardText = styled.p<UserCardTextProps>`
 	${(props) => {
 		switch (props.type) {
 			case 'name':
@@ -352,8 +369,11 @@ const SideBarFooter = styled.div`
 	height: 135px;
 	margin: 42px auto 0px auto;
 `
+interface SideBarFooterTextProps {
+	readonly type?: string
+}
 
-const SideBarFooterText = styled.p`
+const SideBarFooterText = styled.p<SideBarFooterTextProps>`
 	${(props) => {
 		switch (props.type) {
 			case 'title':
@@ -379,8 +399,10 @@ const SideBarFooterText = styled.p`
 		}
 	}}
 `
-
-const EditUserModal = styled.div`
+interface EditUserModalOverlayProps {
+    readonly open?: boolean
+};
+const EditUserModal = styled.div<EditUserModalOverlayProps>`
 	z-index: 100;
 	position: absolute;
 	top: 50%;
@@ -393,7 +415,10 @@ const EditUserModal = styled.div`
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
-const EditUserModalOverlay = styled.div`
+interface EditUserModalOverlayProps {
+    readonly open?: boolean
+};
+const EditUserModalOverlay = styled.div<EditUserModalOverlayProps>`
 	z-index: 99;
 	position: absolute;
 	width: 100vw;
@@ -477,7 +502,11 @@ const InputFile = styled.input`
 	}
 `
 
-const Input = styled(InputFile)`
+interface InputProps {
+	type: string
+}
+
+const Input = styled(InputFile)<InputProps>`
 	top: ${(props) => (props.type === 'email' ? '37%' : '15%')};
 	height: 47px;
 	width: 100%;
@@ -494,8 +523,10 @@ const Input = styled(InputFile)`
 		outline: 2px solid ${color.softer_ligthPurple};
 	}
 `
-
-const EditUserInputLable = styled.label`
+interface EditUserInputLableProps {
+	readonly type: string
+}
+const EditUserInputLable = styled.label<EditUserInputLableProps>`
 	position: absolute;
 	left: 2%;
 	margin-right: -50%;
