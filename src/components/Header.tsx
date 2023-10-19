@@ -152,13 +152,13 @@ const RightContainer = styled.div`
 	display: flex;
 	align-items: center;
 `
-interface ShadowedProps {
+interface IconStyleProps {
     readonly menu?: string
 	readonly logout?: string
 	readonly groupofrigthicons?: string
 	readonly search?: string
 };
-export const IconStyle = styled.div<ShadowedProps>`
+export const IconStyle = styled.div<IconStyleProps>`
 	display: flex;
 	align-items: center;
 	font-size: 30px;
