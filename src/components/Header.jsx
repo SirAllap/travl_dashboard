@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { supertoggleContext } from '../context/supertoggleContext'
+import { supertoggleContext } from '../context/ToggleContext'
 import styled from 'styled-components'
 import { HiArrowsRightLeft } from 'react-icons/hi2'
 import { AiOutlineHeart } from 'react-icons/ai'
