@@ -8,7 +8,7 @@ import { LuCalendarCheck2 } from 'react-icons/lu'
 import { SlPeople } from 'react-icons/sl'
 import { MdOutlineRateReview } from 'react-icons/md'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { supertoggleContext } from '../context/supertoggleContext'
+import { supertoggleContext } from '../context/ToggleContext'
 import { authenticationContext } from '../context/AutheContext'
 import * as color from './Variables'
 
