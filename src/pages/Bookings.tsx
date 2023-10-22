@@ -99,7 +99,7 @@ const Bookings = () => {
 		id: string
 	}
 
-	const cols = [
+	const cols= [
 		{
 			property: 'guest',
 			label: 'Guest Details',
@@ -317,66 +317,6 @@ const Bookings = () => {
 							}}>
 							In Progress
 						</TabButton>
-							{/* <button
-								onClick={() => {
-									manageFilterTab('all')
-								}}
-								style={{
-									borderBottom:
-										filter.value === 'All Bookings' &&
-										`3px solid ${color.softer_strongPurple}`,
-									color:
-										filter.value === 'All Bookings' &&
-										`${color.softer_strongPurple}`,
-								}}
-							>
-								All Bookings OLD
-							</button>
-							<button
-								onClick={() => {
-									manageFilterTab('checkin')
-								}}
-								style={{
-									borderBottom:
-										filter.value === 'CheckIn' &&
-										`3px solid ${color.softer_strongPurple}`,
-									color:
-										filter.value === 'CheckIn' &&
-										`${color.softer_strongPurple}`,
-								}}
-							>
-								Check In
-							</button>
-							<button
-								onClick={() => {
-									manageFilterTab('checkout')
-								}}
-								style={{
-									borderBottom:
-										filter.value === 'CheckOut' &&
-										`3px solid ${color.softer_strongPurple}`,
-									color:
-										filter.value === 'CheckOut' &&
-										`${color.softer_strongPurple}`,
-								}}
-							>
-								Check Out
-							</button>
-							<button
-								onClick={() => {
-									manageFilterTab('inprogress')
-								}}
-								style={{
-									borderBottom:
-										filter.value === 'In Progress' &&
-										`3px solid ${color.softer_strongPurple}`,
-									color:
-										filter.value === 'In Progress' &&
-										`${color.softer_strongPurple}`,
-								}}
-							>
-								In Progress
-							</button> */}
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>
