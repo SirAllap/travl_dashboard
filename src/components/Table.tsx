@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { Triangle } from 'react-loader-spinner'
-import * as color from '../components/Variables'
-// import { useAutoAnimate } from '@formkit/auto-animate/react'
+import * as color from './Variables'
+import { IBooking, IContact, IRoom, IUser } from '../features/interfaces/interfaces';
 
-const Table = (props) => {
-	const [filterToApply, setFilterToApply] = useState({})
+const Table = (props: { cols: any, datas: IBooking[] | IRoom[] | IUser[] | IContact[], whoAmI: {name: string, redirect: boolean}, filter: {property: string, value: string,}, spinner: boolean, loadingSpinner: boolean}) => {
+	const [filterToApply, setFilterToApply] = useState({property: 'all', value: ''})
 	const [noMoreData, setNoMoreData] = useState(false)
-	// const [tableSmoothAnimation] = useAutoAnimate()
 	let property = 'all'
 	let value = ''
 
@@ -21,10 +20,10 @@ const Table = (props) => {
 		props.datas.length === 0 ? setNoMoreData(true) : setNoMoreData(false)
 	}, [props.filter, props.datas.length])
 
-	const displayRow = (row, index) => {
+	const displayRow = (row: any, index: number) => {
 		const rowContent = (
 			<>
-				{props.cols.map((col, i) => (
+				{props.cols.map((col: {property: string, label: string, display?: Function}, i: number) => (
 					<React.Fragment key={i}>
 						<p>
 							{typeof col.display === 'function'
@@ -48,7 +47,7 @@ const Table = (props) => {
 		<>
 			<TableData whoami={props.whoAmI.name}>
 				{props.loadingSpinner ? (
-					<SpinnerContainer>
+					<SpinnerContainer whoami={props.whoAmI.name}>
 						<Triangle
 							height='150'
 							width='150'
@@ -61,7 +60,7 @@ const Table = (props) => {
 					<>
 						<TableHeadContainer>
 							<TableHeadLabel whoami={props.whoAmI.name}>
-								{props.cols.map((colLabel, index) => (
+								{props.cols.map((colLabel: {label: string}, index: number) => (
 									<p key={index}>{colLabel.label}</p>
 								))}
 							</TableHeadLabel>
@@ -80,7 +79,6 @@ const Table = (props) => {
 							)}
 						</SpinnerContainer>
 						<TableAllRowsContainer
-							// ref={tableSmoothAnimation}
 							whoami={props.whoAmI.name}
 						>
 							{property === 'all'
@@ -89,7 +87,7 @@ const Table = (props) => {
 								  )
 								: props.datas
 										.filter(
-											(row) => row[property] === value
+											(row) => (row as any)[property] === value
 										)
 										.map((filteredRow, index) =>
 											displayRow(filteredRow, index)
@@ -104,7 +102,12 @@ const Table = (props) => {
 
 export default Table
 
-const TableData = styled.div`
+interface TableDataProps {
+	readonly whoami: string
+}
+
+const TableData = styled.div<TableDataProps>`
+	transition: 0.3s all;
 	position: relative;
 	background-color: #fff;
 	min-width: 1494px;
@@ -112,7 +115,6 @@ const TableData = styled.div`
 	height: ${(props) => (props.whoami === 'contact' ? '550px' : '670px')};
 	margin: 30px auto 0 auto;
 	border-radius: 20px 20px 0px 20px;
-	transition: 0.3s all;
 `
 const TableHeadContainer = styled.div`
 	min-width: 100%;
@@ -120,7 +122,12 @@ const TableHeadContainer = styled.div`
 	border-radius: 20px 20px 0 0;
 `
 
-const TableHeadLabel = styled.div`
+interface TableHeadLabelProps {
+	readonly whoami: string
+}
+
+const TableHeadLabel = styled.div<TableHeadLabelProps>`
+	transition: 0.3s all;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -137,10 +144,18 @@ const TableHeadLabel = styled.div`
 		&:last-child {
 			margin-right: 10px;
 		}
+		&:first-child {
+			min-width: 300px;
+		}
 	}
 `
 
-const TableAllRowsContainer = styled.div`
+interface TableAllRowsContainerProps {
+	readonly whoami: string
+}
+
+const TableAllRowsContainer = styled.div<TableAllRowsContainerProps>`
+	transition: 0.3s all;
 	position: relative;
 	height: 550px;
 	min-width: 100%;
@@ -168,10 +183,18 @@ const TableAllRowsContainer = styled.div`
 				: 'calc(1494px / 5)'};
 		color: #393939;
 		font: 300 16px Poppins;
+		&:first-child {
+			min-width: 300px;
+		}
 	}
 `
 
-const SpinnerContainer = styled.div`
+interface SpinnerContainerProps {
+	readonly whoami: string
+}
+
+const SpinnerContainer = styled.div<SpinnerContainerProps>`
+	transition: 0.3s all;
 	z-index: 100;
 	${(props) => {
 		switch (props.whoami) {
@@ -193,43 +216,27 @@ const SpinnerContainer = styled.div`
 	}}
 `
 
-const TableSingleRowContainer = styled.div`
-	${(props) => {
-		switch (props.whoami) {
-			case 'contact':
-				return css`
-					border-bottom: 2px solid #f5f5f5;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					width: 100%;
-					margin: 0;
-					height: auto;
-					transition: 0.3s all;
-					&:hover {
-						box-shadow: 0px 4px 30px #0000001a;
-					}
-				`
-			default:
-				return css`
-					border-bottom: 1px solid #f5f5f5;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					width: 100%;
-					margin: 0;
-					height: ${(props) =>
-						props.whoami === 'rooms' ? '250px' : '121px'};
-					transition: 0.3s all;
-					&:hover {
-						box-shadow: 0px 4px 30px #0000001a;
-					}
-				`
-		}
-	}}
+interface TableSingleRowContainerProps {
+	readonly whoami: string
+}
+
+const TableSingleRowContainer = styled.div<TableSingleRowContainerProps>`
+	transition: 0.3s all;
+	border-bottom: 2px solid #f5f5f5;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	&:hover {
+		box-shadow: 0px 4px 30px #0000001a;
+	}
+	height: ${(props) => props.whoami === 'rooms' ? '250px' : props.whoami === 'contact' ? 'auto' : '121px' };
+	transition: 0.3s all;
+	margin: 0;
 `
 
 const VerticalDivider = styled.div`
+	transition: 0.3s all;
 	height: 100%;
 	border-left: solid 1px #ebebeb;
 	&:last-child {
