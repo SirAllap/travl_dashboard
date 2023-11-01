@@ -4,6 +4,7 @@ import Table from '../components/Table'
 import { BiSearch, BiUnderline } from 'react-icons/bi'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
+import { BsTelephone } from 'react-icons/bs'
 import {
 	fetchBookingState,
 	initialBookings,
@@ -19,6 +20,7 @@ import { supertoggleContext } from '../context/ToggleContext'
 import * as color from '../components/Variables'
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { IBooking } from '../features/interfaces/interfaces'
+import { FaJediOrder } from 'react-icons/fa';
 
 const Bookings = () => {
 	const dispatch = useAppDispatch()
@@ -33,6 +35,7 @@ const Bookings = () => {
 	const [currentId, setCurrentId] = useState<string>('')
 	const [toggleModal, setToggleModal] = useState<boolean>(false)
 	const [guestSpecialRequest, setGuestSpecialRequest] = useState<string>('')
+	
 
 	useEffect(() => {
 		dispatch(fetchInitialBookings())
@@ -77,51 +80,63 @@ const Bookings = () => {
 
 	const whoAmI = {
 		name: 'bookings',
-		redirect: true,
+		redirect: true
 	}
 
 	interface IGuestDetails {
+		_id: string
 		guest: string
 		phone_number: string
-		id: string
 	}
 	
+	interface IOrderDate {
+		order_date: string
+	}
+	interface ICheckInDate {
+		check_in: string
+	}
+	interface ICheckOutDate {
+		check_out: string
+	}
+
 	interface ISpecialRequest {
+		_id: string
 		special_request: string
-		id: string
 	}
 
 	interface IStatus {
+		_id: string
 		status: string
 	}
 
 	interface IMore {
-		id: string
+		_id: string
 	}
+	
 
 	const cols= [
 		{
 			property: 'guest',
 			label: 'Guest Details',
-			display: ({ guest, phone_number, id }: IGuestDetails) => (
+			display: ({ guest, phone_number, _id }: IGuestDetails) => (
 				<>
 					<NavLink
 						style={{ textDecoration: 'none' }}
-						to={`/bookings/${id}`}
+						to={`/bookings/${_id}`}
 					>
 						<span
 							onClick={() => {
-								dispatch(fetchOneBooking(id))
+								dispatch(fetchOneBooking(_id))
 							}}
 						>
-							<CustomerPhoto
+							{/* <CustomerPhoto
 								src={`https://robohash.org/${guest}.png?set=any`}
-							/>
+							/> */}
 							<TextFormatter name='name'>{guest}</TextFormatter>
 							<TextFormatter small='small'>
-								{phone_number}
+								<BsTelephone/> {phone_number}
 							</TextFormatter>
-							<TextFormatter small='small'>#{id}</TextFormatter>
+							<TextFormatter small='small'><br />id#: {_id}</TextFormatter>
 						</span>
 					</NavLink>
 				</>
@@ -130,19 +145,22 @@ const Bookings = () => {
 		{
 			property: 'order_date',
 			label: 'Order Date',
+			display: ({ order_date }: IOrderDate) => (<Dates types='orderDate'>{order_date.replace(/:\d{2} GMT\+0000 \(GMT\)/, '')}</Dates>),
 		},
 		{
 			property: 'check_in',
 			label: 'Check In',
+			display: ({ check_in }: ICheckInDate) => (<Dates types='checkIn'>{check_in.replace(/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/, '')}</Dates>),
 		},
 		{
 			property: 'check_out',
 			label: 'Check Out',
+			display: ({ check_out }: ICheckOutDate) => (<Dates types='checkOut'>{check_out.replace(/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/, '')}</Dates>),
 		},
 		{
 			property: 'special_request',
 			label: 'Special Request',
-			display: ({ special_request, id }: ISpecialRequest) =>
+			display: ({ special_request, _id }: ISpecialRequest) =>
 				special_request.length !== 0 ? (
 					<SpecialRequest
 						selectionable='true'
@@ -165,6 +183,7 @@ const Bookings = () => {
 		{
 			property: 'room_type',
 			label: 'Room Type',
+			display: ({ room_type }: any) => <TextFormatter name='room'>{room_type}</TextFormatter>,
 		},
 		{
 			property: 'status',
@@ -173,26 +192,26 @@ const Bookings = () => {
 		},
 		{
 			label: 'More',
-			display: ({ id }: IMore) => {
+			display: ({ _id }: IMore) => {
 				return (
 					<>
 						<BsThreeDotsVertical
 							onClick={() => {
-								handleMoreOptions(id)
+								handleMoreOptions(_id)
 							}}
 							style={{
 								fontSize: '30px',
 								cursor: 'pointer',
-								display: toggleMoreOptions[id]
+								display: toggleMoreOptions[_id]
 									? 'none'
 									: 'inline-block',
 							}}
 						/>
-						<MoreOptions open={toggleMoreOptions[id]}>
+						<MoreOptions open={toggleMoreOptions[_id]}>
 							<OptionsButton
 								button_type='delete'
 								onClick={() => {
-									handleDelete(id)
+									handleDelete(_id)
 								}}
 							>
 								DELETE
@@ -204,7 +223,7 @@ const Bookings = () => {
 							{/* </NavLink> */}
 							<CloseCTA
 								onClick={() => {
-									handleMoreOptions(id)
+									handleMoreOptions(_id)
 								}}
 							>
 								<AiOutlineCloseCircle />
@@ -416,7 +435,7 @@ const SpecialRequest = styled.button<SpecialRequestProps>`
 	cursor: ${(props) =>
 		props.selectionable === 'true' ? 'pointer' : 'not-allowed'};
 	font: 500 16px Poppins;
-	width: 160px;
+	width: 130px;
 	height: 48px;
 	border: none;
 	border-radius: 8px;
@@ -602,13 +621,14 @@ interface TextFormatterProps {
 
 const TextFormatter = styled.span<TextFormatterProps>`
 	display: block;
-	text-align: left;
+	/* text-align: ${(props) => props.name === 'room' ? 'center' : 'left'}; */
+	text-align:center;
 	color: ${(props) =>
 		props.small === 'small'
 			? `${color.softer_normalGrey}`
 			: `${color.strongGrey}`};
 	font: ${(props) =>
-		props.small === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
+		props.small === 'small' ? '300 13px Poppins' : '500 18px Poppins'};
 `
 
 interface StatusProps {
@@ -628,6 +648,23 @@ const Status = styled.button<StatusProps>`
 			: props.status === 'CheckOut'
 			? `${color.normalPinkie}`
 			: props.status === 'In Progress' && `${color.normalOrange}`};
+	&:hover {
+	}
+`
+
+interface DatesProps {
+	readonly types: string
+}
+
+const Dates = styled.button<DatesProps>`
+	font: 600 16px Poppins;
+	width: 150px;
+	height: 48px;
+	border: none;
+	border-radius: 8px;
+	color: white;
+	padding: 0 5px 0 5px;
+	background-color: ${(props) => props.types === 'orderDate' ? `${color.softer_strongGrey}` : props.types === 'checkIn' ? `${color.softer_strongPurple}` : `${color.normalPinkie}`};
 	&:hover {
 	}
 `
