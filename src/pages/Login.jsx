@@ -6,11 +6,13 @@ import { useNavigate } from 'react-router-dom'
 import * as color from '../components/Variables'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Triangle } from 'react-loader-spinner'
 
 const Login = () => {
 	const navigate = useNavigate()
 	const [userName, setUserName] = useState('')
 	const [userPassword, setUserPassword] = useState('')
+	const [spinner, setSpinner] = useState(false)
 	const { login, authState } = useContext(authenticationContext)
 
 	useEffect(() => {
@@ -22,44 +24,51 @@ const Login = () => {
 	}, [authState.auth, navigate])
 
 	const getUserEmail = (name) => {
-		return name === 'Admin' ? 'super@admin.com' : 'davidpr@travl.com'
+		return name === 'admin' ? 'super@admin.com' : 'davidpr@travl.com'
 	}
 	const getProfilePicture = (name) => {
 		return `https://robohash.org/${name}.png?set=any`
 	}
 
-	const authUser = () => {
-		if (userName === 'Admin' && userPassword === 'oxygen') {
-			login({
-				userName,
-				email: getUserEmail(userName),
-				profilePicture: getProfilePicture(userName),
-			})
-		} else if (userName === 'David' && userPassword === 'travl') {
-			login({
-				userName,
-				email: getUserEmail(userName),
-				profilePicture: getProfilePicture(userName),
-			})
-		} else {
-			toast.error('❌ Wrong credentials!', {
-				position: 'top-center',
-				autoClose: 5000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: 'light',
-			})
+	const authUser = async () => {
+		try {
+			setSpinner(true)
+			const response = await fetch(
+				'https://qh9d0mep6j.execute-api.eu-west-1.amazonaws.com/login',
+				{
+					method: 'POST',
+					mode: 'cors',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						user: userName,
+						pass: userPassword,
+					}),
+				}
+			)
+			if (response.ok) {
+				const data = await response.json()
+				localStorage.setItem('token', data.token)
+				login({
+					userName,
+					email: getUserEmail(userName),
+					profilePicture: getProfilePicture(userName),
+				})
+				setSpinner(false)
+			} else {
+				throw new Error(`status ${response.status}`)
+			}
+		} catch (error) {
+			console.error(`${error}`)
 		}
 	}
 
 	const [quick, setQuick] = useState(false)
 	const quickLogin = () => {
 		setQuick(true)
-		setUserName('Admin')
-		setUserPassword('oxygen')
+		setUserName('admin')
+		setUserPassword('admin')
 	}
 
 	return (
@@ -75,13 +84,13 @@ const Login = () => {
 					<LoginInputLable>User</LoginInputLable>
 					<LoginInput
 						data-cy='input-user'
-						defaultValue={quick ? 'Admin' : ''}
+						defaultValue={quick ? 'admin' : ''}
 						onChange={(e) => setUserName(e.target.value)}
 					/>
 					<LoginInputLable>Password</LoginInputLable>
 					<LoginInput
 						data-cy='input-password'
-						defaultValue={quick ? 'oxygen' : ''}
+						defaultValue={quick ? 'admin' : ''}
 						type='password'
 						onChange={(e) => setUserPassword(e.target.value)}
 					/>
@@ -92,7 +101,26 @@ const Login = () => {
 						XtraQuick - LOGIN
 					</CTAXtra>
 					<CTA data-cy='trigger-login-button' onClick={authUser}>
-						Log in
+						{spinner ? (
+							<div
+								style={{
+									position: 'absolute',
+									top: '0',
+									left: '50%',
+									transform: 'translate(-50%, 10%)',
+								}}
+							>
+								<Triangle
+									height='40'
+									width='40'
+									color={color.normalPurple}
+									ariaLabel='triangle-loading'
+									visible={true}
+								/>
+							</div>
+						) : (
+							'Log in'
+						)}
 					</CTA>
 				</LoginContainer>
 			</MainContainer>
@@ -168,6 +196,7 @@ const LoginInputLable = styled.label`
 `
 
 const CTA = styled.button`
+	position: relative;
 	width: 86%;
 	height: 47px;
 	margin: 0px 35px 35px 35px;

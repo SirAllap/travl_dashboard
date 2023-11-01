@@ -13,7 +13,19 @@ const delay = (data: object[] | string, time: number = 500) => {
 export const fetchInitialBookings = createAsyncThunk<IBooking[]>(
 	'bookings/fetchInitialBookings',
 	async () => {
-		return (await delay(bookingsJSONfile)) as IBooking[]
+		const result = await fetch(
+			'https://i19d9hr144.execute-api.eu-west-1.amazonaws.com/bookings',
+			{
+				method: 'GET',
+				headers: {
+					token: `${localStorage.getItem('token')}`,
+				},
+			}
+		)
+			.then((res) => res.json())
+			.then((data) => data)
+
+		return result as IBooking[]
 	}
 )
 

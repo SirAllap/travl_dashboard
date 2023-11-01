@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Table from '../components/Table'
-import { BiSearch } from 'react-icons/bi'
+import { BiSearch, BiUnderline } from 'react-icons/bi'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { useDispatch, useSelector } from 'react-redux'
+import { BsTelephone } from 'react-icons/bs'
 import {
 	fetchBookingState,
 	initialBookings,
@@ -18,20 +18,24 @@ import {
 } from '../features/bookings/bookingThunks'
 import { supertoggleContext } from '../context/ToggleContext'
 import * as color from '../components/Variables'
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { IBooking } from '../features/interfaces/interfaces'
+import { FaJediOrder } from 'react-icons/fa';
 
 const Bookings = () => {
-	const dispatch = useDispatch()
-	const initialBookingData = useSelector(initialBookings)
-	const initialBookingState = useSelector(fetchBookingState)
-	const deleteBookingCurrentStatus = useSelector(deleteBookingStatus)
-	const { state } = useContext(supertoggleContext)
-	const [spinner, setSpinner] = useState(true)
-	const [deleteSpinner, setDeleteSpinner] = useState(false)
-	const [displayData, setDisplayData] = useState([])
-	const [toggleMoreOptions, setToggleMoreOptions] = useState(false)
-	const [currentId, setCurrentId] = useState('')
-	const [toggleModal, setToggleModal] = useState(false)
-	const [guestSpecialRequest, setGuestSpecialRequest] = useState('')
+	const dispatch = useAppDispatch()
+	const initialBookingData = useAppSelector(initialBookings)
+	const initialBookingState = useAppSelector(fetchBookingState)
+	const deleteBookingCurrentStatus = useAppSelector(deleteBookingStatus)
+	const { state } = useContext(supertoggleContext)!
+	const [spinner, setSpinner] = useState<boolean>(true)
+	const [deleteSpinner, setDeleteSpinner] = useState<boolean>(false)
+	const [displayData, setDisplayData] = useState<IBooking[]>([])
+	const [toggleMoreOptions, setToggleMoreOptions] = useState<any>(false)
+	const [currentId, setCurrentId] = useState<string>('')
+	const [toggleModal, setToggleModal] = useState<boolean>(false)
+	const [guestSpecialRequest, setGuestSpecialRequest] = useState<string>('')
+	
 
 	useEffect(() => {
 		dispatch(fetchInitialBookings())
@@ -51,26 +55,20 @@ const Bookings = () => {
 		}
 	}, [initialBookingData, initialBookingState, deleteBookingCurrentStatus])
 
-	const handleMoreOptions = (id) => {
-		setToggleMoreOptions((prevToggleMoreOptions) => ({
+	const handleMoreOptions = (id: string) => {
+		setToggleMoreOptions((prevToggleMoreOptions: any) => ({
 			...prevToggleMoreOptions,
 			[id]: !prevToggleMoreOptions[id],
 		}))
 		setCurrentId(id)
 	}
 
-	const handleDelete = (id) => {
+	const handleDelete = (id: string) => {
 		dispatch(deleteBooking(currentId))
 		handleMoreOptions(id)
 	}
 
-	// const handleEdition = (id) => {
-	// alert(`ill be the one who edit this id => ${id}`)
-	// dispatch(editRoom(currentId))
-	// handleMoreOptions(id)
-	// }
-
-	const handleSpecialRequestModal = (msg) => {
+	const handleSpecialRequestModal = (msg: string) => {
 		if (!toggleModal) {
 			setToggleModal(true)
 			setGuestSpecialRequest(msg)
@@ -82,32 +80,63 @@ const Bookings = () => {
 
 	const whoAmI = {
 		name: 'bookings',
-		redirect: true,
+		redirect: true
 	}
 
-	const cols = [
+	interface IGuestDetails {
+		_id: string
+		guest: string
+		phone_number: string
+	}
+	
+	interface IOrderDate {
+		order_date: string
+	}
+	interface ICheckInDate {
+		check_in: string
+	}
+	interface ICheckOutDate {
+		check_out: string
+	}
+
+	interface ISpecialRequest {
+		_id: string
+		special_request: string
+	}
+
+	interface IStatus {
+		_id: string
+		status: string
+	}
+
+	interface IMore {
+		_id: string
+	}
+	
+
+	const cols= [
 		{
 			property: 'guest',
 			label: 'Guest Details',
-			display: ({ guest, phone_number, id }) => (
+			display: ({ guest, phone_number, _id }: IGuestDetails) => (
 				<>
 					<NavLink
 						style={{ textDecoration: 'none' }}
-						to={`/bookings/${id}`}
+						to={`/bookings/${_id}`}
 					>
 						<span
 							onClick={() => {
-								dispatch(fetchOneBooking(id))
+								dispatch(fetchOneBooking(_id))
 							}}
 						>
-							<CustomerPhoto
+							{/* <CustomerPhoto
 								src={`https://robohash.org/${guest}.png?set=any`}
-							/>
+							/> */}
 							<TextFormatter name='name'>{guest}</TextFormatter>
 							<TextFormatter small='small'>
-								{phone_number}
+								<BsTelephone/> {phone_number}
 							</TextFormatter>
-							<TextFormatter small='small'>#{id}</TextFormatter>
+							<TextFormatter small='small'><br />id#: {_id}</TextFormatter>
 						</span>
 					</NavLink>
 				</>
@@ -116,19 +145,22 @@ const Bookings = () => {
 		{
 			property: 'order_date',
 			label: 'Order Date',
+			display: ({ order_date }: IOrderDate) => (<Dates types='orderDate'>{order_date.replace(/:\d{2} GMT\+0000 \(GMT\)/, '')}</Dates>),
 		},
 		{
 			property: 'check_in',
 			label: 'Check In',
+			display: ({ check_in }: ICheckInDate) => (<Dates types='checkIn'>{check_in.replace(/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/, '')}</Dates>),
 		},
 		{
 			property: 'check_out',
 			label: 'Check Out',
+			display: ({ check_out }: ICheckOutDate) => (<Dates types='checkOut'>{check_out.replace(/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/, '')}</Dates>),
 		},
 		{
 			property: 'special_request',
 			label: 'Special Request',
-			display: ({ special_request, id }) =>
+			display: ({ special_request, _id }: ISpecialRequest) =>
 				special_request.length !== 0 ? (
 					<SpecialRequest
 						selectionable='true'
@@ -151,33 +183,35 @@ const Bookings = () => {
 		{
 			property: 'room_type',
 			label: 'Room Type',
+			display: ({ room_type }: any) => <TextFormatter name='room'>{room_type}</TextFormatter>,
 		},
 		{
 			property: 'status',
 			label: 'Status',
-			display: ({ status }) => <Status status={status}>{status}</Status>,
+			display: ({ status }: IStatus) => <Status status={status}>{status}</Status>,
 		},
 		{
 			label: 'More',
-			display: ({ id }) => {
+			display: ({ _id }: IMore) => {
 				return (
 					<>
 						<BsThreeDotsVertical
 							onClick={() => {
-								handleMoreOptions(id)
+								handleMoreOptions(_id)
 							}}
 							style={{
 								fontSize: '30px',
 								cursor: 'pointer',
-								display: toggleMoreOptions[id]
+								display: toggleMoreOptions[_id]
 									? 'none'
 									: 'inline-block',
 							}}
 						/>
-						<MoreOptions open={toggleMoreOptions[id]}>
+						<MoreOptions open={toggleMoreOptions[_id]}>
 							<OptionsButton
+								button_type='delete'
 								onClick={() => {
-									handleDelete(id)
+									handleDelete(_id)
 								}}
 							>
 								DELETE
@@ -189,7 +223,7 @@ const Bookings = () => {
 							{/* </NavLink> */}
 							<CloseCTA
 								onClick={() => {
-									handleMoreOptions(id)
+									handleMoreOptions(_id)
 								}}
 							>
 								<AiOutlineCloseCircle />
@@ -205,7 +239,7 @@ const Bookings = () => {
 		property: 'all',
 		value: 'All Bookings',
 	})
-	const manageFilterTab = (param) => {
+	const manageFilterTab = (param: string) => {
 		switch (param) {
 			case 'checkin':
 				setFilter({
@@ -236,7 +270,7 @@ const Bookings = () => {
 		}
 	}
 
-	const filterBookingsByName = (result) => {
+	const filterBookingsByName = (result: string) => {
 		if (!result) {
 			setDisplayData(initialBookingData)
 		} else {
@@ -247,19 +281,25 @@ const Bookings = () => {
 		}
 	}
 
-	const handleSearchInputChange = (event) => {
+	const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const result = event.target.value
 		filterBookingsByName(result)
 	}
 
+	const msg: string = ''
+
 	return (
 		<>
 			<EditUserModalOverlay
-				onClick={handleSpecialRequestModal}
+				onClick={() => {
+				  handleSpecialRequestModal(msg)
+				}}
 				open={toggleModal}
 			/>
 			<EditUserModal
-				onClick={handleSpecialRequestModal}
+				onClick={() => {
+				  handleSpecialRequestModal(msg)
+				}}
 				open={toggleModal}
 			>
 				<TextFormatter>{guestSpecialRequest}</TextFormatter>
@@ -268,66 +308,34 @@ const Bookings = () => {
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
-							<button
+						<TabButton
+								fil={filter.value} 
 								onClick={() => {
 									manageFilterTab('all')
-								}}
-								style={{
-									borderBottom:
-										filter.value === 'All Bookings' &&
-										`3px solid ${color.softer_strongPurple}`,
-									color:
-										filter.value === 'All Bookings' &&
-										`${color.softer_strongPurple}`,
-								}}
-							>
+								}}>
 								All Bookings
-							</button>
-							<button
+						</TabButton>
+						<TabButton
+								fil={filter.value} 
 								onClick={() => {
 									manageFilterTab('checkin')
-								}}
-								style={{
-									borderBottom:
-										filter.value === 'CheckIn' &&
-										`3px solid ${color.softer_strongPurple}`,
-									color:
-										filter.value === 'CheckIn' &&
-										`${color.softer_strongPurple}`,
-								}}
-							>
+								}}>
 								Check In
-							</button>
-							<button
-								onClick={() => {
-									manageFilterTab('checkout')
-								}}
-								style={{
-									borderBottom:
-										filter.value === 'CheckOut' &&
-										`3px solid ${color.softer_strongPurple}`,
-									color:
-										filter.value === 'CheckOut' &&
-										`${color.softer_strongPurple}`,
-								}}
-							>
-								Check Out
-							</button>
-							<button
-								onClick={() => {
-									manageFilterTab('inprogress')
-								}}
-								style={{
-									borderBottom:
-										filter.value === 'In Progress' &&
-										`3px solid ${color.softer_strongPurple}`,
-									color:
-										filter.value === 'In Progress' &&
-										`${color.softer_strongPurple}`,
-								}}
-							>
-								In Progress
-							</button>
+						</TabButton>
+						<TabButton
+							fil={filter.value} 
+							onClick={() => {
+								manageFilterTab('checkout')
+							}}>
+							Check Out
+						</TabButton>
+						<TabButton
+							fil={filter.value} 
+							onClick={() => {
+								manageFilterTab('inprogress')
+							}}>
+							In Progress
+						</TabButton>
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>
@@ -358,7 +366,11 @@ const Bookings = () => {
 
 export default Bookings
 
-const MainContainer = styled.main`
+interface MaincontainerProps {
+	readonly toggle: string
+}
+
+const MainContainer = styled.main<MaincontainerProps>`
 	text-align: center;
 	max-height: 730px;
 	min-width: 1494px;
@@ -367,7 +379,13 @@ const MainContainer = styled.main`
 	margin-right: 30px;
 `
 
-const EditUserModalOverlay = styled.div`
+
+
+interface EditUserModalOverlayProps {
+	readonly open: boolean
+}
+
+const EditUserModalOverlay = styled.div<EditUserModalOverlayProps>`
 	z-index: 99;
 	position: absolute;
 	width: 100vw;
@@ -377,7 +395,11 @@ const EditUserModalOverlay = styled.div`
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
 
-const EditUserModal = styled.div`
+interface EditUserModalProps {
+	readonly open: boolean
+}
+
+const EditUserModal = styled.div<EditUserModalProps>`
 	z-index: 100;
 	position: absolute;
 	top: 50%;
@@ -392,7 +414,11 @@ const EditUserModal = styled.div`
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
 
-const MoreOptions = styled.span`
+interface MoreOptionsProps {
+	readonly open: string
+}
+
+const MoreOptions = styled.span<MoreOptionsProps>`
 	position: relative;
 	z-index: 100;
 	width: 100%;
@@ -400,11 +426,16 @@ const MoreOptions = styled.span`
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
 
-const SpecialRequest = styled.button`
+interface SpecialRequestProps {
+	readonly selectionable: string
+	readonly specialrequest: number
+}
+
+const SpecialRequest = styled.button<SpecialRequestProps>`
 	cursor: ${(props) =>
 		props.selectionable === 'true' ? 'pointer' : 'not-allowed'};
 	font: 500 16px Poppins;
-	width: 160px;
+	width: 130px;
 	height: 48px;
 	border: none;
 	border-radius: 8px;
@@ -426,7 +457,11 @@ const SpecialRequest = styled.button`
 	}
 `
 
-const OptionsButton = styled(SpecialRequest)`
+interface OptionsButtonProps {
+	readonly button_type: string
+}
+
+const OptionsButton = styled.button<OptionsButtonProps>`
 	display: block;
 	cursor: pointer;
 	font: 400 16px Poppins;
@@ -492,22 +527,43 @@ const Tabs = styled.div`
 	border-bottom: 1px solid #d4d4d4;
 	width: 100%;
 	height: 50px;
-	button {
+`
+
+interface TabButtonProps {
+	readonly fil: string
+}
+
+const TabButton = styled.button<TabButtonProps>`
 		font: 500 16px Poppins;
 		background-color: transparent;
 		color: #6e6e6e;
 		display: inline-block;
 		padding: 0 30px 24px 30px;
 		border-radius: 0 0 3px 3px;
-		border: 0;
-		border-bottom: 3px solid transparent;
 		transition: 0.3s all;
+		border: none;
 		cursor: pointer;
+		&:nth-child(1) {
+			border-bottom: ${(props) => (props.fil === 'All Bookings' && `3px solid ${color.softer_strongPurple}`)};
+			color: ${(props) => (props.fil === 'All Bookings' && `${color.softer_strongPurple}`)};
+		}
+		&:nth-child(2) {
+			border-bottom: ${(props) => (props.fil === 'CheckIn' && `3px solid ${color.softer_strongPurple}`)};
+			color: ${(props) => (props.fil === 'CheckIn' && `${color.softer_strongPurple}`)};
+		}
+		&:nth-child(3) {
+			border-bottom: ${(props) => (props.fil === 'CheckOut' && `3px solid ${color.softer_strongPurple}`)};
+			color: ${(props) => (props.fil === 'CheckOut' && `${color.softer_strongPurple}`)};
+		}
+		&:nth-child(4) {
+			border-bottom: ${(props) => (props.fil === 'In Progress' && `3px solid ${color.softer_strongPurple}`)};
+			color: ${(props) => (props.fil === 'In Progress' && `${color.softer_strongPurple}`)};
+		}
+
 		&:hover {
 			border-bottom: 3px solid ${color.strongPurple};
 			color: ${color.strongPurple};
 		}
-	}
 `
 
 const InputSearch = styled.input`
@@ -530,7 +586,11 @@ const InputSearch = styled.input`
 	}
 `
 
-const Icons = styled.div`
+interface IconsProps {
+	readonly search: string
+}
+
+const Icons = styled.div<IconsProps>`
 	font-size: 30px;
 	cursor: pointer;
 	color: ${(props) => (props.search === 'search' ? '#6E6E6E' : 'red')};
@@ -540,7 +600,7 @@ const Icons = styled.div`
 `
 
 const FilterSelector = styled.select`
-	-webkit-appearance: none;
+	appearance: none;
 	width: 175px;
 	height: 50px;
 	border: 1px solid #135846;
@@ -554,19 +614,28 @@ const FilterSelector = styled.select`
 	outline: none;
 	padding-left: 25px;
 `
+interface TextFormatterProps {
+	readonly small?: string
+	readonly name?: string
+}
 
-const TextFormatter = styled.span`
+const TextFormatter = styled.span<TextFormatterProps>`
 	display: block;
-	text-align: left;
+	/* text-align: ${(props) => props.name === 'room' ? 'center' : 'left'}; */
+	text-align:center;
 	color: ${(props) =>
 		props.small === 'small'
 			? `${color.softer_normalGrey}`
 			: `${color.strongGrey}`};
 	font: ${(props) =>
-		props.small === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
+		props.small === 'small' ? '300 13px Poppins' : '500 18px Poppins'};
 `
 
-const Status = styled.button`
+interface StatusProps {
+	readonly status: string
+}
+
+const Status = styled.button<StatusProps>`
 	font: 600 16px Poppins;
 	width: 109px;
 	height: 48px;
@@ -579,6 +648,23 @@ const Status = styled.button`
 			: props.status === 'CheckOut'
 			? `${color.normalPinkie}`
 			: props.status === 'In Progress' && `${color.normalOrange}`};
+	&:hover {
+	}
+`
+
+interface DatesProps {
+	readonly types: string
+}
+
+const Dates = styled.button<DatesProps>`
+	font: 600 16px Poppins;
+	width: 150px;
+	height: 48px;
+	border: none;
+	border-radius: 8px;
+	color: white;
+	padding: 0 5px 0 5px;
+	background-color: ${(props) => props.types === 'orderDate' ? `${color.softer_strongGrey}` : props.types === 'checkIn' ? `${color.softer_strongPurple}` : `${color.normalPinkie}`};
 	&:hover {
 	}
 `
