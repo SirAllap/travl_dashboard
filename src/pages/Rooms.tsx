@@ -19,19 +19,21 @@ import {
 } from '../features/rooms/roomThunks'
 import { NavLink } from 'react-router-dom'
 import * as color from '../components/Variables'
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { IRoom } from '../features/interfaces/interfaces';
 
-const Rooms = (props) => {
-	const dispatch = useDispatch()
-	const initialRoomsPlusLatestRooms = useSelector(initialRoomsPlusNewRooms)
-	const initialRoomData = useSelector(initialRooms)
-	const initialRoomState = useSelector(fetchRoomState)
-	const deleteRoomCurrentStatus = useSelector(deleteRoomStatus)
-	const { state } = useContext(supertoggleContext)
-	const [spinner, setSpinner] = useState(true)
-	const [deleteSpinner, setDeleteSpinner] = useState(false)
-	const [displayData, setDisplayData] = useState([])
-	const [toggleMoreOptions, setToggleMoreOptions] = useState(false)
-	const [currentId, setCurrentId] = useState('')
+const Rooms = () => {
+	const dispatch = useAppDispatch()
+	const initialRoomsPlusLatestRooms = useAppSelector(initialRoomsPlusNewRooms)
+	const initialRoomData = useAppSelector(initialRooms)
+	const initialRoomState = useAppSelector(fetchRoomState)
+	const deleteRoomCurrentStatus = useAppSelector(deleteRoomStatus)
+	const { state } = useContext(supertoggleContext)!
+	const [spinner, setSpinner] = useState<boolean>(true)
+	const [deleteSpinner, setDeleteSpinner] = useState<boolean>(false)
+	const [displayData, setDisplayData] = useState<IRoom[]>([])
+	const [toggleMoreOptions, setToggleMoreOptions] = useState<any>(false)
+	const [currentId, setCurrentId] = useState<string>('')
 
 	useEffect(() => {
 		dispatch(fetchInitialRooms())
@@ -60,15 +62,15 @@ const Rooms = (props) => {
 		deleteRoomCurrentStatus,
 	])
 
-	const handleMoreOptions = (id) => {
-		setToggleMoreOptions((prevToggleMoreOptions) => ({
+	const handleMoreOptions = (id: string) => {
+		setToggleMoreOptions((prevToggleMoreOptions: any) => ({
 			...prevToggleMoreOptions,
 			[id]: !prevToggleMoreOptions[id],
 		}))
 		setCurrentId(id)
 	}
 
-	const handleDelete = (id) => {
+	const handleDelete = (id: string) => {
 		dispatch(deleteRoom(currentId))
 		handleMoreOptions(id)
 	}
@@ -78,16 +80,51 @@ const Rooms = (props) => {
 		redirect: true,
 	}
 
-	const applyDiscount = (currentPrice, discount) => {
+	const applyDiscount = (currentPrice: number, discount: number) => {
 		const result = currentPrice - currentPrice * (discount / 100)
 		return `$${result}`
+	}
+
+	interface IRoomInfo {
+		id: string
+		room_photo: string
+		room_number: number
+	}
+
+	interface IRoomType {
+		room_type: string
+	}
+	
+	interface IAmenities {
+		amenities: [{name: string, description: string}]
+		room_type: string
+	}
+
+	interface IPrice {
+		price: number
+		offer_price: number
+	}
+
+	interface IOfferPrice {
+		offer_price: number
+		discount: number
+		price: number
+	}
+
+	interface IStatus {
+		status: string
+	}
+
+	interface IMore {
+		id: string
+	
 	}
 
 	const cols = [
 		{
 			property: 'id',
 			label: 'Room Info',
-			display: ({ id, room_photo, room_number }) => (
+			display: ({ id, room_photo, room_number }: IRoomInfo) => (
 				<>
 					<NavLink
 						style={{ textDecoration: 'none' }}
@@ -111,7 +148,7 @@ const Rooms = (props) => {
 		{
 			property: 'room_type',
 			label: 'Room Type',
-			display: ({ room_type }) => (
+			display: ({ room_type }:IRoomType) => (
 				<>
 					<TextFormatter small='bold'>{room_type}</TextFormatter>
 				</>
@@ -120,17 +157,17 @@ const Rooms = (props) => {
 		{
 			property: 'amenities',
 			label: 'Amenities',
-			display: ({ amenities, room_type }) =>
-				amenities.map((e, i) => (
-					<AmenitiesTag type={room_type} key={i}>
-						{e.name}
+			display: ({ amenities, room_type }: IAmenities) =>
+				amenities.map((amenitie, index: number) => (
+					<AmenitiesTag types={room_type} key={index}>
+						{amenitie.name}
 					</AmenitiesTag>
 				)),
 		},
 		{
 			property: 'price',
 			label: 'Price',
-			display: ({ price, offer_price }) => (
+			display: ({ price, offer_price }: IPrice) => (
 				<>
 					<TextFormatter
 						offer={offer_price ? 'true' : 'false'}
@@ -141,7 +178,7 @@ const Rooms = (props) => {
 					<span
 						style={{
 							font: '300 14px Poppins',
-							color: offer_price && `${color.normalPinkie}`,
+							color: offer_price ? `${color.normalPinkie}` : `${color.strongGrey}`,
 							textDecoration: offer_price && 'line-through',
 						}}
 					>
@@ -153,13 +190,13 @@ const Rooms = (props) => {
 		{
 			property: 'offer_price',
 			label: 'Offer Price',
-			display: ({ offer_price, price, discount }) => (
+			display: ({ offer_price, price, discount }: IOfferPrice) => (
 				<>
 					<TextFormatter
 						small='offer_price'
 						style={{
-							font: offer_price && '600 23px Poppins',
-							color: offer_price && `${color.normalPurple}`,
+							font: offer_price ? '600 23px Poppins' : '400 18px Poppins',
+							color: offer_price ? `${color.normalPurple}` : `${color.strongGrey}`,
 						}}
 					>
 						{offer_price
@@ -169,7 +206,7 @@ const Rooms = (props) => {
 					<span
 						style={{
 							font: '600 15px Poppins',
-							color: offer_price && `${color.normalPurple}`,
+							color: offer_price ? `${color.normalPurple}` : `${color.strongGrey}`,
 						}}
 					>
 						{offer_price && '/night'}
@@ -180,11 +217,11 @@ const Rooms = (props) => {
 		{
 			property: 'status',
 			label: 'Status',
-			display: ({ status }) => <Status status={status}>{status}</Status>,
+			display: ({ status }: IStatus) => <Status status={status}>{status}</Status>,
 		},
 		{
 			label: 'More',
-			display: ({ id }) => {
+			display: ({ id }: IMore) => {
 				return (
 					<>
 						<BsThreeDotsVertical
@@ -239,7 +276,7 @@ const Rooms = (props) => {
 		property: 'all',
 		value: 'All Rooms',
 	})
-	const manageFilterTab = (param) => {
+	const manageFilterTab = (param: string) => {
 		switch (param) {
 			case 'available':
 				setFilter({
@@ -265,8 +302,8 @@ const Rooms = (props) => {
 	}
 
 	const sortedResult = [...displayData]
-	const [sortRooms, setSortRooms] = useState([])
-	const handleSelectedFilter = (event) => {
+	const [sortRooms, setSortRooms] = useState<IRoom[]>([])
+	const handleSelectedFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		switch (event.target.value) {
 			case 'pricedown':
 				setSortRooms(sortedResult.sort((a, b) => b.price - a.price))
@@ -291,11 +328,11 @@ const Rooms = (props) => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'All Rooms' &&
-										`3px solid ${color.softer_strongPurple}`,
+										filter.value === 'All Rooms' ?
+										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
 									color:
-										filter.value === 'All Rooms' &&
-										`${color.softer_strongPurple}`,
+										filter.value === 'All Rooms' ?
+										`${color.softer_strongPurple}` :`${color.normalGrey}`,
 								}}
 							>
 								All Rooms
@@ -306,11 +343,11 @@ const Rooms = (props) => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'Available' &&
-										`3px solid ${color.softer_strongPurple}`,
+										filter.value === 'Available' ?
+										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
 									color:
-										filter.value === 'Available' &&
-										`${color.softer_strongPurple}`,
+										filter.value === 'Available' ?
+										`${color.softer_strongPurple}` :`${color.normalGrey}`,
 								}}
 							>
 								Available
@@ -321,11 +358,11 @@ const Rooms = (props) => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'Booked' &&
-										`3px solid ${color.softer_strongPurple}`,
+										filter.value === 'Booked' ?
+										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
 									color:
-										filter.value === 'Booked' &&
-										`${color.softer_strongPurple}`,
+										filter.value === 'Booked' ?
+										`${color.softer_strongPurple}` :`${color.normalGrey}`,
 								}}
 							>
 								Booked
@@ -371,7 +408,11 @@ const Rooms = (props) => {
 
 export default Rooms
 
-const MoreOptions = styled.span`
+interface IMoreOptions { 
+	readonly open: string
+}
+
+const MoreOptions = styled.span<IMoreOptions>`
 	position: relative;
 	z-index: 100;
 	width: 100%;
@@ -382,7 +423,11 @@ const MoreOptions = styled.span`
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
 
-const OptionsButton = styled.button`
+interface IOptionsButton {
+	readonly button_type?: string
+}
+
+const OptionsButton = styled.button<IOptionsButton>`
 	display: block;
 	cursor: pointer;
 	font: 400 16px Poppins;
@@ -443,7 +488,11 @@ const AddRoomCTA = styled.button`
 	}
 `
 
-const MainContainer = styled.main`
+interface IMainContainer {
+	readonly toggle: string
+}
+
+const MainContainer = styled.main<IMainContainer>`
 	text-align: center;
 	max-height: 730px;
 	min-width: 1494px;
@@ -499,7 +548,7 @@ const Tabs = styled.div`
 `
 
 const FilterSelector = styled.select`
-	-webkit-appearance: none;
+	appearance: none;
 	width: 175px;
 	height: 50px;
 	border: 1px solid #135846;
@@ -515,7 +564,12 @@ const FilterSelector = styled.select`
 	padding-left: 25px;
 `
 
-const TextFormatter = styled.span`
+interface ITextFormatter { 
+	readonly small: string
+	readonly offer?: string
+}
+
+const TextFormatter = styled.span<ITextFormatter>`
 	display: ${(props) =>
 		props.small === 'price'
 			? 'inline'
@@ -534,7 +588,11 @@ const TextFormatter = styled.span`
 	text-decoration: ${(props) => props.offer === 'true' && 'line-through'};
 `
 
-export const Status = styled.button`
+interface IStatus { 
+	readonly status: string
+}
+
+export const Status = styled.button<IStatus>`
 	font: 600 16px Poppins;
 	width: 109px;
 	height: 48px;
@@ -553,21 +611,25 @@ export const Status = styled.button`
 	}
 `
 
-const AmenitiesTag = styled.button`
+interface IAmenitiesTag { 
+	readonly types: string
+}
+
+const AmenitiesTag = styled.button<IAmenitiesTag>`
 	font: 500 12.5px Poppins;
 	padding: 8px;
 	border: none;
 	border-radius: 6px;
 	color: ${(props) =>
-		props.type === 'Suite'
+		props.types === 'Suite'
 			? `${color.normalOrange}`
-			: props.type === 'Double Superior'
+			: props.types === 'Double Superior'
 			? `${color.softer_strongPurple}`
 			: `${color.normalGrey}`};
 	background-color: ${(props) =>
-		props.type === 'Suite'
+		props.types === 'Suite'
 			? `${color.softer_ligthOrange}`
-			: props.type === 'Double Superior'
+			: props.types === 'Double Superior'
 			? `${color.softer_ligthPurple}`
 			: `${color.softer_ligthGrey}`};
 	margin: 3px;

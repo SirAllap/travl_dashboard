@@ -16,19 +16,22 @@ import {
 import { deleteUser, fetchInitialUsers } from '../features/users/userThunks'
 import { NavLink } from 'react-router-dom'
 import * as color from '../components/Variables'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { IUser } from '../features/interfaces/interfaces';
+import { IsAny } from '@reduxjs/toolkit/dist/tsHelpers';
 
-const Users = (props) => {
-	const dispatch = useDispatch()
-	const initialUserData = useSelector(initialUsers)
-	const initialUsersPlusLatestUsers = useSelector(initialUsersPlusNewUsers)
-	const initialUserState = useSelector(fetchUserState)
-	const deleteUserCurentStatus = useSelector(deleteUserStatus)
-	const { state } = useContext(supertoggleContext)
-	const [displayData, setDisplayData] = useState([])
-	const [toggleMoreOptions, setToggleMoreOptions] = useState(false)
-	const [currentId, setCurrentId] = useState('')
-	const [spinner, setSpinner] = useState(true)
-	const [deleteSpinner, setDeleteSpinner] = useState(false)
+const Users = () => {
+	const dispatch = useAppDispatch()
+	const initialUserData = useAppSelector(initialUsers)
+	const initialUsersPlusLatestUsers = useAppSelector(initialUsersPlusNewUsers)
+	const initialUserState = useAppSelector(fetchUserState)
+	const deleteUserCurentStatus = useAppSelector(deleteUserStatus)
+	const { state } = useContext(supertoggleContext)!
+	const [displayData, setDisplayData] = useState<IUser[]>([])
+	const [toggleMoreOptions, setToggleMoreOptions] = useState<any>(false)
+	const [currentId, setCurrentId] = useState<string>('')
+	const [spinner, setSpinner] = useState<boolean>(true)
+	const [deleteSpinner, setDeleteSpinner] = useState<boolean>(false)
 
 	useEffect(() => {
 		dispatch(fetchInitialUsers())
@@ -57,15 +60,15 @@ const Users = (props) => {
 		deleteUserCurentStatus,
 	])
 
-	const handleMoreOptions = (id) => {
-		setToggleMoreOptions((prevToggleMoreOptions) => ({
+	const handleMoreOptions = (id: string) => {
+		setToggleMoreOptions((prevToggleMoreOptions: any) => ({
 			...prevToggleMoreOptions,
 			[id]: !prevToggleMoreOptions[id],
 		}))
 		setCurrentId(id)
 	}
 
-	const handleDelete = (id) => {
+	const handleDelete = (id: string) => {
 		dispatch(deleteUser(currentId))
 		handleMoreOptions(id)
 	}
@@ -74,11 +77,34 @@ const Users = (props) => {
 		name: 'users',
 		redirect: false,
 	}
+
+	interface IPhoto {
+		photo: string
+	}
+
+	interface IName {
+		full_name: string
+	}
+
+	interface IInfo {
+		email: string
+		employee_id: string
+		phone_number: string
+	}
+
+	interface IStatus {
+		status: string
+	}
+
+	interface IMore {
+		employee_id: string
+	}
+
 	const cols = [
 		{
 			property: 'photo',
 			label: 'Photo',
-			display: ({ photo }) => (
+			display: ({ photo }: IPhoto) => (
 				<>
 					<CustomerPhoto src={photo} />
 				</>
@@ -87,20 +113,20 @@ const Users = (props) => {
 		{
 			property: 'full_name',
 			label: 'Name',
-			display: ({ full_name }) => (
+			display: ({ full_name }: IName) => (
 				<>
-					<TextFormatter name='name'>{full_name}</TextFormatter>
+					<TextFormatter types='name'>{full_name}</TextFormatter>
 				</>
 			),
 		},
 		{
 			property: 'email',
 			label: 'Info',
-			display: ({ email, employee_id, phone_number }) => (
+			display: ({ email, employee_id, phone_number }: IInfo) => (
 				<>
-					<TextFormatter small='small'>{email}</TextFormatter>
-					<TextFormatter small='small'>{phone_number}</TextFormatter>
-					<TextFormatter small='small'>#{employee_id}</TextFormatter>
+					<TextFormatter types='small'>{email}</TextFormatter>
+					<TextFormatter types='small'>{phone_number}</TextFormatter>
+					<TextFormatter types='small'>#{employee_id}</TextFormatter>
 				</>
 			),
 		},
@@ -115,7 +141,7 @@ const Users = (props) => {
 		{
 			property: 'status',
 			label: 'Status',
-			display: ({ status }) => (
+			display: ({ status }: IStatus) => (
 				<>
 					<Status status={status}>
 						{status === 'active' ? 'Active' : 'Inactive'}
@@ -125,7 +151,7 @@ const Users = (props) => {
 		},
 		{
 			label: 'More',
-			display: ({ employee_id }) => {
+			display: ({ employee_id }: IMore) => {
 				return (
 					<>
 						<BsThreeDotsVertical
@@ -171,7 +197,7 @@ const Users = (props) => {
 		property: 'all',
 		value: 'All Employees',
 	})
-	const manageFilterTab = (param) => {
+	const manageFilterTab = (param: string) => {
 		switch (param) {
 			case 'active':
 				setFilter({
@@ -196,7 +222,7 @@ const Users = (props) => {
 		}
 	}
 
-	const filterUsersByName = (result) => {
+	const filterUsersByName = (result: string) => {
 		let filteredUsers
 
 		if (!result) {
@@ -222,7 +248,7 @@ const Users = (props) => {
 		setDisplayData(filteredUsers)
 	}
 
-	const handleSearchInputChange = (event) => {
+	const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const result = event.target.value
 		filterUsersByName(result)
 	}
@@ -239,11 +265,11 @@ const Users = (props) => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'All Employees' &&
-										`3px solid ${color.softer_strongPurple}`,
+										filter.value === 'All Employees' ?
+										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
 									color:
-										filter.value === 'All Employees' &&
-										`${color.softer_strongPurple}`,
+										filter.value === 'All Employees' ?
+										`${color.softer_strongPurple}` :`${color.normalGrey}`,
 								}}
 							>
 								All Employees
@@ -254,11 +280,11 @@ const Users = (props) => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'active' &&
-										`3px solid ${color.softer_strongPurple}`,
+										filter.value === 'active' ?
+										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
 									color:
-										filter.value === 'active' &&
-										`${color.softer_strongPurple}`,
+										filter.value === 'active' ?
+										`${color.softer_strongPurple}` :`${color.normalGrey}`,
 								}}
 							>
 								Active
@@ -269,11 +295,11 @@ const Users = (props) => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'inactive' &&
-										`3px solid ${color.softer_strongPurple}`,
+										filter.value === 'inactive' ?
+										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
 									color:
-										filter.value === 'inactive' &&
-										`${color.softer_strongPurple}`,
+										filter.value === 'inactive' ?
+										`${color.softer_strongPurple}` :`${color.normalGrey}`,
 								}}
 							>
 								Inactive
@@ -311,7 +337,11 @@ const Users = (props) => {
 
 export default Users
 
-const MainContainer = styled.main`
+interface MainContainerProps {
+	readonly toggle: string
+}
+
+const MainContainer = styled.main<MainContainerProps>`
 	text-align: center;
 	max-height: 730px;
 	min-width: 1494px;
@@ -320,7 +350,11 @@ const MainContainer = styled.main`
 	margin-right: 30px;
 `
 
-const OptionsButton = styled.button`
+interface OptionsButtonProps {
+	readonly button_type?: string
+}
+
+const OptionsButton = styled.button<OptionsButtonProps>`
 	display: block;
 	cursor: pointer;
 	font: 400 16px Poppins;
@@ -348,7 +382,11 @@ const OptionsButton = styled.button`
 	}
 `
 
-const MoreOptions = styled.span`
+interface MoreOptionsProps {
+	readonly open: string
+}
+
+const MoreOptions = styled.span<MoreOptionsProps>`
 	position: relative;
 	z-index: 100;
 	width: 100%;
@@ -430,7 +468,11 @@ const InputSearch = styled.input`
 	}
 `
 
-const Icons = styled.div`
+interface IIcons {
+	readonly search: string
+}
+
+const Icons = styled.div<IIcons>`
 	font-size: 30px;
 	cursor: pointer;
 	color: #6e6e6e;
@@ -439,18 +481,26 @@ const Icons = styled.div`
 	left: 105px;
 `
 
-const TextFormatter = styled.span`
+interface ITextFormatter {
+	readonly types: string
+}
+
+const TextFormatter = styled.span<ITextFormatter>`
 	display: block;
 	text-align: center;
 	color: ${(props) =>
-		props.small === 'small'
+		props.types === 'small'
 			? `${color.softer_strongGrey}`
 			: `${color.strongGrey}`};
 	font: ${(props) =>
-		props.small === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
+		props.types === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
 `
 
-const Status = styled.button`
+interface IStatus {
+	readonly status: string
+}
+
+const Status = styled.button<IStatus>`
 	font: 600 16px Poppins;
 	width: 109px;
 	height: 48px;

@@ -19,15 +19,16 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import * as color from '../components/Variables'
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 const Contact = () => {
-	const dispatch = useDispatch()
-	const initialContactData = useSelector(initialContacts)
-	const initialContactState = useSelector(fetchContactState)
-	const archiveCurrentStatus = useSelector(archiveStatus)
-	const { state } = useContext(supertoggleContext)
-	const [spinner, setSpinner] = useState(true)
-	const [archiveSpinner, setArchiveSpinner] = useState(false)
+	const dispatch = useAppDispatch()
+	const initialContactData = useAppSelector(initialContacts)
+	const initialContactState = useAppSelector(fetchContactState)
+	const archiveCurrentStatus = useAppSelector(archiveStatus)
+	const { state } = useContext(supertoggleContext)!
+	const [spinner, setSpinner] = useState<boolean>(true)
+	const [archiveSpinner, setArchiveSpinner] = useState<boolean>(false)
 
 	useEffect(() => {
 		dispatch(fetchInitialContacts())
@@ -51,15 +52,34 @@ const Contact = () => {
 		redirect: false,
 	}
 
-	const handleArchive = (id) => {
+	const handleArchive = (id: string) => {
 		dispatch(archiveContacts(id))
+	}
+
+	interface IDate {
+		date: string
+		dateTime: string
+		id: string
+	}
+
+	interface ICustomer {
+		full_name: string
+	}
+
+	interface IComment {
+		review_body: string
+	}
+
+	interface IArchive {
+		isArchived: string
+		id: string
 	}
 
 	const cols = [
 		{
 			property: 'id',
 			label: 'Date',
-			display: ({ date, dateTime, id }) => (
+			display: ({ date, dateTime, id }: IDate) => (
 				<>
 					<TextFormatter text_type='name'>{date}</TextFormatter>
 					<TextFormatter text_type='small'>{dateTime}</TextFormatter>
@@ -70,7 +90,7 @@ const Contact = () => {
 		{
 			property: 'full_name',
 			label: 'Customer',
-			display: ({ full_name }) => (
+			display: ({ full_name }: ICustomer) => (
 				<>
 					<TextFormatter text_type='customer-name'>
 						{full_name}
@@ -85,7 +105,7 @@ const Contact = () => {
 		{
 			property: 'review_body',
 			label: 'Comment',
-			display: ({ review_body }) => (
+			display: ({ review_body }: IComment) => (
 				<>
 					<TextFormatter text_type='comment'>
 						{review_body}
@@ -96,7 +116,7 @@ const Contact = () => {
 		{
 			property: 'isArchived',
 			label: 'Archive',
-			display: ({ isArchived, id }) => (
+			display: ({ isArchived, id }: IArchive) => (
 				<>
 					<Status
 						onClick={() => {
@@ -115,7 +135,7 @@ const Contact = () => {
 		property: 'all',
 		value: 'All Contact',
 	})
-	const manageFilterTab = (param) => {
+	const manageFilterTab = (param: string) => {
 		switch (param) {
 			case 'nonarchived':
 				setFilter({
@@ -144,7 +164,7 @@ const Contact = () => {
 		<>
 			<MainContainer toggle={state.position}>
 				<CustomerCardText
-					type={{
+					types={{
 						text: 'cardTitle',
 					}}
 				>
@@ -165,7 +185,7 @@ const Contact = () => {
 									<SwiperSlide key={index}>
 										<CustomerReviewCard>
 											<CustomerCardText
-												type={{
+												types={{
 													text: 'cardSubject',
 												}}
 											>
@@ -176,7 +196,7 @@ const Contact = () => {
 												modal={'false'}
 											>
 												<CustomerCardText
-													type={{
+													types={{
 														text: 'cardBody',
 													}}
 												>
@@ -199,11 +219,11 @@ const Contact = () => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'All Contact' &&
-										`3px solid ${color.softer_strongPurple}`,
+										filter.value === 'All Contact' ?
+										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
 									color:
-										filter.value === 'All Contact' &&
-										`${color.softer_strongPurple}`,
+										filter.value === 'All Contact' ?
+										`${color.softer_strongPurple}` :`${color.normalGrey}`,
 								}}
 							>
 								All Contact
@@ -214,26 +234,27 @@ const Contact = () => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'true' &&
-										`3px solid ${color.softer_strongPurple}`,
+										filter.value === 'true' ?
+										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
 									color:
-										filter.value === 'true' &&
-										`${color.softer_strongPurple}`,
+										filter.value === 'true' ?
+										`${color.softer_strongPurple}` :`${color.normalGrey}`,
 								}}
 							>
 								Archived
-							</button>
+							</button>?
+										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
 							<button
 								onClick={() => {
 									manageFilterTab('nonarchived')
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'false' &&
-										`3px solid ${color.softer_strongPurple}`,
+										filter.value === 'false' ?
+										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
 									color:
-										filter.value === 'false' &&
-										`${color.softer_strongPurple}`,
+										filter.value === 'false' ?
+										`${color.softer_strongPurple}` :`${color.normalGrey}`,
 								}}
 							>
 								Non Archived
@@ -257,7 +278,11 @@ const Contact = () => {
 
 export default Contact
 
-const MainContainer = styled.main`
+interface MainContainerProps { 
+	readonly toggle: string
+}
+
+const MainContainer = styled.main<MainContainerProps>`
 	text-align: center;
 	max-height: 730px;
 	min-width: 1494px;
@@ -306,7 +331,48 @@ const Tabs = styled.div`
 	}
 `
 
-const TextFormatter = styled.span`
+interface TabButtonProps {
+	readonly fil: string
+}
+
+const TabButton = styled.button<TabButtonProps>`
+		font: 500 16px Poppins;
+		background-color: transparent;
+		color: #6e6e6e;
+		display: inline-block;
+		padding: 0 30px 24px 30px;
+		border-radius: 0 0 3px 3px;
+		transition: 0.3s all;
+		border: none;
+		cursor: pointer;
+		&:nth-child(1) {
+			border-bottom: ${(props) => (props.fil === 'All Bookings' && `3px solid ${color.softer_strongPurple}`)};
+			color: ${(props) => (props.fil === 'All Bookings' && `${color.softer_strongPurple}`)};
+		}
+		&:nth-child(2) {
+			border-bottom: ${(props) => (props.fil === 'CheckIn' && `3px solid ${color.softer_strongPurple}`)};
+			color: ${(props) => (props.fil === 'CheckIn' && `${color.softer_strongPurple}`)};
+		}
+		&:nth-child(3) {
+			border-bottom: ${(props) => (props.fil === 'CheckOut' && `3px solid ${color.softer_strongPurple}`)};
+			color: ${(props) => (props.fil === 'CheckOut' && `${color.softer_strongPurple}`)};
+		}
+		&:nth-child(4) {
+			border-bottom: ${(props) => (props.fil === 'In Progress' && `3px solid ${color.softer_strongPurple}`)};
+			color: ${(props) => (props.fil === 'In Progress' && `${color.softer_strongPurple}`)};
+		}
+
+		&:hover {
+			border-bottom: 3px solid ${color.strongPurple};
+			color: ${color.strongPurple};
+		}
+`
+
+interface TextFormatterProps {
+	readonly text_type: string;
+}
+
+const TextFormatter = styled.span<TextFormatterProps>`
 	text-align: ${(props) =>
 		props.text_type === 'comment' && 'justify !important'};
 	padding: ${(props) =>
@@ -326,7 +392,11 @@ const TextFormatter = styled.span`
 	margin: 10px;
 `
 
-const Status = styled.button`
+interface StatusProps {
+	readonly status: string
+}
+
+const Status = styled.button<StatusProps>`
 	font: 600 16px Poppins;
 	width: 109px;
 	height: 48px;
@@ -379,9 +449,16 @@ const CustomerReviewCard = styled.div`
 		box-shadow: 0px 16px 30px #00000014;
 	}
 `
-const CustomerCardText = styled.p`
+
+interface CustomerCardTextProps {
+	readonly types: {
+		text: string;
+	}
+}
+
+const CustomerCardText = styled.p<CustomerCardTextProps>`
 	${(props) => {
-		switch (props.type.text) {
+		switch (props.types.text) {
 			case 'cardTitle':
 				return css`
 					font: normal normal 500 20px Poppins;
@@ -427,7 +504,11 @@ const CustomerCardText = styled.p`
 	}}
 `
 
-const CustomerReviewCardTopData = styled.div`
+interface CustomerReviewCardTopDataProps {
+	readonly modal: string
+}
+
+const CustomerReviewCardTopData = styled.div<CustomerReviewCardTopDataProps>`
 	width: 371px;
 	height: ${(props) => (props.modal === 'true' ? 'fitConten' : '110px')};
 	overflow-y: clip;
