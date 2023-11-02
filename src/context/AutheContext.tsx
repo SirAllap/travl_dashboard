@@ -1,154 +1,172 @@
-import React, { ReactNode, useReducer, createContext, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { ReactNode, useReducer, createContext, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface AuthInitialState {
-  auth: boolean;
-  name: string | null;
-  email: string | null;
-  profilePicture: string | null;
+	auth: boolean
+	name: string | null
+	email: string | null
+	profilePicture: string | null
 }
 
 const checkInitialState = (): AuthInitialState => {
-  return localStorage.getItem('authenticated')
-    ? {
-        auth: true,
-        name: JSON.parse(localStorage.getItem('currentUser') || '').userName,
-        email: JSON.parse(localStorage.getItem('currentUser') || '').email,
-        profilePicture: localStorage.getItem('profilePicture') || '',
-      }
-    : {
-        auth: false,
-        name: null,
-        email: null,
-        profilePicture: null,
-      };
-};
+	return localStorage.getItem('authenticated')
+		? {
+				auth: true,
+				name: JSON.parse(localStorage.getItem('currentUser') || '')
+					.userName,
+				email: JSON.parse(localStorage.getItem('currentUser') || '')
+					.email,
+				profilePicture: localStorage.getItem('profilePicture') || '',
+		  }
+		: {
+				auth: false,
+				name: null,
+				email: null,
+				profilePicture: null,
+		  }
+}
 
 type AuthAction =
-  | {
-      type: 'login';
-      payload: {
-        userName: string;
-        email: string;
-        profilePicture: string;
-      };
-    }
-  | {
-      type: 'updateUserInfo';
-      payload: {
-        userName: string;
-        email: string;
-        profilePicture: string;
-      };
-    }
-  | { type: 'logout' };
+	| {
+			type: 'login'
+			payload: {
+				userName: string
+				email: string
+				profilePicture: string
+			}
+	  }
+	| {
+			type: 'updateUserInfo'
+			payload: {
+				userName: string
+				email: string
+				profilePicture: string
+			}
+	  }
+	| { type: 'logout' }
 
-const authenticatorReducer = (state: AuthInitialState, action: AuthAction): AuthInitialState => {
-  switch (action.type) {
-    case 'login':
-    case 'updateUserInfo':
-      return {
-        auth: true,
-        name: action.payload.userName,
-        email: action.payload.email,
-        profilePicture: action.payload.profilePicture,
-      };
-    case 'logout':
-      return {
-        auth: false,
-        name: null,
-        email: null,
-        profilePicture: null,
-      };
-    default:
-      return state;
-  }
-};
+const authenticatorReducer = (
+	state: AuthInitialState,
+	action: AuthAction
+): AuthInitialState => {
+	switch (action.type) {
+		case 'login':
+		case 'updateUserInfo':
+			return {
+				auth: true,
+				name: action.payload.userName,
+				email: action.payload.email,
+				profilePicture: action.payload.profilePicture,
+			}
+		case 'logout':
+			return {
+				auth: false,
+				name: null,
+				email: null,
+				profilePicture: null,
+			}
+		default:
+			return state
+	}
+}
 
 interface AuthenticationContextProps {
-  children: ReactNode;
+	children: ReactNode
 }
 
 interface LoginReducer {
-  userName: string | null;
-  email: string | null;
-  profilePicture: string | null;
+	userName: string
+	email: string
+	profilePicture: string
 }
 
 export const useAuth = () => {
-  const context = useContext(authenticationContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthenticationContextProvider');
-  }
-  return context;
-};
-
-interface AuthContextValue {
-  login: (data: LoginReducer) => void;
-  updateUserInfo: (data: LoginReducer) => void;
-  logout: () => void;
-  authState: AuthInitialState;
+	const context = useContext(authenticationContext)
+	if (!context) {
+		throw new Error(
+			'useAuth must be used within an AuthenticationContextProvider'
+		)
+	}
+	return context
 }
 
-export const authenticationContext = createContext<AuthContextValue | null>(null)
+interface AuthContextValue {
+	login: (data: LoginReducer) => void
+	updateUserInfo: (data: LoginReducer) => void
+	logout: () => void
+	authState: AuthInitialState
+}
 
-const AuthenticationContextProvider: React.FC<AuthenticationContextProps> = ({ children }) => {
-  const navigate = useNavigate();
+export const authenticationContext = createContext<AuthContextValue | null>(
+	null
+)
 
-  const [authState, dispatch] = useReducer(authenticatorReducer, checkInitialState());
+const AuthenticationContextProvider: React.FC<AuthenticationContextProps> = ({
+	children,
+}) => {
+	const navigate = useNavigate()
 
-  const login = ({ userName, email, profilePicture }: LoginReducer) => {
-    dispatch({
-      type: 'login',
-      payload: { userName, email, profilePicture },
-    });
-    localStorage.setItem(
-      'currentUser',
-      JSON.stringify({
-        userName: userName,
-        email: email,
-      })
-    );
-    localStorage.setItem('profilePicture', profilePicture);
-    localStorage.setItem('authenticated', 'true');
-    navigate('/');
-  };
+	const [authState, dispatch] = useReducer(
+		authenticatorReducer,
+		checkInitialState()
+	)
 
-  const updateUserInfo = ({ userName, email, profilePicture }: LoginReducer) => {
-    dispatch({
-      type: 'updateUserInfo',
-      payload: { userName, email, profilePicture },
-    });
+	const login = ({ userName, email, profilePicture }: LoginReducer) => {
+		dispatch({
+			type: 'login',
+			payload: { userName, email, profilePicture },
+		})
+		localStorage.setItem(
+			'currentUser',
+			JSON.stringify({
+				userName: userName,
+				email: email,
+			})
+		)
+		localStorage.setItem('profilePicture', profilePicture)
+		localStorage.setItem('authenticated', 'true')
+		navigate('/')
+	}
 
-    localStorage.setItem(
-      'currentUser',
-      JSON.stringify({
-        userName: userName,
-        email: email,
-      })
-    );
-    localStorage.setItem('profilePicture', profilePicture);
-    localStorage.setItem('authenticated', 'true');
-  };
+	const updateUserInfo = ({
+		userName,
+		email,
+		profilePicture,
+	}: LoginReducer) => {
+		dispatch({
+			type: 'updateUserInfo',
+			payload: { userName, email, profilePicture },
+		})
 
-  const logout = () => {
-    dispatch({ type: 'logout' });
-    localStorage.clear();
-    navigate('/login');
-  };
+		localStorage.setItem(
+			'currentUser',
+			JSON.stringify({
+				userName: userName,
+				email: email,
+			})
+		)
+		localStorage.setItem('profilePicture', profilePicture)
+		localStorage.setItem('authenticated', 'true')
+	}
 
-  return (
-    <authenticationContext.Provider
-      value={{
-        login,
-        updateUserInfo,
-        logout,
-        authState,
-      }}
-    >
-      {children}
-    </authenticationContext.Provider>
-  );
-};
+	const logout = () => {
+		dispatch({ type: 'logout' })
+		localStorage.clear()
+		navigate('/login')
+	}
 
-export default AuthenticationContextProvider;
+	return (
+		<authenticationContext.Provider
+			value={{
+				login,
+				updateUserInfo,
+				logout,
+				authState,
+			}}
+		>
+			{children}
+		</authenticationContext.Provider>
+	)
+}
+
+export default AuthenticationContextProvider
