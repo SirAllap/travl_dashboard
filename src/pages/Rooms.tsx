@@ -19,8 +19,8 @@ import {
 } from '../features/rooms/roomThunks'
 import { NavLink } from 'react-router-dom'
 import * as color from '../components/Variables'
-import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { IRoom } from '../features/interfaces/interfaces';
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { IRoom } from '../features/interfaces/interfaces'
 
 const Rooms = () => {
 	const dispatch = useAppDispatch()
@@ -94,9 +94,9 @@ const Rooms = () => {
 	interface IRoomType {
 		room_type: string
 	}
-	
+
 	interface IAmenities {
-		amenities: [{name: string, description: string}]
+		amenities: [{ name: string; description: string }]
 		room_type: string
 	}
 
@@ -117,7 +117,6 @@ const Rooms = () => {
 
 	interface IMore {
 		id: string
-	
 	}
 
 	const cols = [
@@ -148,7 +147,7 @@ const Rooms = () => {
 		{
 			property: 'room_type',
 			label: 'Room Type',
-			display: ({ room_type }:IRoomType) => (
+			display: ({ room_type }: IRoomType) => (
 				<>
 					<TextFormatter small='bold'>{room_type}</TextFormatter>
 				</>
@@ -178,7 +177,9 @@ const Rooms = () => {
 					<span
 						style={{
 							font: '300 14px Poppins',
-							color: offer_price ? `${color.normalPinkie}` : `${color.strongGrey}`,
+							color: offer_price
+								? `${color.normalPinkie}`
+								: `${color.strongGrey}`,
 							textDecoration: offer_price && 'line-through',
 						}}
 					>
@@ -195,8 +196,12 @@ const Rooms = () => {
 					<TextFormatter
 						small='offer_price'
 						style={{
-							font: offer_price ? '600 23px Poppins' : '400 18px Poppins',
-							color: offer_price ? `${color.normalPurple}` : `${color.strongGrey}`,
+							font: offer_price
+								? '600 23px Poppins'
+								: '400 18px Poppins',
+							color: offer_price
+								? `${color.normalPurple}`
+								: `${color.strongGrey}`,
 						}}
 					>
 						{offer_price
@@ -206,7 +211,9 @@ const Rooms = () => {
 					<span
 						style={{
 							font: '600 15px Poppins',
-							color: offer_price ? `${color.normalPurple}` : `${color.strongGrey}`,
+							color: offer_price
+								? `${color.normalPurple}`
+								: `${color.strongGrey}`,
 						}}
 					>
 						{offer_price && '/night'}
@@ -217,7 +224,9 @@ const Rooms = () => {
 		{
 			property: 'status',
 			label: 'Status',
-			display: ({ status }: IStatus) => <Status status={status}>{status}</Status>,
+			display: ({ status }: IStatus) => (
+				<Status status={status}>{status}</Status>
+			),
 		},
 		{
 			label: 'More',
@@ -303,7 +312,9 @@ const Rooms = () => {
 
 	const sortedResult = [...displayData]
 	const [sortRooms, setSortRooms] = useState<IRoom[]>([])
-	const handleSelectedFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+	const handleSelectedFilter = (
+		event: React.ChangeEvent<HTMLSelectElement>
+	) => {
 		switch (event.target.value) {
 			case 'pricedown':
 				setSortRooms(sortedResult.sort((a, b) => b.price - a.price))
@@ -328,11 +339,13 @@ const Rooms = () => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'All Rooms' ?
-										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
+										filter.value === 'All Rooms'
+											? `3px solid ${color.softer_strongPurple}`
+											: `3px solid transparent`,
 									color:
-										filter.value === 'All Rooms' ?
-										`${color.softer_strongPurple}` :`${color.normalGrey}`,
+										filter.value === 'All Rooms'
+											? `${color.softer_strongPurple}`
+											: `${color.normalGrey}`,
 								}}
 							>
 								All Rooms
@@ -343,11 +356,13 @@ const Rooms = () => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'Available' ?
-										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
+										filter.value === 'Available'
+											? `3px solid ${color.softer_strongPurple}`
+											: `3px solid transparent`,
 									color:
-										filter.value === 'Available' ?
-										`${color.softer_strongPurple}` :`${color.normalGrey}`,
+										filter.value === 'Available'
+											? `${color.softer_strongPurple}`
+											: `${color.normalGrey}`,
 								}}
 							>
 								Available
@@ -358,11 +373,13 @@ const Rooms = () => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'Booked' ?
-										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
+										filter.value === 'Booked'
+											? `3px solid ${color.softer_strongPurple}`
+											: `3px solid transparent`,
 									color:
-										filter.value === 'Booked' ?
-										`${color.softer_strongPurple}` :`${color.normalGrey}`,
+										filter.value === 'Booked'
+											? `${color.softer_strongPurple}`
+											: `${color.normalGrey}`,
 								}}
 							>
 								Booked
@@ -408,7 +425,7 @@ const Rooms = () => {
 
 export default Rooms
 
-interface IMoreOptions { 
+interface IMoreOptions {
 	readonly open: string
 }
 
@@ -564,7 +581,7 @@ const FilterSelector = styled.select`
 	padding-left: 25px;
 `
 
-interface ITextFormatter { 
+interface ITextFormatter {
 	readonly small: string
 	readonly offer?: string
 }
@@ -588,7 +605,7 @@ const TextFormatter = styled.span<ITextFormatter>`
 	text-decoration: ${(props) => props.offer === 'true' && 'line-through'};
 `
 
-interface IStatus { 
+interface IStatus {
 	readonly status: string
 }
 
@@ -611,7 +628,7 @@ export const Status = styled.button<IStatus>`
 	}
 `
 
-interface IAmenitiesTag { 
+interface IAmenitiesTag {
 	readonly types: string
 }
 
