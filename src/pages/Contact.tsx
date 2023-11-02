@@ -242,8 +242,7 @@ const Contact = () => {
 								}}
 							>
 								Archived
-							</button>?
-										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
+							</button>
 							<button
 								onClick={() => {
 									manageFilterTab('nonarchived')
