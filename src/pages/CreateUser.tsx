@@ -7,12 +7,14 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { createUserState } from '../features/users/userSlice'
 import { createOneUser } from '../features/users/userThunks'
 import * as color from '../components/Variables'
+import { useAppDispatch } from '../app/hooks'
+import { IUser } from '../features/interfaces/interfaces'
 
-const CreateUser = (props) => {
-	const dispatch = useDispatch()
+const CreateUser = () => {
+	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 	const createUserCurretState = useSelector(createUserState)
-	const { state } = useContext(supertoggleContext)
+	const { state } = useContext(supertoggleContext)!
 	const [spinner, setSpinner] = useState(false)
 	const [toggleModalNewRoom, setToggleModalNewRoom] = useState(false)
 
@@ -25,8 +27,10 @@ const CreateUser = (props) => {
 		}
 	}, [createUserCurretState, navigate])
 
-	const [newUserPosition, setNewUserPosition] = useState('')
-	const handleNewUserPosition = (event) => {
+	const [newUserPosition, setNewUserPosition] = useState<string>('')
+	const handleNewUserPosition = (
+		event: React.ChangeEvent<HTMLSelectElement>
+	) => {
 		switch (event.target.value) {
 			case 'recepcionist':
 				setNewUserPosition('Recepcionist')
@@ -45,38 +49,43 @@ const CreateUser = (props) => {
 		}
 	}
 
-	const [newUserName, setNewUserName] = useState('')
-	const handleNewUserName = (event) => {
+	const [newUserName, setNewUserName] = useState<string>('')
+	const handleNewUserName = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNewUserName(event.target.value)
 	}
 
-	const [newUserPhoneNumber, setNewUserPhoneNumber] = useState(0)
-	const handleNewPhoneNumber = (event) => {
+	const [newUserPhoneNumber, setNewUserPhoneNumber] = useState<number>(0)
+	const handleNewPhoneNumber = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
 		setNewUserPhoneNumber(parseInt(event.target.value))
 	}
 
-	const [newUserStartDate, setNewUserStartDate] = useState('')
-	const handleUserStartDate = (event) => {
+	const [newUserStartDate, setNewUserStartDate] = useState<string>('')
+	const handleUserStartDate = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
 		setNewUserStartDate(event.target.value)
 	}
 
-	const [newRoomOffer, setNewUserEmail] = useState('')
-	const handleNewUserEmail = (event) => {
+	const [newRoomOffer, setNewUserEmail] = useState<string>('')
+	const handleNewUserEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNewUserEmail(event.target.value)
 	}
 
 	function randomID() {
 		return Math.floor(Math.random() * 1000000).toString()
 	}
+
 	const handleCreateOneRoom = () => {
-		const newUser = {
+		const newUser: IUser = {
 			employee_id: randomID(),
 			full_name: newUserName,
 			email: newRoomOffer,
 			photo: 'https://robohash.org/JohnDoe.png?set=any',
 			start_date: newUserStartDate,
 			description: newUserPosition,
-			phone_number: newUserPhoneNumber,
+			phone_number: newUserPhoneNumber.toString(),
 			status: 'active',
 		}
 		dispatch(createOneUser(newUser))
@@ -106,7 +115,6 @@ const CreateUser = (props) => {
 								width='150'
 								color={color.softer_strongPurple}
 								ariaLabel='triangle-loading'
-								wrapperClassName=''
 								visible={spinner}
 							/>
 						</SpinnerContainer>
@@ -262,14 +270,24 @@ const ModalInnerRightInfo = styled.div`
 	padding: 20px;
 `
 
-const CreateRoomInputLable = styled.label`
+interface CreateRoomInputLableProps {
+	readonly radio?: string
+	readonly types?: string
+}
+
+const CreateRoomInputLable = styled.label<CreateRoomInputLableProps>`
 	display: ${(props) => (props.radio === 'radio' ? 'inline' : 'block')};
 	text-align: left;
 	font: normal normal 500 17px Poppins;
 	color: ${color.strongPurple};
 	padding: 15px 0 10px 0;
 `
-const CreateRoomInput = styled.input`
+
+interface CreateRoomInputProps {
+	readonly radio?: string
+}
+
+const CreateRoomInput = styled.input<CreateRoomInputProps>`
 	${(props) => {
 		switch (props.radio) {
 			case 'radio':
@@ -332,7 +350,11 @@ const SaveCTA = styled.button`
 	}
 `
 
-const MainContainer = styled.main`
+interface MainContainerProps {
+	readonly toggle: string
+}
+
+const MainContainer = styled.main<MainContainerProps>`
 	position: relative;
 	text-align: center;
 	max-height: 730px;
@@ -342,7 +364,11 @@ const MainContainer = styled.main`
 	margin-right: 30px;
 `
 
-const TitleText = styled.h1`
+interface TitleTextProps {
+	readonly newroom?: string
+}
+
+const TitleText = styled.h1<TitleTextProps>`
 	background-color: #fff;
 	border-radius: 20px 20px 0px 0px;
 	border-bottom: 1px dashed ${color.ligthPurple};

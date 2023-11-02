@@ -11,25 +11,27 @@ import { Triangle } from 'react-loader-spinner'
 import { BsFillTelephoneFill } from 'react-icons/bs'
 import { BiMessageRoundedDetail } from 'react-icons/bi'
 import * as color from '../components/Variables'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { IBooking } from '../features/interfaces/interfaces'
 
 const BookingsDetails = () => {
 	const navigate = useNavigate()
-	const singleBookingData = useSelector(singleBooking)
-	const initialBookingState = useSelector(fetchBookingState)
-	const { state, bookingBreadCrumb } = useContext(supertoggleContext)
+	const singleBookingData = useAppSelector(singleBooking)
+	const initialBookingState = useAppSelector(fetchBookingState)
+	const { state, bookingBreadCrumb } = useContext(supertoggleContext)!
 	const location = useLocation()
-	const { bookingId } = useParams()
-	const [savedLastId, setSavedLastId] = useState('')
-	const [currentBooking, setCurrentBooking] = useState([])
-	const [spinner, setSpinner] = useState(true)
+	const { bookingId } = useParams<string>()
+	const [savedLastId, setSavedLastId] = useState<string>('')
+	const [currentBooking, setCurrentBooking] = useState<IBooking>()
+	const [spinner, setSpinner] = useState<boolean>(true)
 
 	useEffect(() => {
 		if (
 			savedLastId !== bookingId &&
 			location.pathname === `/bookings/${bookingId}`
 		) {
-			bookingBreadCrumb(bookingId)
-			setSavedLastId(bookingId)
+			bookingBreadCrumb(bookingId || '')
+			setSavedLastId(bookingId || '')
 		}
 		if (initialBookingState === 'pending') {
 			setSpinner(true)
@@ -46,11 +48,11 @@ const BookingsDetails = () => {
 		bookingBreadCrumb,
 	])
 
-	function formatDateString(inputDateString) {
-		var date = new Date(inputDateString)
+	const formatDateString = (inputDateString: string) => {
+		var date: Date = new Date(inputDateString)
 		var randomHour = Math.floor(Math.random() * 24)
 		date.setHours(randomHour)
-		function getDayWithSuffix(day) {
+		const getDayWithSuffix = (day: number) => {
 			if (day >= 11 && day <= 13) {
 				return day + 'th'
 			}
@@ -65,8 +67,16 @@ const BookingsDetails = () => {
 					return day + 'th'
 			}
 		}
-		var dayWithSuffix = getDayWithSuffix(date.getDate())
-		var options = {
+		var dayWithSuffix: string = getDayWithSuffix(date.getDate())
+		interface IOptions {
+			year: 'numeric'
+			month: 'long'
+			day: 'numeric'
+			hour: 'numeric'
+			minute: 'numeric'
+			hour12: boolean
+		}
+		var options: IOptions = {
 			year: 'numeric',
 			month: 'long',
 			day: 'numeric',
@@ -74,8 +84,9 @@ const BookingsDetails = () => {
 			minute: 'numeric',
 			hour12: true,
 		}
-		var formattedDate = date.toLocaleDateString('en-US', options)
-		formattedDate = formattedDate.replace(date.getDate(), dayWithSuffix)
+		let formattedDate = date.toLocaleDateString('en-US', options)
+		let toStringDate = date.getDate().toString()
+		formattedDate = formattedDate.replace(toStringDate, dayWithSuffix)
 		formattedDate = formattedDate.replace('at', '|')
 		return formattedDate
 	}
@@ -91,7 +102,6 @@ const BookingsDetails = () => {
 							width='150'
 							color={color.softer_strongPurple}
 							ariaLabel='triangle-loading'
-							wrapperClassName=''
 							visible={spinner}
 						/>
 					</SpinnerContainer>
@@ -234,7 +244,11 @@ const CTA = styled.button`
 	}
 `
 
-const MainContainer = styled.main`
+interface MainContainerProps {
+	readonly toggle: string
+}
+
+const MainContainer = styled.main<MainContainerProps>`
 	position: relative;
 	text-align: left;
 	height: 792px;
@@ -278,7 +292,11 @@ const InfoBookingContainer = styled.div`
 	white-space: nowrap;
 `
 
-const TextFormatter = styled.p`
+interface TextFormatterProps {
+	readonly type?: string
+}
+
+const TextFormatter = styled.p<TextFormatterProps>`
 	text-align: left;
 	color: ${(props) =>
 		props.type === 'small'
@@ -288,7 +306,11 @@ const TextFormatter = styled.p`
 		props.type === 'small' ? '400 14px Poppins' : '600 30px Poppins'};
 `
 
-const IconContainer = styled.div`
+interface IconContainerProps {
+	readonly type?: string
+}
+
+const IconContainer = styled.div<IconContainerProps>`
 	width: ${(props) => (props.type === 'message' ? '209px' : '59px')};
 	height: 59px;
 	border: ${(props) =>
@@ -310,15 +332,15 @@ const IconContainer = styled.div`
 	&:hover {
 		color: ${(props) =>
 			props.type === 'message' ? `${color.softer_normalPinkie}` : '#fff'};
-	background-color: ${(props) =>
-		props.type === 'message' ? '#fff' : `${color.normalPinkie}`};
+		background-color: ${(props) =>
+			props.type === 'message' ? '#fff' : `${color.normalPinkie}`};
 	}
 	span {
 		display: inline-block;
 		vertical-align: top;
 		text-align: left;
 		margin: 2px 0 0 16px;
-		font: 400 16px Poppins};
+		font: 400 16px Poppins;
 		font: normal normal 600 Poppins;
 	}
 `
@@ -394,7 +416,12 @@ const RoomFacilitiesData = styled.div`
 		color: ${color.softer_normalGrey};
 	}
 `
-const RoomFacilitiesAmenities = styled.div`
+
+interface RoomFacilitiesAmenitiesProps {
+	readonly type?: string
+}
+
+const RoomFacilitiesAmenities = styled.div<RoomFacilitiesAmenitiesProps>`
 	width: fit-content;
 	height: ${(props) => (props.type === 'small' ? '45px' : '65px')};
 	background: ${color.softerPLus_ligthPurple};

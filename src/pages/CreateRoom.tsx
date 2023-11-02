@@ -7,13 +7,14 @@ import { createOneRoom } from '../features/rooms/roomThunks'
 import { Triangle } from 'react-loader-spinner'
 import { NavLink, useNavigate } from 'react-router-dom'
 import * as color from '../components/Variables'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
 
-const CreateRoom = (props) => {
-	const dispatch = useDispatch()
+const CreateRoom = () => {
+	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
-	const initialRoomData = useSelector(initialRooms)
-	const createRoomCurretState = useSelector(createRoomState)
-	const { state } = useContext(supertoggleContext)
+	const initialRoomData = useAppSelector(initialRooms)
+	const createRoomCurretState = useAppSelector(createRoomState)
+	const { state } = useContext(supertoggleContext)!
 	const [spinner, setSpinner] = useState(false)
 
 	useEffect(() => {
@@ -26,7 +27,9 @@ const CreateRoom = (props) => {
 	}, [initialRoomData, createRoomCurretState, navigate])
 
 	const [newRoomType, setNewRoomType] = useState('')
-	const handleRoomTypeSelector = (event) => {
+	const handleRoomTypeSelector = (
+		event: React.ChangeEvent<HTMLSelectElement>
+	) => {
 		switch (event.target.value) {
 			case 'single':
 				setNewRoomType('Single Bed')
@@ -46,33 +49,44 @@ const CreateRoom = (props) => {
 	}
 
 	const [newRoomNumber, setNewRoomNumber] = useState('')
-	const handleRoomNumber = (event) => {
+	const handleRoomNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNewRoomNumber(event.target.value)
 	}
 
 	const [newRoomDescription, setNewRoomDescription] = useState('')
-	const handleRoomDescription = (event) => {
+	const handleRoomDescription = (
+		event: React.ChangeEvent<HTMLTextAreaElement>
+	) => {
 		setNewRoomDescription(event.target.value)
 	}
 
 	const [newRoomPrice, setNewRoomPrice] = useState(0)
-	const handleRoomPrice = (event) => {
+	const handleRoomPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNewRoomPrice(parseInt(event.target.value))
 	}
 
 	const [newRoomOffer, setNewRoomOffer] = useState('false')
-	const handleRadioOffer = (event) => {
+	const handleRadioOffer = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNewRoomOffer(event.target.value)
 	}
 
 	const [newRoomDiscount, setNewRoomDiscount] = useState(0)
-	const handleRadioDiscount = (event) => {
+	const handleRadioDiscount = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
 		setNewRoomDiscount(parseInt(event.target.value))
 	}
 
-	const [newRoomAmenities, setNewRoomAmenities] = useState([])
-	const [newRoomAmenitiesType, setNewRoomAmenitiesType] = useState([])
-	const handleNewRoomAmenities = (event) => {
+	interface IAmenities {
+		name: string
+		description: string
+	}
+
+	const [newRoomAmenities, setNewRoomAmenities] = useState<IAmenities[]>([])
+	const [newRoomAmenitiesType, setNewRoomAmenitiesType] = useState<string>('')
+	const handleNewRoomAmenities = (
+		event: React.ChangeEvent<HTMLSelectElement>
+	) => {
 		switch (event.target.value) {
 			case 'basic':
 				setNewRoomAmenitiesType('basic')
@@ -219,7 +233,6 @@ const CreateRoom = (props) => {
 								width='150'
 								color={color.softer_strongPurple}
 								ariaLabel='triangle-loading'
-								wrapperClassName=''
 								visible={spinner}
 							/>
 						</SpinnerContainer>
@@ -347,10 +360,7 @@ const CreateRoom = (props) => {
 												: '1',
 									}}
 								>
-									<CreateRoomInputLable
-										as='legend'
-										htmlFor='5'
-									>
+									<CreateRoomInputLable as='legend'>
 										Discount ammount:
 									</CreateRoomInputLable>
 									<CreateRoomInputLable
@@ -438,7 +448,7 @@ const CreateRoom = (props) => {
 								<br />
 
 								<CreateRoomInputLable
-									type='name'
+									types='name'
 									htmlFor='roomAmenitiesSelector'
 								>
 									Amenities Pack:
@@ -521,7 +531,12 @@ const ModalInnerRightInfo = styled.div`
 	padding: 20px;
 `
 
-const CreateRoomInputLable = styled.label`
+interface CreateRoomInputLableProps {
+	readonly radio?: string
+	readonly types?: string
+}
+
+const CreateRoomInputLable = styled.label<CreateRoomInputLableProps>`
 	display: ${(props) => (props.radio === 'radio' ? 'inline' : 'block')};
 	text-align: left;
 	font: normal normal 500 17px Poppins;
@@ -529,7 +544,11 @@ const CreateRoomInputLable = styled.label`
 	padding: 15px 0 10px 0;
 `
 
-const CreateRoomInput = styled.input`
+interface CreateRoomInputProps {
+	readonly radio?: string
+}
+
+const CreateRoomInput = styled.input<CreateRoomInputProps>`
 	${(props) => {
 		switch (props.radio) {
 			case 'radio':
@@ -648,7 +667,11 @@ const ADDCTA = styled.button`
 	}
 `
 
-const MainContainer = styled.main`
+interface MainContainerProps {
+	readonly toggle: string
+}
+
+const MainContainer = styled.main<MainContainerProps>`
 	position: relative;
 	text-align: center;
 	max-height: 730px;
@@ -658,7 +681,11 @@ const MainContainer = styled.main`
 	margin-right: 30px;
 `
 
-const TitleText = styled.h1`
+interface TitleTextProps {
+	readonly newroom: string
+}
+
+const TitleText = styled.h1<TitleTextProps>`
 	background-color: #fff;
 	border-radius: 20px 20px 0px 0px;
 	border-bottom: 1px dashed ${color.ligthPurple};

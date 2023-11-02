@@ -12,21 +12,23 @@ import { editCurrentRoom } from '../features/rooms/roomThunks'
 import { Triangle } from 'react-loader-spinner'
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom'
 import * as color from '../components/Variables'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { IRoom } from '../features/interfaces/interfaces'
 
-const EditRoom = (props) => {
-	const dispatch = useDispatch()
+const EditRoom = () => {
+	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
-	const initialRoomData = useSelector(initialRooms)
-	const singleRoomData = useSelector(singleRoom)
-	const initialRoomState = useSelector(fetchRoomState)
-	const editionRoomCurrentStatus = useSelector(createRoomState)
-	const { state, roomEditioBreadCrumb } = useContext(supertoggleContext)
-	const [spinner, setSpinner] = useState(false)
+	const initialRoomData = useAppSelector(initialRooms)
+	const singleRoomData = useAppSelector(singleRoom)
+	const initialRoomState = useAppSelector(fetchRoomState)
+	const editionRoomCurrentStatus = useAppSelector(createRoomState)
+	const { state, roomEditioBreadCrumb } = useContext(supertoggleContext)!
 	const location = useLocation()
 	const { roomId } = useParams()
-	const [savedLastId, setSavedLastId] = useState('')
-	const [currentRoom, setCurrentRoom] = useState([])
-	const [editCurrentDiscount, setEditCurrentDiscount] = useState(0)
+	const [spinner, setSpinner] = useState<boolean>(false)
+	const [savedLastId, setSavedLastId] = useState<string>('')
+	const [currentRoom, setCurrentRoom] = useState<IRoom>()
+	const [editCurrentDiscount, setEditCurrentDiscount] = useState<number>(0)
 
 	useEffect(() => {
 		if (editionRoomCurrentStatus === 'pending') {
@@ -39,8 +41,8 @@ const EditRoom = (props) => {
 			savedLastId !== roomId &&
 			location.pathname === `/rooms/edit-room/${roomId}`
 		) {
-			roomEditioBreadCrumb(roomId)
-			setSavedLastId(roomId)
+			roomEditioBreadCrumb(roomId !== undefined ? roomId : '0')
+			setSavedLastId(roomId !== undefined ? roomId : '0')
 		}
 		if (initialRoomState === 'pending') {
 			setSpinner(true)
@@ -48,18 +50,20 @@ const EditRoom = (props) => {
 			setSpinner(false)
 			setCurrentRoom(singleRoomData[0])
 		}
-		currentRoom.offer_price === true
-			? setNewRoomOffer('true')
-			: setNewRoomOffer('false')
+		if (currentRoom !== undefined) {
+			currentRoom.offer_price === true
+				? setNewRoomOffer('true')
+				: setNewRoomOffer('false')
 
-		if (currentRoom.discount === 5) {
-			setEditCurrentDiscount(5)
-		} else if (currentRoom.discount === 10) {
-			setEditCurrentDiscount(10)
-		} else if (currentRoom.discount === 15) {
-			setEditCurrentDiscount(15)
-		} else if (currentRoom.discount === 20) {
-			setEditCurrentDiscount(20)
+			if (currentRoom.discount === 5) {
+				setEditCurrentDiscount(5)
+			} else if (currentRoom.discount === 10) {
+				setEditCurrentDiscount(10)
+			} else if (currentRoom.discount === 15) {
+				setEditCurrentDiscount(15)
+			} else if (currentRoom.discount === 20) {
+				setEditCurrentDiscount(20)
+			}
 		}
 	}, [
 		initialRoomData,
@@ -70,14 +74,14 @@ const EditRoom = (props) => {
 		savedLastId,
 		initialRoomState,
 		singleRoomData,
-		currentRoom.offer_price,
-		currentRoom.discount,
 		currentRoom,
 		editionRoomCurrentStatus,
 	])
 
-	const [newRoomType, setNewRoomType] = useState('')
-	const handleRoomTypeSelector = (event) => {
+	const [newRoomType, setNewRoomType] = useState<string>('')
+	const handleRoomTypeSelector = (
+		event: React.ChangeEvent<HTMLSelectElement>
+	) => {
 		switch (event.target.value) {
 			case 'Single':
 				setNewRoomType('Single Bed')
@@ -96,37 +100,48 @@ const EditRoom = (props) => {
 		}
 	}
 
-	const [newRoomNumber, setNewRoomNumber] = useState('')
-	const handleRoomNumber = (event) => {
+	const [newRoomNumber, setNewRoomNumber] = useState<string>('')
+	const handleRoomNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNewRoomNumber(event.target.value)
 	}
 
-	const [newRoomDescription, setNewRoomDescription] = useState('')
-	const handleRoomDescription = (event) => {
+	const [newRoomDescription, setNewRoomDescription] = useState<string>('')
+	const handleRoomDescription = (
+		event: React.ChangeEvent<HTMLTextAreaElement>
+	) => {
 		setNewRoomDescription(event.target.value)
 	}
 
-	const [newRoomPrice, setNewRoomPrice] = useState(0)
-	const handleRoomPrice = (event) => {
+	const [newRoomPrice, setNewRoomPrice] = useState<number>(0)
+	const handleRoomPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNewRoomPrice(parseInt(event.target.value))
 	}
 
-	const [newRoomOffer, setNewRoomOffer] = useState('false')
-	const handleRadioOffer = (event) => {
+	const [newRoomOffer, setNewRoomOffer] = useState<string>('false')
+	const handleRadioOffer = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNewRoomOffer(event.target.value)
 	}
 
-	const [newRoomDiscount, setNewRoomDiscount] = useState(0)
-	const handleRadioDiscount = (event) => {
+	const [newRoomDiscount, setNewRoomDiscount] = useState<number>(0)
+	const handleRadioDiscount = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
 		setEditCurrentDiscount(parseInt(event.target.value))
 		setTimeout(() => {
 			setNewRoomDiscount(editCurrentDiscount)
 		}, 1000)
 	}
 
-	const [newRoomAmenities, setNewRoomAmenities] = useState([])
-	const [newRoomAmenitiesType, setNewRoomAmenitiesType] = useState('')
-	const handleNewRoomAmenities = (event) => {
+	interface IAmenities {
+		name: string
+		description: string
+	}
+
+	const [newRoomAmenities, setNewRoomAmenities] = useState<IAmenities[]>([])
+	const [newRoomAmenitiesType, setNewRoomAmenitiesType] = useState<string>('')
+	const handleNewRoomAmenities = (
+		event: React.ChangeEvent<HTMLSelectElement>
+	) => {
 		switch (event.target.value) {
 			case 'basic':
 				setNewRoomAmenitiesType('basic')
@@ -225,36 +240,43 @@ const EditRoom = (props) => {
 		}
 	}
 	const handleEditRoom = () => {
-		const editedRoomData = {
-			room_number:
-				newRoomNumber === '' ? currentRoom.room_number : newRoomNumber,
-			id: currentRoom.id,
-			room_photo: [
-				'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-				'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-				'https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-				'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-			],
-			room_type: newRoomType === '' ? currentRoom.room_type : newRoomType,
-			description:
-				newRoomDescription === ''
-					? currentRoom.description
-					: newRoomDescription,
-			amenities_type:
-				newRoomAmenitiesType === ''
-					? currentRoom.amenities_type
-					: newRoomAmenitiesType,
-			amenities:
-				newRoomAmenities.length === 0
-					? currentRoom.amenities
-					: newRoomAmenities,
-			price: newRoomPrice === 0 ? currentRoom.price : newRoomPrice,
-			offer_price: newRoomOffer === 'true' ? true : false,
-			discount:
-				newRoomDiscount === 0 ? currentRoom.discount : newRoomDiscount,
-			status: 'Available',
+		if (currentRoom !== undefined) {
+			const editedRoomData = {
+				room_number:
+					newRoomNumber === ''
+						? currentRoom.room_number
+						: newRoomNumber,
+				id: currentRoom.id,
+				room_photo: [
+					'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+					'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+					'https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+					'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+				],
+				room_type:
+					newRoomType === '' ? currentRoom.room_type : newRoomType,
+				description:
+					newRoomDescription === ''
+						? currentRoom.description
+						: newRoomDescription,
+				amenities_type:
+					newRoomAmenitiesType === ''
+						? currentRoom.amenities_type
+						: newRoomAmenitiesType,
+				amenities:
+					newRoomAmenities.length === 0
+						? currentRoom.amenities
+						: newRoomAmenities,
+				price: newRoomPrice === 0 ? currentRoom.price : newRoomPrice,
+				offer_price: newRoomOffer === 'true' ? true : false,
+				discount:
+					newRoomDiscount === 0
+						? currentRoom.discount
+						: newRoomDiscount,
+				status: 'Available',
+			}
+			dispatch(editCurrentRoom(editedRoomData))
 		}
-		dispatch(editCurrentRoom(editedRoomData))
 	}
 
 	const [autoAddDescription, setAutoAddDescription] = useState(false)
@@ -272,7 +294,8 @@ const EditRoom = (props) => {
 					<CTA>Back</CTA>
 				</NavLink>
 				<TitleText newroom='title'>
-					Edit <u>{currentRoom.id}</u> Room
+					Edit <u>{currentRoom !== undefined && currentRoom.id}</u>{' '}
+					Room
 				</TitleText>
 				<ModalInnerInfo>
 					{spinner ? (
@@ -282,7 +305,6 @@ const EditRoom = (props) => {
 								width='150'
 								color={color.softer_strongPurple}
 								ariaLabel='triangle-loading'
-								wrapperClassName=''
 								visible={spinner}
 							/>
 						</SpinnerContainer>
@@ -296,7 +318,11 @@ const EditRoom = (props) => {
 									name='roomType'
 									id='roomType'
 									onChange={handleRoomTypeSelector}
-									defaultValue={currentRoom.room_type}
+									defaultValue={
+										currentRoom !== undefined
+											? currentRoom.room_type
+											: 'roomtype'
+									}
 								>
 									<option value='roomtype' disabled hidden>
 										Select the room type:
@@ -320,7 +346,11 @@ const EditRoom = (props) => {
 									min='101'
 									max='910'
 									onChange={handleRoomNumber}
-									defaultValue={currentRoom.room_number}
+									defaultValue={
+										currentRoom !== undefined
+											? currentRoom.room_type
+											: 'Text'
+									}
 								/>
 								<Info>
 									There are a total of 9 floors in the
@@ -343,7 +373,9 @@ const EditRoom = (props) => {
 									defaultValue={
 										autoAddDescription
 											? 'Experience the epitome of luxury and comfort in our Double Superior room. This spacious and elegantly appointed room is designed to provide you with the utmost relaxation and convenience during your stay. With a modern and stylish decor, it offers a serene oasis in the heart of the city.'
-											: currentRoom.description
+											: currentRoom !== undefined
+											? currentRoom.room_type
+											: 'Text'
 									}
 								></CreateRoomTextArea>
 								<ADDCTA onClick={quickAddDescription}>
@@ -360,7 +392,11 @@ const EditRoom = (props) => {
 									type='number'
 									placeholder='e.g: $196'
 									onChange={handleRoomPrice}
-									defaultValue={currentRoom.price}
+									defaultValue={
+										currentRoom !== undefined
+											? currentRoom.price
+											: 0
+									}
 								/>
 								<br />
 								<br />
@@ -417,10 +453,7 @@ const EditRoom = (props) => {
 												: '1',
 									}}
 								>
-									<CreateRoomInputLable
-										as='legend'
-										htmlFor='5'
-									>
+									<CreateRoomInputLable as='legend'>
 										Discount ammount:
 									</CreateRoomInputLable>
 									<CreateRoomInputLable
@@ -520,7 +553,7 @@ const EditRoom = (props) => {
 								<br />
 
 								<CreateRoomInputLable
-									type='name'
+									types='name'
 									htmlFor='roomAmenitiesSelector'
 								>
 									Amenities Pack:
@@ -529,7 +562,11 @@ const EditRoom = (props) => {
 									name='roomAmenitiesSelector'
 									id='roomAmenitiesSelector'
 									onChange={handleNewRoomAmenities}
-									defaultValue={currentRoom.amenities_type}
+									defaultValue={
+										currentRoom !== undefined
+											? currentRoom.amenities_type
+											: 'byamenities'
+									}
 								>
 									<option value='byamenities' disabled hidden>
 										Select the amenities pack:
@@ -603,7 +640,12 @@ const ModalInnerRightInfo = styled.div`
 	padding: 20px;
 `
 
-const CreateRoomInputLable = styled.label`
+interface CreateRoomInputLableProps {
+	readonly radio?: string
+	readonly types?: string
+}
+
+const CreateRoomInputLable = styled.label<CreateRoomInputLableProps>`
 	display: ${(props) => (props.radio === 'radio' ? 'inline' : 'block')};
 	text-align: left;
 	font: normal normal 500 17px Poppins;
@@ -611,7 +653,11 @@ const CreateRoomInputLable = styled.label`
 	padding: 15px 0 10px 0;
 `
 
-const CreateRoomInput = styled.input`
+interface CreateRoomInputProps {
+	readonly radio?: string
+}
+
+const CreateRoomInput = styled.input<CreateRoomInputProps>`
 	${(props) => {
 		switch (props.radio) {
 			case 'radio':
@@ -730,7 +776,11 @@ const ADDCTA = styled.button`
 	}
 `
 
-const MainContainer = styled.main`
+interface MainContainerProps {
+	readonly toggle: string
+}
+
+const MainContainer = styled.main<MainContainerProps>`
 	position: relative;
 	text-align: center;
 	max-height: 730px;
@@ -740,7 +790,11 @@ const MainContainer = styled.main`
 	margin-right: 30px;
 `
 
-const TitleText = styled.h1`
+interface TitleTextProps {
+	readonly newroom: string
+}
+
+const TitleText = styled.h1<TitleTextProps>`
 	background-color: #fff;
 	border-radius: 20px 20px 0px 0px;
 	border-bottom: 1px dashed ${color.ligthPurple};
