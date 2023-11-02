@@ -13,7 +13,7 @@ const Login = () => {
 	const [userName, setUserName] = useState('')
 	const [userPassword, setUserPassword] = useState('')
 	const [spinner, setSpinner] = useState(false)
-	const { login, authState } = useContext(authenticationContext)
+	const { login, authState } = useContext(authenticationContext)!
 
 	useEffect(() => {
 		if (authState.auth) {
@@ -23,10 +23,10 @@ const Login = () => {
 		}
 	}, [authState.auth, navigate])
 
-	const getUserEmail = (name) => {
+	const getUserEmail = (name: string) => {
 		return name === 'admin' ? 'super@admin.com' : 'davidpr@travl.com'
 	}
-	const getProfilePicture = (name) => {
+	const getProfilePicture = (name: string) => {
 		return `https://robohash.org/${name}.png?set=any`
 	}
 
