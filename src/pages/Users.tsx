@@ -17,10 +17,10 @@ import { deleteUser, fetchInitialUsers } from '../features/users/userThunks'
 import { NavLink } from 'react-router-dom'
 import * as color from '../components/Variables'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { IUser } from '../features/interfaces/interfaces';
-import { IsAny } from '@reduxjs/toolkit/dist/tsHelpers';
+import { IUser } from '../features/interfaces/interfaces'
+import { IsAny } from '@reduxjs/toolkit/dist/tsHelpers'
 
-const Users = () => {
+const Users: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const initialUserData = useAppSelector(initialUsers)
 	const initialUsersPlusLatestUsers = useAppSelector(initialUsersPlusNewUsers)
@@ -248,7 +248,9 @@ const Users = () => {
 		setDisplayData(filteredUsers)
 	}
 
-	const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleSearchInputChange = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
 		const result = event.target.value
 		filterUsersByName(result)
 	}
@@ -265,11 +267,13 @@ const Users = () => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'All Employees' ?
-										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
+										filter.value === 'All Employees'
+											? `3px solid ${color.softer_strongPurple}`
+											: `3px solid transparent`,
 									color:
-										filter.value === 'All Employees' ?
-										`${color.softer_strongPurple}` :`${color.normalGrey}`,
+										filter.value === 'All Employees'
+											? `${color.softer_strongPurple}`
+											: `${color.normalGrey}`,
 								}}
 							>
 								All Employees
@@ -280,11 +284,13 @@ const Users = () => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'active' ?
-										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
+										filter.value === 'active'
+											? `3px solid ${color.softer_strongPurple}`
+											: `3px solid transparent`,
 									color:
-										filter.value === 'active' ?
-										`${color.softer_strongPurple}` :`${color.normalGrey}`,
+										filter.value === 'active'
+											? `${color.softer_strongPurple}`
+											: `${color.normalGrey}`,
 								}}
 							>
 								Active
@@ -295,11 +301,13 @@ const Users = () => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'inactive' ?
-										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
+										filter.value === 'inactive'
+											? `3px solid ${color.softer_strongPurple}`
+											: `3px solid transparent`,
 									color:
-										filter.value === 'inactive' ?
-										`${color.softer_strongPurple}` :`${color.normalGrey}`,
+										filter.value === 'inactive'
+											? `${color.softer_strongPurple}`
+											: `${color.normalGrey}`,
 								}}
 							>
 								Inactive

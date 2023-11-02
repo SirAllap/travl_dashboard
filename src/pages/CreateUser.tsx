@@ -10,7 +10,7 @@ import * as color from '../components/Variables'
 import { useAppDispatch } from '../app/hooks'
 import { IUser } from '../features/interfaces/interfaces'
 
-const CreateUser = () => {
+const CreateUser: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 	const createUserCurretState = useSelector(createUserState)
@@ -196,7 +196,7 @@ const CreateUser = () => {
 								<br />
 
 								<CreateRoomInputLable
-									type='name'
+									types='name'
 									htmlFor='roomAmenitiesSelector'
 								>
 									Profile Photo:

@@ -9,7 +9,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import * as color from '../components/Variables'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 
-const CreateRoom = () => {
+const CreateRoom: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 	const initialRoomData = useAppSelector(initialRooms)

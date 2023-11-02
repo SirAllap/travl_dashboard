@@ -22,7 +22,7 @@ import * as color from '../components/Variables'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { IRoom } from '../features/interfaces/interfaces'
 
-const Rooms = () => {
+const Rooms: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const initialRoomsPlusLatestRooms = useAppSelector(initialRoomsPlusNewRooms)
 	const initialRoomData = useAppSelector(initialRooms)

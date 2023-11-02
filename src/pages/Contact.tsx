@@ -19,9 +19,9 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import * as color from '../components/Variables'
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks'
 
-const Contact = () => {
+const Contact: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const initialContactData = useAppSelector(initialContacts)
 	const initialContactState = useAppSelector(fetchContactState)
@@ -219,11 +219,13 @@ const Contact = () => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'All Contact' ?
-										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
+										filter.value === 'All Contact'
+											? `3px solid ${color.softer_strongPurple}`
+											: `3px solid transparent`,
 									color:
-										filter.value === 'All Contact' ?
-										`${color.softer_strongPurple}` :`${color.normalGrey}`,
+										filter.value === 'All Contact'
+											? `${color.softer_strongPurple}`
+											: `${color.normalGrey}`,
 								}}
 							>
 								All Contact
@@ -234,11 +236,13 @@ const Contact = () => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'true' ?
-										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
+										filter.value === 'true'
+											? `3px solid ${color.softer_strongPurple}`
+											: `3px solid transparent`,
 									color:
-										filter.value === 'true' ?
-										`${color.softer_strongPurple}` :`${color.normalGrey}`,
+										filter.value === 'true'
+											? `${color.softer_strongPurple}`
+											: `${color.normalGrey}`,
 								}}
 							>
 								Archived
@@ -249,11 +253,13 @@ const Contact = () => {
 								}}
 								style={{
 									borderBottom:
-										filter.value === 'false' ?
-										`3px solid ${color.softer_strongPurple}` : `3px solid transparent`,
+										filter.value === 'false'
+											? `3px solid ${color.softer_strongPurple}`
+											: `3px solid transparent`,
 									color:
-										filter.value === 'false' ?
-										`${color.softer_strongPurple}` :`${color.normalGrey}`,
+										filter.value === 'false'
+											? `${color.softer_strongPurple}`
+											: `${color.normalGrey}`,
 								}}
 							>
 								Non Archived
@@ -277,7 +283,7 @@ const Contact = () => {
 
 export default Contact
 
-interface MainContainerProps { 
+interface MainContainerProps {
 	readonly toggle: string
 }
 
@@ -335,40 +341,52 @@ interface TabButtonProps {
 }
 
 const TabButton = styled.button<TabButtonProps>`
-		font: 500 16px Poppins;
-		background-color: transparent;
-		color: #6e6e6e;
-		display: inline-block;
-		padding: 0 30px 24px 30px;
-		border-radius: 0 0 3px 3px;
-		transition: 0.3s all;
-		border: none;
-		cursor: pointer;
-		&:nth-child(1) {
-			border-bottom: ${(props) => (props.fil === 'All Bookings' && `3px solid ${color.softer_strongPurple}`)};
-			color: ${(props) => (props.fil === 'All Bookings' && `${color.softer_strongPurple}`)};
-		}
-		&:nth-child(2) {
-			border-bottom: ${(props) => (props.fil === 'CheckIn' && `3px solid ${color.softer_strongPurple}`)};
-			color: ${(props) => (props.fil === 'CheckIn' && `${color.softer_strongPurple}`)};
-		}
-		&:nth-child(3) {
-			border-bottom: ${(props) => (props.fil === 'CheckOut' && `3px solid ${color.softer_strongPurple}`)};
-			color: ${(props) => (props.fil === 'CheckOut' && `${color.softer_strongPurple}`)};
-		}
-		&:nth-child(4) {
-			border-bottom: ${(props) => (props.fil === 'In Progress' && `3px solid ${color.softer_strongPurple}`)};
-			color: ${(props) => (props.fil === 'In Progress' && `${color.softer_strongPurple}`)};
-		}
+	font: 500 16px Poppins;
+	background-color: transparent;
+	color: #6e6e6e;
+	display: inline-block;
+	padding: 0 30px 24px 30px;
+	border-radius: 0 0 3px 3px;
+	transition: 0.3s all;
+	border: none;
+	cursor: pointer;
+	&:nth-child(1) {
+		border-bottom: ${(props) =>
+			props.fil === 'All Bookings' &&
+			`3px solid ${color.softer_strongPurple}`};
+		color: ${(props) =>
+			props.fil === 'All Bookings' && `${color.softer_strongPurple}`};
+	}
+	&:nth-child(2) {
+		border-bottom: ${(props) =>
+			props.fil === 'CheckIn' &&
+			`3px solid ${color.softer_strongPurple}`};
+		color: ${(props) =>
+			props.fil === 'CheckIn' && `${color.softer_strongPurple}`};
+	}
+	&:nth-child(3) {
+		border-bottom: ${(props) =>
+			props.fil === 'CheckOut' &&
+			`3px solid ${color.softer_strongPurple}`};
+		color: ${(props) =>
+			props.fil === 'CheckOut' && `${color.softer_strongPurple}`};
+	}
+	&:nth-child(4) {
+		border-bottom: ${(props) =>
+			props.fil === 'In Progress' &&
+			`3px solid ${color.softer_strongPurple}`};
+		color: ${(props) =>
+			props.fil === 'In Progress' && `${color.softer_strongPurple}`};
+	}
 
-		&:hover {
-			border-bottom: 3px solid ${color.strongPurple};
-			color: ${color.strongPurple};
-		}
+	&:hover {
+		border-bottom: 3px solid ${color.strongPurple};
+		color: ${color.strongPurple};
+	}
 `
 
 interface TextFormatterProps {
-	readonly text_type: string;
+	readonly text_type: string
 }
 
 const TextFormatter = styled.span<TextFormatterProps>`
@@ -451,7 +469,7 @@ const CustomerReviewCard = styled.div`
 
 interface CustomerCardTextProps {
 	readonly types: {
-		text: string;
+		text: string
 	}
 }
 
