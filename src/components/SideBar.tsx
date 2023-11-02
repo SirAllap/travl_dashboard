@@ -16,6 +16,7 @@ type AuthState = {
 	name?: string
 	email?: string
 }
+
 const SideBar: React.FC = () => {
 	const { state } = useContext(supertoggleContext)!
 	const { authState, updateUserInfo } = useContext(authenticationContext)!
@@ -47,12 +48,7 @@ const SideBar: React.FC = () => {
 		)
 		authState.name !== null && setUserName1(authState.name)
 		authState.email !== null && setUserEmail1(authState.email)
-	}, [
-		profPic,
-		authState.name,
-		authState.email,
-		authState.profilePicture,
-	])
+	}, [profPic, authState.name, authState.email, authState.profilePicture])
 
 	const handleToggleModal = () => {
 		if (!toggleModal) {
@@ -63,7 +59,7 @@ const SideBar: React.FC = () => {
 	}
 
 	const handlePictureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const fileInput = e.target as HTMLInputElement
+		const fileInput = e.target
 		if (fileInput.files) {
 			const newPictureUrl: string = URL.createObjectURL(
 				fileInput.files[0]
@@ -75,7 +71,13 @@ const SideBar: React.FC = () => {
 		}
 	}
 
-	const handleUpdateAndCloseModal = (newPictureUrl: string) => {
+	interface IUpdateUserInfo {
+		userName: string
+		email: string
+		profilePicture: string
+	}
+
+	const handleUpdateAndCloseModal = (newPictureUrl?: string) => {
 		if (userUpdatedName === '') {
 			setUserName(authState.name)
 		} else setUserName(userUpdatedName)
@@ -84,13 +86,17 @@ const SideBar: React.FC = () => {
 		} else setUserEmail(userUpdatedEmail)
 		updateUserInfo({
 			userName:
-				userUpdatedName === '' ? authState.name : userUpdatedName,
+				userUpdatedName !== null && userUpdatedName !== ''
+					? userUpdatedName
+					: authState.name || '',
 			email:
-				userUpdatedEmail === '' ? authState.email : userUpdatedEmail,
+				userUpdatedEmail !== null && userUpdatedEmail !== ''
+					? userUpdatedEmail
+					: authState.email || '',
 			profilePicture:
 				typeof newPictureUrl === 'string'
 					? newPictureUrl
-					: authState.profilePicture,
+					: authState.profilePicture || '',
 		})
 
 		setTimeout(() => {
@@ -146,9 +152,13 @@ const SideBar: React.FC = () => {
 						onChange={handlePictureChange}
 						alt='a photo of the user profile'
 					/>
-					<SaveCTA onClick={() => {
-					  handleUpdateAndCloseModal
-					}}>Save</SaveCTA>
+					<SaveCTA
+						onClick={() => {
+							handleUpdateAndCloseModal()
+						}}
+					>
+						Save
+					</SaveCTA>
 					<CloseCTA onClick={handleToggleModal}>
 						<AiOutlineCloseCircle />
 					</CloseCTA>
@@ -400,8 +410,8 @@ const SideBarFooterText = styled.p<SideBarFooterTextProps>`
 	}}
 `
 interface EditUserModalOverlayProps {
-    readonly open?: boolean
-};
+	readonly open?: boolean
+}
 const EditUserModal = styled.div<EditUserModalOverlayProps>`
 	z-index: 100;
 	position: absolute;
@@ -416,8 +426,8 @@ const EditUserModal = styled.div<EditUserModalOverlayProps>`
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
 interface EditUserModalOverlayProps {
-    readonly open?: boolean
-};
+	readonly open?: boolean
+}
 const EditUserModalOverlay = styled.div<EditUserModalOverlayProps>`
 	z-index: 99;
 	position: absolute;
