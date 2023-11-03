@@ -12,22 +12,25 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import * as color from '../components/Variables'
+import { useAppSelector } from '../app/hooks'
+import { IRoom } from '../features/interfaces/interfaces'
 
 const RoomDetails = () => {
 	const navigate = useNavigate()
-	const singleRoomData = useSelector(singleRoom)
-	const initialRoomState = useSelector(fetchRoomState)
-	const { state, roomBreadCrumb } = useContext(supertoggleContext)
+	const singleRoomData = useAppSelector(singleRoom)
+	const initialRoomState = useAppSelector(fetchRoomState)
+	const { state, roomBreadCrumb } = useContext(supertoggleContext)!
 	const location = useLocation()
 	const { roomId } = useParams()
-	const [savedLastId, setSavedLastId] = useState('')
-	const [currentRoom, setCurrentRoom] = useState([])
+	const [savedLastId, setSavedLastId] = useState<string>('')
+	const [currentRoom, setCurrentRoom] = useState<IRoom>()
 	const [spinner, setSpinner] = useState(true)
 
 	useEffect(() => {
 		if (
 			savedLastId !== roomId &&
-			location.pathname === `/rooms/${roomId}`
+			location.pathname === `/rooms/${roomId}` &&
+			roomId !== undefined
 		) {
 			roomBreadCrumb(roomId)
 			setSavedLastId(roomId)
@@ -47,82 +50,87 @@ const RoomDetails = () => {
 		roomBreadCrumb,
 	])
 
-	const applyDiscount = (currentPrice, discount) => {
+	const applyDiscount = (currentPrice: number, discount: number) => {
 		const result = currentPrice - currentPrice * (discount / 100)
 		return `$${result}`
 	}
 
 	return (
 		<>
-			<MainContainer toggle={state.position}>
-				<CTA onClick={() => navigate('/rooms')}>Back</CTA>
-				{spinner ? (
-					<SpinnerContainer>
-						<Triangle
-							height='150'
-							width='150'
-							color={color.softer_strongPurple}
-							ariaLabel='triangle-loading'
-							wrapperClassName=''
-							visible={spinner}
-						/>
-					</SpinnerContainer>
-				) : (
-					<>
-						<LeftDetailsCard>
-							<RoomInfoContainer>
-								<RoomInfoData>
-									<RoomInfoDataTopText>
-										<p>Room Info</p>
-										<span>{currentRoom.room_type}</span>
-									</RoomInfoDataTopText>
-									<RoomInfoDataTopText>
-										<p>Final Price</p>
-										<span>
-											{currentRoom.offer_price
-												? applyDiscount(
-														currentRoom.price,
-														currentRoom.discount
-												  )
-												: currentRoom.price}
-											/Nigth
-										</span>
-									</RoomInfoDataTopText>
-									<RoomInfoDataBottomText>
-										<p>{currentRoom.description}</p>
-									</RoomInfoDataBottomText>
-								</RoomInfoData>
-								<RoomFacilitiesData>
-									<p>Amenities</p>
-									{currentRoom.amenities.map(
+			{currentRoom !== undefined && (
+				<MainContainer toggle={state.position}>
+					<CTA onClick={() => navigate('/rooms')}>Back</CTA>
+					{spinner ? (
+						<SpinnerContainer>
+							<Triangle
+								height='150'
+								width='150'
+								color={color.softer_strongPurple}
+								ariaLabel='triangle-loading'
+								visible={spinner}
+							/>
+						</SpinnerContainer>
+					) : (
+						<>
+							<LeftDetailsCard>
+								<RoomInfoContainer>
+									<RoomInfoData>
+										<RoomInfoDataTopText>
+											<p>Room Info</p>
+											<span>{currentRoom.room_type}</span>
+										</RoomInfoDataTopText>
+										<RoomInfoDataTopText>
+											<p>Final Price</p>
+											<span>
+												{currentRoom.offer_price
+													? applyDiscount(
+															currentRoom.price,
+															currentRoom.discount
+													  )
+													: currentRoom.price}
+												/Nigth
+											</span>
+										</RoomInfoDataTopText>
+										<RoomInfoDataBottomText>
+											<p>{currentRoom.description}</p>
+										</RoomInfoDataBottomText>
+									</RoomInfoData>
+									<RoomFacilitiesData>
+										<p>Amenities</p>
+										{currentRoom.amenities.map(
+											(elem, index) => (
+												<RoomFacilitiesAmenities
+													key={index}
+												>
+													<span>{elem.name}</span>
+												</RoomFacilitiesAmenities>
+											)
+										)}
+									</RoomFacilitiesData>
+								</RoomInfoContainer>
+							</LeftDetailsCard>
+							<RightDetailsCard>
+								<Swiper
+									modules={[Navigation, A11y]}
+									spaceBetween={0}
+									slidesPerView={1}
+									navigation
+								>
+									{currentRoom.room_photo.map(
 										(elem, index) => (
-											<RoomFacilitiesAmenities
-												key={index}
-											>
-												<span>{elem.name}</span>
-											</RoomFacilitiesAmenities>
+											<SwiperSlide key={index}>
+												<RooomPhotos
+													src={elem}
+												></RooomPhotos>
+											</SwiperSlide>
 										)
 									)}
-								</RoomFacilitiesData>
-							</RoomInfoContainer>
-						</LeftDetailsCard>
-						<RightDetailsCard>
-							<Swiper
-								modules={[Navigation, A11y]}
-								spaceBetween={0}
-								slidesPerView={1}
-								navigation
-							>
-								{currentRoom.room_photo.map((elem, index) => (
-									<SwiperSlide key={index}>
-										<RooomPhotos src={elem}></RooomPhotos>
-									</SwiperSlide>
-								))}
-							</Swiper>
-						</RightDetailsCard>
-					</>
-				)}
-			</MainContainer>
+								</Swiper>
+							</RightDetailsCard>
+						</>
+					)}
+				</MainContainer>
+			)}
 		</>
 	)
 }
@@ -160,7 +168,11 @@ const CTA = styled.button`
 	}
 `
 
-const MainContainer = styled.main`
+interface MainContainerProps {
+	readonly toggle: string
+}
+
+const MainContainer = styled.main<MainContainerProps>`
 	position: relative;
 	text-align: left;
 	height: 792px;
@@ -227,14 +239,19 @@ const RoomFacilitiesData = styled.div`
 		color: ${color.softer_strongGrey};
 	}
 `
-const RoomFacilitiesAmenities = styled.div`
+
+interface RoomFacilitiesAmenitiesProps {
+	readonly types?: string
+}
+
+const RoomFacilitiesAmenities = styled.div<RoomFacilitiesAmenitiesProps>`
 	width: fit-content;
-	height: ${(props) => (props.type === 'small' ? '45px' : '65px')};
+	height: ${(props) => (props.types === 'small' ? '45px' : '65px')};
 	background: ${color.softerPLus_ligthPurple};
 	border-radius: 8px;
 	margin: 8px;
 	padding: ${(props) =>
-		props.type === 'small' ? '12px 20px 12px 20px' : '20px'};
+		props.types === 'small' ? '12px 20px 12px 20px' : '20px'};
 	display: inline-block;
 	span {
 		color: ${color.softer_strongPurple};
