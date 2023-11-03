@@ -15,7 +15,7 @@ import * as color from '../components/Variables'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { IRoom } from '../features/interfaces/interfaces'
 
-const EditRoom = () => {
+const EditRoom: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 	const initialRoomData = useAppSelector(initialRooms)

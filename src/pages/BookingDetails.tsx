@@ -14,7 +14,7 @@ import * as color from '../components/Variables'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { IBooking } from '../features/interfaces/interfaces'
 
-const BookingsDetails = () => {
+const BookingsDetails: React.FC = () => {
 	const navigate = useNavigate()
 	const singleBookingData = useAppSelector(singleBooking)
 	const initialBookingState = useAppSelector(fetchBookingState)

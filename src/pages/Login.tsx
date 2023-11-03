@@ -8,7 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Triangle } from 'react-loader-spinner'
 
-const Login = () => {
+const Login: React.FC = () => {
 	const navigate = useNavigate()
 	const [userName, setUserName] = useState('')
 	const [userPassword, setUserPassword] = useState('')

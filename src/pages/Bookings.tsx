@@ -18,11 +18,11 @@ import {
 } from '../features/bookings/bookingThunks'
 import { supertoggleContext } from '../context/ToggleContext'
 import * as color from '../components/Variables'
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { IBooking } from '../features/interfaces/interfaces'
-import { FaJediOrder } from 'react-icons/fa';
+import { FaJediOrder } from 'react-icons/fa'
 
-const Bookings = () => {
+const Bookings: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const initialBookingData = useAppSelector(initialBookings)
 	const initialBookingState = useAppSelector(fetchBookingState)
@@ -35,7 +35,6 @@ const Bookings = () => {
 	const [currentId, setCurrentId] = useState<string>('')
 	const [toggleModal, setToggleModal] = useState<boolean>(false)
 	const [guestSpecialRequest, setGuestSpecialRequest] = useState<string>('')
-	
 
 	useEffect(() => {
 		dispatch(fetchInitialBookings())
@@ -80,7 +79,7 @@ const Bookings = () => {
 
 	const whoAmI = {
 		name: 'bookings',
-		redirect: true
+		redirect: true,
 	}
 
 	interface IGuestDetails {
@@ -88,7 +87,7 @@ const Bookings = () => {
 		guest: string
 		phone_number: string
 	}
-	
+
 	interface IOrderDate {
 		order_date: string
 	}
@@ -112,9 +111,8 @@ const Bookings = () => {
 	interface IMore {
 		_id: string
 	}
-	
 
-	const cols= [
+	const cols = [
 		{
 			property: 'guest',
 			label: 'Guest Details',
@@ -134,9 +132,12 @@ const Bookings = () => {
 							/> */}
 							<TextFormatter name='name'>{guest}</TextFormatter>
 							<TextFormatter small='small'>
-								<BsTelephone/> {phone_number}
+								<BsTelephone /> {phone_number}
 							</TextFormatter>
-							<TextFormatter small='small'><br />id#: {_id}</TextFormatter>
+							<TextFormatter small='small'>
+								<br />
+								id#: {_id}
+							</TextFormatter>
 						</span>
 					</NavLink>
 				</>
@@ -145,17 +146,35 @@ const Bookings = () => {
 		{
 			property: 'order_date',
 			label: 'Order Date',
-			display: ({ order_date }: IOrderDate) => (<Dates types='orderDate'>{order_date.replace(/:\d{2} GMT\+0000 \(GMT\)/, '')}</Dates>),
+			display: ({ order_date }: IOrderDate) => (
+				<Dates types='orderDate'>
+					{order_date.replace(/:\d{2} GMT\+0000 \(GMT\)/, '')}
+				</Dates>
+			),
 		},
 		{
 			property: 'check_in',
 			label: 'Check In',
-			display: ({ check_in }: ICheckInDate) => (<Dates types='checkIn'>{check_in.replace(/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/, '')}</Dates>),
+			display: ({ check_in }: ICheckInDate) => (
+				<Dates types='checkIn'>
+					{check_in.replace(
+						/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/,
+						''
+					)}
+				</Dates>
+			),
 		},
 		{
 			property: 'check_out',
 			label: 'Check Out',
-			display: ({ check_out }: ICheckOutDate) => (<Dates types='checkOut'>{check_out.replace(/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/, '')}</Dates>),
+			display: ({ check_out }: ICheckOutDate) => (
+				<Dates types='checkOut'>
+					{check_out.replace(
+						/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/,
+						''
+					)}
+				</Dates>
+			),
 		},
 		{
 			property: 'special_request',
@@ -183,12 +202,16 @@ const Bookings = () => {
 		{
 			property: 'room_type',
 			label: 'Room Type',
-			display: ({ room_type }: any) => <TextFormatter name='room'>{room_type}</TextFormatter>,
+			display: ({ room_type }: any) => (
+				<TextFormatter name='room'>{room_type}</TextFormatter>
+			),
 		},
 		{
 			property: 'status',
 			label: 'Status',
-			display: ({ status }: IStatus) => <Status status={status}>{status}</Status>,
+			display: ({ status }: IStatus) => (
+				<Status status={status}>{status}</Status>
+			),
 		},
 		{
 			label: 'More',
@@ -281,7 +304,9 @@ const Bookings = () => {
 		}
 	}
 
-	const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleSearchInputChange = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
 		const result = event.target.value
 		filterBookingsByName(result)
 	}
@@ -292,13 +317,13 @@ const Bookings = () => {
 		<>
 			<EditUserModalOverlay
 				onClick={() => {
-				  handleSpecialRequestModal(msg)
+					handleSpecialRequestModal(msg)
 				}}
 				open={toggleModal}
 			/>
 			<EditUserModal
 				onClick={() => {
-				  handleSpecialRequestModal(msg)
+					handleSpecialRequestModal(msg)
 				}}
 				open={toggleModal}
 			>
@@ -308,34 +333,38 @@ const Bookings = () => {
 				<TopTableContainer>
 					<TableTabsContainer>
 						<Tabs>
-						<TabButton
-								fil={filter.value} 
+							<TabButton
+								fil={filter.value}
 								onClick={() => {
 									manageFilterTab('all')
-								}}>
+								}}
+							>
 								All Bookings
-						</TabButton>
-						<TabButton
-								fil={filter.value} 
+							</TabButton>
+							<TabButton
+								fil={filter.value}
 								onClick={() => {
 									manageFilterTab('checkin')
-								}}>
+								}}
+							>
 								Check In
-						</TabButton>
-						<TabButton
-							fil={filter.value} 
-							onClick={() => {
-								manageFilterTab('checkout')
-							}}>
-							Check Out
-						</TabButton>
-						<TabButton
-							fil={filter.value} 
-							onClick={() => {
-								manageFilterTab('inprogress')
-							}}>
-							In Progress
-						</TabButton>
+							</TabButton>
+							<TabButton
+								fil={filter.value}
+								onClick={() => {
+									manageFilterTab('checkout')
+								}}
+							>
+								Check Out
+							</TabButton>
+							<TabButton
+								fil={filter.value}
+								onClick={() => {
+									manageFilterTab('inprogress')
+								}}
+							>
+								In Progress
+							</TabButton>
 						</Tabs>
 					</TableTabsContainer>
 					<TableSearchAndFilterContainer>
@@ -378,8 +407,6 @@ const MainContainer = styled.main<MaincontainerProps>`
 	margin-top: 50px;
 	margin-right: 30px;
 `
-
-
 
 interface EditUserModalOverlayProps {
 	readonly open: boolean
@@ -534,36 +561,48 @@ interface TabButtonProps {
 }
 
 const TabButton = styled.button<TabButtonProps>`
-		font: 500 16px Poppins;
-		background-color: transparent;
-		color: #6e6e6e;
-		display: inline-block;
-		padding: 0 30px 24px 30px;
-		border-radius: 0 0 3px 3px;
-		transition: 0.3s all;
-		border: none;
-		cursor: pointer;
-		&:nth-child(1) {
-			border-bottom: ${(props) => (props.fil === 'All Bookings' && `3px solid ${color.softer_strongPurple}`)};
-			color: ${(props) => (props.fil === 'All Bookings' && `${color.softer_strongPurple}`)};
-		}
-		&:nth-child(2) {
-			border-bottom: ${(props) => (props.fil === 'CheckIn' && `3px solid ${color.softer_strongPurple}`)};
-			color: ${(props) => (props.fil === 'CheckIn' && `${color.softer_strongPurple}`)};
-		}
-		&:nth-child(3) {
-			border-bottom: ${(props) => (props.fil === 'CheckOut' && `3px solid ${color.softer_strongPurple}`)};
-			color: ${(props) => (props.fil === 'CheckOut' && `${color.softer_strongPurple}`)};
-		}
-		&:nth-child(4) {
-			border-bottom: ${(props) => (props.fil === 'In Progress' && `3px solid ${color.softer_strongPurple}`)};
-			color: ${(props) => (props.fil === 'In Progress' && `${color.softer_strongPurple}`)};
-		}
+	font: 500 16px Poppins;
+	background-color: transparent;
+	color: #6e6e6e;
+	display: inline-block;
+	padding: 0 30px 24px 30px;
+	border-radius: 0 0 3px 3px;
+	transition: 0.3s all;
+	border: none;
+	cursor: pointer;
+	&:nth-child(1) {
+		border-bottom: ${(props) =>
+			props.fil === 'All Bookings' &&
+			`3px solid ${color.softer_strongPurple}`};
+		color: ${(props) =>
+			props.fil === 'All Bookings' && `${color.softer_strongPurple}`};
+	}
+	&:nth-child(2) {
+		border-bottom: ${(props) =>
+			props.fil === 'CheckIn' &&
+			`3px solid ${color.softer_strongPurple}`};
+		color: ${(props) =>
+			props.fil === 'CheckIn' && `${color.softer_strongPurple}`};
+	}
+	&:nth-child(3) {
+		border-bottom: ${(props) =>
+			props.fil === 'CheckOut' &&
+			`3px solid ${color.softer_strongPurple}`};
+		color: ${(props) =>
+			props.fil === 'CheckOut' && `${color.softer_strongPurple}`};
+	}
+	&:nth-child(4) {
+		border-bottom: ${(props) =>
+			props.fil === 'In Progress' &&
+			`3px solid ${color.softer_strongPurple}`};
+		color: ${(props) =>
+			props.fil === 'In Progress' && `${color.softer_strongPurple}`};
+	}
 
-		&:hover {
-			border-bottom: 3px solid ${color.strongPurple};
-			color: ${color.strongPurple};
-		}
+	&:hover {
+		border-bottom: 3px solid ${color.strongPurple};
+		color: ${color.strongPurple};
+	}
 `
 
 const InputSearch = styled.input`
@@ -621,8 +660,8 @@ interface TextFormatterProps {
 
 const TextFormatter = styled.span<TextFormatterProps>`
 	display: block;
-	/* text-align: ${(props) => props.name === 'room' ? 'center' : 'left'}; */
-	text-align:center;
+	/* text-align: ${(props) => (props.name === 'room' ? 'center' : 'left')}; */
+	text-align: center;
 	color: ${(props) =>
 		props.small === 'small'
 			? `${color.softer_normalGrey}`
@@ -664,7 +703,12 @@ const Dates = styled.button<DatesProps>`
 	border-radius: 8px;
 	color: white;
 	padding: 0 5px 0 5px;
-	background-color: ${(props) => props.types === 'orderDate' ? `${color.softer_strongGrey}` : props.types === 'checkIn' ? `${color.softer_strongPurple}` : `${color.normalPinkie}`};
+	background-color: ${(props) =>
+		props.types === 'orderDate'
+			? `${color.softer_strongGrey}`
+			: props.types === 'checkIn'
+			? `${color.softer_strongPurple}`
+			: `${color.normalPinkie}`};
 	&:hover {
 	}
 `

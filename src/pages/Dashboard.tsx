@@ -24,9 +24,9 @@ import {
 } from '../features/contact/contactThunks'
 import { Triangle } from 'react-loader-spinner'
 import * as color from '../components/Variables'
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks'
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const initialContactData = useAppSelector(initialContacts)
 	const initialContactState = useAppSelector(fetchContactState)
@@ -65,7 +65,7 @@ const Dashboard = () => {
 		}
 	}, [initialContactState, archiveCurrentStatus])
 
-	const handleToggleModal = (userReview?: { id: string; }): void => {
+	const handleToggleModal = (userReview?: { id: string }): void => {
 		if (userReview !== undefined) {
 			setCurrentId(userReview.id)
 			if (!toggleModal) {
@@ -73,17 +73,17 @@ const Dashboard = () => {
 				setToggleModalUser(userReview)
 			} else {
 				handleMarkAsRead(currentId)
-			}	
+			}
 		} else {
 			if (!toggleModal) {
 				setToggleModal(true)
 			} else {
 				handleMarkAsRead(currentId)
-			}	
+			}
 		}
 	}
 
-	const handleMarkAsRead = (id:string) => {
+	const handleMarkAsRead = (id: string) => {
 		dispatch(archiveContacts(id))
 	}
 
@@ -91,7 +91,7 @@ const Dashboard = () => {
 		<>
 			<CustomerReviewModalOverlay
 				onClick={() => {
-				  handleToggleModal()
+					handleToggleModal()
 				}}
 				open={toggleModal}
 			/>
@@ -105,9 +105,11 @@ const Dashboard = () => {
 						visible={archiveSpinner}
 					/>
 				</SpinnerContainerInsideModal>
-				<CloseCTA onClick={() => {
-				  handleToggleModal()
-				}}>
+				<CloseCTA
+					onClick={() => {
+						handleToggleModal()
+					}}
+				>
 					<FaRegEnvelopeOpen />
 				</CloseCTA>
 				{toggleModalUser && (
@@ -466,7 +468,7 @@ const CustomerReviewCard = styled.div`
 `
 
 interface CustomerCardTextProps {
-	readonly type: { text: string; }
+	readonly type: { text: string }
 	readonly read?: string
 }
 
