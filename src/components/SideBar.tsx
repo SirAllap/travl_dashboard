@@ -490,9 +490,9 @@ const InputFile = styled.input`
 	position: absolute;
 	left: 50%;
 	margin-right: -50%;
-	top: 76%;
+	top: 77%;
 	transform: translate(-50%, -50%);
-	max-width: 42.2%;
+	max-width: 28%;
 	transition: 0.3s;
 	color: #444;
 	background: #fff;
