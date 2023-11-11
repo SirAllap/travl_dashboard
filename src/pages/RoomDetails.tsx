@@ -98,7 +98,7 @@ const RoomDetails = () => {
 									<RoomFacilitiesData>
 										<p>Amenities</p>
 										{currentRoom.amenities.map(
-											(elem, index) => (
+											(elem: any, index) => (
 												<RoomFacilitiesAmenities
 													key={index}
 												>
