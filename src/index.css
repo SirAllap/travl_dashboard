@@ -8,7 +8,6 @@ html,
 }
 body {
 	transition: 0.3 all ease;
-	background-color: #f8f8f8;
 	max-height: 938px;
 	::selection {
 		background: #9841f54c;

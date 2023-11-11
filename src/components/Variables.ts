@@ -24,3 +24,5 @@ export const ligthPinkie: string = '#f4506e4c'
 export const softer_ligthPinkie: string = '#f4506e19'
 
 export const clearBackground: string = '#fff'
+export const clearAppBackground: string = '#f8f8f8'
+export const darkAppBackground: string = '#252525'
