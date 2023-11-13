@@ -59,16 +59,7 @@ const roomSlice = createSlice({
 				state.status = 'rejected'
 			})
 			.addCase(fetchOneRoom.fulfilled, (state, action) => {
-				const id = action.payload
-				state.singleRoomFetch = state.initialRoomFetch.filter(
-					(room) => room.id === id
-				)
-				if (state.singleRoomFetch.length === 0) {
-					state.singleRoomFetch =
-						state.initialRoomFetchPlusNewRooms.filter(
-							(room) => room.id === id
-						)
-				}
+				state.singleRoomFetch.splice(0, 1, action.payload)
 				state.status = 'fulfilled'
 			})
 
@@ -79,20 +70,6 @@ const roomSlice = createSlice({
 				state.createRoomStatus = 'rejected'
 			})
 			.addCase(createOneRoom.fulfilled, (state, action) => {
-				if (state.initialRoomFetchPlusNewRooms.length !== 0) {
-					state.initialRoomFetchPlusNewRooms = [
-						action.payload,
-						...state.initialRoomFetchPlusNewRooms,
-					]
-				} else {
-					state.initialRoomFetch = [
-						action.payload,
-						...state.initialRoomFetch,
-					]
-					state.initialRoomFetchPlusNewRooms = [
-						...state.initialRoomFetch,
-					]
-				}
 				state.createRoomStatus = 'fulfilled'
 			})
 
@@ -103,27 +80,6 @@ const roomSlice = createSlice({
 				state.createRoomStatus = 'rejected'
 			})
 			.addCase(editCurrentRoom.fulfilled, (state, action) => {
-				if (state.initialRoomFetchPlusNewRooms.length !== 0) {
-					state.initialRoomFetchPlusNewRooms =
-						state.initialRoomFetchPlusNewRooms.filter(
-							(room) => room.id !== action.payload.id
-						)
-					state.initialRoomFetchPlusNewRooms = [
-						action.payload,
-						...state.initialRoomFetchPlusNewRooms,
-					]
-				} else {
-					state.initialRoomFetch = state.initialRoomFetch.filter(
-						(room) => room.id !== action.payload.id
-					)
-					state.initialRoomFetch = [
-						action.payload,
-						...state.initialRoomFetch,
-					]
-					state.initialRoomFetchPlusNewRooms = [
-						...state.initialRoomFetch,
-					]
-				}
 				state.createRoomStatus = 'fulfilled'
 			})
 
@@ -135,17 +91,11 @@ const roomSlice = createSlice({
 			})
 			.addCase(deleteRoom.fulfilled, (state, action) => {
 				const id = action.payload
-				if (state.initialRoomFetchPlusNewRooms.length !== 0) {
-					const result = state.initialRoomFetchPlusNewRooms.filter(
-						(room) => room.id !== id
-					)
-					state.initialRoomFetchPlusNewRooms = [...result]
-				} else {
-					const result = state.initialRoomFetch.filter(
-						(room) => room.id !== id
-					)
-					state.initialRoomFetch = [...result]
-				}
+
+				const result = state.initialRoomFetch.filter(
+					(room) => room._id !== id
+				)
+				state.initialRoomFetch = [...result]
 				state.deleteRoomStatus = 'fulfilled'
 			})
 	},
