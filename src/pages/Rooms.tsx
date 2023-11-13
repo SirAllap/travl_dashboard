@@ -86,7 +86,7 @@ const Rooms: React.FC = () => {
 	}
 
 	interface IRoomInfo {
-		id: string
+		_id: string
 		room_photo: string
 		room_number: number
 	}
@@ -116,29 +116,31 @@ const Rooms: React.FC = () => {
 	}
 
 	interface IMore {
-		id: string
+		_id: string
 	}
 
 	const cols = [
 		{
 			property: 'id',
 			label: 'Room Info',
-			display: ({ id, room_photo, room_number }: IRoomInfo) => (
+			display: ({ _id, room_photo, room_number }: IRoomInfo) => (
 				<>
 					<NavLink
 						style={{ textDecoration: 'none' }}
-						to={`/rooms/${id}`}
+						to={`/rooms/${_id}`}
 					>
 						<span
 							onClick={() => {
-								dispatch(fetchOneRoom(id))
+								dispatch(fetchOneRoom(_id))
 							}}
 						>
 							<RoomPhoto src={room_photo} />
 							<TextFormatter small='small_room_number'>
 								Nº. {room_number}
 							</TextFormatter>
-							<TextFormatter small='small'>#{id}</TextFormatter>
+							<TextFormatter small='small'>
+								id#: {_id}
+							</TextFormatter>
 						</span>
 					</NavLink>
 				</>
@@ -230,36 +232,36 @@ const Rooms: React.FC = () => {
 		},
 		{
 			label: 'More',
-			display: ({ id }: IMore) => {
+			display: ({ _id }: IMore) => {
 				return (
 					<>
 						<BsThreeDotsVertical
 							onClick={() => {
-								handleMoreOptions(id)
+								handleMoreOptions(_id)
 							}}
 							style={{
 								fontSize: '30px',
 								cursor: 'pointer',
-								display: toggleMoreOptions[id]
+								display: toggleMoreOptions[_id]
 									? 'none'
 									: 'inline-block',
 							}}
 						/>
-						<MoreOptions open={toggleMoreOptions[id]}>
+						<MoreOptions open={toggleMoreOptions[_id]}>
 							<OptionsButton
 								onClick={() => {
-									handleDelete(id)
+									handleDelete(_id)
 								}}
 							>
 								DELETE
 							</OptionsButton>
 							<NavLink
 								style={{ textDecoration: 'none' }}
-								to={`/rooms/edit-room/${id}`}
+								to={`/rooms/edit-room/${_id}`}
 							>
 								<OptionsButton
 									onClick={() => {
-										dispatch(fetchOneRoom(id))
+										dispatch(fetchOneRoom(_id))
 										dispatch(resetState())
 									}}
 									button_type='edit'
@@ -269,7 +271,7 @@ const Rooms: React.FC = () => {
 							</NavLink>
 							<CloseCTA
 								onClick={() => {
-									handleMoreOptions(id)
+									handleMoreOptions(_id)
 								}}
 							>
 								<AiOutlineCloseCircle />

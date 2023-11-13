@@ -8,11 +8,11 @@ import { BiBell } from 'react-icons/bi'
 import { BiMessageAltDetail } from 'react-icons/bi'
 import { HiOutlineLogout } from 'react-icons/hi'
 import * as color from './Variables'
-import { supertoggleContext } from '../context/ToggleContext';
-import { authenticationContext } from '../context/AutheContext';
+import { supertoggleContext } from '../context/ToggleContext'
+import { authenticationContext } from '../context/AutheContext'
 
 const Header: React.FC = () => {
-	const { dispatch, state, stateBread } = useContext(supertoggleContext)!;
+	const { dispatch, state, stateBread } = useContext(supertoggleContext)!
 	const { logout, authState } = useContext(authenticationContext)!
 	const location = useLocation()
 	const [currentBreadCrumb, setCurrentBreadCrumb] = useState<string>('')
@@ -106,12 +106,13 @@ const Header: React.FC = () => {
 						</IconStyle>
 						<ProfilePictureVoid
 							src={
-							authState.profilePicture
-							? (typeof authState.profilePicture === 'function'
-								? ' '
-								: authState.profilePicture)
-							: undefined
-						}
+								authState.profilePicture
+									? typeof authState.profilePicture ===
+									  'function'
+										? ' '
+										: authState.profilePicture
+									: undefined
+							}
 						/>
 						<VerticalDivider />
 						<IconStyle logout='logout'>
@@ -136,8 +137,8 @@ const HeaderBar = styled.nav`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: #fff;
-	box-shadow: 0px 3px 10px #00000009;
+	background-color: ${color.clearBackground};
+	box-shadow: 0px 3px 10px ${color.softer_ligthGrey};
 `
 
 const LeftContainer = styled.div`
@@ -153,11 +154,11 @@ const RightContainer = styled.div`
 	align-items: center;
 `
 interface IconStyleProps {
-    readonly menu?: string
+	readonly menu?: string
 	readonly logout?: string
 	readonly groupofrigthicons?: string
 	readonly search?: string
-};
+}
 export const IconStyle = styled.div<IconStyleProps>`
 	display: flex;
 	align-items: center;
@@ -191,12 +192,13 @@ const DashboardTitle = styled.p`
 
 const DashboardSubtitle = styled.p`
 	font: normal normal 400 14px Poppins;
-	color: #6e6e6e;
+	color: ${color.normalGrey};
 	max-height: 1px;
 `
 
 const ProfilePictureVoid = styled.img`
-	background: ${(props) => (props.src ? 'transparent' : '#79928382')};
+	background: ${(props) =>
+		props.src ? 'transparent' : '${color.normalGrey}'};
 	width: 60px;
 	height: 60px;
 	border-radius: 8px;

@@ -238,11 +238,11 @@ interface ContainerProps {
 const Container = styled.aside<ContainerProps>`
 	min-width: 345px;
 	height: 100vh;
-	background-color: #ffffff;
+	background-color: ${color.clearBackground};
 	float: left;
 	margin-left: ${(props) => (props.toggle === 'close' ? '-345px' : 0)};
 	transition: 0.3s all ease;
-	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+	box-shadow: ${color.softer_ligthGrey} 0px 8px 24px;
 `
 
 const LogoSection = styled.section`
@@ -321,15 +321,16 @@ const UserCardInfo = styled.div`
 	width: 233px;
 	height: 221px;
 	border-radius: 18px;
-	background-color: #fff;
-	box-shadow: 0px 20px 30px #00000014;
+	background-color: ${color.clearBackground};
+	box-shadow: 0px 20px 30px ${color.softer_ligthGrey};
 	margin: 0 auto;
 	text-align: center;
 	margin-top: 31px;
 `
 
 const UserCardProfilePictureVoid = styled.img`
-	background: ${(props) => (props.src ? 'transparent' : '#79928382')};
+	background: ${(props) =>
+		props.src ? 'transparent' : '${color.normalGrey}'};
 	width: 70px;
 	height: 70px;
 	border-radius: 8px;
@@ -369,7 +370,7 @@ const UserCardButton = styled.button`
 	cursor: pointer;
 	transition: 0.3s;
 	&:hover {
-		color: white;
+		color: ${color.clearBackground};
 		background-color: ${color.softer_normalPinkie};
 	}
 `
@@ -388,27 +389,25 @@ const SideBarFooterText = styled.p<SideBarFooterTextProps>`
 		switch (props.type) {
 			case 'title':
 				return css`
-          font: normal normal 600 16px Poppins;
-          color: ${color.strongGrey};
-          margin: 0 0 10px 0;
-          }
-        `
+					font: normal normal 600 16px Poppins;
+					color: ${color.strongGrey};
+					margin: 0 0 10px 0;
+				`
 			case 'copyright':
 				return css`
-          font: normal normal 500 14px Poppins;
-          color: ${color.softer_strongGrey};
-          margin: 0 0 7px 0;
-          }
-        `
+					font: normal normal 500 14px Poppins;
+					color: ${color.softer_strongGrey};
+					margin: 0 0 7px 0;
+				`
 			default:
 				return css`
-          font: normal normal 500 14px Poppins;
-          color: ${color.softer_normalPinkie};
-          }
-        `
+					font: normal normal 500 14px Poppins;
+					color: ${color.softer_normalPinkie};
+				`
 		}
 	}}
 `
+
 interface EditUserModalOverlayProps {
 	readonly open?: boolean
 }
@@ -420,7 +419,7 @@ const EditUserModal = styled.div<EditUserModalOverlayProps>`
 	transform: translate(-50%, -30%);
 	width: 431px;
 	min-height: 550px;
-	background: #ffffff 0% 0% no-repeat padding-box;
+	background: ${color.clearBackground} 0% 0% no-repeat padding-box;
 	border-radius: 20px;
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
@@ -433,7 +432,7 @@ const EditUserModalOverlay = styled.div<EditUserModalOverlayProps>`
 	position: absolute;
 	width: 100vw;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.434);
+	background-color: ${color.softer_normalGrey};
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
@@ -449,12 +448,12 @@ const SaveCTA = styled.button`
 	background-color: ${color.ligthPinkie};
 	border: none;
 	border-radius: 8px;
-	font: normal normal 600 14px/21px Poppins;
+	font: normal 600 14px/21px Poppins;
 	margin-top: 16px;
 	cursor: pointer;
 	transition: 0.3s;
 	&:hover {
-		color: white;
+		color: ${color.clearBackground};
 		background-color: ${color.softer_normalPinkie};
 	}
 `
@@ -490,12 +489,12 @@ const InputFile = styled.input`
 	position: absolute;
 	left: 50%;
 	margin-right: -50%;
-	top: 76%;
+	top: 77%;
 	transform: translate(-50%, -50%);
-	max-width: 42.2%;
+	max-width: 28%;
 	transition: 0.3s;
-	color: #444;
-	background: #fff;
+	color: ${color.normalGrey};
+	background: ${color.clearBackground};
 	&::file-selector-button {
 		font: normal normal 500 14px Poppins;
 		border: none;
@@ -521,7 +520,7 @@ const Input = styled(InputFile)<InputProps>`
 	height: 47px;
 	width: 100%;
 	max-width: 90%;
-	background-color: #fff;
+	background-color: ${color.clearBackground};
 	border: 2px solid ${color.ligthPurple};
 	color: ${color.strongPurple};
 	outline: none;

@@ -242,11 +242,11 @@ const EditRoom: React.FC = () => {
 	const handleEditRoom = () => {
 		if (currentRoom !== undefined) {
 			const editedRoomData = {
+				_id: currentRoom._id,
 				room_number:
 					newRoomNumber === ''
 						? currentRoom.room_number
 						: newRoomNumber,
-				id: currentRoom.id,
 				room_photo: [
 					'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
 					'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -294,7 +294,7 @@ const EditRoom: React.FC = () => {
 					<CTA>Back</CTA>
 				</NavLink>
 				<TitleText newroom='title'>
-					Edit <u>{currentRoom !== undefined && currentRoom.id}</u>{' '}
+					Edit <u>{currentRoom !== undefined && currentRoom._id}</u>{' '}
 					Room
 				</TitleText>
 				<ModalInnerInfo>
@@ -348,7 +348,7 @@ const EditRoom: React.FC = () => {
 									onChange={handleRoomNumber}
 									defaultValue={
 										currentRoom !== undefined
-											? currentRoom.room_type
+											? currentRoom.room_number
 											: 'Text'
 									}
 								/>
@@ -374,7 +374,7 @@ const EditRoom: React.FC = () => {
 										autoAddDescription
 											? 'Experience the epitome of luxury and comfort in our Double Superior room. This spacious and elegantly appointed room is designed to provide you with the utmost relaxation and convenience during your stay. With a modern and stylish decor, it offers a serene oasis in the heart of the city.'
 											: currentRoom !== undefined
-											? currentRoom.room_type
+											? currentRoom.description
 											: 'Text'
 									}
 								></CreateRoomTextArea>

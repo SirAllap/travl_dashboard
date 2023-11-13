@@ -2,10 +2,25 @@ import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { Triangle } from 'react-loader-spinner'
 import * as color from './Variables'
-import { IBooking, IContact, IRoom, IUser } from '../features/interfaces/interfaces';
+import {
+	IBooking,
+	IContact,
+	IRoom,
+	IUser,
+} from '../features/interfaces/interfaces'
 
-const Table = (props: { cols: any, datas: IBooking[] | IRoom[] | IUser[] | IContact[], whoAmI: {name: string, redirect: boolean}, filter: {property: string, value: string,}, spinner: boolean, loadingSpinner: boolean}) => {
-	const [filterToApply, setFilterToApply] = useState({property: 'all', value: ''})
+const Table = (props: {
+	cols: any
+	datas: IBooking[] | IRoom[] | IUser[] | IContact[]
+	whoAmI: { name: string; redirect: boolean }
+	filter: { property: string; value: string }
+	spinner: boolean
+	loadingSpinner: boolean
+}) => {
+	const [filterToApply, setFilterToApply] = useState({
+		property: 'all',
+		value: '',
+	})
 	const [noMoreData, setNoMoreData] = useState(false)
 	let property = 'all'
 	let value = ''
@@ -23,16 +38,25 @@ const Table = (props: { cols: any, datas: IBooking[] | IRoom[] | IUser[] | ICont
 	const displayRow = (row: any, index: number) => {
 		const rowContent = (
 			<>
-				{props.cols.map((col: {property: string, label: string, display?: Function}, i: number) => (
-					<React.Fragment key={i}>
-						<p>
-							{typeof col.display === 'function'
-								? col.display(row)
-								: row[col.property]}
-						</p>
-						<VerticalDivider />
-					</React.Fragment>
-				))}
+				{props.cols.map(
+					(
+						col: {
+							property: string
+							label: string
+							display?: Function
+						},
+						i: number
+					) => (
+						<React.Fragment key={i}>
+							<p>
+								{typeof col.display === 'function'
+									? col.display(row)
+									: row[col.property]}
+							</p>
+							<VerticalDivider />
+						</React.Fragment>
+					)
+				)}
 			</>
 		)
 		const key = `${props.whoAmI.name}-${row.id}-${index}`
@@ -60,9 +84,14 @@ const Table = (props: { cols: any, datas: IBooking[] | IRoom[] | IUser[] | ICont
 					<>
 						<TableHeadContainer>
 							<TableHeadLabel whoami={props.whoAmI.name}>
-								{props.cols.map((colLabel: {label: string}, index: number) => (
-									<p key={index}>{colLabel.label}</p>
-								))}
+								{props.cols.map(
+									(
+										colLabel: { label: string },
+										index: number
+									) => (
+										<p key={index}>{colLabel.label}</p>
+									)
+								)}
 							</TableHeadLabel>
 						</TableHeadContainer>
 						<SpinnerContainer whoami={props.whoAmI.name}>
@@ -78,16 +107,15 @@ const Table = (props: { cols: any, datas: IBooking[] | IRoom[] | IUser[] | ICont
 								/>
 							)}
 						</SpinnerContainer>
-						<TableAllRowsContainer
-							whoami={props.whoAmI.name}
-						>
+						<TableAllRowsContainer whoami={props.whoAmI.name}>
 							{property === 'all'
 								? props.datas.map((filteredRow, index) =>
 										displayRow(filteredRow, index)
 								  )
 								: props.datas
 										.filter(
-											(row) => (row as any)[property] === value
+											(row) =>
+												(row as any)[property] === value
 										)
 										.map((filteredRow, index) =>
 											displayRow(filteredRow, index)
@@ -230,7 +258,12 @@ const TableSingleRowContainer = styled.div<TableSingleRowContainerProps>`
 	&:hover {
 		box-shadow: 0px 4px 30px #0000001a;
 	}
-	height: ${(props) => props.whoami === 'rooms' ? '250px' : props.whoami === 'contact' ? 'auto' : '121px' };
+	height: ${(props) =>
+		props.whoami === 'rooms'
+			? '250px'
+			: props.whoami === 'contact'
+			? 'auto'
+			: '121px'};
 	transition: 0.3s all;
 	margin: 0;
 `
