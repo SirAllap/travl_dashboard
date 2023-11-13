@@ -1,5 +1,5 @@
 export interface IBooking {
-	id: string
+	_id?: string
 	guest: string
 	phone_number: string
 	order_date: string
@@ -13,8 +13,8 @@ export interface IBooking {
 }
 
 export interface IRoom {
+	_id?: string
 	room_number: string
-	id: string
 	room_photo: string[]
 	room_type: string
 	description: string
@@ -27,7 +27,7 @@ export interface IRoom {
 }
 
 export interface IContact {
-	id: string
+	_id?: string
 	full_name: string
 	email: string
 	phone_number: string
@@ -39,7 +39,7 @@ export interface IContact {
 }
 
 export interface IUser {
-	employee_id: string
+	_id?: string
 	full_name: string
 	email: string
 	photo: string
