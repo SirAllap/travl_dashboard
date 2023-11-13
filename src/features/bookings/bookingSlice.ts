@@ -47,10 +47,7 @@ const bookingSlice = createSlice({
 				state.status = 'rejected'
 			})
 			.addCase(fetchOneBooking.fulfilled, (state, action) => {
-				const id = action.payload
-				state.singleBookingFetch = state.initialBookingFetch.filter(
-					(booking) => booking.id === id
-				)
+				state.singleBookingFetch.splice(0, 1, action.payload)
 				state.status = 'fulfilled'
 			})
 
@@ -61,8 +58,9 @@ const bookingSlice = createSlice({
 				state.deleteBookingStatus = 'rejected'
 			})
 			.addCase(deleteBooking.fulfilled, (state, action) => {
+				const id = action.payload
 				const result = state.initialBookingFetch.filter(
-					(booking) => booking.id !== action.payload
+					(booking) => booking._id !== id
 				)
 				state.initialBookingFetch = [...result]
 				state.deleteBookingStatus = 'fulfilled'
