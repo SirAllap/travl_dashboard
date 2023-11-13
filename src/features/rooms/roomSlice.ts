@@ -91,7 +91,6 @@ const roomSlice = createSlice({
 			})
 			.addCase(deleteRoom.fulfilled, (state, action) => {
 				const id = action.payload
-
 				const result = state.initialRoomFetch.filter(
 					(room) => room._id !== id
 				)
