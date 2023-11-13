@@ -112,7 +112,7 @@ const SideBar: React.FC = () => {
 					open={toggleModal}
 				/>
 				<EditUserModal open={toggleModal}>
-					<EditUserInputLable prop_type='name' htmlFor='name'>
+					<EditUserInputLable type='name' htmlFor='name'>
 						Name
 					</EditUserInputLable>
 					<Input
@@ -121,12 +121,12 @@ const SideBar: React.FC = () => {
 						defaultValue={
 							userUpdatedName ? userUpdatedName : authState.name
 						}
-						text_type='name'
+						type='name'
 						placeholder='name'
 						onChange={handleUpdateUserName}
 						autoComplete='off'
 					/>
-					<EditUserInputLable prop_type='email' htmlFor='email'>
+					<EditUserInputLable type='email' htmlFor='email'>
 						Email
 					</EditUserInputLable>
 
@@ -138,7 +138,7 @@ const SideBar: React.FC = () => {
 								? userUpdatedEmail
 								: authState.email
 						}
-						text_type='email'
+						type='email'
 						placeholder='email'
 						onChange={handleUpdateUserEmail}
 						autoComplete='off'
@@ -148,6 +148,7 @@ const SideBar: React.FC = () => {
 						src={!file2Upload ? profPic : file2Upload}
 					/>
 					<InputFile
+						type='file'
 						onChange={handlePictureChange}
 						alt='a photo of the user profile'
 					/>
@@ -200,7 +201,7 @@ const SideBar: React.FC = () => {
 					</IconSection>
 					<UserCardInfo>
 						<UserCardProfilePictureVoid src={profPic} />
-						<UserCardText prop_type='name'>
+						<UserCardText type='name'>
 							{!userName ? userName1 : userName}
 						</UserCardText>
 						<UserCardText>
@@ -211,10 +212,10 @@ const SideBar: React.FC = () => {
 						</UserCardButton>
 					</UserCardInfo>
 					<SideBarFooter>
-						<SideBarFooterText prop_type='title'>
+						<SideBarFooterText type='title'>
 							Travl Hotel Admin Dashboard
 						</SideBarFooterText>
-						<SideBarFooterText prop_type='copyright'>
+						<SideBarFooterText type='copyright'>
 							© 2020 All Rights Reserved
 						</SideBarFooterText>
 						<SideBarFooterText>
@@ -336,12 +337,12 @@ const UserCardProfilePictureVoid = styled.img`
 	margin: 0 auto;
 `
 interface UserCardTextProps {
-	readonly prop_type?: string
+	readonly type?: string
 }
 
 const UserCardText = styled.p<UserCardTextProps>`
 	${(props) => {
-		switch (props.prop_type) {
+		switch (props.type) {
 			case 'name':
 				return css`
 					font: normal normal 500 16px/1.2 Poppins;
@@ -380,12 +381,12 @@ const SideBarFooter = styled.div`
 	margin: 42px auto 0px auto;
 `
 interface SideBarFooterTextProps {
-	readonly prop_type?: string
+	readonly type?: string
 }
 
 const SideBarFooterText = styled.p<SideBarFooterTextProps>`
 	${(props) => {
-		switch (props.prop_type) {
+		switch (props.type) {
 			case 'title':
 				return css`
 					font: normal normal 600 16px Poppins;
@@ -511,11 +512,11 @@ const InputFile = styled.input`
 `
 
 interface InputProps {
-	text_type: string
+	type: string
 }
 
 const Input = styled(InputFile)<InputProps>`
-	top: ${(props) => (props.text_type === 'email' ? '37%' : '15%')};
+	top: ${(props) => (props.type === 'email' ? '37%' : '15%')};
 	height: 47px;
 	width: 100%;
 	max-width: 90%;
@@ -532,13 +533,13 @@ const Input = styled(InputFile)<InputProps>`
 	}
 `
 interface EditUserInputLableProps {
-	readonly prop_type: string
+	readonly type: string
 }
 const EditUserInputLable = styled.label<EditUserInputLableProps>`
 	position: absolute;
 	left: 2%;
 	margin-right: -50%;
-	top: ${(props) => (props.prop_type === 'email' ? '32%' : '10%')};
+	top: ${(props) => (props.type === 'email' ? '32%' : '10%')};
 	transform: translate(-50%, -50%);
 	font: normal normal 600 17px Poppins;
 	display: block;
