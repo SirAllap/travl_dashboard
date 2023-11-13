@@ -7,13 +7,17 @@ import * as color from '../components/Variables'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Triangle } from 'react-loader-spinner'
+import { useDispatch } from 'react-redux'
+import { userLogin } from '../features/login/loginThunks'
+import { useAppDispatch } from '../app/hooks'
 
 const Login: React.FC = () => {
 	const navigate = useNavigate()
-	const [userName, setUserName] = useState('')
+	const [userEmail, setUserEmail] = useState('')
 	const [userPassword, setUserPassword] = useState('')
 	const [spinner, setSpinner] = useState(false)
 	const { login, authState } = useContext(authenticationContext)!
+	const dispatch = useAppDispatch()
 
 	useEffect(() => {
 		if (authState.auth) {
@@ -24,51 +28,28 @@ const Login: React.FC = () => {
 	}, [authState.auth, navigate])
 
 	const getUserEmail = (name: string) => {
-		return name === 'admin' ? 'super@admin.com' : 'davidpr@travl.com'
+		return name === userEmail ? 'super@admin.com' : 'davidpr@travl.com'
 	}
-	const getProfilePicture = (name: string) => {
+	const getProfilePicture = (name = 'admin') => {
 		return `https://robohash.org/${name}.png?set=any`
 	}
 
 	const authUser = async () => {
-		try {
-			setSpinner(true)
-			const response = await fetch(
-				'https://qh9d0mep6j.execute-api.eu-west-1.amazonaws.com/login',
-				{
-					method: 'POST',
-					mode: 'cors',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						user: userName,
-						pass: userPassword,
-					}),
-				}
-			)
-			if (response.ok) {
-				const data = await response.json()
-				localStorage.setItem('token', data.token)
-				login({
-					userName,
-					email: getUserEmail(userName),
-					profilePicture: getProfilePicture(userName),
-				})
-				setSpinner(false)
-			} else {
-				throw new Error(`status ${response.status}`)
-			}
-		} catch (error) {
-			console.error(`${error}`)
+		dispatch(userLogin({ email: userEmail, password: userPassword }))
+		if (localStorage.getItem('token')) {
+			login({
+				userName: userEmail,
+				email: getUserEmail(userEmail),
+				profilePicture: getProfilePicture(userEmail),
+			})
 		}
 	}
 
 	const [quick, setQuick] = useState(false)
 	const quickLogin = () => {
 		setQuick(true)
-		setUserName('admin')
-		setUserPassword('admin')
+		setUserEmail('dpr@gmail.com')
+		setUserPassword('ilovebaguettes')
 	}
 
 	return (
@@ -84,13 +65,13 @@ const Login: React.FC = () => {
 					<LoginInputLable>User</LoginInputLable>
 					<LoginInput
 						data-cy='input-user'
-						defaultValue={quick ? 'admin' : ''}
-						onChange={(e) => setUserName(e.target.value)}
+						defaultValue={quick ? 'dpr@gmail.com' : ''}
+						onChange={(e) => setUserEmail(e.target.value)}
 					/>
 					<LoginInputLable>Password</LoginInputLable>
 					<LoginInput
 						data-cy='input-password'
-						defaultValue={quick ? 'admin' : ''}
+						defaultValue={quick ? 'ilovebaguettes' : ''}
 						type='password'
 						onChange={(e) => setUserPassword(e.target.value)}
 					/>
