@@ -13,32 +13,58 @@ const delay = (data: object[] | string, time: number = 500) => {
 export const fetchInitialBookings = createAsyncThunk<IBooking[]>(
 	'bookings/fetchInitialBookings',
 	async () => {
-		const result = await fetch(
-			'https://i19d9hr144.execute-api.eu-west-1.amazonaws.com/bookings',
-			{
-				method: 'GET',
-				headers: {
-					token: `${localStorage.getItem('token')}`,
-				},
-			}
-		)
-			.then((res) => res.json())
-			.then((data) => data)
-
-		return result as IBooking[]
+		const response = await fetch('http://localhost:3001/bookings', {
+			method: 'GET',
+			mode: 'cors',
+			headers: {
+				'Content-Type': 'application/json',
+				token: `${localStorage.getItem('token')}`,
+			},
+		})
+		if (!response.ok) {
+			throw new Error(`status ${response.status}`)
+		} else {
+			const data = await response.json()
+			return data as IBooking[]
+		}
 	}
 )
 
 export const fetchOneBooking = createAsyncThunk(
 	'bookings/fetchOneBooking',
 	async (id: string) => {
-		return (await delay(id)) as string
+		const response = await fetch(`http://localhost:3001/bookings/${id}`, {
+			method: 'GET',
+			mode: 'cors',
+			headers: {
+				'Content-Type': 'application/json',
+				token: `${localStorage.getItem('token')}`,
+			},
+		})
+		if (!response.ok) {
+			throw new Error(`status ${response.status}`)
+		} else {
+			const data = await response.json()
+			return data
+		}
 	}
 )
 
 export const deleteBooking = createAsyncThunk(
 	'bookings/deleteBooking',
 	async (id: string) => {
-		return (await delay(id)) as string
+		const response = await fetch(`http://localhost:3001/bookings/${id}`, {
+			method: 'DELETE',
+			mode: 'cors',
+			headers: {
+				'Content-Type': 'application/json',
+				token: `${localStorage.getItem('token')}`,
+			},
+		})
+		if (!response.ok) {
+			throw new Error(`status ${response.status}`)
+		} else {
+			return id
+		}
 	}
 )

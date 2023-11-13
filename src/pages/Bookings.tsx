@@ -240,9 +240,9 @@ const Bookings: React.FC = () => {
 								DELETE
 							</OptionsButton>
 							{/* <NavLink to={`/rooms/edit-room/${id}`}> */}
-							<OptionsButton button_type='edit'>
+							{/* <OptionsButton button_type='edit'>
 								EDIT
-							</OptionsButton>
+							</OptionsButton> */}
 							{/* </NavLink> */}
 							<CloseCTA
 								onClick={() => {
