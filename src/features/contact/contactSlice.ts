@@ -42,7 +42,7 @@ const contactSlice = createSlice({
 			})
 			.addCase(archiveContacts.fulfilled, (state, action) => {
 				state.initialContactFetch.map((contact) =>
-					contact.id === action.payload
+					contact._id === action.payload
 						? (contact.isArchived = 'true')
 						: null
 				)
