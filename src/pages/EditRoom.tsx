@@ -48,7 +48,7 @@ const EditRoom: React.FC = () => {
 			setSpinner(true)
 		} else if (initialRoomState === 'fulfilled') {
 			setSpinner(false)
-			setCurrentRoom(singleRoomData[0])
+			setCurrentRoom(singleRoomData)
 		}
 		if (currentRoom !== undefined) {
 			currentRoom.offer_price === true

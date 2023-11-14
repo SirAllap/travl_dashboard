@@ -12,7 +12,7 @@ import { RootState } from '../../app/store'
 interface RoomState {
 	initialRoomFetch: IRoom[]
 	initialRoomFetchPlusNewRooms: IRoom[]
-	singleRoomFetch: IRoom[]
+	singleRoomFetch: IRoom
 	status: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	createRoomStatus: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	deleteRoomStatus: 'idle' | 'pending' | 'rejected' | 'fulfilled'
@@ -23,7 +23,7 @@ interface RoomState {
 const initialState: RoomState = {
 	initialRoomFetch: [],
 	initialRoomFetchPlusNewRooms: [],
-	singleRoomFetch: [],
+	singleRoomFetch: {} as IRoom,
 	status: 'idle',
 	createRoomStatus: 'idle',
 	deleteRoomStatus: 'idle',
@@ -59,7 +59,7 @@ const roomSlice = createSlice({
 				state.status = 'rejected'
 			})
 			.addCase(fetchOneRoom.fulfilled, (state, action) => {
-				state.singleRoomFetch.splice(0, 1, action.payload)
+				state.singleRoomFetch = action.payload
 				state.status = 'fulfilled'
 			})
 
@@ -90,11 +90,9 @@ const roomSlice = createSlice({
 				state.deleteRoomStatus = 'rejected'
 			})
 			.addCase(deleteRoom.fulfilled, (state, action) => {
-				const id = action.payload
-				const result = state.initialRoomFetch.filter(
-					(room) => room._id !== id
+				state.initialRoomFetch = state.initialRoomFetch.filter(
+					(room) => room._id !== action.payload
 				)
-				state.initialRoomFetch = [...result]
 				state.deleteRoomStatus = 'fulfilled'
 			})
 	},
