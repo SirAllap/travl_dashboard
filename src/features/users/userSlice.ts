@@ -58,7 +58,7 @@ const userSlice = createSlice({
 			.addCase(fetchOneUser.fulfilled, (state, action) => {
 				const id = action.payload
 				state.singleUserFetch = state.initialUserFetch.filter(
-					(user) => user.employee_id === id
+					(user) => user._id === id
 				)
 				state.status = 'fulfilled'
 			})
@@ -91,12 +91,12 @@ const userSlice = createSlice({
 				const id = action.payload
 				if (state.initialUserFetchPlusNewUsers.length !== 0) {
 					const result = state.initialUserFetchPlusNewUsers.filter(
-						(user) => user.employee_id !== id
+						(user) => user._id !== id
 					)
 					state.initialUserFetchPlusNewUsers = [...result]
 				} else {
 					const result = state.initialUserFetch.filter(
-						(user) => user.employee_id !== id
+						(user) => user._id !== id
 					)
 					state.initialUserFetch = [...result]
 				}

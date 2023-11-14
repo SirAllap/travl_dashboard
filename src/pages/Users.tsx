@@ -88,7 +88,7 @@ const Users: React.FC = () => {
 
 	interface IInfo {
 		email: string
-		employee_id: string
+		_id: string
 		phone_number: string
 	}
 
@@ -97,7 +97,7 @@ const Users: React.FC = () => {
 	}
 
 	interface IMore {
-		employee_id: string
+		_id: string
 	}
 
 	const cols = [
@@ -122,11 +122,11 @@ const Users: React.FC = () => {
 		{
 			property: 'email',
 			label: 'Info',
-			display: ({ email, employee_id, phone_number }: IInfo) => (
+			display: ({ email, _id, phone_number }: IInfo) => (
 				<>
 					<TextFormatter types='small'>{email}</TextFormatter>
 					<TextFormatter types='small'>{phone_number}</TextFormatter>
-					<TextFormatter types='small'>#{employee_id}</TextFormatter>
+					<TextFormatter types='small'>#{_id}</TextFormatter>
 				</>
 			),
 		},
@@ -151,25 +151,25 @@ const Users: React.FC = () => {
 		},
 		{
 			label: 'More',
-			display: ({ employee_id }: IMore) => {
+			display: ({ _id }: IMore) => {
 				return (
 					<>
 						<BsThreeDotsVertical
 							onClick={() => {
-								handleMoreOptions(employee_id)
+								handleMoreOptions(_id)
 							}}
 							style={{
 								fontSize: '30px',
 								cursor: 'pointer',
-								display: toggleMoreOptions[employee_id]
+								display: toggleMoreOptions[_id]
 									? 'none'
 									: 'inline-block',
 							}}
 						/>
-						<MoreOptions open={toggleMoreOptions[employee_id]}>
+						<MoreOptions open={toggleMoreOptions[_id]}>
 							<OptionsButton
 								onClick={() => {
-									handleDelete(employee_id)
+									handleDelete(_id)
 								}}
 							>
 								DELETE
@@ -181,7 +181,7 @@ const Users: React.FC = () => {
 							{/* </NavLink> */}
 							<CloseCTA
 								onClick={() => {
-									handleMoreOptions(employee_id)
+									handleMoreOptions(_id)
 								}}
 							>
 								<AiOutlineCloseCircle />
