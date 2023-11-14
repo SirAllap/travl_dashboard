@@ -87,7 +87,6 @@ const Bookings: React.FC = () => {
 		guest: string
 		phone_number: string
 	}
-
 	interface IOrderDate {
 		order_date: string
 	}
@@ -97,17 +96,14 @@ const Bookings: React.FC = () => {
 	interface ICheckOutDate {
 		check_out: string
 	}
-
 	interface ISpecialRequest {
 		_id: string
 		special_request: string
 	}
-
 	interface IStatus {
 		_id: string
 		status: string
 	}
-
 	interface IMore {
 		_id: string
 	}
@@ -262,6 +258,7 @@ const Bookings: React.FC = () => {
 		property: 'all',
 		value: 'All Bookings',
 	})
+
 	const manageFilterTab = (param: string) => {
 		switch (param) {
 			case 'checkin':
@@ -287,6 +284,51 @@ const Bookings: React.FC = () => {
 					property: 'all',
 					value: 'All Bookings',
 				})
+				break
+			default:
+				break
+		}
+	}
+
+	const initialBookingDataCopy = [...initialBookingData]
+	const manageFilterSelect = (
+		event: React.ChangeEvent<HTMLSelectElement>
+	) => {
+		switch (event.target.value) {
+			case 'guest':
+				const filteredBookingsByGuest = initialBookingDataCopy.sort(
+					(a, b) =>
+						a.guest.localeCompare(b.guest, undefined, {
+							sensitivity: 'base',
+						})
+				)
+				setDisplayData(filteredBookingsByGuest)
+			case 'order_date':
+				const filteredBookingsByOrderDate = initialBookingDataCopy.sort(
+					(a, b) =>
+						a.order_date.localeCompare(b.order_date, undefined, {
+							sensitivity: 'base',
+						})
+				)
+				setDisplayData(filteredBookingsByOrderDate)
+				break
+			case 'check_in':
+				// const filteredBookingsByCheckInDate =
+				// 	initialBookingDataCopy.sort((a, b) =>
+				// 		a.guest.localeCompare(b.guest, undefined, {
+				// 			sensitivity: 'base',
+				// 		})
+				// 	)
+				// setDisplayData(filteredBookingsByCheckInDate)
+				break
+			case 'check_out':
+				// const filteredBookingsByCheckOutDate =
+				// 	initialBookingDataCopy.sort((a, b) =>
+				// 		a.guest.localeCompare(b.guest, undefined, {
+				// 			sensitivity: 'base',
+				// 		})
+				// 	)
+				// setDisplayData(filteredBookingsByCheckOutDate)
 				break
 			default:
 				break
@@ -372,11 +414,15 @@ const Bookings: React.FC = () => {
 						<Icons search='search'>
 							<BiSearch />
 						</Icons>
-						<FilterSelector name='bookingFilter' id='bookingFilter'>
-							<option value='volvo'>Guest</option>
-							<option value='volvo'>Order Date</option>
-							<option value='volvo'>Check In</option>
-							<option value='volvo'>Check Out</option>
+						<FilterSelector
+							name='bookingFilter'
+							id='bookingFilter'
+							onChange={manageFilterSelect}
+						>
+							<option value='guest'>Guest</option>
+							<option value='order_date'>Order Date</option>
+							<option value='check_in'>Check In</option>
+							<option value='check_out'>Check Out</option>
 						</FilterSelector>
 					</TableSearchAndFilterContainer>
 				</TopTableContainer>
