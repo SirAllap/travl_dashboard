@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import Table from '../components/Table'
 import { supertoggleContext } from '../context/ToggleContext'
-import { useDispatch, useSelector } from 'react-redux'
 import {
 	archiveStatus,
 	fetchContactState,
@@ -72,7 +71,7 @@ const Contact: React.FC = () => {
 
 	interface IArchive {
 		isArchived: string
-		id: string
+		_id: string
 	}
 
 	const cols = [
@@ -116,11 +115,11 @@ const Contact: React.FC = () => {
 		{
 			property: 'isArchived',
 			label: 'Archive',
-			display: ({ isArchived, id }: IArchive) => (
+			display: ({ isArchived, _id }: IArchive) => (
 				<>
 					<Status
 						onClick={() => {
-							handleArchive(id)
+							handleArchive(_id)
 						}}
 						status={isArchived}
 					>
