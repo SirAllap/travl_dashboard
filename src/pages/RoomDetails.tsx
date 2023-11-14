@@ -39,7 +39,7 @@ const RoomDetails = () => {
 			setSpinner(true)
 		} else if (initialRoomState === 'fulfilled') {
 			setSpinner(false)
-			setCurrentRoom(singleRoomData[0])
+			setCurrentRoom(singleRoomData)
 		}
 	}, [
 		savedLastId,
@@ -138,7 +138,7 @@ const RoomDetails = () => {
 export default RoomDetails
 
 const RooomPhotos = styled.img`
-	height: 100%;
+	width: 100%;
 	object-fit: contain;
 `
 
