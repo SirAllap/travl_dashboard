@@ -123,9 +123,6 @@ const Bookings: React.FC = () => {
 								dispatch(fetchOneBooking(_id))
 							}}
 						>
-							{/* <CustomerPhoto
-								src={`https://robohash.org/${guest}.png?set=any`}
-							/> */}
 							<TextFormatter name='name'>{guest}</TextFormatter>
 							<TextFormatter small='small'>
 								<BsTelephone /> {phone_number}
@@ -425,7 +422,9 @@ const Bookings: React.FC = () => {
 							onChange={manageFilterSelect}
 							defaultValue='sortBookings'
 						>
-							<option value='sortBookings'>Sort By</option>
+							<option value='sortBookings' disabled>
+								Sort By
+							</option>
 							<option value='guest'>Guest</option>
 							<option value='order_date'>Order Date</option>
 							<option value='check_in'>Check In</option>
