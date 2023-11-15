@@ -123,9 +123,6 @@ const Bookings: React.FC = () => {
 								dispatch(fetchOneBooking(_id))
 							}}
 						>
-							{/* <CustomerPhoto
-								src={`https://robohash.org/${guest}.png?set=any`}
-							/> */}
 							<TextFormatter name='name'>{guest}</TextFormatter>
 							<TextFormatter small='small'>
 								<BsTelephone /> {phone_number}
@@ -298,37 +295,42 @@ const Bookings: React.FC = () => {
 			case 'guest':
 				const filteredBookingsByGuest = initialBookingDataCopy.sort(
 					(a, b) =>
-						a.guest.localeCompare(b.guest, undefined, {
+						a.guest.localeCompare(b.guest, 'en', {
 							sensitivity: 'base',
 						})
 				)
 				setDisplayData(filteredBookingsByGuest)
+				break
 			case 'order_date':
 				const filteredBookingsByOrderDate = initialBookingDataCopy.sort(
-					(a, b) =>
-						a.order_date.localeCompare(b.order_date, undefined, {
-							sensitivity: 'base',
-						})
+					(a, b) => {
+						const dateA: Date = new Date(a.order_date)
+						const dateB: Date = new Date(b.order_date)
+
+						return dateA.getTime() - dateB.getTime()
+					}
 				)
 				setDisplayData(filteredBookingsByOrderDate)
 				break
 			case 'check_in':
-				// const filteredBookingsByCheckInDate =
-				// 	initialBookingDataCopy.sort((a, b) =>
-				// 		a.guest.localeCompare(b.guest, undefined, {
-				// 			sensitivity: 'base',
-				// 		})
-				// 	)
-				// setDisplayData(filteredBookingsByCheckInDate)
+				const filteredBookingsByCheckInDate =
+					initialBookingDataCopy.sort((a, b) => {
+						const dateA: Date = new Date(a.check_in)
+						const dateB: Date = new Date(b.check_in)
+
+						return dateA.getTime() - dateB.getTime()
+					})
+				setDisplayData(filteredBookingsByCheckInDate)
 				break
 			case 'check_out':
-				// const filteredBookingsByCheckOutDate =
-				// 	initialBookingDataCopy.sort((a, b) =>
-				// 		a.guest.localeCompare(b.guest, undefined, {
-				// 			sensitivity: 'base',
-				// 		})
-				// 	)
-				// setDisplayData(filteredBookingsByCheckOutDate)
+				const filteredBookingsByCheckOutDate =
+					initialBookingDataCopy.sort((a, b) => {
+						const dateA: Date = new Date(a.check_out)
+						const dateB: Date = new Date(b.check_out)
+
+						return dateA.getTime() - dateB.getTime()
+					})
+				setDisplayData(filteredBookingsByCheckOutDate)
 				break
 			default:
 				break
@@ -418,7 +420,11 @@ const Bookings: React.FC = () => {
 							name='bookingFilter'
 							id='bookingFilter'
 							onChange={manageFilterSelect}
+							defaultValue='sortBookings'
 						>
+							<option value='sortBookings' disabled>
+								Sort By
+							</option>
 							<option value='guest'>Guest</option>
 							<option value='order_date'>Order Date</option>
 							<option value='check_in'>Check In</option>
@@ -461,9 +467,10 @@ interface EditUserModalOverlayProps {
 const EditUserModalOverlay = styled.div<EditUserModalOverlayProps>`
 	z-index: 99;
 	position: absolute;
+	top: 0px;
 	width: 100vw;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.434);
+	background-color: ${color.softer_normalGrey};
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
@@ -477,7 +484,7 @@ const EditUserModal = styled.div<EditUserModalProps>`
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -30%);
+	transform: translate(-50%, -50%);
 	width: fit-content;
 	min-height: fit-content;
 	background: #ffffff 0% 0% no-repeat padding-box;

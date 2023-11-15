@@ -27,7 +27,7 @@ export interface IRoom {
 }
 
 export interface IContact {
-	_id?: string
+	_id: string
 	full_name: string
 	email: string
 	phone_number: string

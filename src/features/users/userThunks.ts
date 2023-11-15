@@ -1,6 +1,7 @@
 import usersJSONfile from '../../data/employee_data.json'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { IUser } from '../interfaces/interfaces'
+import { fetchMethod } from '../../util/fetchMethod'
 
 const delay = (data: IUser[] | string | IUser, time: number = 500) => {
 	return new Promise((resolve) => {
@@ -12,28 +13,32 @@ const delay = (data: IUser[] | string | IUser, time: number = 500) => {
 
 export const fetchInitialUsers = createAsyncThunk<IUser[]>(
 	'users/fetchInitialUsers',
-	async () => {
-		return (await delay(usersJSONfile)) as IUser[]
-	}
+	async () => fetchMethod(true, 'users', 'GET')
 )
 
 export const fetchOneUser = createAsyncThunk(
 	'users/fetchOneUser',
-	async (id: string) => {
-		return (await delay(id)) as string
-	}
+	async (id: string) => fetchMethod(true, `users/${id}`, 'GET', id)
 )
 
 export const createOneUser = createAsyncThunk(
 	'users/createOneUser',
-	async (newUser: IUser) => {
-		return (await delay(newUser, 1000)) as IUser
-	}
+	async (newUser: IUser) => fetchMethod(true, 'users', 'POST', '', newUser)
 )
+
+// export const editOneUser = createAsyncThunk(
+// 	'users/editOneUser',
+// 	async (editedUserData: IUser) =>
+// 		fetchMethod(
+// 			true,
+// 			`rooms/${editedUserData._id}`,
+// 			'PUT',
+// 			editedUserData._id,
+// 			editedUserData
+// 		)
+// )
 
 export const deleteUser = createAsyncThunk(
 	'users/deleteUser',
-	async (id: string) => {
-		return (await delay(id)) as string
-	}
+	async (id: string) => fetchMethod(false, `users/${id}`, 'DELETE', id)
 )

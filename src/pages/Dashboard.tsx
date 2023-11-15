@@ -39,7 +39,7 @@ const Dashboard: React.FC = () => {
 	const [archiveSpinner, setArchiveSpinner] = useState<boolean>(false)
 
 	interface IModalUser {
-		id?: string
+		_id?: string
 		subject_of_review?: string
 		review_body?: string
 		full_name?: string
@@ -65,9 +65,9 @@ const Dashboard: React.FC = () => {
 		}
 	}, [initialContactState, archiveCurrentStatus])
 
-	const handleToggleModal = (userReview?: { id: string }): void => {
+	const handleToggleModal = (userReview?: { _id: string }): void => {
 		if (userReview !== undefined) {
-			setCurrentId(userReview.id)
+			setCurrentId(userReview._id)
 			if (!toggleModal) {
 				setToggleModal(true)
 				setToggleModalUser(userReview)
@@ -83,8 +83,8 @@ const Dashboard: React.FC = () => {
 		}
 	}
 
-	const handleMarkAsRead = (id: string) => {
-		dispatch(archiveContacts(id))
+	const handleMarkAsRead = (_id: string) => {
+		dispatch(archiveContacts(_id))
 	}
 
 	return (
@@ -304,11 +304,7 @@ const Dashboard: React.FC = () => {
 												>
 													{elem.isArchived ===
 													'true' ? (
-														<FaRegEnvelopeOpen
-														// style={{
-														// 	color: `${color.normalOrange}`,
-														// }}
-														/>
+														<FaRegEnvelopeOpen />
 													) : (
 														<FaRegEnvelope />
 													)}
@@ -596,7 +592,7 @@ const CustomerReviewModal = styled.div<CustomerReviewModalProps>`
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, 50%);
+	transform: translate(-50%, -50%);
 	width: 431px;
 	min-height: 275px;
 	background: #ffffff 0% 0% no-repeat padding-box;
@@ -610,9 +606,10 @@ interface CustomerReviewModalOverlayProps {
 const CustomerReviewModalOverlay = styled.div<CustomerReviewModalOverlayProps>`
 	z-index: 100;
 	position: absolute;
+	top: 0px;
 	width: 100%;
-	height: 90vh;
-	background-color: rgba(0, 0, 0, 0.434);
+	height: 100%;
+	background-color: ${color.softer_normalGrey};
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `

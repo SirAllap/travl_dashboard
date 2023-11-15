@@ -313,16 +313,21 @@ const Rooms: React.FC = () => {
 	}
 
 	const sortedResult = [...displayData]
-	const [sortRooms, setSortRooms] = useState<IRoom[]>([])
 	const handleSelectedFilter = (
 		event: React.ChangeEvent<HTMLSelectElement>
 	) => {
 		switch (event.target.value) {
 			case 'pricedown':
-				setSortRooms(sortedResult.sort((a, b) => b.price - a.price))
+				const sortPriceDown = sortedResult.sort(
+					(a, b) => b.price - a.price
+				)
+				setDisplayData(sortPriceDown)
 				break
 			case 'priceup':
-				setSortRooms(sortedResult.sort((a, b) => a.price - b.price))
+				const sortPriceUp = sortedResult.sort(
+					(a, b) => a.price - b.price
+				)
+				setDisplayData(sortPriceUp)
 				break
 			default:
 				break
@@ -404,7 +409,7 @@ const Rooms: React.FC = () => {
 							onChange={handleSelectedFilter}
 							defaultValue='byprice'
 						>
-							<option value='byprice' disabled hidden>
+							<option value='byprice' disabled>
 								Filter by price
 							</option>
 							<option value='pricedown'>Down</option>
@@ -414,7 +419,7 @@ const Rooms: React.FC = () => {
 				</TopTableContainer>
 				<Table
 					cols={cols}
-					datas={sortRooms.length !== 0 ? sortRooms : displayData}
+					datas={displayData}
 					whoAmI={whoAmI}
 					filter={filter}
 					spinner={deleteSpinner}

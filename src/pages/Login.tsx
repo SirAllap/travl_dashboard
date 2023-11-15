@@ -9,7 +9,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Triangle } from 'react-loader-spinner'
 import { useDispatch } from 'react-redux'
 import { userLogin } from '../features/login/loginThunks'
-import { useAppDispatch } from '../app/hooks'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { initialLoginState, resetState } from '../features/login/loginSlice'
 
 const Login: React.FC = () => {
 	const navigate = useNavigate()
@@ -18,14 +19,22 @@ const Login: React.FC = () => {
 	const [spinner, setSpinner] = useState(false)
 	const { login, authState } = useContext(authenticationContext)!
 	const dispatch = useAppDispatch()
-
+	const loginInitialState = useAppSelector(initialLoginState)
 	useEffect(() => {
 		if (authState.auth) {
 			navigate('/')
 		} else {
 			navigate('/login')
 		}
-	}, [authState.auth, navigate])
+		if (loginInitialState === 'fulfilled') {
+			login({
+				userName: userEmail,
+				email: getUserEmail(userEmail),
+				profilePicture: getProfilePicture(userEmail),
+			})
+			dispatch(resetState())
+		}
+	}, [authState.auth, navigate, loginInitialState])
 
 	const getUserEmail = (name: string) => {
 		return name === userEmail ? 'super@admin.com' : 'davidpr@travl.com'
@@ -36,13 +45,6 @@ const Login: React.FC = () => {
 
 	const authUser = async () => {
 		dispatch(userLogin({ email: userEmail, password: userPassword }))
-		if (localStorage.getItem('token')) {
-			login({
-				userName: userEmail,
-				email: getUserEmail(userEmail),
-				profilePicture: getProfilePicture(userEmail),
-			})
-		}
 	}
 
 	const [quick, setQuick] = useState(false)
