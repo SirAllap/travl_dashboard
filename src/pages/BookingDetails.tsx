@@ -38,7 +38,7 @@ const BookingsDetails: React.FC = () => {
 			setSpinner(true)
 		} else if (initialBookingState === 'fulfilled') {
 			setSpinner(false)
-			setCurrentBooking(singleBookingData[0])
+			setCurrentBooking(singleBookingData)
 		}
 	}, [
 		savedLastId,
