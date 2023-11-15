@@ -112,7 +112,7 @@ const RoomDetails = () => {
 							<RightDetailsCard>
 								<Swiper
 									modules={[Navigation, A11y]}
-									spaceBetween={0}
+									spaceBetween={1}
 									slidesPerView={1}
 									navigation
 								>
@@ -136,11 +136,6 @@ const RoomDetails = () => {
 }
 
 export default RoomDetails
-
-const RooomPhotos = styled.img`
-	width: 100%;
-	object-fit: contain;
-`
 
 const SpinnerContainer = styled.div`
 	position: absolute;
@@ -185,7 +180,7 @@ const MainContainer = styled.main<MainContainerProps>`
 `
 
 const LeftDetailsCard = styled.div`
-	width: 35%;
+	width: 40%;
 	height: 792px;
 	display: inline-block;
 	vertical-align: top;
@@ -260,10 +255,15 @@ const RoomFacilitiesAmenities = styled.div<RoomFacilitiesAmenitiesProps>`
 `
 
 const RightDetailsCard = styled.div`
-	padding: 20px;
-	width: 65%;
+	width: 60%;
 	height: 100%;
-	background-color: #fff;
+	background-color: ${color.softerPLus_ligthPurple};
 	border-radius: 0 10px 10px 0;
 	display: inline-block;
+`
+
+const RooomPhotos = styled.img`
+	width: 100%;
+	object-fit: contain;
+	border-radius: 0 10px 10px 0;
 `
