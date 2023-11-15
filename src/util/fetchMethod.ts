@@ -16,6 +16,10 @@ export const fetchMethod = async (
 		},
 		body: JSON.stringify(body),
 	})
+	if (response.status === 401) {
+		localStorage.clear()
+		window.location.href = '/login'
+	}
 	if (!response.ok) {
 		throw new Error(`status ${response.status}`)
 	} else {
