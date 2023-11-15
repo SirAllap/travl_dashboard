@@ -416,7 +416,7 @@ const EditUserModal = styled.div<EditUserModalOverlayProps>`
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -30%);
+	transform: translate(-50%, -50%);
 	width: 431px;
 	min-height: 550px;
 	background: ${color.clearBackground} 0% 0% no-repeat padding-box;
