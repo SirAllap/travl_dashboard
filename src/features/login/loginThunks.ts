@@ -5,13 +5,14 @@ interface ILogin {
 	password: string
 }
 
-const API_local_URL = import.meta.env.VITE_API_LOCAL_URL
+// const API_local_URL = import.meta.env.VITE_API_LOCAL_URL
+const API_cloud_URL = import.meta.env.VITE_API_CLOUD_URL
 
 export const userLogin = createAsyncThunk(
 	'login/userLogin',
 	async (data: ILogin, { rejectWithValue }) => {
 		try {
-			const response = await fetch(`${API_local_URL}/login`, {
+			const response = await fetch(`${API_cloud_URL}/login`, {
 				method: 'POST',
 				mode: 'cors',
 				headers: {
@@ -23,7 +24,7 @@ export const userLogin = createAsyncThunk(
 				}),
 			})
 			if (!response.ok) {
-				throw new Error(`status ${response.status}`)
+				throw new Error(`Status ${response.status}`)
 			} else {
 				const data = await response.json()
 				localStorage.setItem('token', data.token)
