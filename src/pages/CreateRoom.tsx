@@ -186,24 +186,34 @@ const CreateRoom: React.FC = () => {
 	}
 
 	const handleCreateOneRoom = () => {
-		const newRoom = {
-			room_number: newRoomNumber,
-			room_photo: [
-				'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-				'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-				'https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-				'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-			],
-			room_type: newRoomType,
-			description: newRoomDescription,
-			amenities_type: newRoomAmenitiesType,
-			amenities: newRoomAmenities,
-			price: newRoomPrice,
-			offer_price: newRoomOffer === 'true' ? true : false,
-			discount: newRoomDiscount,
-			status: 'Available',
+		if (
+			newRoomNumber === '' ||
+			newRoomType === '' ||
+			newRoomDescription === '' ||
+			newRoomPrice === 0 ||
+			newRoomAmenitiesType === ''
+		) {
+			alert('Please fill all the fields')
+		} else {
+			const newRoom = {
+				room_number: newRoomNumber,
+				room_photo: [
+					'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+					'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+					'https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+					'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+				],
+				room_type: newRoomType,
+				description: newRoomDescription,
+				amenities_type: newRoomAmenitiesType,
+				amenities: newRoomAmenities,
+				price: newRoomPrice,
+				offer_price: newRoomOffer === 'true' ? true : false,
+				discount: newRoomDiscount,
+				status: 'Available',
+			}
+			dispatch(createOneRoom(newRoom))
 		}
-		dispatch(createOneRoom(newRoom))
 	}
 
 	const [autoAddDescription, setAutoAddDescription] = useState(false)
