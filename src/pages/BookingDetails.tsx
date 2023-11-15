@@ -28,10 +28,11 @@ const BookingsDetails: React.FC = () => {
 	useEffect(() => {
 		if (
 			savedLastId !== bookingId &&
-			location.pathname === `/bookings/${bookingId}`
+			location.pathname === `/bookings/${bookingId}` &&
+			bookingId !== undefined
 		) {
-			bookingBreadCrumb(bookingId || '')
-			setSavedLastId(bookingId || '')
+			bookingBreadCrumb(bookingId)
+			setSavedLastId(bookingId)
 		}
 		if (initialBookingState === 'pending') {
 			setSpinner(true)
@@ -50,8 +51,6 @@ const BookingsDetails: React.FC = () => {
 
 	const formatDateString = (inputDateString: string) => {
 		var date: Date = new Date(inputDateString)
-		var randomHour = Math.floor(Math.random() * 24)
-		date.setHours(randomHour)
 		const getDayWithSuffix = (day: number) => {
 			if (day >= 11 && day <= 13) {
 				return day + 'th'
@@ -124,7 +123,7 @@ const BookingsDetails: React.FC = () => {
 									</TextFormatter>
 									<TextFormatter type='small'>
 										{currentBooking
-											? `ID ${currentBooking.id}`
+											? `ID ${currentBooking._id}`
 											: ' '}
 									</TextFormatter>
 									<IconContainer>
