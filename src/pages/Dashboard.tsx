@@ -39,7 +39,7 @@ const Dashboard: React.FC = () => {
 	const [archiveSpinner, setArchiveSpinner] = useState<boolean>(false)
 
 	interface IModalUser {
-		id?: string
+		_id?: string
 		subject_of_review?: string
 		review_body?: string
 		full_name?: string
@@ -65,9 +65,9 @@ const Dashboard: React.FC = () => {
 		}
 	}, [initialContactState, archiveCurrentStatus])
 
-	const handleToggleModal = (userReview?: { id: string }): void => {
+	const handleToggleModal = (userReview?: { _id: string }): void => {
 		if (userReview !== undefined) {
-			setCurrentId(userReview.id)
+			setCurrentId(userReview._id)
 			if (!toggleModal) {
 				setToggleModal(true)
 				setToggleModalUser(userReview)
@@ -83,8 +83,8 @@ const Dashboard: React.FC = () => {
 		}
 	}
 
-	const handleMarkAsRead = (id: string) => {
-		dispatch(archiveContacts(id))
+	const handleMarkAsRead = (_id: string) => {
+		dispatch(archiveContacts(_id))
 	}
 
 	return (
@@ -304,11 +304,7 @@ const Dashboard: React.FC = () => {
 												>
 													{elem.isArchived ===
 													'true' ? (
-														<FaRegEnvelopeOpen
-														// style={{
-														// 	color: `${color.normalOrange}`,
-														// }}
-														/>
+														<FaRegEnvelopeOpen />
 													) : (
 														<FaRegEnvelope />
 													)}
