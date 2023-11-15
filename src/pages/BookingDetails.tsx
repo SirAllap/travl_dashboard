@@ -12,17 +12,27 @@ import { BsFillTelephoneFill } from 'react-icons/bs'
 import { BiMessageRoundedDetail } from 'react-icons/bi'
 import * as color from '../components/Variables'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { IBooking } from '../features/interfaces/interfaces'
+import { IBooking, IRoom } from '../features/interfaces/interfaces'
+import { fetchRoomState, singleRoom } from '../features/rooms/roomSlice'
+import { Navigation, A11y } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
 
 const BookingsDetails: React.FC = () => {
 	const navigate = useNavigate()
 	const singleBookingData = useAppSelector(singleBooking)
+	const singleRoomData = useAppSelector(singleRoom)
 	const initialBookingState = useAppSelector(fetchBookingState)
+	const initialRoomState = useAppSelector(fetchRoomState)
 	const { state, bookingBreadCrumb } = useContext(supertoggleContext)!
 	const location = useLocation()
 	const { bookingId } = useParams<string>()
 	const [savedLastId, setSavedLastId] = useState<string>('')
 	const [currentBooking, setCurrentBooking] = useState<IBooking>()
+	const [currentRoom, setCurrentRoom] = useState<IRoom>()
 	const [spinner, setSpinner] = useState<boolean>(true)
 
 	useEffect(() => {
@@ -34,11 +44,18 @@ const BookingsDetails: React.FC = () => {
 			bookingBreadCrumb(bookingId)
 			setSavedLastId(bookingId)
 		}
-		if (initialBookingState === 'pending') {
+		if (
+			initialBookingState === 'pending' &&
+			initialRoomState === 'pending'
+		) {
 			setSpinner(true)
-		} else if (initialBookingState === 'fulfilled') {
+		} else if (
+			initialBookingState === 'fulfilled' &&
+			initialRoomState === 'fulfilled'
+		) {
 			setSpinner(false)
 			setCurrentBooking(singleBookingData)
+			setCurrentRoom(singleRoomData)
 		}
 	}, [
 		savedLastId,
@@ -46,6 +63,7 @@ const BookingsDetails: React.FC = () => {
 		location.pathname,
 		singleBookingData,
 		initialBookingState,
+		initialRoomState,
 		bookingBreadCrumb,
 	])
 
@@ -163,51 +181,99 @@ const BookingsDetails: React.FC = () => {
 								<RoomInfoData>
 									<RoomInfoDataTopText>
 										<p>Room Info</p>
-										<span>Deluxe Z - 002424</span>
+										<span>
+											{currentBooking
+												? currentBooking.room_type
+												: ''}
+										</span>
 									</RoomInfoDataTopText>
 									<RoomInfoDataTopText>
 										<p>Price</p>
-										<span>$136 /Nigth</span>
+										<span>
+											$
+											{currentRoom
+												? currentRoom.price
+												: ''}
+											/Nigth
+										</span>
 									</RoomInfoDataTopText>
 									<RoomInfoDataBottomText>
 										<p>
-											Experience the epitome of luxury and
-											comfort in our Double Superior room.
-											This spacious and elegantly
-											appointed room is designed to
-											provide you with the utmost
-											relaxation and convenience during
-											your stay. With a modern and stylish
-											decor, it offers a serene oasis in
-											the heart of the city.
+											{currentRoom
+												? currentRoom.description
+												: ''}
 										</p>
 									</RoomInfoDataBottomText>
 								</RoomInfoData>
 								<RoomFacilitiesData>
-									<p>Amenities</p>
-									<RoomFacilitiesAmenities>
-										<span>ICO 3 Bed Space</span>
-									</RoomFacilitiesAmenities>
-									<RoomFacilitiesAmenities>
-										<span>ICO 24 Hours Guard</span>
-									</RoomFacilitiesAmenities>
-									<RoomFacilitiesAmenities>
-										<span>ICO Free Wifi</span>
-									</RoomFacilitiesAmenities>
-									<br />
-									<RoomFacilitiesAmenities type='small'>
-										<span>3 Bed Space</span>
-									</RoomFacilitiesAmenities>
-									<RoomFacilitiesAmenities type='small'>
-										<span>3 Bed Space</span>
-									</RoomFacilitiesAmenities>
-									<RoomFacilitiesAmenities type='small'>
-										<span>3 Bed Space</span>
-									</RoomFacilitiesAmenities>
+									{currentRoom
+										? currentRoom.amenities.map(
+												(elem: any, index) =>
+													elem.name === 'Towels' ||
+													elem.name ===
+														'Coffee Set' ||
+													elem.name === 'Free Wifi' ||
+													elem.name ===
+														'Television' ? (
+														<RoomFacilitiesAmenities
+															colorProp={
+																currentRoom
+																	? currentRoom
+																			.amenities
+																			.length
+																	: 1
+															}
+															key={index}
+															type='small'
+														>
+															<span>
+																{elem.name}
+															</span>
+														</RoomFacilitiesAmenities>
+													) : (
+														<RoomFacilitiesAmenities
+															colorProp={
+																currentRoom
+																	? currentRoom
+																			.amenities
+																			.length
+																	: 1
+															}
+															key={index}
+														>
+															<span>
+																{elem.name}
+															</span>
+														</RoomFacilitiesAmenities>
+													)
+										  )
+										: ''}
 								</RoomFacilitiesData>
 							</RoomInfoContainer>
 						</LeftDetailsCard>
-						<RightDetailsCard></RightDetailsCard>
+						<RightDetailsCard>
+							<Swiper
+								style={{
+									height: '100%',
+								}}
+								modules={[Navigation, A11y]}
+								spaceBetween={1}
+								slidesPerView={1}
+								navigation
+							>
+								{currentRoom
+									? currentRoom.room_photo.map(
+											(elem, index) => (
+												<SwiperSlide key={index}>
+													<RooomPhotos
+														src={elem}
+													></RooomPhotos>
+												</SwiperSlide>
+											)
+									  )
+									: ''}
+							</Swiper>
+						</RightDetailsCard>
 					</>
 				)}
 			</MainContainer>
@@ -250,7 +316,7 @@ interface MainContainerProps {
 const MainContainer = styled.main<MainContainerProps>`
 	position: relative;
 	text-align: left;
-	height: 792px;
+	max-height: 822px;
 	width: 1494px;
 	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
 	margin-top: 50px;
@@ -406,10 +472,11 @@ const RoomInfoDataBottomText = styled.div`
 		color: ${color.strongGrey};
 	}
 `
+
 const RoomFacilitiesData = styled.div`
 	box-sizing: border-box;
-	width: 725px;
-	height: 160px;
+	width: 735px;
+	max-height: 250px;
 	p {
 		font: 400 15px Poppins;
 		color: ${color.softer_normalGrey};
@@ -418,19 +485,31 @@ const RoomFacilitiesData = styled.div`
 
 interface RoomFacilitiesAmenitiesProps {
 	readonly type?: string
+	readonly colorProp: number
 }
 
 const RoomFacilitiesAmenities = styled.div<RoomFacilitiesAmenitiesProps>`
 	width: fit-content;
 	height: ${(props) => (props.type === 'small' ? '45px' : '65px')};
-	background: ${color.softerPLus_ligthPurple};
+
+	background-color: ${(props) =>
+		props.colorProp === 10
+			? `${color.softer_ligthOrange}`
+			: props.colorProp === 9
+			? `${color.softer_ligthPurple}`
+			: `${color.softer_ligthGrey}`};
 	border-radius: 8px;
 	margin: 8px;
 	padding: ${(props) =>
 		props.type === 'small' ? '12px 20px 12px 20px' : '20px'};
 	display: inline-block;
 	span {
-		color: ${color.softer_strongPurple};
+		color: ${(props) =>
+			props.colorProp === 10
+				? `${color.normalOrange}`
+				: props.colorProp === 9
+				? `${color.softer_strongPurple}`
+				: `${color.normalGrey}`};
 		font: 500 16px Poppins;
 	}
 `
@@ -441,4 +520,11 @@ const RightDetailsCard = styled.div`
 	background-color: #c5c5c5;
 	border-radius: 0 10px 10px 0;
 	display: inline-block;
+`
+
+const RooomPhotos = styled.img`
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+	border-radius: 0 10px 10px 0;
 `

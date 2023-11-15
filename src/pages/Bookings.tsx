@@ -21,6 +21,7 @@ import * as color from '../components/Variables'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { IBooking } from '../features/interfaces/interfaces'
 import { FaJediOrder } from 'react-icons/fa'
+import { fetchOneRoom } from '../features/rooms/roomThunks'
 
 const Bookings: React.FC = () => {
 	const dispatch = useAppDispatch()
@@ -86,6 +87,7 @@ const Bookings: React.FC = () => {
 		_id: string
 		guest: string
 		phone_number: string
+		roomId: string
 	}
 	interface IOrderDate {
 		order_date: string
@@ -112,7 +114,7 @@ const Bookings: React.FC = () => {
 		{
 			property: 'guest',
 			label: 'Guest Details',
-			display: ({ guest, phone_number, _id }: IGuestDetails) => (
+			display: ({ guest, phone_number, _id, roomId }: IGuestDetails) => (
 				<>
 					<NavLink
 						style={{ textDecoration: 'none' }}
@@ -120,7 +122,8 @@ const Bookings: React.FC = () => {
 					>
 						<span
 							onClick={() => {
-								dispatch(fetchOneBooking(_id))
+								dispatch(fetchOneBooking(_id)),
+									dispatch(fetchOneRoom(roomId))
 							}}
 						>
 							<TextFormatter name='name'>{guest}</TextFormatter>
