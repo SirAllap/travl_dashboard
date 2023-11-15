@@ -596,7 +596,7 @@ const CustomerReviewModal = styled.div<CustomerReviewModalProps>`
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, 50%);
+	transform: translate(-50%, -50%);
 	width: 431px;
 	min-height: 275px;
 	background: #ffffff 0% 0% no-repeat padding-box;
@@ -610,9 +610,10 @@ interface CustomerReviewModalOverlayProps {
 const CustomerReviewModalOverlay = styled.div<CustomerReviewModalOverlayProps>`
 	z-index: 100;
 	position: absolute;
+	top: 0px;
 	width: 100%;
-	height: 90vh;
-	background-color: rgba(0, 0, 0, 0.434);
+	height: 100%;
+	background-color: ${color.softer_normalGrey};
 	transition: all 0.5s;
 	display: ${(props) => (props.open ? 'block' : 'none')};
 `
