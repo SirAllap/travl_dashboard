@@ -111,6 +111,9 @@ const RoomDetails = () => {
 							</LeftDetailsCard>
 							<RightDetailsCard>
 								<Swiper
+									style={{
+										height: '100%',
+									}}
 									modules={[Navigation, A11y]}
 									spaceBetween={1}
 									slidesPerView={1}
@@ -263,7 +266,8 @@ const RightDetailsCard = styled.div`
 `
 
 const RooomPhotos = styled.img`
+	height: 100%;
 	width: 100%;
-	object-fit: contain;
+	object-fit: cover;
 	border-radius: 0 10px 10px 0;
 `

@@ -160,7 +160,7 @@ const Rooms: React.FC = () => {
 			label: 'Amenities',
 			display: ({ amenities, room_type }: IAmenities) =>
 				amenities.map((amenitie, index: number) => (
-					<AmenitiesTag types={room_type} key={index}>
+					<AmenitiesTag types={amenities.length} key={index}>
 						{amenitie.name}
 					</AmenitiesTag>
 				)),
@@ -636,7 +636,7 @@ export const Status = styled.button<IStatus>`
 `
 
 interface IAmenitiesTag {
-	readonly types: string
+	readonly types: number
 }
 
 const AmenitiesTag = styled.button<IAmenitiesTag>`
@@ -645,15 +645,15 @@ const AmenitiesTag = styled.button<IAmenitiesTag>`
 	border: none;
 	border-radius: 6px;
 	color: ${(props) =>
-		props.types === 'Suite'
+		props.types === 10
 			? `${color.normalOrange}`
-			: props.types === 'Double Superior'
+			: props.types === 9
 			? `${color.softer_strongPurple}`
 			: `${color.normalGrey}`};
 	background-color: ${(props) =>
-		props.types === 'Suite'
+		props.types === 10
 			? `${color.softer_ligthOrange}`
-			: props.types === 'Double Superior'
+			: props.types === 9
 			? `${color.softer_ligthPurple}`
 			: `${color.softer_ligthGrey}`};
 	margin: 3px;

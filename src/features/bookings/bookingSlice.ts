@@ -9,7 +9,7 @@ import { RootState } from '../../app/store'
 
 interface BookingState {
 	initialBookingFetch: IBooking[]
-	singleBookingFetch: IBooking[]
+	singleBookingFetch: IBooking
 	status: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	deleteBookingStatus: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	error: string | null
@@ -17,7 +17,7 @@ interface BookingState {
 
 const initialState: BookingState = {
 	initialBookingFetch: [],
-	singleBookingFetch: [],
+	singleBookingFetch: {} as IBooking,
 	status: 'idle',
 	deleteBookingStatus: 'idle',
 	error: 'null',
@@ -47,7 +47,7 @@ const bookingSlice = createSlice({
 				state.status = 'rejected'
 			})
 			.addCase(fetchOneBooking.fulfilled, (state, action) => {
-				state.singleBookingFetch.splice(0, 1, action.payload)
+				state.singleBookingFetch = action.payload
 				state.status = 'fulfilled'
 			})
 
