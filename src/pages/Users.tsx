@@ -92,6 +92,14 @@ const Users: React.FC = () => {
 		phone_number: string
 	}
 
+	interface IStartDate {
+		start_date: string
+	}
+
+	interface IPosition {
+		description: string
+	}
+
 	interface IStatus {
 		status: string
 	}
@@ -133,10 +141,25 @@ const Users: React.FC = () => {
 		{
 			property: 'start_date',
 			label: 'Start-Date',
+			display: ({ start_date }: IStartDate) => (
+				<>
+					<TextFormatter types='normal'>
+						{start_date.replace(
+							/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/,
+							''
+						)}
+					</TextFormatter>
+				</>
+			),
 		},
 		{
 			property: 'description',
 			label: 'Position',
+			display: ({ description }: IPosition) => (
+				<>
+					<TextFormatter types='normal'>{description}</TextFormatter>
+				</>
+			),
 		},
 		{
 			property: 'status',
@@ -502,6 +525,7 @@ const TextFormatter = styled.span<ITextFormatter>`
 			: `${color.strongGrey}`};
 	font: ${(props) =>
 		props.types === 'small' ? '300 13px Poppins' : '500 16px Poppins'};
+	margin: 10px 0 0 0;
 `
 
 interface IStatus {
