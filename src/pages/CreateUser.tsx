@@ -73,23 +73,47 @@ const CreateUser: React.FC = () => {
 		setNewUserEmail(event.target.value)
 	}
 
-	function randomID() {
-		return Math.floor(Math.random() * 1000000).toString()
+	const [password, setPassword] = useState('')
+	const [passwordConfirmation, setPasswordConfirmation] = useState('')
+	const handleNewUserPassword = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		setPassword(event.target.value)
+	}
+
+	const handleNewUserPasswordConfirmation = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		setPasswordConfirmation(event.target.value)
 	}
 
 	const handleCreateOneRoom = () => {
-		const newUser: IUser = {
-			employee_id: randomID(),
-			full_name: newUserName,
-			email: newRoomOffer,
-			photo: 'https://robohash.org/JohnDoe.png?set=any',
-			start_date: newUserStartDate,
-			description: newUserPosition,
-			phone_number: newUserPhoneNumber.toString(),
-			status: 'active',
+		if (
+			newUserName === '' ||
+			newUserPosition === '' ||
+			newUserPhoneNumber === 0 ||
+			newUserStartDate === '' ||
+			newRoomOffer === ''
+		) {
+			alert('Please fill all the fields')
+		} else {
+			if (password === passwordConfirmation) {
+				console.log('Passwords match!')
+			} else {
+				console.log('Passwords do not match!')
+			}
+			const newUser: IUser = {
+				full_name: newUserName,
+				email: newRoomOffer,
+				photo: 'https://robohash.org/JohnDoe.png?set=any',
+				start_date: newUserStartDate,
+				description: newUserPosition,
+				phone_number: newUserPhoneNumber.toString(),
+				status: 'active',
+			}
+			dispatch(createOneUser(newUser))
+			handleToggleModalNewRoom()
 		}
-		dispatch(createOneUser(newUser))
-		handleToggleModalNewRoom()
 	}
 
 	const handleToggleModalNewRoom = () => {
@@ -130,11 +154,7 @@ const CreateUser: React.FC = () => {
 									onChange={handleNewUserPosition}
 									defaultValue='userPosition'
 								>
-									<option
-										value='userPosition'
-										disabled
-										hidden
-									>
+									<option value='userPosition' disabled>
 										Position:
 									</option>
 									<option value='recepcionist'>
@@ -166,7 +186,25 @@ const CreateUser: React.FC = () => {
 									placeholder='e.g: +34 675-953-234'
 									onChange={handleNewPhoneNumber}
 								/>
+								<CreateRoomInputLable
+									types='name'
+									htmlFor='roomAmenitiesSelector'
+								>
+									Profile Photo:
+									<InputFile
+										name='roomAmenitiesSelector'
+										id='roomAmenitiesSelector'
+										propType='file'
+										type='file'
+										onChange={() => {
+											console.log('iim a photo input')
+										}}
+										alt='a photo of the user profile'
+										// onChange={handleNewUserProfilePhoto}
+									/>
+								</CreateRoomInputLable>
 							</ModalInnerLeftInfo>
+
 							<ModalInnerRightInfo>
 								<CreateRoomInputLable htmlFor='userName'>
 									Email:
@@ -187,27 +225,28 @@ const CreateUser: React.FC = () => {
 									type='date'
 									onChange={handleUserStartDate}
 								/>
-								<br />
-								<br />
-								<br />
-								<br />
-								<br />
-								<br />
-								<br />
 
-								<CreateRoomInputLable
-									types='name'
-									htmlFor='roomAmenitiesSelector'
-								>
-									Profile Photo:
-									<button
-										name='roomAmenitiesSelector'
-										id='roomAmenitiesSelector'
-										// onChange={handleNewUserProfilePhoto}
-									>
-										Upload a profile photo
-									</button>
+								<CreateRoomInputLable htmlFor='password'>
+									Password:
 								</CreateRoomInputLable>
+								<CreateRoomInput
+									name='password'
+									id='password'
+									type='password'
+									placeholder='Enter your password'
+									onChange={handleNewUserPassword}
+								/>
+
+								<CreateRoomInputLable htmlFor='passwordConfirmation'>
+									Confirm Password:
+								</CreateRoomInputLable>
+								<CreateRoomInput
+									name='passwordConfirmation'
+									id='passwordConfirmation'
+									type='password'
+									placeholder='Confirm your password'
+									onChange={handleNewUserPasswordConfirmation}
+								/>
 							</ModalInnerRightInfo>
 						</>
 					)}
@@ -377,4 +416,29 @@ const TitleText = styled.h1<TitleTextProps>`
 		props.newroom === 'title' ? '600 25px Poppins' : '500 25px Poppins'};
 	text-align: center;
 	padding: 5px;
+`
+interface InputFileProps {
+	readonly propType?: string
+}
+
+const InputFile = styled.input<InputFileProps>`
+	width: 31%;
+	transition: 0.3s;
+	color: ${color.normalGrey};
+	background: ${color.clearBackground};
+	margin-left: 20px;
+	&::file-selector-button {
+		font: normal normal 500 14px Poppins;
+		border: none;
+		color: white;
+		background-color: ${color.softer_normalPurple};
+		padding: 10px 20px;
+		border-radius: 8px;
+		cursor: pointer;
+		transition: 0.2s ease-in-out;
+	}
+	&::file-selector-button:hover {
+		color: ${color.normalPurple};
+		background-color: ${color.ligthPurple};
+	}
 `
