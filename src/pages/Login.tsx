@@ -4,13 +4,14 @@ import logo from '../assets/logo_dashboard1.png'
 import { authenticationContext } from '../context/AutheContext'
 import { useNavigate } from 'react-router-dom'
 import * as color from '../components/Variables'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import { Triangle } from 'react-loader-spinner'
-import { useDispatch } from 'react-redux'
 import { userLogin } from '../features/login/loginThunks'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { initialLoginState, resetState } from '../features/login/loginSlice'
+import {
+	initialLoginState,
+	resetState,
+	selectLoginInfo,
+} from '../features/login/loginSlice'
 
 const Login: React.FC = () => {
 	const navigate = useNavigate()
@@ -20,28 +21,27 @@ const Login: React.FC = () => {
 	const { login, authState } = useContext(authenticationContext)!
 	const dispatch = useAppDispatch()
 	const loginInitialState = useAppSelector(initialLoginState)
+	const loginInfo = useAppSelector(selectLoginInfo)
+
 	useEffect(() => {
 		if (authState.auth) {
 			navigate('/')
 		} else {
 			navigate('/login')
 		}
+		if (loginInitialState === 'pending') {
+			setSpinner(true)
+		}
 		if (loginInitialState === 'fulfilled') {
 			login({
-				userName: userEmail,
-				email: getUserEmail(userEmail),
-				profilePicture: getProfilePicture(userEmail),
+				userName: loginInfo.name,
+				email: loginInfo.email,
+				profilePicture: loginInfo.photo,
+				role: loginInfo.role,
 			})
 			dispatch(resetState())
 		}
 	}, [authState.auth, navigate, loginInitialState])
-
-	const getUserEmail = (name: string) => {
-		return name === userEmail ? 'super@admin.com' : 'davidpr@travl.com'
-	}
-	const getProfilePicture = (name = 'admin') => {
-		return `https://robohash.org/${name}.png?set=any`
-	}
 
 	const authUser = async () => {
 		dispatch(userLogin({ email: userEmail, password: userPassword }))
@@ -50,7 +50,7 @@ const Login: React.FC = () => {
 	const [quick, setQuick] = useState(false)
 	const quickLogin = () => {
 		setQuick(true)
-		setUserEmail('dpr@gmail.com')
+		setUserEmail('david.pr.developer@gmail.com')
 		setUserPassword('ilovebaguettes')
 	}
 
@@ -67,7 +67,9 @@ const Login: React.FC = () => {
 					<LoginInputLable>User</LoginInputLable>
 					<LoginInput
 						data-cy='input-user'
-						defaultValue={quick ? 'dpr@gmail.com' : ''}
+						defaultValue={
+							quick ? 'david.pr.developer@gmail.com' : ''
+						}
 						onChange={(e) => setUserEmail(e.target.value)}
 					/>
 					<LoginInputLable>Password</LoginInputLable>
@@ -107,18 +109,6 @@ const Login: React.FC = () => {
 					</CTA>
 				</LoginContainer>
 			</MainContainer>
-			<ToastContainer
-				position='top-center'
-				autoClose={5000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss={false}
-				draggable
-				pauseOnHover
-				theme='light'
-			/>
 		</>
 	)
 }
