@@ -5,14 +5,13 @@ interface ILogin {
 	password: string
 }
 
-// const API_local_URL = import.meta.env.VITE_API_LOCAL_URL
-const API_cloud_URL = import.meta.env.VITE_API_CLOUD_URL
+const API_URL = import.meta.env.VITE_API_URL
 
 export const userLogin = createAsyncThunk(
 	'login/userLogin',
-	async (data: ILogin, { rejectWithValue }) => {
+	async (data: ILogin) => {
 		try {
-			const response = await fetch(`${API_cloud_URL}/login`, {
+			const response = await fetch(`${API_URL}/login`, {
 				method: 'POST',
 				mode: 'cors',
 				headers: {
@@ -28,6 +27,7 @@ export const userLogin = createAsyncThunk(
 			} else {
 				const data = await response.json()
 				localStorage.setItem('token', data.token)
+				return data
 			}
 		} catch (error) {
 			console.error('An error occurred during login:', error)
