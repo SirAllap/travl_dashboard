@@ -6,6 +6,7 @@ interface AuthInitialState {
 	name: string | null
 	email: string | null
 	profilePicture: string | null
+	role: string | null
 }
 
 const checkInitialState = (): AuthInitialState => {
@@ -17,12 +18,14 @@ const checkInitialState = (): AuthInitialState => {
 				email: JSON.parse(localStorage.getItem('currentUser') || '')
 					.email,
 				profilePicture: localStorage.getItem('profilePicture') || '',
+				role: JSON.parse(localStorage.getItem('currentUser') || ''),
 		  }
 		: {
 				auth: false,
 				name: null,
 				email: null,
 				profilePicture: null,
+				role: null,
 		  }
 }
 
@@ -33,6 +36,7 @@ type AuthAction =
 				userName: string
 				email: string
 				profilePicture: string
+				role: string
 			}
 	  }
 	| {
@@ -41,6 +45,7 @@ type AuthAction =
 				userName: string
 				email: string
 				profilePicture: string
+				role: string
 			}
 	  }
 	| { type: 'logout' }
@@ -57,6 +62,7 @@ const authenticatorReducer = (
 				name: action.payload.userName,
 				email: action.payload.email,
 				profilePicture: action.payload.profilePicture,
+				role: action.payload.role,
 			}
 		case 'logout':
 			return {
@@ -64,6 +70,7 @@ const authenticatorReducer = (
 				name: null,
 				email: null,
 				profilePicture: null,
+				role: null,
 			}
 		default:
 			return state
@@ -78,6 +85,7 @@ interface LoginReducer {
 	userName: string
 	email: string
 	profilePicture: string
+	role: string
 }
 
 export const useAuth = () => {
@@ -111,16 +119,17 @@ const AuthenticationContextProvider: React.FC<AuthenticationContextProps> = ({
 		checkInitialState()
 	)
 
-	const login = ({ userName, email, profilePicture }: LoginReducer) => {
+	const login = ({ userName, email, profilePicture, role }: LoginReducer) => {
 		dispatch({
 			type: 'login',
-			payload: { userName, email, profilePicture },
+			payload: { userName, email, profilePicture, role },
 		})
 		localStorage.setItem(
 			'currentUser',
 			JSON.stringify({
 				userName: userName,
 				email: email,
+				role: role,
 			})
 		)
 		localStorage.setItem('profilePicture', profilePicture)
@@ -135,7 +144,7 @@ const AuthenticationContextProvider: React.FC<AuthenticationContextProps> = ({
 	}: LoginReducer) => {
 		dispatch({
 			type: 'updateUserInfo',
-			payload: { userName, email, profilePicture },
+			payload: { userName, email, profilePicture, role: 'user' },
 		})
 
 		localStorage.setItem(
@@ -143,6 +152,7 @@ const AuthenticationContextProvider: React.FC<AuthenticationContextProps> = ({
 			JSON.stringify({
 				userName: userName,
 				email: email,
+				role: 'user',
 			})
 		)
 		localStorage.setItem('profilePicture', profilePicture)
