@@ -1,5 +1,4 @@
-// const API_local_URL = import.meta.env.VITE_API_LOCAL_URL
-const API_cloud_URL = import.meta.env.VITE_API_CLOUD_URL
+const API_URL = import.meta.env.VITE_API_URL
 
 export const fetchMethod = async (
 	returData: boolean,
@@ -8,7 +7,7 @@ export const fetchMethod = async (
 	id?: string,
 	body?: any
 ) => {
-	const response = await fetch(`${API_cloud_URL}/${URLendpoint}`, {
+	const response = await fetch(`${API_URL}/${URLendpoint}`, {
 		method: method,
 		mode: 'cors',
 		headers: {

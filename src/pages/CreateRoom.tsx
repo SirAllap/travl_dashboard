@@ -254,7 +254,7 @@ const CreateRoom: React.FC = () => {
 									onChange={handleRoomTypeSelector}
 									defaultValue='roomtype'
 								>
-									<option value='roomtype' disabled hidden>
+									<option value='roomtype' disabled>
 										Select the room type:
 									</option>
 									<option value='single'>Single Bed</option>
@@ -465,7 +465,7 @@ const CreateRoom: React.FC = () => {
 									onChange={handleNewRoomAmenities}
 									defaultValue='byamenities'
 								>
-									<option value='byamenities' disabled hidden>
+									<option value='byamenities' disabled>
 										Select the amenities pack:
 									</option>
 									<option value='premium'>
