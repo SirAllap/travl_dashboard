@@ -98,21 +98,21 @@ const CreateUser: React.FC = () => {
 			alert('Please fill all the fields')
 		} else {
 			if (password === passwordConfirmation) {
-				console.log('Passwords match!')
+				const newUser: IUser = {
+					full_name: newUserName,
+					email: newRoomOffer,
+					photo: 'https://robohash.org/JohnDoe.png?set=any',
+					start_date: newUserStartDate,
+					description: newUserPosition,
+					phone_number: newUserPhoneNumber.toString(),
+					status: 'active',
+					password: password,
+				}
+				dispatch(createOneUser(newUser))
+				handleToggleModalNewRoom()
 			} else {
-				console.log('Passwords do not match!')
+				alert('Passwords do not match!')
 			}
-			const newUser: IUser = {
-				full_name: newUserName,
-				email: newRoomOffer,
-				photo: 'https://robohash.org/JohnDoe.png?set=any',
-				start_date: newUserStartDate,
-				description: newUserPosition,
-				phone_number: newUserPhoneNumber.toString(),
-				status: 'active',
-			}
-			dispatch(createOneUser(newUser))
-			handleToggleModalNewRoom()
 		}
 	}
 
@@ -200,18 +200,17 @@ const CreateUser: React.FC = () => {
 											console.log('iim a photo input')
 										}}
 										alt='a photo of the user profile'
-										// onChange={handleNewUserProfilePhoto}
 									/>
 								</CreateRoomInputLable>
 							</ModalInnerLeftInfo>
 
 							<ModalInnerRightInfo>
-								<CreateRoomInputLable htmlFor='userName'>
+								<CreateRoomInputLable htmlFor='email'>
 									Email:
 								</CreateRoomInputLable>
 								<CreateRoomInput
-									name='userName'
-									id='userName'
+									name='email'
+									id='email'
 									type='email'
 									placeholder='an-email@empty.com'
 									onChange={handleNewUserEmail}
