@@ -10,8 +10,7 @@ import { IUser } from '../interfaces/interfaces'
 
 interface UserState {
 	initialUserFetch: IUser[]
-	initialUserFetchPlusNewUsers: IUser[]
-	singleUserFetch: IUser[]
+	singleUserFetch: IUser
 	status: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	createUserStatus: 'idle' | 'pending' | 'rejected' | 'fulfilled'
 	deleteUserStatus: 'idle' | 'pending' | 'rejected' | 'fulfilled'
@@ -20,8 +19,7 @@ interface UserState {
 
 const initialState: UserState = {
 	initialUserFetch: [],
-	initialUserFetchPlusNewUsers: [],
-	singleUserFetch: [],
+	singleUserFetch: {} as IUser,
 	status: 'idle',
 	createUserStatus: 'idle',
 	deleteUserStatus: 'idle',
@@ -34,6 +32,8 @@ const userSlice = createSlice({
 	reducers: {
 		resetState: (state) => {
 			state.createUserStatus = 'idle'
+			state.status = 'idle'
+			state.deleteUserStatus = 'idle'
 		},
 	},
 	extraReducers: (builder) => {
@@ -56,10 +56,7 @@ const userSlice = createSlice({
 				state.status = 'rejected'
 			})
 			.addCase(fetchOneUser.fulfilled, (state, action) => {
-				const id = action.payload
-				state.singleUserFetch = state.initialUserFetch.filter(
-					(user) => user._id === id
-				)
+				state.singleUserFetch = action.payload
 				state.status = 'fulfilled'
 			})
 
@@ -70,14 +67,6 @@ const userSlice = createSlice({
 				state.createUserStatus = 'rejected'
 			})
 			.addCase(createOneUser.fulfilled, (state, action) => {
-				if (state.initialUserFetchPlusNewUsers.length !== 0) {
-					state.initialUserFetchPlusNewUsers.push(action.payload)
-				} else {
-					state.initialUserFetch.push(action.payload)
-					state.initialUserFetchPlusNewUsers = [
-						...state.initialUserFetch,
-					]
-				}
 				state.createUserStatus = 'fulfilled'
 			})
 
@@ -89,17 +78,7 @@ const userSlice = createSlice({
 			})
 			.addCase(deleteUser.fulfilled, (state, action) => {
 				const id = action.payload
-				if (state.initialUserFetchPlusNewUsers.length !== 0) {
-					const result = state.initialUserFetchPlusNewUsers.filter(
-						(user) => user._id !== id
-					)
-					state.initialUserFetchPlusNewUsers = [...result]
-				} else {
-					const result = state.initialUserFetch.filter(
-						(user) => user._id !== id
-					)
-					state.initialUserFetch = [...result]
-				}
+				state.initialUserFetch.filter((user) => user._id !== id)
 				state.deleteUserStatus = 'fulfilled'
 			})
 	},
@@ -109,8 +88,6 @@ export default userSlice.reducer
 
 export const { resetState } = userSlice.actions
 export const initialUsers = (state: RootState) => state.users.initialUserFetch
-export const initialUsersPlusNewUsers = (state: RootState) =>
-	state.users.initialUserFetchPlusNewUsers
 export const singleUser = (state: RootState) => state.users.singleUserFetch
 export const fetchUserState = (state: RootState) => state.users.status
 export const createUserState = (state: RootState) =>
