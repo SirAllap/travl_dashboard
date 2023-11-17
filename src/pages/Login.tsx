@@ -12,6 +12,7 @@ import {
 	resetState,
 	selectLoginInfo,
 } from '../features/login/loginSlice'
+import Swal from 'sweetalert2'
 
 const Login: React.FC = () => {
 	const navigate = useNavigate()
@@ -29,6 +30,21 @@ const Login: React.FC = () => {
 		} else {
 			navigate('/login')
 		}
+		if (loginInitialState === 'rejected') {
+			Swal.fire({
+				icon: 'error',
+				iconColor: `${color.normalPinkie}`,
+				title: 'Oops...',
+				text: 'Incorrect credentials!',
+				confirmButtonColor: `${color.normalPurple}`,
+				confirmButtonText: 'Try Again',
+			}).then((result) => {
+				if (result.isConfirmed) {
+					dispatch(resetState())
+					setSpinner(false)
+				}
+			})
+		}
 		if (loginInitialState === 'pending') {
 			setSpinner(true)
 		}
@@ -43,6 +59,11 @@ const Login: React.FC = () => {
 		}
 	}, [authState.auth, navigate, loginInitialState])
 
+	const handleKeyPress = (e: any) => {
+		if (e.key === 'Enter') {
+			authUser()
+		}
+	}
 	const authUser = async () => {
 		dispatch(userLogin({ email: userEmail, password: userPassword }))
 	}
@@ -64,13 +85,14 @@ const Login: React.FC = () => {
 							alt='a logo of the hotel dashboard'
 						/>
 					</LogoSection>
-					<LoginInputLable>User</LoginInputLable>
+					<LoginInputLable>Email</LoginInputLable>
 					<LoginInput
 						data-cy='input-user'
 						defaultValue={
 							quick ? 'david.pr.developer@gmail.com' : ''
 						}
 						onChange={(e) => setUserEmail(e.target.value)}
+						onKeyDown={handleKeyPress}
 					/>
 					<LoginInputLable>Password</LoginInputLable>
 					<LoginInput
@@ -78,6 +100,7 @@ const Login: React.FC = () => {
 						defaultValue={quick ? 'ilovebaguettes' : ''}
 						type='password'
 						onChange={(e) => setUserPassword(e.target.value)}
+						onKeyDown={handleKeyPress}
 					/>
 					<CTAXtra
 						onClick={quickLogin}
@@ -85,7 +108,11 @@ const Login: React.FC = () => {
 					>
 						XtraQuick - LOGIN
 					</CTAXtra>
-					<CTA data-cy='trigger-login-button' onClick={authUser}>
+					<CTA
+						data-cy='trigger-login-button'
+						onClick={authUser}
+						tabIndex={0}
+					>
 						{spinner ? (
 							<div
 								style={{
@@ -155,7 +182,6 @@ const LoginInput = styled.input`
 	color: #000;
 	color: ${color.strongPurple};
 	padding: 10px;
-	font-size: 17px;
 	font: normal normal 500 17px Poppins;
 	outline: 2px solid ${color.ligthPurple};
 	transition: 0.3s;

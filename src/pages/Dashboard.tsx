@@ -25,6 +25,7 @@ import {
 import { Triangle } from 'react-loader-spinner'
 import * as color from '../components/Variables'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
+import Swal from 'sweetalert2'
 
 const Dashboard: React.FC = () => {
 	const dispatch = useAppDispatch()
@@ -66,11 +67,12 @@ const Dashboard: React.FC = () => {
 	}, [initialContactState, archiveCurrentStatus])
 
 	const handleToggleModal = (userReview?: { _id: string }): void => {
-		if (userReview !== undefined) {
-			setCurrentId(userReview._id)
+		if (userReview) {
+			const { _id } = userReview
 			if (!toggleModal) {
 				setToggleModal(true)
 				setToggleModalUser(userReview)
+				setCurrentId(_id)
 			} else {
 				handleMarkAsRead(currentId)
 			}
@@ -84,6 +86,21 @@ const Dashboard: React.FC = () => {
 	}
 
 	const handleMarkAsRead = (_id: string) => {
+		const Toast = Swal.mixin({
+			toast: true,
+			position: 'top',
+			showConfirmButton: false,
+			timer: 3000,
+			timerProgressBar: true,
+			didOpen: (toast) => {
+				toast.onmouseenter = Swal.stopTimer
+				toast.onmouseleave = Swal.resumeTimer
+			},
+		})
+		Toast.fire({
+			icon: 'info',
+			title: 'Archived and removed from this list',
+		})
 		dispatch(archiveContacts(_id))
 	}
 
@@ -245,74 +262,79 @@ const Dashboard: React.FC = () => {
 								slidesPerView={3}
 								navigation
 							>
-								{initialContactData.map((elem, index) => (
-									<SwiperSlide key={index}>
-										<CustomerReviewCard
-											onClick={() =>
-												handleToggleModal(elem)
-											}
-										>
-											<CustomerCardText
-												type={{
-													text: 'cardSubject',
-												}}
-											>
-												{elem.subject_of_review}
-											</CustomerCardText>
-											<HorizontalDivider />
-											<CustomerReviewCardTopData
-												modal={'false'}
-											>
-												<CustomerCardText
-													type={{
-														text: 'cardBodyNoModal',
-													}}
+								{initialContactData.map(
+									(elem, index) =>
+										elem.isArchived === 'false' && (
+											<SwiperSlide key={index}>
+												<CustomerReviewCard
+													onClick={() =>
+														handleToggleModal(elem)
+													}
 												>
-													{elem.review_body}
-												</CustomerCardText>
-											</CustomerReviewCardTopData>
-											<CustomerReviewCardBottomData>
-												<CustomerReviewCardUserPhoto
-													src={`https://robohash.org/${elem.full_name}.png?set=any`}
-												/>
-												<CustomerCardText
-													type={{
-														text: 'cardUserName',
-													}}
-												>
-													{elem.full_name}
-												</CustomerCardText>
-												<CustomerCardText
-													type={{
-														text: 'cardUserEmail',
-													}}
-												>
-													{elem.email}
-												</CustomerCardText>
-												<CustomerCardText
-													type={{
-														text: 'cardUserPhoneNumber',
-													}}
-												>
-													{elem.phone_number}
-												</CustomerCardText>
-												<CustomerCardText
-													type={{
-														text: 'cardReadChecker',
-													}}
-													read={elem.isArchived}
-												>
-													{elem.isArchived ===
-													'true' ? (
-														<FaRegEnvelopeOpen />
-													) : (
-														<FaRegEnvelope />
-													)}
-												</CustomerCardText>
-											</CustomerReviewCardBottomData>
-										</CustomerReviewCard>
-									</SwiperSlide>
-								))}
+													<CustomerCardText
+														type={{
+															text: 'cardSubject',
+														}}
+													>
+														{elem.subject_of_review}
+													</CustomerCardText>
+													<HorizontalDivider />
+													<CustomerReviewCardTopData
+														modal={'false'}
+													>
+														<CustomerCardText
+															type={{
+																text: 'cardBodyNoModal',
+															}}
+														>
+															{elem.review_body}
+														</CustomerCardText>
+													</CustomerReviewCardTopData>
+													<CustomerReviewCardBottomData>
+														<CustomerReviewCardUserPhoto
+															src={`https://robohash.org/${elem.full_name}.png?set=any`}
+														/>
+														<CustomerCardText
+															type={{
+																text: 'cardUserName',
+															}}
+														>
+															{elem.full_name}
+														</CustomerCardText>
+														<CustomerCardText
+															type={{
+																text: 'cardUserEmail',
+															}}
+														>
+															{elem.email}
+														</CustomerCardText>
+														<CustomerCardText
+															type={{
+																text: 'cardUserPhoneNumber',
+															}}
+														>
+															{elem.phone_number}
+														</CustomerCardText>
+														<CustomerCardText
+															type={{
+																text: 'cardReadChecker',
+															}}
+															read={
+																elem.isArchived
+															}
+														>
+															{elem.isArchived ===
+															'true' ? (
+																<FaRegEnvelopeOpen />
+															) : (
+																<FaRegEnvelope />
+															)}
+														</CustomerCardText>
+													</CustomerReviewCardBottomData>
+												</CustomerReviewCard>
+											</SwiperSlide>
+										)
+								)}
 							</Swiper>
 						</>
 					)}
@@ -345,7 +367,7 @@ interface MainContainerProps {
 
 const MainContainer = styled.main<MainContainerProps>`
 	text-align: center;
-	max-height: 730px;
+	min-height: 730px;
 	min-width: 1494px;
 	margin-left: ${(props) => (props.toggle === 'close' ? '30px' : '395px')};
 	margin-top: 50px;
@@ -356,6 +378,15 @@ const ContainerCardKPI = styled.div`
 	max-height: 135px;
 	flex-shrink: 0;
 	white-space: nowrap;
+`
+
+const KPICardContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: 30px;
+	gap: 22px;
+	height: 125px;
 `
 
 const KPICardInfo = styled.div`
@@ -379,15 +410,6 @@ const KPICardInfo = styled.div`
 	&:last-child {
 		margin-right: 0px;
 	}
-`
-
-const KPICardContainer = styled.div`
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	margin-left: 30px;
-	gap: 22px;
-	height: 125px;
 `
 
 const KPITextContaind = styled.div`
@@ -439,7 +461,7 @@ const CustomerReviewContainer = styled.div`
 	margin-top: 40px;
 	text-align: center;
 	max-height: 433px;
-	min-width: 1494px;
+	max-width: 100%;
 `
 
 const CustomerReviewCard = styled.div`

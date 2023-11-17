@@ -10,6 +10,7 @@ import { HiOutlineLogout } from 'react-icons/hi'
 import * as color from './Variables'
 import { supertoggleContext } from '../context/ToggleContext'
 import { authenticationContext } from '../context/AutheContext'
+import Swal from 'sweetalert2'
 
 const Header: React.FC = () => {
 	const { dispatch, state, stateBread } = useContext(supertoggleContext)!
@@ -25,7 +26,20 @@ const Header: React.FC = () => {
 	}
 
 	const handleLogOut = () => {
-		logout()
+		Swal.fire({
+			title: 'Are you sure?',
+			text: 'You will be logged out!',
+			icon: 'warning',
+			iconColor: `${color.normalPinkie}`,
+			showCancelButton: true,
+			confirmButtonColor: `${color.normalPinkie}`,
+			cancelButtonColor: `${color.strongPurple}`,
+			confirmButtonText: 'Yes, logout!',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				logout()
+			}
+		})
 	}
 
 	useEffect(() => {
@@ -92,7 +106,7 @@ const Header: React.FC = () => {
 						</div>
 					</LeftContainer>
 					<RightContainer>
-						<IconStyle groupofrigthicons='groupofrigthicons'>
+						{/* <IconStyle groupofrigthicons='groupofrigthicons'>
 							<AiOutlineHeart />
 						</IconStyle>
 						<IconStyle groupofrigthicons='groupofrigthicons'>
@@ -103,7 +117,7 @@ const Header: React.FC = () => {
 						</IconStyle>
 						<IconStyle groupofrigthicons='groupofrigthicons'>
 							<BiMessageAltDetail />
-						</IconStyle>
+						</IconStyle> */}
 						<ProfilePictureVoid
 							src={
 								authState.profilePicture
