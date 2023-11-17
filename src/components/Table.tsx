@@ -135,12 +135,12 @@ interface TableDataProps {
 }
 
 const TableData = styled.div<TableDataProps>`
-	transition: 0.3s all;
 	position: relative;
-	background-color: #fff;
-	min-width: 1494px;
-	max-width: 1894px;
-	height: ${(props) => (props.whoami === 'contact' ? '550px' : '670px')};
+	outline: 1px solid white;
+	transition: 0.3s all;
+	background-color: ${color.clearBackground};
+	width: 100%;
+	max-height: 100%;
 	margin: 30px auto 0 auto;
 	border-radius: 20px 20px 0px 20px;
 `
@@ -185,9 +185,9 @@ interface TableAllRowsContainerProps {
 const TableAllRowsContainer = styled.div<TableAllRowsContainerProps>`
 	transition: 0.3s all;
 	position: relative;
-	height: 550px;
 	min-width: 100%;
-	height: ${(props) => (props.whoami === 'contact' ? '485px' : '605px')};
+	min-height: ${(props) => (props.whoami === 'contact' ? '485px' : '605px')};
+	max-height: ${(props) => (props.whoami === 'contact' ? '56vh' : '70vh')};
 	border-radius: 0 0 0 20px;
 	overflow-y: auto;
 	&::-webkit-scrollbar {
@@ -231,14 +231,14 @@ const SpinnerContainer = styled.div<SpinnerContainerProps>`
 					position: absolute;
 					right: 40%;
 					top: 50%;
-					transform: translate(-50%, -50%);
+					transform: translate(-50%, +150%);
 				`
 			default:
 				return css`
 					position: absolute;
 					left: 50%;
-					bottom: 30%;
-					transform: translate(-50%, -50%);
+					top: 100%;
+					transform: translate(-50%, +250%);
 				`
 		}
 	}}

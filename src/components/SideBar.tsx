@@ -315,9 +315,9 @@ interface ContainerProps {
 
 const Container = styled.aside<ContainerProps>`
 	display: grid;
-	grid-row: auto;
+	place-items: center;
 	min-width: 345px;
-	height: 100%;
+	min-height: 100vh;
 	background-color: ${color.clearBackground};
 	float: left;
 	margin-left: ${(props) => (props.toggle === 'close' ? '-345px' : 0)};
