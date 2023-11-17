@@ -5,10 +5,12 @@ html,
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	font-family: Poppins;
 }
 body {
 	transition: 0.3 all ease;
 	max-height: 938px;
+	min-width: 1920px !important;
 	::selection {
 		background: #9841f54c;
 	}

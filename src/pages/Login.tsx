@@ -4,13 +4,15 @@ import logo from '../assets/logo_dashboard1.png'
 import { authenticationContext } from '../context/AutheContext'
 import { useNavigate } from 'react-router-dom'
 import * as color from '../components/Variables'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import { Triangle } from 'react-loader-spinner'
-import { useDispatch } from 'react-redux'
 import { userLogin } from '../features/login/loginThunks'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { initialLoginState, resetState } from '../features/login/loginSlice'
+import {
+	initialLoginState,
+	resetState,
+	selectLoginInfo,
+} from '../features/login/loginSlice'
+import Swal from 'sweetalert2'
 
 const Login: React.FC = () => {
 	const navigate = useNavigate()
@@ -20,29 +22,48 @@ const Login: React.FC = () => {
 	const { login, authState } = useContext(authenticationContext)!
 	const dispatch = useAppDispatch()
 	const loginInitialState = useAppSelector(initialLoginState)
+	const loginInfo = useAppSelector(selectLoginInfo)
+
 	useEffect(() => {
 		if (authState.auth) {
 			navigate('/')
 		} else {
 			navigate('/login')
 		}
+		if (loginInitialState === 'rejected') {
+			Swal.fire({
+				icon: 'error',
+				iconColor: `${color.normalPinkie}`,
+				title: 'Oops...',
+				text: 'Incorrect credentials!',
+				confirmButtonColor: `${color.normalPurple}`,
+				confirmButtonText: 'Try Again',
+			}).then((result) => {
+				if (result.isConfirmed) {
+					dispatch(resetState())
+					setSpinner(false)
+				}
+			})
+		}
+		if (loginInitialState === 'pending') {
+			setSpinner(true)
+		}
 		if (loginInitialState === 'fulfilled') {
 			login({
-				userName: userEmail,
-				email: getUserEmail(userEmail),
-				profilePicture: getProfilePicture(userEmail),
+				userName: loginInfo.name,
+				email: loginInfo.email,
+				profilePicture: loginInfo.photo,
+				role: loginInfo.role,
 			})
 			dispatch(resetState())
 		}
 	}, [authState.auth, navigate, loginInitialState])
 
-	const getUserEmail = (name: string) => {
-		return name === userEmail ? 'super@admin.com' : 'davidpr@travl.com'
+	const handleKeyPress = (e: any) => {
+		if (e.key === 'Enter') {
+			authUser()
+		}
 	}
-	const getProfilePicture = (name = 'admin') => {
-		return `https://robohash.org/${name}.png?set=any`
-	}
-
 	const authUser = async () => {
 		dispatch(userLogin({ email: userEmail, password: userPassword }))
 	}
@@ -50,7 +71,7 @@ const Login: React.FC = () => {
 	const [quick, setQuick] = useState(false)
 	const quickLogin = () => {
 		setQuick(true)
-		setUserEmail('dpr@gmail.com')
+		setUserEmail('david.pr.developer@gmail.com')
 		setUserPassword('ilovebaguettes')
 	}
 
@@ -64,11 +85,14 @@ const Login: React.FC = () => {
 							alt='a logo of the hotel dashboard'
 						/>
 					</LogoSection>
-					<LoginInputLable>User</LoginInputLable>
+					<LoginInputLable>Email</LoginInputLable>
 					<LoginInput
 						data-cy='input-user'
-						defaultValue={quick ? 'dpr@gmail.com' : ''}
+						defaultValue={
+							quick ? 'david.pr.developer@gmail.com' : ''
+						}
 						onChange={(e) => setUserEmail(e.target.value)}
+						onKeyDown={handleKeyPress}
 					/>
 					<LoginInputLable>Password</LoginInputLable>
 					<LoginInput
@@ -76,6 +100,7 @@ const Login: React.FC = () => {
 						defaultValue={quick ? 'ilovebaguettes' : ''}
 						type='password'
 						onChange={(e) => setUserPassword(e.target.value)}
+						onKeyDown={handleKeyPress}
 					/>
 					<CTAXtra
 						onClick={quickLogin}
@@ -83,7 +108,11 @@ const Login: React.FC = () => {
 					>
 						XtraQuick - LOGIN
 					</CTAXtra>
-					<CTA data-cy='trigger-login-button' onClick={authUser}>
+					<CTA
+						data-cy='trigger-login-button'
+						onClick={authUser}
+						tabIndex={0}
+					>
 						{spinner ? (
 							<div
 								style={{
@@ -107,18 +136,6 @@ const Login: React.FC = () => {
 					</CTA>
 				</LoginContainer>
 			</MainContainer>
-			<ToastContainer
-				position='top-center'
-				autoClose={5000}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss={false}
-				draggable
-				pauseOnHover
-				theme='light'
-			/>
 		</>
 	)
 }
@@ -165,7 +182,6 @@ const LoginInput = styled.input`
 	color: #000;
 	color: ${color.strongPurple};
 	padding: 10px;
-	font-size: 17px;
 	font: normal normal 500 17px Poppins;
 	outline: 2px solid ${color.ligthPurple};
 	transition: 0.3s;

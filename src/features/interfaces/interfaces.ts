@@ -10,6 +10,7 @@ export interface IBooking {
 	room_number: string
 	status: string
 	photos: string[]
+	roomId: string
 }
 
 export interface IRoom {
@@ -47,4 +48,5 @@ export interface IUser {
 	description: string
 	phone_number: string
 	status: string
+	password?: string
 }

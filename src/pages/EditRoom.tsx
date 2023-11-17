@@ -242,7 +242,6 @@ const EditRoom: React.FC = () => {
 	const handleEditRoom = () => {
 		if (currentRoom !== undefined) {
 			const editedRoomData = {
-				_id: currentRoom._id,
 				room_number:
 					newRoomNumber === ''
 						? currentRoom.room_number
@@ -278,7 +277,6 @@ const EditRoom: React.FC = () => {
 			dispatch(editCurrentRoom(editedRoomData))
 		}
 	}
-
 	const [autoAddDescription, setAutoAddDescription] = useState(false)
 	const quickAddDescription = () => {
 		setAutoAddDescription(true)
@@ -324,7 +322,7 @@ const EditRoom: React.FC = () => {
 											: 'roomtype'
 									}
 								>
-									<option value='roomtype' disabled hidden>
+									<option value='roomtype' disabled>
 										Select the room type:
 									</option>
 									<option value='Single'>Single Bed</option>

@@ -3,45 +3,62 @@ import styled, { css } from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { supertoggleContext } from '../context/ToggleContext'
 import { Triangle } from 'react-loader-spinner'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { createUserState } from '../features/users/userSlice'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import {
+	createUserState,
+	fetchUserState,
+	singleUser,
+} from '../features/users/userSlice'
 import { createOneUser } from '../features/users/userThunks'
 import * as color from '../components/Variables'
 import { useAppDispatch } from '../app/hooks'
 import { IUser } from '../features/interfaces/interfaces'
 
-const CreateUser: React.FC = () => {
+const EditUser: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
-	const createUserCurretState = useSelector(createUserState)
+	const fetchUserCurrentState = useSelector(fetchUserState)
+	const createUserCurrentState = useSelector(createUserState)
+	const singleUserSelector = useSelector(singleUser)
 	const { state } = useContext(supertoggleContext)!
+	const { userId } = useParams()
 	const [spinner, setSpinner] = useState(false)
+	const [savedLastId, setSavedLastId] = useState<string>('')
 	const [toggleModalNewRoom, setToggleModalNewRoom] = useState(false)
+	const [currentUser, setCurrentUser] = useState<IUser>()
 
 	useEffect(() => {
-		if (createUserCurretState === 'pending') {
+		if (createUserCurrentState === 'pending') {
 			setSpinner(true)
-		} else if (createUserCurretState === 'fulfilled') {
+		} else if (createUserCurrentState === 'fulfilled') {
 			setSpinner(false)
-			navigate('/users')
+			navigate('/rooms')
 		}
-	}, [createUserCurretState, navigate])
+		if (fetchUserCurrentState === 'pending') {
+			setSpinner(true)
+		} else if (fetchUserCurrentState === 'fulfilled') {
+			setSpinner(false)
+			setCurrentUser(singleUserSelector)
+		}
+	}, [createUserCurrentState, navigate, singleUserSelector])
 
 	const [newUserPosition, setNewUserPosition] = useState<string>('')
 	const handleNewUserPosition = (
 		event: React.ChangeEvent<HTMLSelectElement>
 	) => {
+		console.log('here')
+
 		switch (event.target.value) {
-			case 'recepcionist':
+			case 'Recepcionist':
 				setNewUserPosition('Recepcionist')
 				break
-			case 'clean':
+			case 'Cleaner':
 				setNewUserPosition('Cleaner')
 				break
-			case 'sales':
+			case 'Sales':
 				setNewUserPosition('Sales')
 				break
-			case 'director':
+			case 'Director':
 				setNewUserPosition('Director')
 				break
 			default:
@@ -73,54 +90,28 @@ const CreateUser: React.FC = () => {
 		setNewUserEmail(event.target.value)
 	}
 
-	const [password, setPassword] = useState('')
-	const [passwordConfirmation, setPasswordConfirmation] = useState('')
-	const handleNewUserPassword = (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		setPassword(event.target.value)
-	}
-
-	const handleNewUserPasswordConfirmation = (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		setPasswordConfirmation(event.target.value)
-	}
-
 	const handleCreateOneRoom = () => {
-		if (
-			newUserName === '' ||
-			newUserPosition === '' ||
-			newUserPhoneNumber === 0 ||
-			newUserStartDate === '' ||
-			newRoomOffer === ''
-		) {
-			alert('Please fill all the fields')
-		} else {
-			if (password === passwordConfirmation) {
-				const newUser: IUser = {
-					full_name: newUserName,
-					email: newRoomOffer,
-					photo: 'https://robohash.org/JohnDoe.png?set=any',
-					start_date: newUserStartDate,
-					description: newUserPosition,
-					phone_number: newUserPhoneNumber.toString(),
-					status: 'active',
-					password: password,
-				}
-				dispatch(createOneUser(newUser))
-				handleToggleModalNewRoom()
-			} else {
-				alert('Passwords do not match!')
+		if (currentUser !== undefined) {
+			const newUser: IUser = {
+				full_name:
+					newUserName === '' ? currentUser.full_name : newUserName,
+				email: newRoomOffer === '' ? currentUser.email : newRoomOffer,
+				photo: currentUser.photo,
+				start_date:
+					newUserStartDate === ''
+						? currentUser.start_date
+						: newUserStartDate,
+				description:
+					newUserPosition === ''
+						? currentUser.description
+						: newUserPosition,
+				phone_number:
+					newUserPhoneNumber.toString() === ''
+						? currentUser.phone_number
+						: newUserPhoneNumber.toString(),
+				status: currentUser.status,
 			}
-		}
-	}
-
-	const handleToggleModalNewRoom = () => {
-		if (!toggleModalNewRoom) {
-			setToggleModalNewRoom(true)
-		} else {
-			setToggleModalNewRoom(false)
+			dispatch(createOneUser(newUser))
 		}
 	}
 
@@ -130,7 +121,7 @@ const CreateUser: React.FC = () => {
 				<NavLink to={'/users'}>
 					<CTA>Back</CTA>
 				</NavLink>
-				<TitleText newroom='title'>Create New Employee</TitleText>
+				<TitleText newroom='title'>Edit Employee</TitleText>
 				<ModalInnerInfo>
 					{spinner ? (
 						<SpinnerContainer>
@@ -148,22 +139,26 @@ const CreateUser: React.FC = () => {
 								<CreateRoomInputLable htmlFor='userPosition'>
 									Position
 								</CreateRoomInputLable>
-								<RoomTypeSelector
+								<PositionSelector
 									name='userPosition'
 									id='userPosition'
 									onChange={handleNewUserPosition}
-									defaultValue='userPosition'
+									defaultValue={
+										currentUser
+											? currentUser.description
+											: 'userPosition'
+									}
 								>
 									<option value='userPosition' disabled>
 										Position:
 									</option>
-									<option value='recepcionist'>
+									<option value='Recepcionist'>
 										Recepcionist
 									</option>
-									<option value='clean'>Cleaner</option>
-									<option value='sales'>Sales</option>
-									<option value='director'>Director</option>
-								</RoomTypeSelector>
+									<option value='Cleaner'>Cleaner</option>
+									<option value='Sales'>Sales</option>
+									<option value='Director'>Director</option>
+								</PositionSelector>
 
 								<CreateRoomInputLable htmlFor='userName'>
 									Full Name:
@@ -174,6 +169,11 @@ const CreateUser: React.FC = () => {
 									type='text'
 									placeholder='David Pallarés'
 									onChange={handleNewUserName}
+									defaultValue={
+										currentUser !== undefined
+											? currentUser.full_name
+											: ''
+									}
 								/>
 
 								<CreateRoomInputLable htmlFor='userPhoneNumber'>
@@ -185,23 +185,12 @@ const CreateUser: React.FC = () => {
 									type='number'
 									placeholder='e.g: +34 675-953-234'
 									onChange={handleNewPhoneNumber}
+									defaultValue={
+										currentUser !== undefined
+											? currentUser.phone_number
+											: ''
+									}
 								/>
-								<CreateRoomInputLable
-									types='name'
-									htmlFor='roomAmenitiesSelector'
-								>
-									Profile Photo:
-									<InputFile
-										name='roomAmenitiesSelector'
-										id='roomAmenitiesSelector'
-										propType='file'
-										type='file'
-										onChange={() => {
-											console.log('iim a photo input')
-										}}
-										alt='a photo of the user profile'
-									/>
-								</CreateRoomInputLable>
 							</ModalInnerLeftInfo>
 
 							<ModalInnerRightInfo>
@@ -214,6 +203,11 @@ const CreateUser: React.FC = () => {
 									type='email'
 									placeholder='an-email@empty.com'
 									onChange={handleNewUserEmail}
+									defaultValue={
+										currentUser !== undefined
+											? currentUser.email
+											: ''
+									}
 								/>
 								<CreateRoomInputLable htmlFor='userStartDate'>
 									Start Date:
@@ -223,29 +217,14 @@ const CreateUser: React.FC = () => {
 									name='userStartDate'
 									type='date'
 									onChange={handleUserStartDate}
+									defaultValue={
+										currentUser !== undefined
+											? currentUser.start_date
+											: ''
+									}
 								/>
 
-								<CreateRoomInputLable htmlFor='password'>
-									Password:
-								</CreateRoomInputLable>
-								<CreateRoomInput
-									name='password'
-									id='password'
-									type='password'
-									placeholder='Enter your password'
-									onChange={handleNewUserPassword}
-								/>
-
-								<CreateRoomInputLable htmlFor='passwordConfirmation'>
-									Confirm Password:
-								</CreateRoomInputLable>
-								<CreateRoomInput
-									name='passwordConfirmation'
-									id='passwordConfirmation'
-									type='password'
-									placeholder='Confirm your password'
-									onChange={handleNewUserPasswordConfirmation}
-								/>
+								<PassCTA>Change password</PassCTA>
 							</ModalInnerRightInfo>
 						</>
 					)}
@@ -258,7 +237,7 @@ const CreateUser: React.FC = () => {
 	)
 }
 
-export default CreateUser
+export default EditUser
 
 const SpinnerContainer = styled.div`
 	position: absolute;
@@ -351,7 +330,7 @@ const CreateRoomInput = styled.input<CreateRoomInputProps>`
 	}}
 `
 
-const RoomTypeSelector = styled.select`
+const PositionSelector = styled.select`
 	height: 47px;
 	width: 400px;
 	background-color: #fff;
@@ -373,6 +352,23 @@ const SaveCTA = styled.button`
 	transform: translate(-50%, -50%);
 	bottom: 0px;
 	width: 90%;
+	height: 47px;
+	color: ${color.normalPurple};
+	background-color: ${color.softer_ligthPurple};
+	border: none;
+	border-radius: 8px;
+	font: normal normal 600 14px/21px Poppins;
+	margin-top: 16px;
+	cursor: pointer;
+	transition: 0.3s;
+	&:hover {
+		color: white;
+		background-color: ${color.normalPurple};
+	}
+`
+
+const PassCTA = styled.button`
+	width: 75%;
 	height: 47px;
 	color: ${color.normalPurple};
 	background-color: ${color.softer_ligthPurple};

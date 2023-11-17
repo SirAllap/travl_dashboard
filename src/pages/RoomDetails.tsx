@@ -12,10 +12,12 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import * as color from '../components/Variables'
-import { useAppSelector } from '../app/hooks'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { IRoom } from '../features/interfaces/interfaces'
+import { fetchOneRoom } from '../features/rooms/roomThunks'
 
 const RoomDetails = () => {
+	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 	const singleRoomData = useAppSelector(singleRoom)
 	const initialRoomState = useAppSelector(fetchRoomState)
@@ -40,6 +42,8 @@ const RoomDetails = () => {
 		} else if (initialRoomState === 'fulfilled') {
 			setSpinner(false)
 			setCurrentRoom(singleRoomData)
+		} else if (initialRoomState === 'idle') {
+			roomId ? dispatch(fetchOneRoom(roomId)) : setSpinner(true)
 		}
 	}, [
 		savedLastId,

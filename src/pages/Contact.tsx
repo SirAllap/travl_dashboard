@@ -58,7 +58,7 @@ const Contact: React.FC = () => {
 	interface IDate {
 		date: string
 		dateTime: string
-		id: string
+		_id: string
 	}
 
 	interface ICustomer {
@@ -78,11 +78,18 @@ const Contact: React.FC = () => {
 		{
 			property: 'id',
 			label: 'Date',
-			display: ({ date, dateTime, id }: IDate) => (
+			display: ({ date, dateTime, _id }: IDate) => (
 				<>
-					<TextFormatter text_type='name'>{date}</TextFormatter>
-					<TextFormatter text_type='small'>{dateTime}</TextFormatter>
-					<TextFormatter text_type='small'>#{id}</TextFormatter>
+					<TextFormatter text_type='name'>
+						{date.replace(
+							/\d{2}:\d{2}:\d{2} GMT\+0000 \(GMT\)/,
+							''
+						)}
+					</TextFormatter>
+					<TextFormatter text_type='small'>
+						{new Date(dateTime).toISOString().slice(11, 16)}
+					</TextFormatter>
+					<TextFormatter text_type='small'>#{_id}</TextFormatter>
 				</>
 			),
 		},

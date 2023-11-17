@@ -11,6 +11,9 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { supertoggleContext } from '../context/ToggleContext'
 import { authenticationContext } from '../context/AutheContext'
 import * as color from './Variables'
+import Swal from 'sweetalert2'
+import { useAppSelector } from '../app/hooks'
+import { selectLoginInfo } from '../features/login/loginSlice'
 
 type AuthState = {
 	name?: string
@@ -28,7 +31,16 @@ const SideBar: React.FC = () => {
 	const [userName, setUserName] = useState<string | null>('')
 	const [userEmail, setUserEmail] = useState<string | null>('')
 	const [profPic, setProfPic] = useState<string>('')
-	const [file2Upload, setFile2Upload] = useState<string>()
+	const [file2Upload, setFile2Upload] = useState<string>('')
+	const [userRole, setUserRole] = useState<string>('')
+	const loginInfo = useAppSelector(selectLoginInfo)
+
+	useEffect(() => {
+		const logedUser = localStorage.getItem('currentUser')
+		if (logedUser) {
+			setUserRole(JSON.parse(logedUser).role)
+		}
+	}, [])
 
 	const handleUpdateUserName = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -42,30 +54,74 @@ const SideBar: React.FC = () => {
 	}
 
 	useEffect(() => {
-		const savedProfilePicture = authState.profilePicture
-		setProfPic(
-			savedProfilePicture || 'https://robohash.org/oxygen.png?set=any'
-		)
-		authState.name !== null && setUserName1(authState.name)
-		authState.email !== null && setUserEmail1(authState.email)
-	}, [profPic, authState.name, authState.email, authState.profilePicture])
+		const { profilePicture, name, email } = authState
+		setProfPic(profilePicture || 'https://robohash.org/oxygen.png?set=any')
+		name !== null && setUserName1(name)
+		email !== null && setUserEmail1(email)
+	}, [
+		profPic,
+		authState.name,
+		authState.email,
+		authState.profilePicture,
+		loginInfo,
+	])
 
 	const handleToggleModal = () => {
-		if (!toggleModal) {
-			setToggleModal(true)
-		} else {
-			setToggleModal(false)
-		}
+		setToggleModal(!toggleModal)
+	}
+
+	const onHandleClickPhoto = async () => {
+		Swal.fire({
+			title: 'Submit your Github username',
+			input: 'text',
+			inputAttributes: {
+				autocapitalize: 'off',
+			},
+			showCancelButton: true,
+			confirmButtonText: 'Look up',
+			showLoaderOnConfirm: true,
+			preConfirm: async (login) => {
+				try {
+					const githubUrl = `
+                  https://api.github.com/users/${login}
+                `
+					const response = await fetch(githubUrl)
+					if (!response.ok) {
+						return Swal.showValidationMessage(`
+                    ${JSON.stringify(await response.json())}
+                  `)
+					}
+					return response.json()
+				} catch (error) {
+					Swal.showValidationMessage(`
+                  Request failed: ${error}
+                `)
+				}
+			},
+			allowOutsideClick: () => !Swal.isLoading(),
+		}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire({
+					title: `${result.value.login}'s avatar`,
+					imageUrl: result.value.avatar_url,
+					confirmButtonText: 'Set profile picture',
+					showLoaderOnConfirm: true,
+					preConfirm: () => {
+						handleUpdate(result.value.avatar_url)
+					},
+				})
+			}
+		})
 	}
 
 	const handlePictureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const fileInput = e.target
-		if (fileInput.files) {
-			const newPictureUrl: string = URL.createObjectURL(
-				fileInput.files[0]
-			)
+		const selectedFile = fileInput?.files?.[0]
+
+		if (selectedFile) {
+			const newPictureUrl: string = URL.createObjectURL(selectedFile)
 			setFile2Upload(newPictureUrl)
-			handleUpdateAndCloseModal(newPictureUrl)
+			handleUpdate(newPictureUrl)
 		} else {
 			console.error('No files selected')
 		}
@@ -77,13 +133,18 @@ const SideBar: React.FC = () => {
 		profilePicture: string
 	}
 
-	const handleUpdateAndCloseModal = (newPictureUrl?: string) => {
+	const handleUpdate = (newPictureUrl?: string) => {
 		if (userUpdatedName === '') {
 			setUserName(authState.name)
-		} else setUserName(userUpdatedName)
+		} else {
+			setUserName(userUpdatedName)
+		}
+
 		if (userUpdatedEmail === '') {
 			setUserEmail(authState.email)
-		} else setUserEmail(userUpdatedEmail)
+		} else {
+			setUserEmail(userUpdatedEmail)
+		}
 		updateUserInfo({
 			userName:
 				userUpdatedName !== null && userUpdatedName !== ''
@@ -97,11 +158,14 @@ const SideBar: React.FC = () => {
 				typeof newPictureUrl === 'string'
 					? newPictureUrl
 					: authState.profilePicture || '',
+			role: authState.role || '',
 		})
 
-		setTimeout(() => {
+		if (typeof newPictureUrl === 'string') {
+			setToggleModal(true)
+		} else {
 			setToggleModal(false)
-		}, 400)
+		}
 	}
 
 	if (authState.auth)
@@ -148,13 +212,23 @@ const SideBar: React.FC = () => {
 						src={!file2Upload ? profPic : file2Upload}
 					/>
 					<InputFile
+						propType='file'
 						type='file'
 						onChange={handlePictureChange}
 						alt='a photo of the user profile'
 					/>
+					<CTAghProfile onClick={onHandleClickPhoto}>
+						GH Picture
+					</CTAghProfile>
 					<SaveCTA
+						onKeyDown={(event) => {
+							if (event.key === 'Enter') {
+								event.preventDefault()
+								handleUpdate()
+							}
+						}}
 						onClick={() => {
-							handleUpdateAndCloseModal()
+							handleUpdate()
 						}}
 					>
 						Save
@@ -204,9 +278,13 @@ const SideBar: React.FC = () => {
 						<UserCardText type='name'>
 							{!userName ? userName1 : userName}
 						</UserCardText>
-						<UserCardText>
-							{!userEmail ? userEmail1 : userEmail}
+						<UserCardText type='info'>Info:</UserCardText>
+						<UserCardText type='email'>
+							<a href={`mailto:${userEmail1}`}>
+								{!userEmail ? userEmail1 : userEmail}
+							</a>
 						</UserCardText>
+						<UserCardText type='role'>{userRole}</UserCardText>
 						<UserCardButton onClick={handleToggleModal}>
 							Edit user
 						</UserCardButton>
@@ -236,8 +314,10 @@ interface ContainerProps {
 }
 
 const Container = styled.aside<ContainerProps>`
+	display: grid;
+	place-items: center;
 	min-width: 345px;
-	height: 100vh;
+	min-height: 100vh;
 	background-color: ${color.clearBackground};
 	float: left;
 	margin-left: ${(props) => (props.toggle === 'close' ? '-345px' : 0)};
@@ -318,8 +398,9 @@ const MenuItemText = styled.p`
 `
 
 const UserCardInfo = styled.div`
-	width: 233px;
-	height: 221px;
+	width: 250px;
+	max-height: 310px;
+	padding: 20px;
 	border-radius: 18px;
 	background-color: ${color.clearBackground};
 	box-shadow: 0px 20px 30px ${color.softer_ligthGrey};
@@ -331,8 +412,8 @@ const UserCardInfo = styled.div`
 const UserCardProfilePictureVoid = styled.img`
 	background: ${(props) =>
 		props.src ? 'transparent' : '${color.normalGrey}'};
-	width: 70px;
-	height: 70px;
+	width: 90px;
+	height: 90px;
 	border-radius: 8px;
 	margin: 0 auto;
 `
@@ -347,10 +428,29 @@ const UserCardText = styled.p<UserCardTextProps>`
 				return css`
 					font: normal normal 500 16px/1.2 Poppins;
 					color: ${color.strongGrey};
-					margin: 15px 0 9px 0;
+					margin: 15px 0 20px 0;
+				`
+			case 'email':
+				return css`
+					text-align: left;
+					font: normal normal 500 12px Poppins;
+					color: ${color.strongGrey};
+					margin: 5px 0 5px 0;
+					a {
+						text-decoration: none;
+						color: ${color.normalPurple};
+					}
+				`
+			case 'role':
+				return css`
+					text-align: left;
+					font: normal normal 400 12px/1.2 Poppins;
+					color: ${color.normalGrey};
+					margin: 5px 0 0px 0;
 				`
 			default:
 				return css`
+					text-align: left;
 					font: normal normal 300 12px/1.2 Poppins;
 					color: ${color.softer_normalGrey};
 				`
@@ -359,14 +459,14 @@ const UserCardText = styled.p<UserCardTextProps>`
 `
 
 const UserCardButton = styled.button`
-	width: 158px;
+	width: 100%;
 	height: 47px;
 	background-color: ${color.softer_ligthPinkie};
 	border: none;
 	border-radius: 8px;
 	color: ${color.normalPinkie};
 	font: normal normal 600 14px/21px Poppins;
-	margin-top: 16px;
+	margin-top: 20px;
 	cursor: pointer;
 	transition: 0.3s;
 	&:hover {
@@ -485,13 +585,17 @@ const CloseCTA = styled.button`
 	}
 `
 
-const InputFile = styled.input`
+interface InputFileProps {
+	readonly propType?: string
+}
+
+const InputFile = styled.input<InputFileProps>`
+	width: 28%;
 	position: absolute;
-	left: 50%;
+	left: ${(props) => (props.propType === 'file' ? '70%' : '50%')};
 	margin-right: -50%;
 	top: 77%;
 	transform: translate(-50%, -50%);
-	max-width: 28%;
 	transition: 0.3s;
 	color: ${color.normalGrey};
 	background: ${color.clearBackground};
@@ -503,11 +607,34 @@ const InputFile = styled.input`
 		padding: 10px 20px;
 		border-radius: 8px;
 		cursor: pointer;
-		transition: background 0.2s ease-in-out;
+		transition: 0.2s ease-in-out;
 	}
 	&::file-selector-button:hover {
 		color: ${color.normalPurple};
 		background-color: ${color.ligthPurple};
+	}
+`
+
+const CTAghProfile = styled.button`
+	position: absolute;
+	left: 30%;
+	margin-right: -50%;
+	top: 77%;
+	transform: translate(-50%, -50%);
+	width: 119px;
+	height: 41px;
+	border-radius: 8px;
+	outline: none;
+	background-color: ${color.ligthGrey};
+	border: 2px solid ${color.softer_ligthGrey};
+	color: ${color.strongPurple};
+	font: normal normal 500 14px Poppins;
+	transition: 0.3s all;
+	cursor: pointer;
+	&:hover {
+		background-color: ${color.normalGrey};
+		border: 2px solid ${color.softer_ligthGrey};
+		color: ${color.clearAppBackground};
 	}
 `
 

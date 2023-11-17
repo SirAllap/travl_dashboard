@@ -27,8 +27,8 @@ interface AppContainerProps {
 	readonly appMode: boolean
 }
 const AppContainer = styled.div<AppContainerProps>`
-	width: 100vw;
-	height: 100vh;
+	min-width: 1920px;
+	min-height: 100vh;
 	background-color: ${(props) =>
 		props.appMode === true
 			? `${color.clearAppBackground}`
