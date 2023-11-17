@@ -12,6 +12,7 @@ import PrivateRoute from './PrivateRoute'
 import CreateRoom from '../pages/CreateRoom'
 import EditRoom from '../pages/EditRoom'
 import CreateUser from '../pages/CreateUser'
+import EditUser from '../pages/EditUser'
 
 const Router: React.FC = () => {
 	return (
@@ -50,6 +51,10 @@ const Router: React.FC = () => {
 								<Route
 									path='/users/create-employee'
 									element={<CreateUser />}
+								/>
+								<Route
+									path='/users/edit-employee/:userId'
+									element={<EditUser />}
 								/>
 							</Routes>
 						</PrivateRoute>
