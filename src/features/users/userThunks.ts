@@ -1,4 +1,3 @@
-import usersJSONfile from '../../data/employee_data.json'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { IUser } from '../interfaces/interfaces'
 import { fetchMethod } from '../../util/fetchMethod'

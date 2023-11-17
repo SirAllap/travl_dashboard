@@ -1,4 +1,3 @@
-import contactsJSONfile from '../../data/client_review.json'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { IContact } from '../interfaces/interfaces'
 import { fetchMethod } from '../../util/fetchMethod'
