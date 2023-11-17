@@ -9,11 +9,14 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import {
 	fetchUserState,
 	initialUsers,
-	initialUsersPlusNewUsers,
 	resetState,
 	deleteUserStatus,
 } from '../features/users/userSlice'
-import { deleteUser, fetchInitialUsers } from '../features/users/userThunks'
+import {
+	deleteUser,
+	fetchInitialUsers,
+	fetchOneUser,
+} from '../features/users/userThunks'
 import { NavLink } from 'react-router-dom'
 import * as color from '../components/Variables'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
@@ -23,7 +26,7 @@ import { IsAny } from '@reduxjs/toolkit/dist/tsHelpers'
 const Users: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const initialUserData = useAppSelector(initialUsers)
-	const initialUsersPlusLatestUsers = useAppSelector(initialUsersPlusNewUsers)
+
 	const initialUserState = useAppSelector(fetchUserState)
 	const deleteUserCurentStatus = useAppSelector(deleteUserStatus)
 	const { state } = useContext(supertoggleContext)!
@@ -42,23 +45,14 @@ const Users: React.FC = () => {
 			setSpinner(true)
 		} else if (initialUserState === 'fulfilled') {
 			setSpinner(false)
-			if (initialUsersPlusLatestUsers.length !== 0) {
-				setDisplayData(initialUsersPlusLatestUsers)
-			} else {
-				setDisplayData(initialUserData)
-			}
+			setDisplayData(initialUserData)
 		}
 		if (deleteUserCurentStatus === 'pending') {
 			setDeleteSpinner(true)
 		} else {
 			setDeleteSpinner(false)
 		}
-	}, [
-		initialUserData,
-		initialUserState,
-		initialUsersPlusLatestUsers,
-		deleteUserCurentStatus,
-	])
+	}, [initialUserData, initialUserState, deleteUserCurentStatus])
 
 	const handleMoreOptions = (id: string) => {
 		setToggleMoreOptions((prevToggleMoreOptions: any) => ({
@@ -197,11 +191,20 @@ const Users: React.FC = () => {
 							>
 								DELETE
 							</OptionsButton>
-							{/* <NavLink to={`/rooms/edit-room/${id}`}> */}
-							<OptionsButton button_type='edit'>
-								EDIT
-							</OptionsButton>
-							{/* </NavLink> */}
+							<NavLink
+								style={{ textDecoration: 'none' }}
+								to={`/users/edit-employee/${_id}`}
+							>
+								<OptionsButton
+									onClick={() => {
+										dispatch(fetchOneUser(_id))
+										dispatch(resetState())
+									}}
+									button_type='edit'
+								>
+									EDIT
+								</OptionsButton>
+							</NavLink>
 							<CloseCTA
 								onClick={() => {
 									handleMoreOptions(_id)
@@ -249,23 +252,11 @@ const Users: React.FC = () => {
 		let filteredUsers
 
 		if (!result) {
-			filteredUsers =
-				initialUsersPlusLatestUsers.length !== 0
-					? initialUsersPlusLatestUsers
-					: initialUserData
+			filteredUsers = initialUserData
 		} else {
-			filteredUsers =
-				initialUsersPlusLatestUsers.length !== 0
-					? initialUsersPlusLatestUsers.filter((user) =>
-							user.full_name
-								?.toLowerCase()
-								.includes(result.toLowerCase())
-					  )
-					: initialUserData.filter((user) =>
-							user.full_name
-								?.toLowerCase()
-								.includes(result.toLowerCase())
-					  )
+			filteredUsers = initialUserData.filter((user) =>
+				user.full_name?.toLowerCase().includes(result.toLowerCase())
+			)
 		}
 
 		setDisplayData(filteredUsers)
