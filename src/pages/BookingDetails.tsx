@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { supertoggleContext } from '../context/ToggleContext'
-import { useSelector } from 'react-redux'
 import {
 	fetchBookingState,
 	singleBooking,
@@ -20,8 +19,11 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
+import { fetchOneBooking } from '../features/bookings/bookingThunks'
+import { fetchOneRoom } from '../features/rooms/roomThunks'
 
 const BookingsDetails: React.FC = () => {
+	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 	const singleBookingData = useAppSelector(singleBooking)
 	const singleRoomData = useAppSelector(singleRoom)
@@ -287,7 +289,7 @@ const SpinnerContainer = styled.div`
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, 150%);
 `
 
 const CTA = styled.button`
