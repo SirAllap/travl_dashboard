@@ -183,13 +183,11 @@ const SideBar: React.FC = () => {
 						id='name'
 						name='name'
 						defaultValue={
-							userUpdatedEmail !== null
+							userUpdatedName !== null
 								? userUpdatedName
 								: authState.name
 						}
-						typeProp={
-							userUpdatedEmail !== null ? 'name' : undefined
-						}
+						typeProp={userUpdatedName !== null ? 'name' : undefined}
 						placeholder='name'
 						onChange={handleUpdateUserName}
 						autoComplete='off'
