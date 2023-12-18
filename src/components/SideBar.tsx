@@ -179,7 +179,7 @@ const SideBar: React.FC = () => {
 					<EditUserInputLable typeProp='name' htmlFor='name'>
 						Name
 					</EditUserInputLable>
-					<InputString
+					{/* <InputString
 						id='name'
 						name='name'
 						defaultValue={
@@ -206,7 +206,7 @@ const SideBar: React.FC = () => {
 						placeholder='email'
 						onChange={handleUpdateUserEmail}
 						autoComplete='off'
-					/>
+					/> */}
 
 					<UserCardProfilePictureModal
 						src={!file2Upload ? profPic : file2Upload}
