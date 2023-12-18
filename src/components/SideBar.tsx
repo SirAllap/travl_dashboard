@@ -182,7 +182,9 @@ const SideBar: React.FC = () => {
 					<InputString
 						id='name'
 						name='name'
-						defaultValue={userUpdatedName ?? authState.name}
+						defaultValue={
+							userUpdatedName ? userUpdatedName : authState.name
+						}
 						typeProp={userUpdatedName !== null ? 'name' : undefined}
 						placeholder='name'
 						onChange={handleUpdateUserName}
@@ -195,9 +197,13 @@ const SideBar: React.FC = () => {
 					<InputString
 						id='email'
 						name='email'
-						defaultValue={userUpdatedEmail ?? authState.email}
+						defaultValue={
+							userUpdatedEmail
+								? userUpdatedEmail
+								: authState.email
+						}
 						typeProp={
-							userUpdatedEmail !== null ? 'name' : undefined
+							userUpdatedEmail !== null ? 'email' : undefined
 						}
 						placeholder='email'
 						onChange={handleUpdateUserEmail}
