@@ -323,8 +323,8 @@ const Dashboard: React.FC = () => {
 																elem.isArchived
 															}
 														>
-															{elem.isArchived ===
-															'true' ? (
+															{elem.isArchived !==
+															'false' ? (
 																<FaRegEnvelopeOpen />
 															) : (
 																<FaRegEnvelope />

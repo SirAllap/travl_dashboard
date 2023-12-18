@@ -3,7 +3,7 @@ name: npm install + set .env + upload to AWS
 on: [push]
 
 jobs:
-  show-file-container:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code 🔄
