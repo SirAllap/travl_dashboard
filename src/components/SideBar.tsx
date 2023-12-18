@@ -182,28 +182,20 @@ const SideBar: React.FC = () => {
 					<InputString
 						id='name'
 						name='name'
-						defaultValue={
-							userUpdatedName !== null
-								? userUpdatedName
-								: authState.name
-						}
+						defaultValue={userUpdatedName ?? authState.name}
 						typeProp={userUpdatedName !== null ? 'name' : undefined}
 						placeholder='name'
 						onChange={handleUpdateUserName}
 						autoComplete='off'
 					/>
+
 					<EditUserInputLable typeProp='email' htmlFor='email'>
 						Email
 					</EditUserInputLable>
-
 					<InputString
 						id='email'
 						name='email'
-						defaultValue={
-							userUpdatedEmail !== null
-								? userUpdatedEmail
-								: authState.email
-						}
+						defaultValue={userUpdatedEmail ?? authState.email}
 						typeProp={
 							userUpdatedEmail !== null ? 'email' : undefined
 						}
