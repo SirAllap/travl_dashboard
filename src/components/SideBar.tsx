@@ -639,7 +639,7 @@ const CTAghProfile = styled.button`
 `
 
 interface InputProps {
-	typeProp: string
+	typeProp: string | null
 }
 
 const InputString = styled(InputFile)<InputProps>`
