@@ -14,11 +14,6 @@ jobs:
 
       - name: Run Build 🛠
         run: npm run build
-        env: 
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
-
-      - name: Create .env file ℹ️
-        run: echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env.local
 
       - name: Uploading to AWS 🆙
         uses: jakejarvis/s3-sync-action@master
@@ -30,3 +25,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'eu-west-3'
           SOURCE_DIR: 'build'
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
