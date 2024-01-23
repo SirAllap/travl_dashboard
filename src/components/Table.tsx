@@ -22,6 +22,9 @@ const Table = (props: {
 		value: '',
 	})
 	const [noMoreData, setNoMoreData] = useState(false)
+	const [currentPage, setCurrentPage] = useState(1)
+	const itemsPerPage = 10
+
 	let property = 'all'
 	let value = ''
 
@@ -32,8 +35,18 @@ const Table = (props: {
 
 	useEffect(() => {
 		setFilterToApply(props.filter)
+		setCurrentPage(1)
 		props.datas.length === 0 ? setNoMoreData(true) : setNoMoreData(false)
 	}, [props.filter, props.datas.length])
+
+	const filteredData =
+		property === 'all'
+			? props.datas
+			: props.datas.filter((row) => (row as any)[property] === value)
+
+	const indexOfLastItem = currentPage * itemsPerPage
+	const indexOfFirstItem = indexOfLastItem - itemsPerPage
+	const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem)
 
 	const displayRow = (row: any, index: number) => {
 		const rowContent = (
@@ -67,6 +80,7 @@ const Table = (props: {
 		)
 	}
 
+	const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 	return (
 		<>
 			<TableData whoami={props.whoAmI.name}>
@@ -108,27 +122,145 @@ const Table = (props: {
 							)}
 						</SpinnerContainer>
 						<TableAllRowsContainer whoami={props.whoAmI.name}>
-							{property === 'all'
-								? props.datas.map((filteredRow, index) =>
-										displayRow(filteredRow, index)
-								  )
-								: props.datas
-										.filter(
-											(row) =>
-												(row as any)[property] === value
-										)
-										.map((filteredRow, index) =>
-											displayRow(filteredRow, index)
-										)}
+							{currentItems.map((filteredRow, index) =>
+								displayRow(filteredRow, index)
+							)}
 						</TableAllRowsContainer>
 					</>
 				)}
 			</TableData>
+			<Pagination
+				itemsPerPage={itemsPerPage}
+				totalItems={
+					property === 'all'
+						? props.datas.length
+						: props.datas.filter(
+								(row) => (row as any)[property] === value
+						  ).length
+				}
+				currentPage={currentPage}
+				paginate={paginate}
+			/>
 		</>
 	)
 }
+const Pagination = ({
+	itemsPerPage,
+	totalItems,
+	currentPage,
+	paginate,
+}: PaginationProps) => {
+	const pageNumbers = []
+
+	for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+		pageNumbers.push(i)
+	}
+
+	const renderPageNumbers = () => {
+		const maxPagesToShow = 3
+		const pages = []
+
+		if (pageNumbers.length <= maxPagesToShow) {
+			return pageNumbers.map((number) => (
+				<PaginationItem
+					key={number}
+					onClick={() => paginate(number)}
+					active={number === currentPage}
+				>
+					{number}
+				</PaginationItem>
+			))
+		}
+
+		// Show first 3 pages
+		for (let i = 1; i <= maxPagesToShow; i++) {
+			pages.push(
+				<PaginationItem
+					key={i}
+					onClick={() => paginate(i)}
+					active={i === currentPage}
+				>
+					{i}
+				</PaginationItem>
+			)
+		}
+
+		// Show arrow to navigate left
+		pages.push(
+			<PaginationItem
+				key='left-arrow'
+				onClick={() => paginate(currentPage - 1)}
+				active={false}
+			>
+				{'<'}
+			</PaginationItem>
+		)
+
+		// Show ellipses
+		pages.push(
+			<PaginationItem key='ellipsis' onClick={() => {}} active={false}>
+				...
+			</PaginationItem>
+		)
+
+		// Show arrow to navigate right
+		pages.push(
+			<PaginationItem
+				key='right-arrow'
+				onClick={() => paginate(currentPage + 1)}
+				active={false}
+			>
+				{'>'}
+			</PaginationItem>
+		)
+
+		// Show the last page
+		pages.push(
+			<PaginationItem
+				key={pageNumbers.length}
+				onClick={() => paginate(pageNumbers.length)}
+				active={pageNumbers.length === currentPage}
+			>
+				{pageNumbers.length}
+			</PaginationItem>
+		)
+
+		return pages
+	}
+
+	return <PaginationContainer>{renderPageNumbers()}</PaginationContainer>
+}
+
+const PaginationContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+`
+
+interface PaginationItemProps {
+	active: boolean
+}
+
+const PaginationItem = styled.div<PaginationItemProps>`
+	margin: 0 5px;
+	padding: 5px 10px;
+	cursor: pointer;
+	${(props) =>
+		props.active &&
+		css`
+			background-color: #007bff;
+			color: #fff;
+		`}
+`
 
 export default Table
+
+interface PaginationProps {
+	itemsPerPage: number
+	totalItems: number
+	currentPage: number
+	paginate: (pageNumber: number) => void
+}
 
 interface TableDataProps {
 	readonly whoami: string
@@ -187,7 +319,7 @@ const TableAllRowsContainer = styled.div<TableAllRowsContainerProps>`
 	position: relative;
 	min-width: 100%;
 	min-height: ${(props) => (props.whoami === 'contact' ? '485px' : '605px')};
-	max-height: ${(props) => (props.whoami === 'contact' ? '56vh' : '70vh')};
+	max-height: ${(props) => (props.whoami === 'contact' ? '56vh' : '60dvh')};
 	border-radius: 0 0 0 20px;
 	overflow-y: auto;
 	&::-webkit-scrollbar {
