@@ -126,24 +126,26 @@ const Table = (props: {
 								displayRow(filteredRow, index)
 							)}
 						</TableAllRowsContainer>
+						<Pagination
+							itemsPerPage={itemsPerPage}
+							totalItems={
+								property === 'all'
+									? props.datas.length
+									: props.datas.filter(
+											(row) =>
+												(row as any)[property] === value
+									  ).length
+							}
+							currentPage={currentPage}
+							paginate={paginate}
+						/>
 					</>
 				)}
 			</TableData>
-			<Pagination
-				itemsPerPage={itemsPerPage}
-				totalItems={
-					property === 'all'
-						? props.datas.length
-						: props.datas.filter(
-								(row) => (row as any)[property] === value
-						  ).length
-				}
-				currentPage={currentPage}
-				paginate={paginate}
-			/>
 		</>
 	)
 }
+
 const Pagination = ({
 	itemsPerPage,
 	totalItems,
@@ -157,7 +159,7 @@ const Pagination = ({
 	}
 
 	const renderPageNumbers = () => {
-		const maxPagesToShow = 3
+		const maxPagesToShow = 4
 		const pages = []
 
 		if (pageNumbers.length <= maxPagesToShow) {
@@ -189,7 +191,7 @@ const Pagination = ({
 		pages.push(
 			<PaginationItem
 				key='left-arrow'
-				onClick={() => paginate(currentPage - 1)}
+				onClick={() => currentPage !== 1 && paginate(currentPage - 1)}
 				active={false}
 			>
 				{'<'}
@@ -198,8 +200,15 @@ const Pagination = ({
 
 		// Show ellipses
 		pages.push(
-			<PaginationItem key='ellipsis' onClick={() => {}} active={false}>
-				...
+			<PaginationItem
+				key='ellipsis'
+				onClick={() => {}}
+				active={
+					currentPage !== pageNumbers.length &&
+					currentPage > maxPagesToShow
+				}
+			>
+				{currentPage > maxPagesToShow ? currentPage : '...'}
 			</PaginationItem>
 		)
 
@@ -207,7 +216,10 @@ const Pagination = ({
 		pages.push(
 			<PaginationItem
 				key='right-arrow'
-				onClick={() => paginate(currentPage + 1)}
+				onClick={() =>
+					currentPage !== pageNumbers.length &&
+					paginate(currentPage + 1)
+				}
 				active={false}
 			>
 				{'>'}
@@ -243,12 +255,13 @@ interface PaginationItemProps {
 
 const PaginationItem = styled.div<PaginationItemProps>`
 	margin: 0 5px;
-	padding: 5px 10px;
+	padding: 1rem;
+	border-radius: 20px;
 	cursor: pointer;
 	${(props) =>
 		props.active &&
 		css`
-			background-color: #007bff;
+			background-color: ${color.normalPurple};
 			color: #fff;
 		`}
 `
@@ -318,8 +331,8 @@ const TableAllRowsContainer = styled.div<TableAllRowsContainerProps>`
 	transition: 0.3s all;
 	position: relative;
 	min-width: 100%;
-	min-height: ${(props) => (props.whoami === 'contact' ? '485px' : '605px')};
-	max-height: ${(props) => (props.whoami === 'contact' ? '56vh' : '60dvh')};
+	min-height: ${(props) => (props.whoami === 'contact' ? '420px' : '605px')};
+	max-height: ${(props) => (props.whoami === 'contact' ? '36vh' : '60dvh')};
 	border-radius: 0 0 0 20px;
 	overflow-y: auto;
 	&::-webkit-scrollbar {
