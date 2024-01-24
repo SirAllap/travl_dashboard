@@ -150,7 +150,7 @@ const Pagination = ({
 	currentPage,
 	paginate,
 }: PaginationProps) => {
-	const pageNumbers = []
+	const pageNumbers: number[] = []
 
 	for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
 		pageNumbers.push(i)
