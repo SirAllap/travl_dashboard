@@ -10,8 +10,9 @@ html,
 body {
 	transition: 0.3 all ease;
 	max-height: 938px;
-	min-width: 1920px !important;
+	min-width: 1280px !important;
 	::selection {
 		background: #9841f54c;
 	}
+	overflow: hidden;
 }
