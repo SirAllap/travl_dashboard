@@ -176,33 +176,29 @@ const SideBar: React.FC = () => {
 					open={toggleModal}
 				/>
 				<EditUserModal open={toggleModal}>
-					<EditUserInputLable type='name' htmlFor='name'>
+					<EditUserInputLable typeProp='name' htmlFor='name'>
 						Name
 					</EditUserInputLable>
-					<Input
+					<InputString
 						id='name'
 						name='name'
-						defaultValue={
-							userUpdatedName ? userUpdatedName : authState.name
-						}
-						type='name'
+						defaultValue={userUpdatedName ?? authState.name}
+						typeProp={userUpdatedName !== null ? 'name' : undefined}
 						placeholder='name'
 						onChange={handleUpdateUserName}
 						autoComplete='off'
 					/>
-					<EditUserInputLable type='email' htmlFor='email'>
+
+					<EditUserInputLable typeProp='email' htmlFor='email'>
 						Email
 					</EditUserInputLable>
-
-					<Input
+					<InputString
 						id='email'
 						name='email'
-						defaultValue={
-							userUpdatedEmail
-								? userUpdatedEmail
-								: authState.email
+						defaultValue={userUpdatedEmail ?? authState.email}
+						typeProp={
+							userUpdatedEmail !== null ? 'email' : undefined
 						}
-						type='email'
 						placeholder='email'
 						onChange={handleUpdateUserEmail}
 						autoComplete='off'
@@ -275,25 +271,25 @@ const SideBar: React.FC = () => {
 					</IconSection>
 					<UserCardInfo>
 						<UserCardProfilePictureVoid src={profPic} />
-						<UserCardText type='name'>
+						<UserCardText typeProp='name'>
 							{!userName ? userName1 : userName}
 						</UserCardText>
-						<UserCardText type='info'>Info:</UserCardText>
-						<UserCardText type='email'>
+						<UserCardText typeProp='info'>Info:</UserCardText>
+						<UserCardText typeProp='email'>
 							<a href={`mailto:${userEmail1}`}>
 								{!userEmail ? userEmail1 : userEmail}
 							</a>
 						</UserCardText>
-						<UserCardText type='role'>{userRole}</UserCardText>
+						<UserCardText typeProp='role'>{userRole}</UserCardText>
 						<UserCardButton onClick={handleToggleModal}>
 							Edit user
 						</UserCardButton>
 					</UserCardInfo>
 					<SideBarFooter>
-						<SideBarFooterText type='title'>
+						<SideBarFooterText typeProp='title'>
 							Travl Hotel Admin Dashboard
 						</SideBarFooterText>
-						<SideBarFooterText type='copyright'>
+						<SideBarFooterText typeProp='copyright'>
 							© 2020 All Rights Reserved
 						</SideBarFooterText>
 						<SideBarFooterText>
@@ -418,12 +414,12 @@ const UserCardProfilePictureVoid = styled.img`
 	margin: 0 auto;
 `
 interface UserCardTextProps {
-	readonly type?: string
+	readonly typeProp?: string
 }
 
 const UserCardText = styled.p<UserCardTextProps>`
 	${(props) => {
-		switch (props.type) {
+		switch (props.typeProp) {
 			case 'name':
 				return css`
 					font: normal normal 500 16px/1.2 Poppins;
@@ -481,12 +477,12 @@ const SideBarFooter = styled.div`
 	margin: 42px auto 0px auto;
 `
 interface SideBarFooterTextProps {
-	readonly type?: string
+	readonly typeProp?: string
 }
 
 const SideBarFooterText = styled.p<SideBarFooterTextProps>`
 	${(props) => {
-		switch (props.type) {
+		switch (props.typeProp) {
 			case 'title':
 				return css`
 					font: normal normal 600 16px Poppins;
@@ -639,11 +635,11 @@ const CTAghProfile = styled.button`
 `
 
 interface InputProps {
-	type: string
+	typeProp?: string | null | undefined
 }
 
-const Input = styled(InputFile)<InputProps>`
-	top: ${(props) => (props.type === 'email' ? '37%' : '15%')};
+const InputString = styled(InputFile)<InputProps>`
+	top: ${(props) => (props.typeProp === 'email' ? '37%' : '15%')};
 	height: 47px;
 	width: 100%;
 	max-width: 90%;
@@ -660,13 +656,13 @@ const Input = styled(InputFile)<InputProps>`
 	}
 `
 interface EditUserInputLableProps {
-	readonly type: string
+	readonly typeProp: string
 }
 const EditUserInputLable = styled.label<EditUserInputLableProps>`
 	position: absolute;
 	left: 2%;
 	margin-right: -50%;
-	top: ${(props) => (props.type === 'email' ? '32%' : '10%')};
+	top: ${(props) => (props.typeProp === 'email' ? '32%' : '10%')};
 	transform: translate(-50%, -50%);
 	font: normal normal 600 17px Poppins;
 	display: block;

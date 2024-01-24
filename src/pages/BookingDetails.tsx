@@ -143,7 +143,12 @@ const BookingsDetails: React.FC = () => {
 									</TextFormatter>
 									<TextFormatter type='small'>
 										{currentBooking
-											? `ID ${currentBooking._id}`
+											? `ID: ${currentBooking._id}`
+											: ' '}
+									</TextFormatter>
+									<TextFormatter type='small'>
+										{currentBooking
+											? `Reff number: ${currentBooking.reference_number}`
 											: ' '}
 									</TextFormatter>
 									<IconContainer>

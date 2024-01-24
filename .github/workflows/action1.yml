@@ -1,0 +1,29 @@
+name: npm install + set .env + upload to AWS
+
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code 🔄
+        uses: actions/checkout@master
+
+      - name: Install Dependencies 🔰
+        run: npm i
+
+      - name: Run Build 🛠
+        run: npm run build
+        env: 
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
+      - name: Uploading to AWS 🆙
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks --delete
+        env:
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'eu-west-3'
+          SOURCE_DIR: 'build'
