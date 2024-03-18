@@ -330,7 +330,7 @@ interface TableAllRowsContainerProps {
 const TableAllRowsContainer = styled.div<TableAllRowsContainerProps>`
 	transition: 0.3s all;
 	position: relative;
-	min-width: 100%;
+	min-width: 1605px;
 	min-height: ${(props) => (props.whoami === 'contact' ? '420px' : '605px')};
 	max-height: ${(props) => (props.whoami === 'contact' ? '36vh' : '60dvh')};
 	border-radius: 0 0 0 20px;

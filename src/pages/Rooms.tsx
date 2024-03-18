@@ -645,13 +645,13 @@ const AmenitiesTag = styled.button<IAmenitiesTag>`
 	border: none;
 	border-radius: 6px;
 	color: ${(props) =>
-		props.types === 10
+		props.types >= 10
 			? `${color.normalOrange}`
 			: props.types === 9
 			? `${color.softer_strongPurple}`
 			: `${color.normalGrey}`};
 	background-color: ${(props) =>
-		props.types === 10
+		props.types >= 10
 			? `${color.softer_ligthOrange}`
 			: props.types === 9
 			? `${color.softer_ligthPurple}`
