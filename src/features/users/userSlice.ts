@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
 	createOneUser,
+	editOneUser,
 	deleteUser,
 	fetchInitialUsers,
 	fetchOneUser,
@@ -67,6 +68,16 @@ const userSlice = createSlice({
 				state.createUserStatus = 'rejected'
 			})
 			.addCase(createOneUser.fulfilled, (state, action) => {
+				state.createUserStatus = 'fulfilled'
+			})
+
+			.addCase(editOneUser.pending, (state) => {
+				state.createUserStatus = 'pending'
+			})
+			.addCase(editOneUser.rejected, (state) => {
+				state.createUserStatus = 'rejected'
+			})
+			.addCase(editOneUser.fulfilled, (state, action) => {
 				state.createUserStatus = 'fulfilled'
 			})
 

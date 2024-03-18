@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { supertoggleContext } from '../context/ToggleContext'
 import { Triangle } from 'react-loader-spinner'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
@@ -9,7 +9,7 @@ import {
 	fetchUserState,
 	singleUser,
 } from '../features/users/userSlice'
-import { createOneUser } from '../features/users/userThunks'
+import { editOneUser } from '../features/users/userThunks'
 import * as color from '../components/Variables'
 import { useAppDispatch } from '../app/hooks'
 import { IUser } from '../features/interfaces/interfaces'
@@ -18,7 +18,7 @@ const EditUser: React.FC = () => {
 	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 	const fetchUserCurrentState = useSelector(fetchUserState)
-	const createUserCurrentState = useSelector(createUserState)
+	const editUserCurrentState = useSelector(createUserState)
 	const singleUserSelector = useSelector(singleUser)
 	const { state } = useContext(supertoggleContext)!
 	const { userId } = useParams()
@@ -28,26 +28,24 @@ const EditUser: React.FC = () => {
 	const [currentUser, setCurrentUser] = useState<IUser>()
 
 	useEffect(() => {
-		if (createUserCurrentState === 'pending') {
+		if (editUserCurrentState === 'pending') {
 			setSpinner(true)
-		} else if (createUserCurrentState === 'fulfilled') {
+		} else if (editUserCurrentState === 'fulfilled') {
 			setSpinner(false)
-			navigate('/rooms')
+			navigate('/users')
 		}
 		if (fetchUserCurrentState === 'pending') {
 			setSpinner(true)
 		} else if (fetchUserCurrentState === 'fulfilled') {
-			setSpinner(false)
 			setCurrentUser(singleUserSelector)
+			setSpinner(false)
 		}
-	}, [createUserCurrentState, navigate, singleUserSelector])
+	}, [editUserCurrentState, navigate, singleUserSelector])
 
 	const [newUserPosition, setNewUserPosition] = useState<string>('')
 	const handleNewUserPosition = (
 		event: React.ChangeEvent<HTMLSelectElement>
 	) => {
-		console.log('here')
-
 		switch (event.target.value) {
 			case 'Recepcionist':
 				setNewUserPosition('Recepcionist')
@@ -85,17 +83,18 @@ const EditUser: React.FC = () => {
 		setNewUserStartDate(event.target.value)
 	}
 
-	const [newRoomOffer, setNewUserEmail] = useState<string>('')
+	const [newUserEmail, setNewUserEmail] = useState<string>('')
 	const handleNewUserEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNewUserEmail(event.target.value)
 	}
 
-	const handleCreateOneRoom = () => {
+	const handleUpdateUserInfo = () => {
 		if (currentUser !== undefined) {
 			const newUser: IUser = {
+				_id: currentUser._id,
 				full_name:
 					newUserName === '' ? currentUser.full_name : newUserName,
-				email: newRoomOffer === '' ? currentUser.email : newRoomOffer,
+				email: newUserEmail === '' ? currentUser.email : newUserEmail,
 				photo: currentUser.photo,
 				start_date:
 					newUserStartDate === ''
@@ -111,7 +110,7 @@ const EditUser: React.FC = () => {
 						: newUserPhoneNumber.toString(),
 				status: currentUser.status,
 			}
-			dispatch(createOneUser(newUser))
+			dispatch(editOneUser(newUser))
 		}
 	}
 
@@ -123,14 +122,14 @@ const EditUser: React.FC = () => {
 				</NavLink>
 				<TitleText newroom='title'>Edit Employee</TitleText>
 				<ModalInnerInfo>
-					{spinner ? (
+					{!currentUser ? (
 						<SpinnerContainer>
 							<Triangle
 								height='150'
 								width='150'
 								color={color.softer_strongPurple}
 								ariaLabel='triangle-loading'
-								visible={spinner}
+								visible={!currentUser && true}
 							/>
 						</SpinnerContainer>
 					) : (
@@ -182,7 +181,7 @@ const EditUser: React.FC = () => {
 								<CreateRoomInput
 									name='userPhoneNumber'
 									id='userPhoneNumber'
-									type='number'
+									type='text'
 									placeholder='e.g: +34 675-953-234'
 									onChange={handleNewPhoneNumber}
 									defaultValue={
@@ -228,8 +227,8 @@ const EditUser: React.FC = () => {
 							</ModalInnerRightInfo>
 						</>
 					)}
-					<SaveCTA onClick={handleCreateOneRoom}>
-						Create Employee
+					<SaveCTA onClick={handleUpdateUserInfo}>
+						Edit Employee Info
 					</SaveCTA>
 				</ModalInnerInfo>
 			</MainContainer>

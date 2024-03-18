@@ -25,17 +25,17 @@ export const createOneUser = createAsyncThunk(
 	async (newUser: IUser) => fetchMethod(true, 'users', 'POST', '', newUser)
 )
 
-// export const editOneUser = createAsyncThunk(
-// 	'users/editOneUser',
-// 	async (editedUserData: IUser) =>
-// 		fetchMethod(
-// 			true,
-// 			`rooms/${editedUserData._id}`,
-// 			'PUT',
-// 			editedUserData._id,
-// 			editedUserData
-// 		)
-// )
+export const editOneUser = createAsyncThunk(
+	'users/editOneUser',
+	async (editedUserData: IUser) =>
+		fetchMethod(
+			true,
+			`users/${editedUserData._id}`,
+			'PUT',
+			editedUserData._id,
+			editedUserData
+		)
+)
 
 export const deleteUser = createAsyncThunk(
 	'users/deleteUser',
