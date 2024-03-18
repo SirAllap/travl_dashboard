@@ -242,6 +242,7 @@ const EditRoom: React.FC = () => {
 	const handleEditRoom = () => {
 		if (currentRoom !== undefined) {
 			const editedRoomData = {
+				_id: currentRoom._id,
 				room_number:
 					newRoomNumber === ''
 						? currentRoom.room_number
