@@ -27,7 +27,7 @@
 		"build": "tsc && vite build",
 		"serve": "vite preview",
 		"cypress:open": "cypress open",
-		"plus-build": "rimraf dist && vite build && aws s3 sync build/ s3://hotelmiranda-dashboard --delete --profile sirallap",
+		"plus-build": "rimraf dist && vite build && aws s3 sync build/ s3://davidprcloud-travldashboard --delete --profile davidpr",
 		"test": "vite test",
 		"eject": "vite eject",
 		"predeploy": "npm run build",
